@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Synthetic oracle benchmark for evaluating scientific reasoning in optimization agents"
 requires-python = ">=3.10"
 dependencies = [
-    "numpy>=1.24",
+    "numpy>=1.24,<2",
 ]
 
 [project.optional-dependencies]
@@ -20,6 +20,8 @@ dev = [
 bo = [
     "botorch>=0.12",
     "gpytorch>=1.12",
+    "torch>=2.2,<2.3",
+    "matplotlib>=3.7",
 ]
 
 [tool.pytest.ini_options]
@@ -33,8 +35,15 @@ line-length = 100
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
 
+[tool.ruff.lint.per-file-ignores]
+"tests/test_bo_baseline.py" = ["E402", "I001"]
+
 [tool.mypy]
 python_version = "3.10"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = ["botorch.*", "gpytorch.*", "torch.*"]
+ignore_missing_imports = true

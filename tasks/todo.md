@@ -25,3 +25,13 @@
 - [x] Medium variant 1C (new mechanism M5)
 - [x] Run characterization on all oracles, generate plots + Pareto fronts
 - [x] 87 tests pass, lint/typecheck clean, retro written
+
+## Phase 1.2: BO Baseline
+
+- [ ] Fix torch/botorch dependency for M-series Mac
+- [ ] BOResult dataclass + run_bo() with qNEHVI
+- [ ] Threshold constraint handling for medium oracle
+- [ ] Hypervolume tracking at each evaluation step
+- [ ] Tests (fast + slow)
+- [ ] Experiment script on all 4 oracles
+- [ ] make test && make lint && make typecheck — all green
