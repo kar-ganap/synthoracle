@@ -30,7 +30,17 @@ class MediumOracle(Oracle):
     - Regime transition: X1 controls whether throughput (M1) or leakage (M2) dominates
     - Hidden coupling: X4 and X6 share intermediate Z, creating unexpected correlations
     - Hidden threshold: M4 activates only when X5 > ~0.38
+
+    Variants:
+    - "1A" (default): base oracle
+    - "1B": M2 formula changes from exp(-b*X3*sqrt(X1)) to exp(-b*X3/X1),
+            shifting the regime boundary dramatically
     """
+
+    def __init__(self, variant: str = "1A") -> None:
+        if variant not in ("1A", "1B"):
+            raise ValueError(f"Unknown variant: {variant}. Must be '1A' or '1B'.")
+        self._variant = variant
 
     @property
     def n_inputs(self) -> int:
@@ -61,7 +71,10 @@ class MediumOracle(Oracle):
 
         # Mechanisms
         m1 = x2**1.37 * x4**0.82 * (1.0 - np.exp(-5.0 * x1))
-        m2 = 0.55 * np.exp(-1.8 * x3 * np.sqrt(x1))
+        if self._variant == "1A":
+            m2 = 0.55 * np.exp(-1.8 * x3 * np.sqrt(x1))
+        else:  # 1B
+            m2 = 0.55 * np.exp(-1.8 * x3 / x1)
         z = x4 / (x4 + 1.0 * x6)
         gate = float(_sigmoid(25.0 * (x5 - 0.38)))
 

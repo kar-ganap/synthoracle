@@ -10,15 +10,18 @@
 - [ ] Update synthesis with positioning against new papers
 - [x] Decision gate: confirm plan still holds after Block A reviews — plan holds
 
-## Phase 1.0: Oracle Core
+## Phase 1.0: Oracle Core (COMPLETE)
 
-- [ ] Create branch phase-1.0-oracle-core
-- [ ] Implement types.py (type aliases)
-- [ ] Implement dag.py (CausalDAG, Node, Edge, precision/recall, project_to_io)
-- [ ] Write test_dag.py
-- [ ] Implement oracle.py (abstract Oracle base class)
-- [ ] Write test_oracle_base.py
-- [ ] Write test_medium_oracle.py (full property test suite)
-- [ ] Implement oracles/medium.py (MediumOracle)
-- [ ] make test && make lint && make typecheck — all green
-- [ ] Write phase retro: docs/phases/phase-1.0-retro.md
+- [x] Oracle base class, DAG representation, medium oracle
+- [x] 36 tests pass, lint/typecheck clean
+- [x] Parameter tuning via variance decomposition + conditional effect analysis
+
+## Phase 1.1: Oracle Characterization (COMPLETE)
+
+- [x] Characterization module with correct Sobol estimators (fix Phase 1.0 bug)
+- [x] Verify medium oracle interactions (S_T_j - S_j > 0 for coupled inputs)
+- [x] Simple oracle (4 inputs, 2 outputs, smooth)
+- [x] Medium variant 1B (M2 formula change)
+- [x] Medium variant 1C (new mechanism M5)
+- [x] Run characterization on all oracles, generate plots + Pareto fronts
+- [x] 87 tests pass, lint/typecheck clean, retro written
