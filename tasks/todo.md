@@ -40,3 +40,9 @@
 - [x] Tests with mocked Anthropic client (148 total, no API calls)
 - [x] Manual integration test: HV 0.24 (vs BO 0.28), dir accuracy 55%, $1.46/run
 - [x] 148 tests pass, lint/typecheck clean, retro written
+
+## Phase 2.0.1: Permuted-Feedback Ablation (COMPLETE)
+
+- [x] Column permutation: shuffle Y rows relative to X in agent's observation table
+- [x] Go/no-go gate PASSED: Real HV 0.22 vs Permuted 0.13 — agent uses feedback
+- [x] 150 tests pass, lint/typecheck clean

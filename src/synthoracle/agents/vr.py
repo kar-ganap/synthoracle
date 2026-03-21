@@ -351,6 +351,7 @@ def run_vr(
     model: str = "claude-sonnet-4-6",
     temperature: float = 1.0,
     max_retries: int = 3,
+    permute_feedback: bool = False,
 ) -> VRResult:
     """Run the Verbal Regularization agent.
 
@@ -374,6 +375,10 @@ def run_vr(
         LLM sampling temperature.
     max_retries : int
         Max retries on LLM parse failure.
+    permute_feedback : bool
+        If True, shuffle Y rows in the observation table shown to the agent
+        (column permutation ablation). HV is still computed on real Y.
+        This tests whether the agent actually uses X-Y correlations.
 
     Returns
     -------
@@ -417,10 +422,24 @@ def run_vr(
     prev_prediction: npt.NDArray[np.float64] | None = None
     prev_actual: npt.NDArray[np.float64] | None = None
 
+    # Separate RNG for permutation to not affect other randomness
+    permute_rng = np.random.default_rng(seed + 2000)
+
     for step in range(n_iterations):
+        # Build observation table for the prompt
+        if permute_feedback:
+            # Column permutation: shuffle Y rows relative to X rows
+            perm = permute_rng.permutation(len(Y_all))
+            Y_shown = Y_all[perm]
+            # Also permute the prev_actual shown to the agent
+            prev_actual_shown = Y_shown[-1] if prev_actual is not None else None
+        else:
+            Y_shown = Y_all
+            prev_actual_shown = prev_actual
+
         prompt = _build_iteration_prompt(
-            oracle, X_all, Y_all, mechanism_log,
-            prev_prediction, prev_actual, step,
+            oracle, X_all, Y_shown, mechanism_log,
+            prev_prediction, prev_actual_shown, step,
         )
 
         # Call LLM with structured output (parse), fallback to manual parsing

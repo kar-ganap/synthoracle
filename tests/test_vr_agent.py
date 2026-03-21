@@ -463,3 +463,38 @@ class TestRunVR:
         # Should succeed (not fallback) since retry produces valid response
         for log in result.step_logs:
             assert "[PARSE FAILURE" not in log.hypothesis
+
+    def test_run_vr_permuted_feedback(
+        self, oracle: MediumOracle, mock_anthropic: MockMessages,
+    ) -> None:
+        """permute_feedback=True should complete and still track real HV."""
+        result = run_vr(
+            oracle, n_initial=4, n_iterations=3, seed=42,
+            permute_feedback=True,
+        )
+        assert isinstance(result, VRResult)
+        assert result.X.shape == (7, oracle.n_inputs)
+        assert result.Y.shape == (7, oracle.n_outputs)
+        assert len(result.hypervolumes) == 7
+        # HV is computed on real Y, so should be non-negative
+        assert all(hv >= 0 for hv in result.hypervolumes)
+
+    def test_run_vr_permuted_vs_normal_same_real_evals(
+        self, oracle: MediumOracle, mock_anthropic: MockMessages,
+    ) -> None:
+        """Permuted and normal runs with same seed evaluate same points.
+
+        Since the mock returns the same next_point regardless, the real
+        oracle evaluations (Y_all) should be identical.
+        """
+        r_normal = run_vr(oracle, n_initial=4, n_iterations=3, seed=42)
+        r_permuted = run_vr(
+            oracle, n_initial=4, n_iterations=3, seed=42,
+            permute_feedback=True,
+        )
+        # Same initial design (same seed)
+        np.testing.assert_array_equal(r_normal.X[:4], r_permuted.X[:4])
+        np.testing.assert_array_equal(r_normal.Y[:4], r_permuted.Y[:4])
+        # Same next_points from mock → same oracle evals
+        np.testing.assert_array_equal(r_normal.X, r_permuted.X)
+        np.testing.assert_array_equal(r_normal.Y, r_permuted.Y)
