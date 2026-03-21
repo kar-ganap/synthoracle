@@ -1,0 +1,1742 @@
+[
+  {
+    "step": 0,
+    "hypothesis": "Y1 is primarily driven by X2 (+), X4 (+), X5 (+), with X3 moderate positive. Y2 is primarily driven by X3 (\u2212, strongly) and X4 (\u2212), with X6 (+, harmful). Y3 is almost entirely determined by X3 (+, very strong) and X1 (+, moderate). Y4 is primarily driven by X2 (+, very strong) and X4 (+), with X6 (\u2212). There's a key trade-off: increasing X2 helps Y1 and Y4 but may hurt Y2. X3 high is universally good (helps Y1, lowers Y2, ensures Y3 constraint). Low X6 helps Y4 and Y2.",
+    "reasoning": "OAT sweep: vary X1 from ~0.70 (point 11 baseline) to extreme low (0.1), keeping all other inputs identical. This isolates X1's effect. Correlations suggest X1 mainly affects Y3 (0.72) and weakly Y2 (-0.29). Local gradient at point 11 predicts modest decreases in Y1 and Y3 with X1 reduction. Key test: does Y3 drop below 0.4 threshold at very low X1?",
+    "reconciliation": "First iteration \u2014 no prior predictions to reconcile. Analyzing 12 initial observations to form baseline hypotheses.",
+    "falsification": "If Y3 remains above 0.70 despite X1 dropping from 0.70 to 0.10, then X1 is NOT an important driver of Y3, contradicting the correlation of 0.72. If Y1 changes by more than 0.15, X1 is more important for Y1 than gradients suggest.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"First iteration \u2014 no prior pred",
+    "prediction_error": [
+      -0.1730396201857236,
+      0.016860776754080598,
+      -0.49263030682971176,
+      -0.06459424666944814
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.1,
+      0.52,
+      0.61,
+      0.79,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 1,
+    "hypothesis": "Y1 is primarily driven by X2 (+), X4 (+), X5 (+), with X3 moderate positive. Y2 is primarily driven by X3 (\u2212, strongly) and X4 (\u2212), with X6 (+, harmful). Y3 is almost entirely determined by X3 (+, very strong) and X1 (+, moderate). Y4 is primarily driven by X2 (+, very strong) and X4 (+), with X6 (\u2212). There's a key trade-off: increasing X2 helps Y1 and Y4 but may hurt Y2. X3 high is universally good (helps Y1, lowers Y2, ensures Y3 constraint). Low X6 helps Y4 and Y2.",
+    "reasoning": "OAT sweep: vary X6 from ~0.60 to extreme low (0.1), keeping all other inputs same as point 11. Isolates X6 effect. Hypothesis: low X6 should improve Y2 (lower) and Y4 (higher), per correlations. Local gradient suggests Y1 may decrease slightly. This tests the X6 trade-off structure.",
+    "reconciliation": "First iteration \u2014 no prior predictions to reconcile. Analyzing 12 initial observations to form baseline hypotheses.",
+    "falsification": "If Y4 does NOT increase (stays below 0.14) when X6 drops from 0.60 to 0.10, then X6 is not truly driving Y4 negatively. If Y2 increases instead of decreasing, the X6-Y2 positive correlation is misleading.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"First iteration \u2014 no prior pred",
+    "prediction_error": [
+      0.03862125792238033,
+      -0.027222785244152087,
+      -0.0022494373971398973,
+      0.013410911702452871
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      0.61,
+      0.79,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 2,
+    "hypothesis": "Y1 is primarily driven by X2 (+), X4 (+), X5 (+), with X3 moderate positive. Y2 is primarily driven by X3 (\u2212, strongly) and X4 (\u2212), with X6 (+, harmful). Y3 is almost entirely determined by X3 (+, very strong) and X1 (+, moderate). Y4 is primarily driven by X2 (+, very strong) and X4 (+), with X6 (\u2212). There's a key trade-off: increasing X2 helps Y1 and Y4 but may hurt Y2. X3 high is universally good (helps Y1, lowers Y2, ensures Y3 constraint). Low X6 helps Y4 and Y2.",
+    "reasoning": "OAT sweep: vary X2 from ~0.52 to maximum (1.0), keeping all else same as point 11. X2 has the strongest gradient for Y1 (0.607) and Y4 (0.259). This tests whether X2 is indeed the primary lever for both Y1 and Y4. Also tests if high X2 worsens Y2 (gradient 0.138 positive \u2014 harmful).",
+    "reconciliation": "First iteration \u2014 no prior predictions to reconcile. Analyzing 12 initial observations to form baseline hypotheses.",
+    "falsification": "If Y1 does NOT increase substantially (stays below 0.50) despite X2 going to 1.0, then X2's local gradient is not globally valid. If Y4 does not reach at least 0.20, the X2-Y4 relationship is weaker than estimated.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"First iteration \u2014 no prior pred",
+    "prediction_error": [
+      0.03841457155315997,
+      0.009104153804116721,
+      -0.0022494373971398973,
+      -0.021970081388758916
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      0.61,
+      0.79,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 3,
+    "hypothesis": "Y1: driven by X2 (+, strong), X4 (+, moderate), X5 (+, weak/unclear), X1 (+ at low values). Y2: driven by X3 (\u2212, very strong), X4 (\u2212, moderate), X6 (+, harmful). Y3: driven by X1 (+, VERY strong) AND X3 (+, very strong) \u2014 both must be sufficiently high to meet threshold. Y4: driven by X2 (+, very strong), X4 (+, moderate), X6 (\u2212). X5 has near-zero gradients everywhere despite 0.54 correlation with Y1 \u2014 possibly confounded or regime-dependent.",
+    "reasoning": "OAT sweep: isolate X4 by setting it to extreme low (0.10) from point 11 baseline (X4=0.79). X4 shows correlations of 0.49/Y1, -0.54/Y2, 0.54/Y4 and gradient ~0.4 for Y1, ~0.16 for Y4. Dropping X4 by 0.69 should reduce Y1 by ~0.28 and Y4 by ~0.11. Y3 should be unaffected (gradient=0).",
+    "reconciliation": "Point 13 (X1 low): Y1 and Y2 predictions were reasonable, but Y3 was catastrophically wrong (predicted 0.65, actual 0.1574). X1's effect on Y3 is FAR stronger than anticipated \u2014 dropping X1 from 0.70 to 0.10 collapsed Y3 by ~0.60. Point 14 (X6 low): Excellent predictions across all 4 outputs (max error 0.04). Confirmed low X6 improves Y2 and Y4. Point 15 (X2 high): Very accurate predictions (max error 0.04). Confirmed X2 is the dominant lever for Y1 and Y4.",
+    "falsification": "If Y1 stays above 0.30 (drops less than 0.09 from baseline 0.39), then X4 is NOT an important driver of Y1 despite the gradient. If Y3 changes significantly (moves outside 0.70-0.82), then X4 affects Y3 contrary to current model.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 13 (X1 low): Y1 and Y2 pr",
+    "prediction_error": [
+      -0.000267399100312829,
+      0.08727045074771306,
+      -0.0022494373971398973,
+      -0.021583392202964836
+    ],
+    "directional_accuracy": [
+      true,
+      false,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      0.61,
+      0.1,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 4,
+    "hypothesis": "Y1: driven by X2 (+, strong), X4 (+, moderate), X5 (+, weak/unclear), X1 (+ at low values). Y2: driven by X3 (\u2212, very strong), X4 (\u2212, moderate), X6 (+, harmful). Y3: driven by X1 (+, VERY strong) AND X3 (+, very strong) \u2014 both must be sufficiently high to meet threshold. Y4: driven by X2 (+, very strong), X4 (+, moderate), X6 (\u2212). X5 has near-zero gradients everywhere despite 0.54 correlation with Y1 \u2014 possibly confounded or regime-dependent.",
+    "reasoning": "OAT sweep: isolate X5 by setting it to extreme low (0.10) from point 11 baseline (X5=0.67). X5 has a puzzling 0.54 correlation with Y1 but consistently near-zero gradients across all evaluated points. This directly tests whether X5 truly matters or if the correlation is confounded. If outputs barely change, X5 can be deprioritized.",
+    "reconciliation": "Point 13 (X1 low): Y1 and Y2 predictions were reasonable, but Y3 was catastrophically wrong (predicted 0.65, actual 0.1574). X1's effect on Y3 is FAR stronger than anticipated \u2014 dropping X1 from 0.70 to 0.10 collapsed Y3 by ~0.60. Point 14 (X6 low): Excellent predictions across all 4 outputs (max error 0.04). Confirmed low X6 improves Y2 and Y4. Point 15 (X2 high): Very accurate predictions (max error 0.04). Confirmed X2 is the dominant lever for Y1 and Y4.",
+    "falsification": "If Y1 drops below 0.25 (a change of >0.14), then X5 IS important for Y1 and the near-zero gradients are misleading \u2014 suggesting a nonlinearity or threshold effect that gradients miss.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 13 (X1 low): Y1 and Y2 pr",
+    "prediction_error": [
+      -0.3388521895362885,
+      0.01575502075966717,
+      -0.0022494373971398973,
+      -0.004713088326115528
+    ],
+    "directional_accuracy": [
+      false,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      0.61,
+      0.79,
+      0.1,
+      0.6
+    ]
+  },
+  {
+    "step": 5,
+    "hypothesis": "Y1: driven by X2 (+, strong), X4 (+, moderate), X5 (+, weak/unclear), X1 (+ at low values). Y2: driven by X3 (\u2212, very strong), X4 (\u2212, moderate), X6 (+, harmful). Y3: driven by X1 (+, VERY strong) AND X3 (+, very strong) \u2014 both must be sufficiently high to meet threshold. Y4: driven by X2 (+, very strong), X4 (+, moderate), X6 (\u2212). X5 has near-zero gradients everywhere despite 0.54 correlation with Y1 \u2014 possibly confounded or regime-dependent.",
+    "reasoning": "OAT sweep: isolate X3 at extreme low (0.10) from point 11 baseline (X3=0.61). X3 has the strongest correlation with Y2 (-0.80) and strong with Y3 (0.71). This tests whether Y3 can barely meet the 0.40 threshold when X3 is very low but X1 is reasonable (0.70). Also quantifies the Y2 penalty of low X3.",
+    "reconciliation": "Point 13 (X1 low): Y1 and Y2 predictions were reasonable, but Y3 was catastrophically wrong (predicted 0.65, actual 0.1574). X1's effect on Y3 is FAR stronger than anticipated \u2014 dropping X1 from 0.70 to 0.10 collapsed Y3 by ~0.60. Point 14 (X6 low): Excellent predictions across all 4 outputs (max error 0.04). Confirmed low X6 improves Y2 and Y4. Point 15 (X2 high): Very accurate predictions (max error 0.04). Confirmed X2 is the dominant lever for Y1 and Y4.",
+    "falsification": "If Y3 stays above 0.60 despite X3=0.10, then X3's importance for Y3 is overstated. If Y2 decreases instead of increasing, the strong negative X3-Y2 correlation is an artifact. If Y3 drops below 0.30, the nonlinearity in X3's effect on Y3 is stronger than gradient suggests.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 13 (X1 low): Y1 and Y2 pr",
+    "prediction_error": [
+      -0.062034737863140454,
+      0.045278791354374626,
+      -0.13319576511222347,
+      -0.004713088326115528
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "x": [
+      0.7,
+      0.52,
+      0.1,
+      0.79,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 6,
+    "hypothesis": "Y1: driven by X5 (+, VERY STRONG but invisible to local gradients), X2 (+, strong), X4 (+, moderate), X3 (+, weak). Y2: driven by X3 (\u2212, very strong), X4 (\u2212, moderate), X6 (+, harmful). Y3: driven by X1 (+, VERY strong) and X3 (+, very strong) \u2014 both must be \u2265~0.5. Other inputs irrelevant to Y3. Y4: driven by X2 (+, very strong), X4 (+, moderate), X6 (\u2212). X5, X1, X3 irrelevant to Y4. Key trade-offs: X2 helps Y1/Y4 but hurts Y2; X4 helps Y1/Y4 but hurts Y2; X6 hurts Y4 but may help Y1.",
+    "reasoning": "OAT: Test X5 at mid-range (0.40) between extreme low (point 17, X5=0.10, Y1=0.04) and baseline (point 11, X5=0.67, Y1=0.39). This reveals whether X5's massive Y1 effect is linear or has a threshold/regime transition. If linear, Y1 \u2248 0.22. If threshold, Y1 could be much higher or lower than linear interpolation.",
+    "reconciliation": "Point 16 (X4 low): Y1 prediction was nearly perfect (0.11 vs 0.1097). Y2 was underestimated (0.30 vs 0.39); X4 reduces Y2 more than expected when high. Y3 confirmed unaffected by X4. Y4 dropped to 0.008, confirming X4 is critical for Y4. Point 17 (X5 low): MASSIVE Y1 miss \u2014 predicted 0.38, got 0.04. X5 dropped from 0.67\u21920.10 caused Y1 to plummet by 0.345, yet all local gradients show dY1/dX5\u22480.006. The gradient computation completely misses X5's true effect on Y1. Y3 and Y4 unaffected as predicted. Point 18 (X3 low): Y3 dropped more than expected (0.31 vs 0.44), confirming X3's nonlinear/strong effect on Y3. Y2 increased more than predicted.",
+    "falsification": "If Y1 is above 0.35 (close to baseline despite X5 dropping by 0.27), there's a threshold below which X5 tanks Y1 \u2014 the effect is concentrated at low X5. If Y1 is below 0.10, the threshold is above 0.40 and X5 must stay high.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 16 (X4 low): Y1 predictio",
+    "prediction_error": [
+      0.03527919755769579,
+      -0.002667966413256062,
+      -0.0022494373971398973,
+      -0.004713088326115528
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "x": [
+      0.7,
+      0.52,
+      0.61,
+      0.79,
+      0.4,
+      0.6
+    ]
+  },
+  {
+    "step": 7,
+    "hypothesis": "Y1: driven by X5 (+, VERY STRONG but invisible to local gradients), X2 (+, strong), X4 (+, moderate), X3 (+, weak). Y2: driven by X3 (\u2212, very strong), X4 (\u2212, moderate), X6 (+, harmful). Y3: driven by X1 (+, VERY strong) and X3 (+, very strong) \u2014 both must be \u2265~0.5. Other inputs irrelevant to Y3. Y4: driven by X2 (+, very strong), X4 (+, moderate), X6 (\u2212). X5, X1, X3 irrelevant to Y4. Key trade-offs: X2 helps Y1/Y4 but hurts Y2; X4 helps Y1/Y4 but hurts Y2; X6 hurts Y4 but may help Y1.",
+    "reasoning": "OAT: Test X1 at mid-range (0.40) between extreme low (point 13, X1=0.10, Y3=0.16) and baseline (point 11, X1=0.70, Y3=0.76). This maps the nonlinearity of X1's critical Y3 effect and identifies the minimum X1 needed to meet Y3\u22650.4 constraint. Also tests X1's effect on Y1.",
+    "reconciliation": "Point 16 (X4 low): Y1 prediction was nearly perfect (0.11 vs 0.1097). Y2 was underestimated (0.30 vs 0.39); X4 reduces Y2 more than expected when high. Y3 confirmed unaffected by X4. Y4 dropped to 0.008, confirming X4 is critical for Y4. Point 17 (X5 low): MASSIVE Y1 miss \u2014 predicted 0.38, got 0.04. X5 dropped from 0.67\u21920.10 caused Y1 to plummet by 0.345, yet all local gradients show dY1/dX5\u22480.006. The gradient computation completely misses X5's true effect on Y1. Y3 and Y4 unaffected as predicted. Point 18 (X3 low): Y3 dropped more than expected (0.31 vs 0.44), confirming X3's nonlinear/strong effect on Y3. Y2 increased more than predicted.",
+    "falsification": "If Y3 is above 0.60, X1's effect is concentrated at very low values (threshold near 0.1-0.3) and X1=0.40 is safely above it. If Y3 is below 0.35, the relationship is strongly nonlinear with a cliff near X1=0.4-0.5.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 16 (X4 low): Y1 predictio",
+    "prediction_error": [
+      0.06381970475839088,
+      -0.011563686638524195,
+      0.11901330121827386,
+      0.024265354273883086
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.4,
+      0.52,
+      0.61,
+      0.79,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 8,
+    "hypothesis": "Y1: driven by X5 (+, VERY STRONG but invisible to local gradients), X2 (+, strong), X4 (+, moderate), X3 (+, weak). Y2: driven by X3 (\u2212, very strong), X4 (\u2212, moderate), X6 (+, harmful). Y3: driven by X1 (+, VERY strong) and X3 (+, very strong) \u2014 both must be \u2265~0.5. Other inputs irrelevant to Y3. Y4: driven by X2 (+, very strong), X4 (+, moderate), X6 (\u2212). X5, X1, X3 irrelevant to Y4. Key trade-offs: X2 helps Y1/Y4 but hurts Y2; X4 helps Y1/Y4 but hurts Y2; X6 hurts Y4 but may help Y1.",
+    "reasoning": "OAT: Test X6 at extreme high (1.0). We have X6=0.10 (point 14, Y1=0.25) and X6=0.60 (point 11, Y1=0.39). Extrapolating to X6=1.0 tests if X6 continues to boost Y1 while degrading Y2 and Y4. This completes the X6 sweep and reveals whether high X6 is net beneficial or harmful given the trade-offs.",
+    "reconciliation": "Point 16 (X4 low): Y1 prediction was nearly perfect (0.11 vs 0.1097). Y2 was underestimated (0.30 vs 0.39); X4 reduces Y2 more than expected when high. Y3 confirmed unaffected by X4. Y4 dropped to 0.008, confirming X4 is critical for Y4. Point 17 (X5 low): MASSIVE Y1 miss \u2014 predicted 0.38, got 0.04. X5 dropped from 0.67\u21920.10 caused Y1 to plummet by 0.345, yet all local gradients show dY1/dX5\u22480.006. The gradient computation completely misses X5's true effect on Y1. Y3 and Y4 unaffected as predicted. Point 18 (X3 low): Y3 dropped more than expected (0.31 vs 0.44), confirming X3's nonlinear/strong effect on Y3. Y2 increased more than predicted.",
+    "falsification": "If Y1 is below 0.35 despite X6 increasing from 0.60 to 1.00, then X6's positive effect on Y1 saturates or reverses at high values. If Y4 stays above 0.13, X6 is less harmful to Y4 than hypothesized.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 16 (X4 low): Y1 predictio",
+    "prediction_error": [
+      0.039877068262644144,
+      -0.027164563215459403,
+      -0.0022494373971398973,
+      0.011815976381605225
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      0.61,
+      0.79,
+      0.67,
+      1.0
+    ]
+  },
+  {
+    "step": 9,
+    "hypothesis": "UPDATED MODEL: Y1 = f(X2+, X4+, X5_sigmoid+, X6+, X3_weak+, X1_weak+). X5 has sigmoid shape peaking around 0.5-0.6. Y2 = f(X3\u2212\u2212, X4\u2212, X6+). Y3 = f(X1++, X3++) with concave/saturating shape; both must be \u2265~0.35. Y4 = f(X2++, X4+, X6\u2212). Key insight: X3 HIGH is universally beneficial (Y1\u2191, Y2\u2193, Y3\u2191, Y4 neutral). X4 HIGH mostly beneficial (Y1\u2191, Y2\u2193, Y4\u2191). X6 creates Y1-vs-Y4 trade-off. X2 creates Y1/Y4-vs-Y2 trade-off.",
+    "reasoning": "OAT: Test X5 at maximum (1.0) to confirm sigmoid saturation. At X5=0.67 (baseline), gradient was ~0.006. If sigmoid is correct, Y1 should barely increase from 0.386. This completes the X5 profile across [0.10, 0.40, 0.67, 1.00] and determines whether pushing X5 to max has any value.",
+    "reconciliation": "Point 19 (X5=0.40): Y1=0.255 vs predicted 0.22. Roughly linear between X5=0.10 (Y1=0.041) and X5=0.67 (Y1=0.386). Gradient at X5=0.40 spiked to 2.017, revealing X5 has a steep sigmoid-like effect on Y1 centered around X5~0.4. Point 20 (X1=0.40): Y3=0.579 vs predicted 0.46 \u2014 X1-Y3 relationship is more concave than linear, saturating early. Good news: Y3\u22650.4 threshold met at X1=0.40. Y1=0.324, higher than predicted 0.26. Point 21 (X6=1.0): Y1=0.540 vs predicted 0.50, slightly better. Confirmed X6 boosts Y1 substantially while hurting Y2 and Y4.",
+    "falsification": "If Y1 exceeds 0.50 at X5=1.0, the sigmoid hasn't saturated by X5=0.67, and X5 has a more linear or convex effect at high values \u2014 contradicting the saturation hypothesis.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 19 (X5=0.40): Y1=0.255 vs",
+    "prediction_error": [
+      -0.004653243791152284,
+      0.0032050943243133734,
+      -0.0022494373971398973,
+      -0.004713088326115528
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      0.61,
+      0.79,
+      1.0,
+      0.6
+    ]
+  },
+  {
+    "step": 10,
+    "hypothesis": "UPDATED MODEL: Y1 = f(X2+, X4+, X5_sigmoid+, X6+, X3_weak+, X1_weak+). X5 has sigmoid shape peaking around 0.5-0.6. Y2 = f(X3\u2212\u2212, X4\u2212, X6+). Y3 = f(X1++, X3++) with concave/saturating shape; both must be \u2265~0.35. Y4 = f(X2++, X4+, X6\u2212). Key insight: X3 HIGH is universally beneficial (Y1\u2191, Y2\u2193, Y3\u2191, Y4 neutral). X4 HIGH mostly beneficial (Y1\u2191, Y2\u2193, Y4\u2191). X6 creates Y1-vs-Y4 trade-off. X2 creates Y1/Y4-vs-Y2 trade-off.",
+    "reasoning": "OAT: Test X2 at extreme low (0.10). X2 is the strongest lever for Y1 and Y4. Extrapolating the rate from X2=0.52\u21921.00 (0.69/unit) predicts Y1\u22480.10. This confirms X2's range of effect and determines if the relationship is linear or has a floor. Also tests if Y4 approaches zero.",
+    "reconciliation": "Point 19 (X5=0.40): Y1=0.255 vs predicted 0.22. Roughly linear between X5=0.10 (Y1=0.041) and X5=0.67 (Y1=0.386). Gradient at X5=0.40 spiked to 2.017, revealing X5 has a steep sigmoid-like effect on Y1 centered around X5~0.4. Point 20 (X1=0.40): Y3=0.579 vs predicted 0.46 \u2014 X1-Y3 relationship is more concave than linear, saturating early. Good news: Y3\u22650.4 threshold met at X1=0.40. Y1=0.324, higher than predicted 0.26. Point 21 (X6=1.0): Y1=0.540 vs predicted 0.50, slightly better. Confirmed X6 boosts Y1 substantially while hurting Y2 and Y4.",
+    "falsification": "If Y1 stays above 0.25, X2's effect is weaker at low values (concave relationship). If Y4 stays above 0.10, X2 is less critical for Y4 than hypothesized.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 19 (X5=0.40): Y1=0.255 vs",
+    "prediction_error": [
+      0.07917839580798036,
+      -0.023674539715796028,
+      -0.0022494373971398973,
+      -0.0013433018178203651
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      0.1,
+      0.61,
+      0.79,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 11,
+    "hypothesis": "UPDATED MODEL: Y1 = f(X2+, X4+, X5_sigmoid+, X6+, X3_weak+, X1_weak+). X5 has sigmoid shape peaking around 0.5-0.6. Y2 = f(X3\u2212\u2212, X4\u2212, X6+). Y3 = f(X1++, X3++) with concave/saturating shape; both must be \u2265~0.35. Y4 = f(X2++, X4+, X6\u2212). Key insight: X3 HIGH is universally beneficial (Y1\u2191, Y2\u2193, Y3\u2191, Y4 neutral). X4 HIGH mostly beneficial (Y1\u2191, Y2\u2193, Y4\u2191). X6 creates Y1-vs-Y4 trade-off. X2 creates Y1/Y4-vs-Y2 trade-off.",
+    "reasoning": "OAT: Test X3 at maximum (1.0). X3 is the strongest lever for Y2 (minimization target) and co-driver of Y3. Rate from X3=0.10\u21920.61 gives Y2 decrease of 0.28/unit. At X3=1.0, Y2 could reach as low as 0.18. Also tests if Y3 approaches 1.0. This maps the ceiling of X3's benefit.",
+    "reconciliation": "Point 19 (X5=0.40): Y1=0.255 vs predicted 0.22. Roughly linear between X5=0.10 (Y1=0.041) and X5=0.67 (Y1=0.386). Gradient at X5=0.40 spiked to 2.017, revealing X5 has a steep sigmoid-like effect on Y1 centered around X5~0.4. Point 20 (X1=0.40): Y3=0.579 vs predicted 0.46 \u2014 X1-Y3 relationship is more concave than linear, saturating early. Good news: Y3\u22650.4 threshold met at X1=0.40. Y1=0.324, higher than predicted 0.26. Point 21 (X6=1.0): Y1=0.540 vs predicted 0.50, slightly better. Confirmed X6 boosts Y1 substantially while hurting Y2 and Y4.",
+    "falsification": "If Y2 stays above 0.25 despite X3=1.0, X3's beneficial effect on Y2 saturates before maximum. If Y3 doesn't exceed 0.85, the X3-Y3 relationship also saturates.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 19 (X5=0.40): Y1=0.255 vs",
+    "prediction_error": [
+      -0.02065110625454858,
+      0.0486027044870716,
+      0.02020017803066776,
+      -0.004713088326115528
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      1.0,
+      0.79,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 12,
+    "hypothesis": "REFINED MODEL: Y1 = additive(X2_convex++, X6+, X4+, X5_sigmoid(threshold~0.5), X3_weak+, X1_weak+). Y2 = additive(X3\u2212\u2212, X6+, X4\u2212). Y3 = f(X1++, X3++) only, saturating/concave. Y4 = f(X2++, X4+, X6\u2212) only. Key operational insights: X3 HIGH is universally good. X5\u22650.6 sufficient (switch). X1\u22650.5 for Y3 constraint. Trade-off axes: X2 (Y1/Y4\u2191 vs Y2\u2191), X6 (Y1\u2191 vs Y4\u2193,Y2\u2191). Now testing: are effects truly additive or do inputs interact?",
+    "reasoning": "Interaction test: X2\u00d7X6. We have 3 of 4 corners of the X2-X6 factorial: (0.52,0.10)\u2192pt14, (0.52,0.60)\u2192pt11, (1.0,0.60)\u2192pt15. This completes the 2\u00d72. Under additive model: Y1=0.249+0.332=0.581, Y4=0.183+0.102=0.285. Any deviation reveals X2-X6 interaction. Also a promising optimization point \u2014 could yield best Y4 ever.",
+    "reconciliation": "Point 22 (X5=1.0): Y1=0.385 vs predicted 0.39 \u2014 nearly perfect, confirms X5 sigmoid saturation. At X5=0.67\u21921.0, Y1 barely changes (0.386\u21920.385). Point 23 (X2=0.10): Y1=0.179 vs predicted 0.10 \u2014 X2 effect is slightly convex (rate 0.49/unit from 0.1\u21920.52 vs 0.69/unit from 0.52\u21921.0), so linear extrapolation overestimated the drop. Y4=0.019 confirms X2 is critical for Y4. Point 24 (X3=1.0): Y1=0.449, Y2=0.229, Y3=0.970 \u2014 all close to predictions. Y2 saturation confirmed (predicted 0.18, got 0.23).",
+    "falsification": "If Y1 deviates from 0.58 by more than 0.08 or Y4 deviates from 0.29 by more than 0.04, there is a significant X2\u00d7X6 interaction and the additive model is wrong. If Y4>0.32, the interaction is synergistic (X2 and X6 amplify each other's Y4 effects).",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 22 (X5=1.0): Y1=0.385 vs ",
+    "prediction_error": [
+      0.10527331980680255,
+      0.06408321040900228,
+      -0.0022494373971398973,
+      0.0033092300219846327
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      0.61,
+      0.79,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 13,
+    "hypothesis": "REFINED MODEL: Y1 = additive(X2_convex++, X6+, X4+, X5_sigmoid(threshold~0.5), X3_weak+, X1_weak+). Y2 = additive(X3\u2212\u2212, X6+, X4\u2212). Y3 = f(X1++, X3++) only, saturating/concave. Y4 = f(X2++, X4+, X6\u2212) only. Key operational insights: X3 HIGH is universally good. X5\u22650.6 sufficient (switch). X1\u22650.5 for Y3 constraint. Trade-off axes: X2 (Y1/Y4\u2191 vs Y2\u2191), X6 (Y1\u2191 vs Y4\u2193,Y2\u2191). Now testing: are effects truly additive or do inputs interact?",
+    "reasoning": "Interaction test: X5\u00d7X2. Tests whether X5's dramatic sigmoid effect on Y1 is independent of X2. At X2=0.52: X5 drop (0.67\u21920.10) kills Y1 by 0.345. At X2=1.0 (this point): if additive, Y1=0.718-0.345=0.373. If multiplicative/interacting, the crash could be bigger or smaller. Critical for understanding if the X5 switch works the same at all X2 levels.",
+    "reconciliation": "Point 22 (X5=1.0): Y1=0.385 vs predicted 0.39 \u2014 nearly perfect, confirms X5 sigmoid saturation. At X5=0.67\u21921.0, Y1 barely changes (0.386\u21920.385). Point 23 (X2=0.10): Y1=0.179 vs predicted 0.10 \u2014 X2 effect is slightly convex (rate 0.49/unit from 0.1\u21920.52 vs 0.69/unit from 0.52\u21921.0), so linear extrapolation overestimated the drop. Y4=0.019 confirms X2 is critical for Y4. Point 24 (X3=1.0): Y1=0.449, Y2=0.229, Y3=0.970 \u2014 all close to predictions. Y2 saturation confirmed (predicted 0.18, got 0.23).",
+    "falsification": "If Y1 is below 0.25, X5 and X2 interact multiplicatively \u2014 the X5 switch effect is AMPLIFIED at high X2. If Y1 is above 0.50, the interaction is buffering \u2014 high X2 partially compensates for low X5. Either way contradicts pure additivity.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 22 (X5=1.0): Y1=0.385 vs ",
+    "prediction_error": [
+      -0.05995628623732274,
+      0.01982744411585713,
+      -0.0022494373971398973,
+      -0.0019700813887588986
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      0.61,
+      0.79,
+      0.1,
+      0.6
+    ]
+  },
+  {
+    "step": 14,
+    "hypothesis": "REFINED MODEL: Y1 = additive(X2_convex++, X6+, X4+, X5_sigmoid(threshold~0.5), X3_weak+, X1_weak+). Y2 = additive(X3\u2212\u2212, X6+, X4\u2212). Y3 = f(X1++, X3++) only, saturating/concave. Y4 = f(X2++, X4+, X6\u2212) only. Key operational insights: X3 HIGH is universally good. X5\u22650.6 sufficient (switch). X1\u22650.5 for Y3 constraint. Trade-off axes: X2 (Y1/Y4\u2191 vs Y2\u2191), X6 (Y1\u2191 vs Y4\u2193,Y2\u2191). Now testing: are effects truly additive or do inputs interact?",
+    "reasoning": "Interaction test: X3\u00d7X6 on Y2. Both X3 high and X6 low independently reduce Y2. Under additive model: Y2=0.229-0.071=0.158. This could achieve the lowest Y2 seen (current best: 0.198, pt8). Tests whether X3 and X6 interact for Y2 minimization. Also a candidate Pareto point with excellent Y3 and decent Y4.",
+    "reconciliation": "Point 22 (X5=1.0): Y1=0.385 vs predicted 0.39 \u2014 nearly perfect, confirms X5 sigmoid saturation. At X5=0.67\u21921.0, Y1 barely changes (0.386\u21920.385). Point 23 (X2=0.10): Y1=0.179 vs predicted 0.10 \u2014 X2 effect is slightly convex (rate 0.49/unit from 0.1\u21920.52 vs 0.69/unit from 0.52\u21921.0), so linear extrapolation overestimated the drop. Y4=0.019 confirms X2 is critical for Y4. Point 24 (X3=1.0): Y1=0.449, Y2=0.229, Y3=0.970 \u2014 all close to predictions. Y2 saturation confirmed (predicted 0.18, got 0.23).",
+    "falsification": "If Y2>0.20, the beneficial effects of X3 and X6 on Y2 are sub-additive (diminishing returns when combining). If Y2<0.12, they are super-additive (synergistic). If Y1 deviates from 0.31 by >0.08, X3 and X6 also interact on Y1.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 22 (X5=1.0): Y1=0.385 vs ",
+    "prediction_error": [
+      -0.015809421033959714,
+      0.014043291868736957,
+      0.00020017803066774142,
+      0.00341091170245289
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      1.0,
+      0.79,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 15,
+    "hypothesis": "REFINED: Y1 \u2248 additive(X2++, X5_sigmoid, X4+, X6+, X3_weak+) + X2\u00d7X6 synergy(+0.10). Y2 \u2248 f(X3\u2212\u2212, X6+, X4_context_dependent). X4 reduces Y2 at low X2 but INCREASES Y2 at high X2 \u2014 a significant X2\u00d7X4 interaction. Y3 = f(X1++, X3++), saturating. Y4 = f(X2++, X4+, X6\u2212), approximately additive. X3 HIGH remains universally good. Key optimization insight: X2\u00d7X6 synergy means (high X2, low X6) is doubly beneficial for Y1+Y4.",
+    "reasoning": "X2\u00d7X4 interaction test. Completes the 2\u00d72 factorial: pt11(0.52,0.79), pt15(1.0,0.79), pt16(0.52,0.10). Additive prediction: Y1=0.718+0.110-0.386=0.442. Given the dY2/dX4 sign reversal at high X2, this directly tests whether Y2 shoots up when X4 is low at high X2 (gradient predicts Y2\u22480.46) vs the OAT result at baseline X2 where Y2=0.387 at X4=0.10.",
+    "reconciliation": "Point 25 (X2=1.0, X6=0.10): Y1=0.685, significantly higher than predicted 0.58 (+0.105). The X2\u00d7X6 2\u00d72 factorial reveals: additive prediction was 0.581, actual 0.685 \u2192 interaction of +0.104 on Y1. High X2 + low X6 is synergistic for Y1. Y4=0.293 (best ever) matched additive prediction well. Point 26 (X2=1.0, X5=0.10): Y1=0.310 vs predicted 0.37 \u2014 mildly sub-additive X2\u00d7X5 interaction (-0.063). Point 27 (X3=1.0, X6=0.10): Y2=0.174 (best ever), close to additive prediction of 0.158. Y3/Y4 nearly perfect.",
+    "falsification": "If Y1 exceeds 0.55, there is a strong positive X2\u00d7X4 interaction on Y1 (contradicting additivity). If Y4 exceeds 0.15, X2 compensates for low X4 on Y4 (interaction). If Y2 < 0.40, the X2\u00d7X4 interaction on Y2 is weaker than the gradient suggests.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 25 (X2=1.0, X6=0.10): Y1=",
+    "prediction_error": [
+      -0.31488278103703127,
+      -0.06922662531825702,
+      -0.0022494373971398973,
+      -0.08987466451542812
+    ],
+    "directional_accuracy": [
+      false,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      0.61,
+      0.1,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 16,
+    "hypothesis": "REFINED: Y1 \u2248 additive(X2++, X5_sigmoid, X4+, X6+, X3_weak+) + X2\u00d7X6 synergy(+0.10). Y2 \u2248 f(X3\u2212\u2212, X6+, X4_context_dependent). X4 reduces Y2 at low X2 but INCREASES Y2 at high X2 \u2014 a significant X2\u00d7X4 interaction. Y3 = f(X1++, X3++), saturating. Y4 = f(X2++, X4+, X6\u2212), approximately additive. X3 HIGH remains universally good. Key optimization insight: X2\u00d7X6 synergy means (high X2, low X6) is doubly beneficial for Y1+Y4.",
+    "reasoning": "X4 at maximum (1.0) \u2014 never tested above 0.82. Extrapolating OAT: X4 effect on Y1 is ~0.40/unit, giving Y1\u22480.47. Tests whether Y1/Y4 gains continue linearly up to X4=1.0 or saturate. Also critical: does Y2 decrease with X4 at baseline X2=0.52 (where dY2/dX4 is slightly negative)?",
+    "reconciliation": "Point 25 (X2=1.0, X6=0.10): Y1=0.685, significantly higher than predicted 0.58 (+0.105). The X2\u00d7X6 2\u00d72 factorial reveals: additive prediction was 0.581, actual 0.685 \u2192 interaction of +0.104 on Y1. High X2 + low X6 is synergistic for Y1. Y4=0.293 (best ever) matched additive prediction well. Point 26 (X2=1.0, X5=0.10): Y1=0.310 vs predicted 0.37 \u2014 mildly sub-additive X2\u00d7X5 interaction (-0.063). Point 27 (X3=1.0, X6=0.10): Y2=0.174 (best ever), close to additive prediction of 0.158. Y3/Y4 nearly perfect.",
+    "falsification": "If Y1 exceeds 0.55, X4's effect accelerates at high values (convex). If Y1 is below 0.40, X4 effect saturates. If Y2 increases above 0.30 despite low X2, the X2\u00d7X4 interaction on Y2 is more complex than hypothesized.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 25 (X2=1.0, X6=0.10): Y1=",
+    "prediction_error": [
+      -0.0005923111901101064,
+      0.0002037016753683174,
+      -0.0022494373971398973,
+      -0.004470407829501116
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      0.61,
+      1.0,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 17,
+    "hypothesis": "REFINED: Y1 \u2248 additive(X2++, X5_sigmoid, X4+, X6+, X3_weak+) + X2\u00d7X6 synergy(+0.10). Y2 \u2248 f(X3\u2212\u2212, X6+, X4_context_dependent). X4 reduces Y2 at low X2 but INCREASES Y2 at high X2 \u2014 a significant X2\u00d7X4 interaction. Y3 = f(X1++, X3++), saturating. Y4 = f(X2++, X4+, X6\u2212), approximately additive. X3 HIGH remains universally good. Key optimization insight: X2\u00d7X6 synergy means (high X2, low X6) is doubly beneficial for Y1+Y4.",
+    "reasoning": "Pareto-optimal candidate combining best levers: X2=1.0(Y1/Y4), X3=1.0(Y2\u2193/Y3\u2191), X6=0.10(Y4\u2191/Y2\u2193), X5=0.67(Y1 switch on). Estimated via anchoring from pt25(Y1=0.685)+X3 delta(+0.063) and X2\u00d7X6 synergy already captured. Tests whether 3-way combination is super or sub-additive. Should achieve best Y4 while maintaining excellent Y1/Y3.",
+    "reconciliation": "Point 25 (X2=1.0, X6=0.10): Y1=0.685, significantly higher than predicted 0.58 (+0.105). The X2\u00d7X6 2\u00d72 factorial reveals: additive prediction was 0.581, actual 0.685 \u2192 interaction of +0.104 on Y1. High X2 + low X6 is synergistic for Y1. Y4=0.293 (best ever) matched additive prediction well. Point 26 (X2=1.0, X5=0.10): Y1=0.310 vs predicted 0.37 \u2014 mildly sub-additive X2\u00d7X5 interaction (-0.063). Point 27 (X3=1.0, X6=0.10): Y2=0.174 (best ever), close to additive prediction of 0.158. Y3/Y4 nearly perfect.",
+    "falsification": "If Y1<0.60, multi-input combinations suffer significant sub-additivity. If Y2>0.35, the X3 benefit on Y2 is dampened at high X2 (X2\u00d7X3 interaction). If Y4<0.25, something unexpected is reducing Y4 vs the additive prediction.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 25 (X2=1.0, X6=0.10): Y1=",
+    "prediction_error": [
+      -0.009157359149537525,
+      0.03534928752189126,
+      0.00020017803066774142,
+      0.0033092300219846327
+    ],
+    "directional_accuracy": [
+      true,
+      false,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      1.0,
+      0.79,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 18,
+    "hypothesis": "MAJOR UPDATE \u2014 multiplicative structure: Y1 \u2248 base + X2*X4 (strong multiplicative) + X5_sigmoid + X6_diminishing + X3_weak. Y2 \u2248 f(X3\u2212\u2212, X6+, X4_context[at low X2: \u2212, at high X2: weak/+]). Y3 = f(X1++, X3++), saturating, independent. Y4 \u2248 X2*X4 (also multiplicative?) + X6(\u2212). Key: X3 HIGH universally good. X2\u00d7X4 must BOTH be high for Y1/Y4. X6 creates Y1\u2191 vs Y4\u2193 trade-off but is weak at high X2.",
+    "reasoning": "Complete the X2\u00d7X4 2\u00d72 factorial at joint maximum. We have pt11(0.52,0.79)\u2192Y1=0.386, pt15(1.0,0.79)\u21920.718, pt29(0.52,1.0)\u21920.469. Additive prediction: 0.801. With multiplicative interaction (+0.07 estimated for this increment): Y1\u22480.87. Critical test: does the multiplicative structure scale up predictably? This determines if Y1 can exceed 0.85.",
+    "reconciliation": "Point 28 (X2=1.0, X4=0.10): Catastrophic Y1 miss \u2014 predicted 0.44, got 0.125. This reveals a MASSIVE X2\u00d7X4 multiplicative interaction on Y1. At X2=1.0, X4 drop (0.79\u21920.10) kills Y1 by 0.593, versus only 0.276 at X2=0.52. The interaction term is +0.317. Y4 also crashed to 0.020 (predicted 0.11), confirming X2\u00d7X4 interaction on Y4 too. Point 29 (X4=1.0): Near-perfect predictions \u2014 Y1=0.469, Y2=0.280. Modest gain over X4=0.79. Point 30 (full combination): Excellent \u2014 Y1=0.731 (best ever), Y2=0.315, Y4=0.293. Very close to predictions.",
+    "falsification": "If Y1 < 0.80, the X2\u00d7X4 interaction saturates at high levels and the multiplicative model overestimates. If Y1 > 0.95, the interaction is super-multiplicative. If Y2 < 0.33, the X2\u00d7X4 interaction doesn't worsen Y2 as much as the gradient suggests.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 28 (X2=1.0, X4=0.10): Cat",
+    "prediction_error": [
+      0.04410527931967778,
+      0.011456903203980684,
+      -0.0022494373971398973,
+      -0.006013904744638532
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      0.61,
+      1.0,
+      0.67,
+      0.6
+    ]
+  },
+  {
+    "step": 19,
+    "hypothesis": "MAJOR UPDATE \u2014 multiplicative structure: Y1 \u2248 base + X2*X4 (strong multiplicative) + X5_sigmoid + X6_diminishing + X3_weak. Y2 \u2248 f(X3\u2212\u2212, X6+, X4_context[at low X2: \u2212, at high X2: weak/+]). Y3 = f(X1++, X3++), saturating, independent. Y4 \u2248 X2*X4 (also multiplicative?) + X6(\u2212). Key: X3 HIGH universally good. X2\u00d7X4 must BOTH be high for Y1/Y4. X6 creates Y1\u2191 vs Y4\u2193 trade-off but is weak at high X2.",
+    "reasoning": "Test X3\u00d7X4 interaction on Y2 at low X6. This is the Y2-minimization frontier. At moderate X2 (0.52), X4's Y2 effect should still be beneficial. Combines three Y2-favorable inputs: X3=1, X4=1, X6=0.1. If additive, Y2\u22480.17 (best ever). Tests whether multiple Y2 improvements compound or have diminishing returns.",
+    "reconciliation": "Point 28 (X2=1.0, X4=0.10): Catastrophic Y1 miss \u2014 predicted 0.44, got 0.125. This reveals a MASSIVE X2\u00d7X4 multiplicative interaction on Y1. At X2=1.0, X4 drop (0.79\u21920.10) kills Y1 by 0.593, versus only 0.276 at X2=0.52. The interaction term is +0.317. Y4 also crashed to 0.020 (predicted 0.11), confirming X2\u00d7X4 interaction on Y4 too. Point 29 (X4=1.0): Near-perfect predictions \u2014 Y1=0.469, Y2=0.280. Modest gain over X4=0.79. Point 30 (full combination): Excellent \u2014 Y1=0.731 (best ever), Y2=0.315, Y4=0.293. Very close to predictions.",
+    "falsification": "If Y2 > 0.20, the beneficial effects of X3/X4/X6 on Y2 show diminishing returns when combined (sub-additive). If Y2 < 0.14, they are super-additive. If Y1 > 0.45, X4=1.0 boosts Y1 more than expected at moderate X2.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 28 (X2=1.0, X4=0.10): Cat",
+    "prediction_error": [
+      -0.011170423067094093,
+      0.02099216994156544,
+      0.00020017803066774142,
+      -0.0007221220970733411
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      0.52,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 20,
+    "hypothesis": "MAJOR UPDATE \u2014 multiplicative structure: Y1 \u2248 base + X2*X4 (strong multiplicative) + X5_sigmoid + X6_diminishing + X3_weak. Y2 \u2248 f(X3\u2212\u2212, X6+, X4_context[at low X2: \u2212, at high X2: weak/+]). Y3 = f(X1++, X3++), saturating, independent. Y4 \u2248 X2*X4 (also multiplicative?) + X6(\u2212). Key: X3 HIGH universally good. X2\u00d7X4 must BOTH be high for Y1/Y4. X6 creates Y1\u2191 vs Y4\u2193 trade-off but is weak at high X2.",
+    "reasoning": "Full Pareto push: all favorable inputs maxed. Combines X2\u00d7X4 multiplicative interaction with X3=1 (Y2\u2193, Y3\u2191) and X6=0.1 (Y4\u2191). From pt30 (same but X4=0.79): Y1=0.731. Adding X4 increment with multiplicative amplification at high X2: +0.18. Should achieve record Y1 while maintaining excellent Y3 and strong Y4. Tests 3-way interaction structure.",
+    "reconciliation": "Point 28 (X2=1.0, X4=0.10): Catastrophic Y1 miss \u2014 predicted 0.44, got 0.125. This reveals a MASSIVE X2\u00d7X4 multiplicative interaction on Y1. At X2=1.0, X4 drop (0.79\u21920.10) kills Y1 by 0.593, versus only 0.276 at X2=0.52. The interaction term is +0.317. Y4 also crashed to 0.020 (predicted 0.11), confirming X2\u00d7X4 interaction on Y4 too. Point 29 (X4=1.0): Near-perfect predictions \u2014 Y1=0.469, Y2=0.280. Modest gain over X4=0.79. Point 30 (full combination): Excellent \u2014 Y1=0.731 (best ever), Y2=0.315, Y4=0.293. Very close to predictions.",
+    "falsification": "If Y1 < 0.80, there's a 3-way sub-additivity that limits combined gains. If Y4 < 0.29, X4's Y4 benefit doesn't scale at extreme values. If Y2 > 0.35, high X4 at high X2 significantly worsens Y2 even with X3=1 compensation.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 28 (X2=1.0, X4=0.10): Cat",
+    "prediction_error": [
+      0.0013942719811450566,
+      0.05657280068260312,
+      0.00020017803066774142,
+      -0.02094454964109088
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 21,
+    "hypothesis": "CONSOLIDATED MODEL: Y1 \u2248 base + \u03b1*X2*X4 + X5_sigmoid(~0.35 added when X5>0.5) + \u03b2*X6 + \u03b3*X3 + \u03b4*X1. The X2*X4 term dominates. Y2 \u2248 f(X3\u2212\u2212) + X2*X4_floor(~0.15-0.20 penalty at high X2*X4) + X6(+). Y3 = f(X1, X3) only. Y4 = f(X2, X4, X6\u2212). Critical trade-off: Y1 maximization (needs X2*X4 high) imposes Y2\u2265~0.35 floor. Y2 minimization (needs X2 moderate) caps Y1\u2264~0.45. Pareto front spans these regimes.",
+    "reasoning": "X5 interaction at maximum X2*X4. Compare with pt31 (same but X5=0.67): Y1=0.914. At X2=0.52: X5 drop (0.67\u21920.10) caused Y1 drop of 0.345. At X2=1.0,X4=0.79: drop was 0.408. At X2=1.0,X4=1.0: will the drop be ~0.41 (additive) or larger (multiplicative)? This tests whether the X5 sigmoid interacts with X2*X4 \u2014 crucial for understanding if Y1 peaks require BOTH high X2*X4 AND X5>0.5.",
+    "reconciliation": "Point 31 (X2=1,X4=1): Y1=0.914 exceeded prediction of 0.87 \u2014 the X2\u00d7X4 multiplicative interaction is slightly stronger than modeled. Y2=0.382 close to predicted 0.37. Point 32 (X2=0.52,X3=1,X4=1,X6=0.1): Excellent predictions. Y1=0.369, Y2=0.191. Point 33 (X2=1,X3=1,X4=1,X6=0.1): Y1=0.911, nearly perfect prediction. But Y2=0.367 vs predicted 0.31 \u2014 a +0.057 miss. Despite X3=1.0 (best Y2 lever) AND X6=0.1, Y2 was stuck at 0.37 because X2\u00d7X4 creates a Y2 FLOOR.",
+    "falsification": "If Y1>0.70, the X5 sigmoid effect is much weaker at high X2*X4, meaning X5 becomes negligible once X2*X4 is large enough. If Y1<0.30, the X5 sigmoid is amplified by X2*X4 (multiplicative), making X5 even more critical at high X2*X4.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 31 (X2=1,X4=1): Y1=0.914 ",
+    "prediction_error": [
+      -0.03064312968260602,
+      0.022447216345613863,
+      -0.0022494373971398973,
+      0.003986095255361477
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      0.61,
+      1.0,
+      0.1,
+      0.6
+    ]
+  },
+  {
+    "step": 22,
+    "hypothesis": "CONSOLIDATED MODEL: Y1 \u2248 base + \u03b1*X2*X4 + X5_sigmoid(~0.35 added when X5>0.5) + \u03b2*X6 + \u03b3*X3 + \u03b4*X1. The X2*X4 term dominates. Y2 \u2248 f(X3\u2212\u2212) + X2*X4_floor(~0.15-0.20 penalty at high X2*X4) + X6(+). Y3 = f(X1, X3) only. Y4 = f(X2, X4, X6\u2212). Critical trade-off: Y1 maximization (needs X2*X4 high) imposes Y2\u2265~0.35 floor. Y2 minimization (needs X2 moderate) caps Y1\u2264~0.45. Pareto front spans these regimes.",
+    "reasoning": "Pareto frontier mapping: intermediate X2 between low-Y2 and high-Y1 regimes. At X2=0.52 (pt27): Y1=0.294, Y2=0.174. At X2=1.0 (pt30): Y1=0.731, Y2=0.315. X2=0.80 tests the trade-off curve midpoint. Combined with X3=1.0 and X6=0.1 for best Y2. This fills the Pareto gap between 'Y2-optimal' and 'Y1-optimal' configurations.",
+    "reconciliation": "Point 31 (X2=1,X4=1): Y1=0.914 exceeded prediction of 0.87 \u2014 the X2\u00d7X4 multiplicative interaction is slightly stronger than modeled. Y2=0.382 close to predicted 0.37. Point 32 (X2=0.52,X3=1,X4=1,X6=0.1): Excellent predictions. Y1=0.369, Y2=0.191. Point 33 (X2=1,X3=1,X4=1,X6=0.1): Y1=0.911, nearly perfect prediction. But Y2=0.367 vs predicted 0.31 \u2014 a +0.057 miss. Despite X3=1.0 (best Y2 lever) AND X6=0.1, Y2 was stuck at 0.37 because X2\u00d7X4 creates a Y2 FLOOR.",
+    "falsification": "If Y2>0.28, the Y2 floor kicks in earlier than X2=1.0, meaning the Pareto curve is sharply convex. If Y2<0.20, the X2-Y2 relationship is more gradual and the Pareto front is well-populated in the middle.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 31 (X2=1,X4=1): Y1=0.914 ",
+    "prediction_error": [
+      0.01648235786409702,
+      0.03245190147888952,
+      0.00020017803066774142,
+      0.005536215787634469
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      0.8,
+      1.0,
+      0.79,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 23,
+    "hypothesis": "CONSOLIDATED MODEL: Y1 \u2248 base + \u03b1*X2*X4 + X5_sigmoid(~0.35 added when X5>0.5) + \u03b2*X6 + \u03b3*X3 + \u03b4*X1. The X2*X4 term dominates. Y2 \u2248 f(X3\u2212\u2212) + X2*X4_floor(~0.15-0.20 penalty at high X2*X4) + X6(+). Y3 = f(X1, X3) only. Y4 = f(X2, X4, X6\u2212). Critical trade-off: Y1 maximization (needs X2*X4 high) imposes Y2\u2265~0.35 floor. Y2 minimization (needs X2 moderate) caps Y1\u2264~0.45. Pareto front spans these regimes.",
+    "reasoning": "Maximum X1 at best configuration. From pt33 (X1=0.7): Y1=0.911. Gradient dY1/dX1=0.202 at pt33, suggesting Y1+=0.06 for X1 0.7\u21921.0. Tests X1 contribution to Y1 at high X2*X4 (possibly amplified). Also pushes Y3 to maximum (X1=1, X3=1). Could achieve Y1>0.95.",
+    "reconciliation": "Point 31 (X2=1,X4=1): Y1=0.914 exceeded prediction of 0.87 \u2014 the X2\u00d7X4 multiplicative interaction is slightly stronger than modeled. Y2=0.382 close to predicted 0.37. Point 32 (X2=0.52,X3=1,X4=1,X6=0.1): Excellent predictions. Y1=0.369, Y2=0.191. Point 33 (X2=1,X3=1,X4=1,X6=0.1): Y1=0.911, nearly perfect prediction. But Y2=0.367 vs predicted 0.31 \u2014 a +0.057 miss. Despite X3=1.0 (best Y2 lever) AND X6=0.1, Y2 was stuck at 0.37 because X2\u00d7X4 creates a Y2 FLOOR.",
+    "falsification": "If Y1<0.92, X1 has negligible effect even at high X2*X4 and can be ignored for Y1 optimization. If Y2 changes significantly from 0.367, X1 affects Y2 contrary to current model showing near-zero X1-Y2 sensitivity.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 31 (X2=1,X4=1): Y1=0.914 ",
+    "prediction_error": [
+      -0.02230171505367118,
+      -0.00825579770800855,
+      -0.002696770283921568,
+      0.0018060247997058188
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 24,
+    "hypothesis": "FINAL PROBE MODEL: Y1 \u2248 base + \u03b1*X2*X4*sigmoid(X5) + \u03b2*X6 + \u03b3*X3 + \u03b4*X1. Three-way multiplicative core. sigmoid(X5) transitions ~0.3-0.6 range. Y2 \u2248 f(X3\u2212\u2212, X2*X4_floor+, X6+). At high X2*X4, Y2\u22650.31 minimum despite best X3/X6. At low X2: Y2 reachable ~0.15. Y3 = f(X1++, X3++), independent, saturating. Y4 = f(X2, X4, X6\u2212). X2 and X4 may also interact multiplicatively for Y4. Core Pareto trade-off: Y1 vs Y2 controlled by X2*X4 product.",
+    "reasoning": "Tests X5 sigmoid transition at maximum X2*X4. We have X5=0.10\u2192Y1=0.469 (pt34) and X5=0.67\u2192Y1=0.914 (pt31). X5=0.40 should be in the steepest part of the sigmoid. At baseline X2*X4, X5=0.40 was at 62% of transition. Applying same fraction: Y1\u22480.469+0.62*0.445=0.745. This maps the sigmoid shape at high X2*X4 and determines whether X5=0.50 is sufficient vs 0.67.",
+    "reconciliation": "Point 34 (X5=0.10, X2=1, X4=1): Y1=0.469 vs predicted 0.50 \u2014 close. But the key insight: comparing pt31 (X5=0.67, Y1=0.914), the X5 drop caused Y1 to fall by 0.445. At baseline X2*X4 (pt17 vs pt11), the drop was 0.345. So the X5 sigmoid is AMPLIFIED at high X2*X4 \u2014 a ~29% increase in X5 effect. Point 35 (X2=0.80): Y1=0.537, Y2=0.253 \u2014 decent mid-Pareto point, close to predictions. Point 36 (all maxed, X6=0.1): Y1=0.948, Y2=0.362, Y4=0.322 \u2014 all very close to predictions. X1=1.0 added only +0.037 Y1 vs pt33 (X1=0.7).",
+    "falsification": "If Y1<0.60, the sigmoid transition is shifted rightward at high X2*X4 (threshold moves to ~0.50 instead of ~0.35). If Y1>0.85, the transition is sharper/leftward. Either changes optimal X5 strategy.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 34 (X5=0.10, X2=1, X4=1):",
+    "prediction_error": [
+      0.006238226561718241,
+      -0.005079541983116331,
+      -0.0022494373971398973,
+      0.003986095255361477
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      0.61,
+      1.0,
+      0.4,
+      0.6
+    ]
+  },
+  {
+    "step": 25,
+    "hypothesis": "FINAL PROBE MODEL: Y1 \u2248 base + \u03b1*X2*X4*sigmoid(X5) + \u03b2*X6 + \u03b3*X3 + \u03b4*X1. Three-way multiplicative core. sigmoid(X5) transitions ~0.3-0.6 range. Y2 \u2248 f(X3\u2212\u2212, X2*X4_floor+, X6+). At high X2*X4, Y2\u22650.31 minimum despite best X3/X6. At low X2: Y2 reachable ~0.15. Y3 = f(X1++, X3++), independent, saturating. Y4 = f(X2, X4, X6\u2212). X2 and X4 may also interact multiplicatively for Y4. Core Pareto trade-off: Y1 vs Y2 controlled by X2*X4 product.",
+    "reasoning": "Pareto front mapping \u2014 tests whether REDUCING X4 at max X2 can break through the Y2~0.315 floor (pt30). With X4=0.60 vs 0.79, the X2*X4 product drops from 0.79 to 0.60, which should reduce the Y2 penalty. Also tests asymmetry: is Y2 driven by X2*X4 product or individually by X2? Compare with pt35 (X2=0.80, X4=0.79, same X2*X4=0.632) for symmetry test.",
+    "reconciliation": "Point 34 (X5=0.10, X2=1, X4=1): Y1=0.469 vs predicted 0.50 \u2014 close. But the key insight: comparing pt31 (X5=0.67, Y1=0.914), the X5 drop caused Y1 to fall by 0.445. At baseline X2*X4 (pt17 vs pt11), the drop was 0.345. So the X5 sigmoid is AMPLIFIED at high X2*X4 \u2014 a ~29% increase in X5 effect. Point 35 (X2=0.80): Y1=0.537, Y2=0.253 \u2014 decent mid-Pareto point, close to predictions. Point 36 (all maxed, X6=0.1): Y1=0.948, Y2=0.362, Y4=0.322 \u2014 all very close to predictions. X1=1.0 added only +0.037 Y1 vs pt33 (X1=0.7).",
+    "falsification": "If Y2>0.30, the Y2 floor persists even at X4=0.60 and is driven by X2 alone rather than X2*X4 product. If Y2<0.22, X4 reduction is more effective than X2 reduction for Y2, breaking X2*X4 symmetry.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 34 (X5=0.10, X2=1, X4=1):",
+    "prediction_error": [
+      -0.010641135606743513,
+      9.918151534349384e-05,
+      0.00020017803066774142,
+      -0.008825354487604409
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      1.0,
+      0.6,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 26,
+    "hypothesis": "FINAL PROBE MODEL: Y1 \u2248 base + \u03b1*X2*X4*sigmoid(X5) + \u03b2*X6 + \u03b3*X3 + \u03b4*X1. Three-way multiplicative core. sigmoid(X5) transitions ~0.3-0.6 range. Y2 \u2248 f(X3\u2212\u2212, X2*X4_floor+, X6+). At high X2*X4, Y2\u22650.31 minimum despite best X3/X6. At low X2: Y2 reachable ~0.15. Y3 = f(X1++, X3++), independent, saturating. Y4 = f(X2, X4, X6\u2212). X2 and X4 may also interact multiplicatively for Y4. Core Pareto trade-off: Y1 vs Y2 controlled by X2*X4 product.",
+    "reasoning": "Complementary Pareto test \u2014 reduces X2 instead of X4. X2*X4 product=0.75 vs 0.60 in pt above. This tests whether X2 vs X4 have different marginal effects on Y2. If Y2 is similar to the X4=0.60 point despite higher X2*X4 product, then X4 drives Y2 more than X2 at these levels. Also fills the Pareto gap between pt35 (Y1=0.54, Y2=0.25) and pt33 (Y1=0.91, Y2=0.37).",
+    "reconciliation": "Point 34 (X5=0.10, X2=1, X4=1): Y1=0.469 vs predicted 0.50 \u2014 close. But the key insight: comparing pt31 (X5=0.67, Y1=0.914), the X5 drop caused Y1 to fall by 0.445. At baseline X2*X4 (pt17 vs pt11), the drop was 0.345. So the X5 sigmoid is AMPLIFIED at high X2*X4 \u2014 a ~29% increase in X5 effect. Point 35 (X2=0.80): Y1=0.537, Y2=0.253 \u2014 decent mid-Pareto point, close to predictions. Point 36 (all maxed, X6=0.1): Y1=0.948, Y2=0.362, Y4=0.322 \u2014 all very close to predictions. X1=1.0 added only +0.037 Y1 vs pt33 (X1=0.7).",
+    "falsification": "If Y1<0.55, X2 matters more than X4 in the multiplicative term (contradicts symmetric X2*X4 model). If Y2<0.24, X2 reduction is more effective than X4 reduction for Y2, meaning the Y2 penalty is primarily X2-driven not X2*X4-driven.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 34 (X5=0.10, X2=1, X4=1):",
+    "prediction_error": [
+      -0.017260677785042366,
+      -0.010075626560193951,
+      0.00020017803066774142,
+      0.011577410635343566
+    ],
+    "directional_accuracy": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.7,
+      0.75,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 27,
+    "hypothesis": "MATURE MODEL: Y1 \u2248 base + \u03b1*X2*X4*sigmoid(X5,midpoint\u22480.4) + \u03b2*X6*(1-X2*X4) + \u03b3*X3 + \u03b4*X1. Y2 \u2248 base_Y2 \u2212 \u03b7*X3 + \u03bc*X2 + \u03bd*X2*X4 + \u03b5*X6. X2 drives Y2 more than X4, with X2\u00d7X4 amplification. Y3 = f(X1, X3) only. Y4 = f(X2, X4, X6\u2212). Pareto frontier lies along X3=1, X6=0.1, X5\u22650.6, X1\u22480.7, varying X2 from 0.52\u21921.0 and X4 high. Prefer high X4 + moderate X2 for better Y1/Y2 ratio.",
+    "reasoning": "Pareto gap filler: between pt32 (X2=0.52, Y1=0.369, Y2=0.191) and pt39 (X2=0.75, Y1=0.613, Y2=0.270). Linear interpolation at X2=0.65 gives Y1\u22480.51, Y2\u22480.24. Tests whether the X2-Y1 relationship is convex (accelerating) or linear in this range. Maps the low-Y2 portion of the Pareto front.",
+    "reconciliation": "All three predictions were remarkably accurate (max Y1 error 1.7%). Point 37 (X5=0.40 at max X2*X4): Y1=0.746 vs predicted 0.74, confirming sigmoid at 62% transition. Point 38 (X2=1.0, X4=0.60): Y1=0.559, Y2=0.270 \u2014 spot on. Point 39 (X2=0.75, X4=1.0): Y1=0.613, Y2=0.270 \u2014 very close. The model is now highly predictive.",
+    "falsification": "If Y1>0.56, the X2-Y1 relationship accelerates in this range (convex). If Y1<0.45, it decelerates (concave). If Y2>0.25, the Y2 penalty kicks in earlier than expected.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were rema",
+    "prediction_error": [
+      -0.007321513744400598,
+      0.004307328737124361,
+      0.00020017803066774142,
+      0.007125337886642269
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      0.65,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 28,
+    "hypothesis": "MATURE MODEL: Y1 \u2248 base + \u03b1*X2*X4*sigmoid(X5,midpoint\u22480.4) + \u03b2*X6*(1-X2*X4) + \u03b3*X3 + \u03b4*X1. Y2 \u2248 base_Y2 \u2212 \u03b7*X3 + \u03bc*X2 + \u03bd*X2*X4 + \u03b5*X6. X2 drives Y2 more than X4, with X2\u00d7X4 amplification. Y3 = f(X1, X3) only. Y4 = f(X2, X4, X6\u2212). Pareto frontier lies along X3=1, X6=0.1, X5\u22650.6, X1\u22480.7, varying X2 from 0.52\u21921.0 and X4 high. Prefer high X4 + moderate X2 for better Y1/Y2 ratio.",
+    "reasoning": "Fills the largest Pareto gap: between pt39 (Y1=0.613, Y2=0.270) and pt33 (Y1=0.911, Y2=0.367). This is the steepest part of the trade-off curve. Interpolating at X2=0.90 (60% fraction): Y1\u22480.79, Y2\u22480.33. Tests whether the Y2 penalty accelerates at high X2 (the X2\u00d7X4 interaction regime).",
+    "reconciliation": "All three predictions were remarkably accurate (max Y1 error 1.7%). Point 37 (X5=0.40 at max X2*X4): Y1=0.746 vs predicted 0.74, confirming sigmoid at 62% transition. Point 38 (X2=1.0, X4=0.60): Y1=0.559, Y2=0.270 \u2014 spot on. Point 39 (X2=0.75, X4=1.0): Y1=0.613, Y2=0.270 \u2014 very close. The model is now highly predictive.",
+    "falsification": "If Y2>0.36, Y2 penalty accelerates sharply above X2=0.85, making this point dominated by pt33. If Y2<0.30, the trade-off is more gradual and this becomes a strong Pareto point.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were rema",
+    "prediction_error": [
+      -0.001843456404434396,
+      -0.003308449016308612,
+      0.00020017803066774142,
+      0.002080167852192727
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.7,
+      0.9,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 29,
+    "hypothesis": "MATURE MODEL: Y1 \u2248 base + \u03b1*X2*X4*sigmoid(X5,midpoint\u22480.4) + \u03b2*X6*(1-X2*X4) + \u03b3*X3 + \u03b4*X1. Y2 \u2248 base_Y2 \u2212 \u03b7*X3 + \u03bc*X2 + \u03bd*X2*X4 + \u03b5*X6. X2 drives Y2 more than X4, with X2\u00d7X4 amplification. Y3 = f(X1, X3) only. Y4 = f(X2, X4, X6\u2212). Pareto frontier lies along X3=1, X6=0.1, X5\u22650.6, X1\u22480.7, varying X2 from 0.52\u21921.0 and X4 high. Prefer high X4 + moderate X2 for better Y1/Y2 ratio.",
+    "reasoning": "Tests whether X1=1.0 can shift the entire Pareto frontier outward. From pt39 (X1=0.7): Y1=0.613, Y2=0.270. Gradient dY1/dX1\u22480.156 suggests Y1+\u22480.047. More importantly, dY2/dX1\u2248-0.02 means Y2 drops slightly. If confirmed, X1=1.0 Pareto-dominates X1=0.7 everywhere, and all OPTIMIZE phase points should use X1=1.0.",
+    "reconciliation": "All three predictions were remarkably accurate (max Y1 error 1.7%). Point 37 (X5=0.40 at max X2*X4): Y1=0.746 vs predicted 0.74, confirming sigmoid at 62% transition. Point 38 (X2=1.0, X4=0.60): Y1=0.559, Y2=0.270 \u2014 spot on. Point 39 (X2=0.75, X4=1.0): Y1=0.613, Y2=0.270 \u2014 very close. The model is now highly predictive.",
+    "falsification": "If Y1<0.63, X1 has negligible effect at moderate X2 and is only worth increasing for Y3. If Y2>0.27 (same or worse than pt39), X1 doesn't help Y2 and only matters for Y3 constraint.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were rema",
+    "prediction_error": [
+      -0.018181100686249896,
+      0.0027578584509602155,
+      -0.002696770283921568,
+      -0.005460296881627524
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      1.0,
+      0.75,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 30,
+    "hypothesis": "OPTIMIZATION-READY MODEL: Y1 \u2248 -0.15 + 1.0*X2*X4*sigmoid(X5,mid\u22480.4) + 0.15*X6*(1-0.7*X2) + 0.08*X3 + 0.04*X1. Y2 \u2248 0.12 - 0.10*X3 + 0.20*X2 + 0.12*X2*X4 + 0.05*X6. Y3 = f(X1, X3) only, saturating. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 - 0.08*X6. Pareto front: fix X3=1, X6=0.1, X5=0.67, X1=1.0 (for free improvement), then vary X2 from 0.35\u21921.0 with X4=1.0. Key points: X2=0.52\u2192Y2\u22480.19, X2=1.0\u2192Y1\u22480.95.",
+    "reasoning": "Tests X1=1.0 at the low-Y2 end of the Pareto front. Compare with pt32 (X1=0.7, same otherwise): Y1=0.369, Y2=0.191. Gradient suggests Y1+\u22480.035. If confirmed, X1=1.0 provides free Pareto improvement even at low X2. This validates using X1=1.0 for ALL optimization points. Also achieves Y3\u22481.0 (best possible).",
+    "reconciliation": "All three predictions were extremely accurate \u2014 max error 1.8% on Y1, all Y2 predictions within 0.5%. Point 40 (X2=0.65): Y1=0.503 vs 0.51, Y2=0.234 vs 0.23. Point 41 (X2=0.90): Y1=0.788 vs 0.79, Y2=0.327 vs 0.33. Point 42 (X1=1.0): Y1=0.642 vs 0.66, Y2=0.263 vs 0.26. The model is now very mature with consistent sub-2% errors.",
+    "falsification": "If Y1<0.37 (no improvement from X1), the X1 benefit is X2-dependent and only works at higher X2. If Y2>0.20, X1=1.0 actually hurts Y2 at low X2, making it NOT a free improvement everywhere.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were extr",
+    "prediction_error": [
+      -0.007991000355019429,
+      0.0019162921833685564,
+      -0.002696770283921568,
+      -0.007808115188733922
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.52,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 31,
+    "hypothesis": "OPTIMIZATION-READY MODEL: Y1 \u2248 -0.15 + 1.0*X2*X4*sigmoid(X5,mid\u22480.4) + 0.15*X6*(1-0.7*X2) + 0.08*X3 + 0.04*X1. Y2 \u2248 0.12 - 0.10*X3 + 0.20*X2 + 0.12*X2*X4 + 0.05*X6. Y3 = f(X1, X3) only, saturating. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 - 0.08*X6. Pareto front: fix X3=1, X6=0.1, X5=0.67, X1=1.0 (for free improvement), then vary X2 from 0.35\u21921.0 with X4=1.0. Key points: X2=0.52\u2192Y2\u22480.19, X2=1.0\u2192Y1\u22480.95.",
+    "reasoning": "Pushes the Y2-minimum frontier to unprecedented territory. Extrapolating the X2-Y2 relationship: from 0.52\u21920.65 rate of 0.33/unit gives Y2\u22480.191-0.056=0.135. This could achieve the lowest Y2 ever recorded. Tests whether the X2-Y2 relationship continues linearly below X2=0.52, and whether there's a Y2 floor at very low X2*X4 product.",
+    "reconciliation": "All three predictions were extremely accurate \u2014 max error 1.8% on Y1, all Y2 predictions within 0.5%. Point 40 (X2=0.65): Y1=0.503 vs 0.51, Y2=0.234 vs 0.23. Point 41 (X2=0.90): Y1=0.788 vs 0.79, Y2=0.327 vs 0.33. Point 42 (X1=1.0): Y1=0.642 vs 0.66, Y2=0.263 vs 0.26. The model is now very mature with consistent sub-2% errors.",
+    "falsification": "If Y2>0.18, the X2-Y2 relationship flattens at low X2 (Y2 has a floor ~0.17 regardless of X2). If Y2<0.12, the relationship is steeper at low X2 (convex) and extreme Y2 optimization is possible. If Y1<0.15, the X2*X4 multiplicative term dominates more than modeled.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were extr",
+    "prediction_error": [
+      0.012128275456384785,
+      0.0002816950391340278,
+      0.00020017803066774142,
+      -0.012485397612352317
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      0.35,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 32,
+    "hypothesis": "OPTIMIZATION-READY MODEL: Y1 \u2248 -0.15 + 1.0*X2*X4*sigmoid(X5,mid\u22480.4) + 0.15*X6*(1-0.7*X2) + 0.08*X3 + 0.04*X1. Y2 \u2248 0.12 - 0.10*X3 + 0.20*X2 + 0.12*X2*X4 + 0.05*X6. Y3 = f(X1, X3) only, saturating. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 - 0.08*X6. Pareto front: fix X3=1, X6=0.1, X5=0.67, X1=1.0 (for free improvement), then vary X2 from 0.35\u21921.0 with X4=1.0. Key points: X2=0.52\u2192Y2\u22480.19, X2=1.0\u2192Y1\u22480.95.",
+    "reasoning": "Fills the critical high-Y1 Pareto gap with X1=1.0. Between pt42 (X2=0.75, Y1=0.642, Y2=0.263) and pt36 (X2=1.0, Y1=0.948, Y2=0.362). At X2=0.90: pt41 baseline Y1=0.788. Adding X1 boost (~0.05): Y1\u22480.84. Tests whether X1 benefit is LARGER at high X2 (amplification) or constant, calibrating the X1\u00d7X2 interaction.",
+    "reconciliation": "All three predictions were extremely accurate \u2014 max error 1.8% on Y1, all Y2 predictions within 0.5%. Point 40 (X2=0.65): Y1=0.503 vs 0.51, Y2=0.234 vs 0.23. Point 41 (X2=0.90): Y1=0.788 vs 0.79, Y2=0.327 vs 0.33. Point 42 (X1=1.0): Y1=0.642 vs 0.66, Y2=0.263 vs 0.26. The model is now very mature with consistent sub-2% errors.",
+    "falsification": "If Y1>0.87, the X1\u00d7X2 interaction is synergistic at high X2, making X1 more valuable precisely where Y1 is highest. If Y1<0.81, X1 provides less help at high X2 than at moderate X2 \u2014 diminishing returns.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were extr",
+    "prediction_error": [
+      -0.01852055279551057,
+      0.0008982288175424791,
+      -0.002696770283921568,
+      -0.005068980313851279
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      1.0,
+      0.9,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 33,
+    "hypothesis": "OPTIMIZATION-READY MODEL: Y1 \u2248 -0.15 + 1.0*X2*X4*sigmoid(X5,mid\u22480.4) + X6*(0.15-0.10*X2) + 0.08*X3 + 0.03*X1. Y2 \u2248 0.07 - 0.10*X3 + 0.25*X2 + 0.08*X2*X4 + 0.05*X6 - 0.01*X1. Y3 = f(X1, X3), saturating. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 - 0.08*X6. Pareto front is 1-D: fix X3=1, X6=0.1, X5=0.67, X1=1.0, X4=1.0, sweep X2\u2208[0.35,1.0]. Question remaining: is X4=1.0 ALWAYS optimal or can reducing X4 at high X2 create alternative Pareto points?",
+    "reasoning": "Completes X1=1.0 Pareto front at extreme low X2. Compare with pt44 (X1=0.7): Y1=0.212, Y2=0.140. Additive X1 model predicts +0.028 Y1, -0.010 Y2. This is the lowest-Y2 point possible on our Pareto front and confirms X1=1.0 dominates everywhere.",
+    "reconciliation": "All three predictions were within 2% \u2014 the model is highly mature. Point 43 (X1=1.0, X2=0.52): Y1=0.392 vs 0.40, Y2=0.182 vs 0.18. Confirmed X1=1.0 gives free Pareto improvement (+0.023 Y1, -0.009 Y2 vs pt32). Point 44 (X2=0.35): Y1=0.212 vs 0.20, Y2=0.140 vs 0.14 \u2014 new Y2 minimum, confirms linear X2-Y2 relationship extends to low X2. Point 45 (X1=1.0, X2=0.90): Y1=0.822 vs 0.84, Y2=0.321 vs 0.32.",
+    "falsification": "If Y2>0.14 (same or worse than pt44 at X1=0.7), then X1=1.0 does NOT help Y2 at low X2, and the X1 benefit is X2-dependent after all. If Y1<0.22 (no improvement), X1 is irrelevant at low X2.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were with",
+    "prediction_error": [
+      -0.008482891954300659,
+      -2.086445989341046e-05,
+      -0.002696770283921568,
+      1.2369410077206489e-05
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.35,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 34,
+    "hypothesis": "OPTIMIZATION-READY MODEL: Y1 \u2248 -0.15 + 1.0*X2*X4*sigmoid(X5,mid\u22480.4) + X6*(0.15-0.10*X2) + 0.08*X3 + 0.03*X1. Y2 \u2248 0.07 - 0.10*X3 + 0.25*X2 + 0.08*X2*X4 + 0.05*X6 - 0.01*X1. Y3 = f(X1, X3), saturating. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 - 0.08*X6. Pareto front is 1-D: fix X3=1, X6=0.1, X5=0.67, X1=1.0, X4=1.0, sweep X2\u2208[0.35,1.0]. Question remaining: is X4=1.0 ALWAYS optimal or can reducing X4 at high X2 create alternative Pareto points?",
+    "reasoning": "Critical symmetry test: X2=0.90/X4=0.60 vs the standard X2=0.65/X4=1.0 (same X2*X4=0.54 vs 0.65). If X4=1.0/lower-X2 always dominates X4<1.0/higher-X2, this point will be Pareto-dominated by pt40 extrapolated to X1=1.0. This would confirm the Pareto front is strictly along X4=1.0. Tests asymmetric X2 vs X4 roles in Y2.",
+    "reconciliation": "All three predictions were within 2% \u2014 the model is highly mature. Point 43 (X1=1.0, X2=0.52): Y1=0.392 vs 0.40, Y2=0.182 vs 0.18. Confirmed X1=1.0 gives free Pareto improvement (+0.023 Y1, -0.009 Y2 vs pt32). Point 44 (X2=0.35): Y1=0.212 vs 0.20, Y2=0.140 vs 0.14 \u2014 new Y2 minimum, confirms linear X2-Y2 relationship extends to low X2. Point 45 (X1=1.0, X2=0.90): Y1=0.822 vs 0.84, Y2=0.321 vs 0.32.",
+    "falsification": "If Y2<0.22 (lower than X2=0.65/X4=1.0 would give at ~0.23), then reducing X4 is MORE effective than reducing X2 for Y2, creating a 2-D Pareto surface instead of 1-D. If Y1>0.60, the X2*X4 multiplicative model underestimates the X2 contribution.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were with",
+    "prediction_error": [
+      -0.02007288521989814,
+      -0.0036112779375823967,
+      -0.002696770283921568,
+      -0.0038728359840989324
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.9,
+      1.0,
+      0.6,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 35,
+    "hypothesis": "OPTIMIZATION-READY MODEL: Y1 \u2248 -0.15 + 1.0*X2*X4*sigmoid(X5,mid\u22480.4) + X6*(0.15-0.10*X2) + 0.08*X3 + 0.03*X1. Y2 \u2248 0.07 - 0.10*X3 + 0.25*X2 + 0.08*X2*X4 + 0.05*X6 - 0.01*X1. Y3 = f(X1, X3), saturating. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 - 0.08*X6. Pareto front is 1-D: fix X3=1, X6=0.1, X5=0.67, X1=1.0, X4=1.0, sweep X2\u2208[0.35,1.0]. Question remaining: is X4=1.0 ALWAYS optimal or can reducing X4 at high X2 create alternative Pareto points?",
+    "reasoning": "Fills the X1=1.0 Pareto front at X2=0.65, directly comparable with point 2 above (X2=0.90, X4=0.60, same X2*X4\u22480.54 vs 0.65). If this dominates point 2 as predicted, it confirms X4=1.0 is always optimal and the Pareto front is 1-D. This also fills the gap between pt43 (X2=0.52, Y1=0.39) and pt42 (X2=0.75, Y1=0.64).",
+    "reconciliation": "All three predictions were within 2% \u2014 the model is highly mature. Point 43 (X1=1.0, X2=0.52): Y1=0.392 vs 0.40, Y2=0.182 vs 0.18. Confirmed X1=1.0 gives free Pareto improvement (+0.023 Y1, -0.009 Y2 vs pt32). Point 44 (X2=0.35): Y1=0.212 vs 0.20, Y2=0.140 vs 0.14 \u2014 new Y2 minimum, confirms linear X2-Y2 relationship extends to low X2. Point 45 (X1=1.0, X2=0.90): Y1=0.822 vs 0.84, Y2=0.321 vs 0.32.",
+    "falsification": "If Y1<0.50, the X1 benefit vanishes at moderate X2 or there's a negative X1\u00d7X2 interaction. If Y2>0.24, the X1 benefit on Y2 doesn't hold at X2=0.65.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were with",
+    "prediction_error": [
+      -0.000904298181595653,
+      -0.003720759299167542,
+      -0.002696770283921568,
+      0.00011295702474700686
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.65,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 36,
+    "hypothesis": "FINAL MODEL (high confidence): Y1 \u2248 -0.15 + 0.97*X2*X4*sigmoid(X5,0.4) + X6*(0.15-0.10*X2) + 0.08*X3 + 0.03*X1. Y2 \u2248 baseline \u2212 0.10*X3 + 0.31*X2 + 0.08*X2*X4 \u2212 0.01*X1. Y3 = f(X1, X3) only. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 \u2212 0.08*X6. Optimal template: [1.0, X2, 1.0, 1.0, 0.67, 0.10]. Pareto front is 1-D sweep of X2 from 0.10 to 1.0.",
+    "reasoning": "Exploit: fill the Pareto gap between pt46 (X2=0.35, Y1=0.23, Y2=0.13) and pt43 (X2=0.52, Y1=0.39, Y2=0.18). Interpolating at X2=0.43 (47% of way): Y1\u22480.31, Y2\u22480.15, Y4\u22480.18. This is a strong balanced Pareto point with moderately low Y2 and decent Y1/Y4.",
+    "reconciliation": "All three predictions were remarkably accurate \u2014 max error 2.0% on Y1, Y2 predictions essentially perfect. Point 46 (X1=1.0, X2=0.35): Y1=0.232, Y2=0.130 \u2014 new Y2 minimum, exactly as predicted. Point 47 (X2=0.90, X4=0.60): Y1=0.510, Y2=0.236 \u2014 confirmed that this is Pareto-dominated by pt48 (X2=0.65, X4=1.0, Y1=0.529, Y2=0.226). Point 48 (X1=1.0, X2=0.65): Y1=0.529, Y2=0.226 \u2014 dominates pt40 (X1=0.7 version), confirming X1=1.0 is universally beneficial.",
+    "falsification": "If Y1 deviates from 0.31 by more than 0.03 or Y2 from 0.15 by more than 0.015, the X2-output relationships are nonlinear in this range rather than the linear interpolation assumed.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were rema",
+    "prediction_error": [
+      -0.005869089843119235,
+      0.0034778579810361143,
+      -0.002696770283921568,
+      0.0011768718666075872
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.43,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 37,
+    "hypothesis": "FINAL MODEL (high confidence): Y1 \u2248 -0.15 + 0.97*X2*X4*sigmoid(X5,0.4) + X6*(0.15-0.10*X2) + 0.08*X3 + 0.03*X1. Y2 \u2248 baseline \u2212 0.10*X3 + 0.31*X2 + 0.08*X2*X4 \u2212 0.01*X1. Y3 = f(X1, X3) only. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 \u2212 0.08*X6. Optimal template: [1.0, X2, 1.0, 1.0, 0.67, 0.10]. Pareto front is 1-D sweep of X2 from 0.10 to 1.0.",
+    "reasoning": "Exploit: fill the Pareto gap between pt42 (X2=0.75, Y1=0.64, Y2=0.26) and pt45 (X2=0.90, Y1=0.82, Y2=0.32). This is the steepest part of the Y1/Y2 trade-off curve. At X2=0.82, this should be a strong Pareto point with high Y1 AND Y4 at moderate Y2 cost.",
+    "reconciliation": "All three predictions were remarkably accurate \u2014 max error 2.0% on Y1, Y2 predictions essentially perfect. Point 46 (X1=1.0, X2=0.35): Y1=0.232, Y2=0.130 \u2014 new Y2 minimum, exactly as predicted. Point 47 (X2=0.90, X4=0.60): Y1=0.510, Y2=0.236 \u2014 confirmed that this is Pareto-dominated by pt48 (X2=0.65, X4=1.0, Y1=0.529, Y2=0.226). Point 48 (X1=1.0, X2=0.65): Y1=0.529, Y2=0.226 \u2014 dominates pt40 (X1=0.7 version), confirming X1=1.0 is universally beneficial.",
+    "falsification": "If Y2>0.31, the Y2 penalty accelerates sharply above X2=0.80, making this point nearly equivalent to X2=0.90. If Y1<0.68, the X2-Y1 curve is more concave than expected in this range.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were rema",
+    "prediction_error": [
+      0.004152947185346867,
+      -0.0005978276290704021,
+      -0.002696770283921568,
+      -0.0004355502105971021
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.82,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 38,
+    "hypothesis": "FINAL MODEL (high confidence): Y1 \u2248 -0.15 + 0.97*X2*X4*sigmoid(X5,0.4) + X6*(0.15-0.10*X2) + 0.08*X3 + 0.03*X1. Y2 \u2248 baseline \u2212 0.10*X3 + 0.31*X2 + 0.08*X2*X4 \u2212 0.01*X1. Y3 = f(X1, X3) only. Y4 \u2248 0.02 + 0.21*X2 + 0.08*X4 \u2212 0.08*X6. Optimal template: [1.0, X2, 1.0, 1.0, 0.67, 0.10]. Pareto front is 1-D sweep of X2 from 0.10 to 1.0.",
+    "reasoning": "Explore: push the Y2 minimum frontier below the current record of 0.130 (pt46). Extrapolating the Y2 rate (~0.31/unit of X2): Y2\u22480.130-0.046=0.084. This tests whether the linear X2-Y2 relationship continues below X2=0.35 or if there's a floor. Also tests whether Y1 remains positive at very low X2.",
+    "reconciliation": "All three predictions were remarkably accurate \u2014 max error 2.0% on Y1, Y2 predictions essentially perfect. Point 46 (X1=1.0, X2=0.35): Y1=0.232, Y2=0.130 \u2014 new Y2 minimum, exactly as predicted. Point 47 (X2=0.90, X4=0.60): Y1=0.510, Y2=0.236 \u2014 confirmed that this is Pareto-dominated by pt48 (X2=0.65, X4=1.0, Y1=0.529, Y2=0.226). Point 48 (X1=1.0, X2=0.65): Y1=0.529, Y2=0.226 \u2014 dominates pt40 (X1=0.7 version), confirming X1=1.0 is universally beneficial.",
+    "falsification": "If Y2>0.11, the Y2-X2 relationship flattens at low X2 (floor effect). If Y1<0.02 or negative, the X2*X4 multiplicative term breaks down at very low X2. If Y4<0.07, the Y4-X2 relationship is also nonlinear at low X2.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"All three predictions were rema",
+    "prediction_error": [
+      0.0221787399771321,
+      0.0013597669591446926,
+      -0.002696770283921568,
+      -0.016972866597212005
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.2,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 39,
+    "hypothesis": "FINAL OPTIMIZED MODEL: Template [1.0, X2, 1.0, 1.0, 0.67, 0.10] spans the entire Pareto front. Y1 \u2248 -0.06 + 1.05*X2 (approx linear in this template). Y2 \u2248 0.05 + 0.31*X2 (approx linear). Y4 \u2248 0.02 + 0.26*X2 + slight convexity. Y3 \u2248 0.997 (constant). All objectives satisfied with Y3>>0.4. The Pareto front is well-sampled at X2=[0.20,0.35,0.43,0.52,0.65,0.75,0.82,0.90,1.00]. Remaining gaps to fill: X2\u2208{0.10,0.28,0.58,0.95}.",
+    "reasoning": "Exploit: densify the low-Y2 Pareto region between pt51 (X2=0.20, Y1=0.112, Y2=0.091) and pt46 (X2=0.35, Y1=0.232, Y2=0.130). Linear interpolation at X2=0.28: Y1\u22480.176, Y2\u22480.112, Y4\u22480.119. This provides a Pareto point with excellent Y2 (<0.12) and meaningfully better Y1/Y4 than X2=0.20.",
+    "reconciliation": "Point 49 (X2=0.43): Y1=0.304 vs 0.31, Y2=0.154 vs 0.15 \u2014 excellent. Point 50 (X2=0.82): Y1=0.724 vs 0.72, Y2=0.289 vs 0.29 \u2014 perfect. Point 51 (X2=0.20): Y1=0.112 vs predicted 0.09 \u2014 2.2% off, Y2=0.091 (new record low!) exactly as predicted. Y4=0.083 vs 0.10 \u2014 somewhat worse than expected. The X2-Y4 relationship may be slightly convex at low X2.",
+    "falsification": "If Y2>0.12 or Y1<0.15, the X2-output relationships are nonlinear in this range. If Y4<0.10, the convexity at low X2 is stronger than expected.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 49 (X2=0.43): Y1=0.304 vs",
+    "prediction_error": [
+      0.0028118162437826832,
+      0.000981378670760813,
+      -0.002696770283921568,
+      -1.8896955109218294e-05
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.28,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 40,
+    "hypothesis": "FINAL OPTIMIZED MODEL: Template [1.0, X2, 1.0, 1.0, 0.67, 0.10] spans the entire Pareto front. Y1 \u2248 -0.06 + 1.05*X2 (approx linear in this template). Y2 \u2248 0.05 + 0.31*X2 (approx linear). Y4 \u2248 0.02 + 0.26*X2 + slight convexity. Y3 \u2248 0.997 (constant). All objectives satisfied with Y3>>0.4. The Pareto front is well-sampled at X2=[0.20,0.35,0.43,0.52,0.65,0.75,0.82,0.90,1.00]. Remaining gaps to fill: X2\u2208{0.10,0.28,0.58,0.95}.",
+    "reasoning": "Exploit: fill the largest remaining Pareto gap between pt43 (X2=0.52, Y1=0.392, Y2=0.182) and pt48 (X2=0.65, Y1=0.529, Y2=0.226). This is a key mid-range trade-off point where Y1 is decent (~0.46) and Y2 is still moderate (~0.20). Interpolation gives Y1=0.455, Y2=0.202.",
+    "reconciliation": "Point 49 (X2=0.43): Y1=0.304 vs 0.31, Y2=0.154 vs 0.15 \u2014 excellent. Point 50 (X2=0.82): Y1=0.724 vs 0.72, Y2=0.289 vs 0.29 \u2014 perfect. Point 51 (X2=0.20): Y1=0.112 vs predicted 0.09 \u2014 2.2% off, Y2=0.091 (new record low!) exactly as predicted. Y4=0.083 vs 0.10 \u2014 somewhat worse than expected. The X2-Y4 relationship may be slightly convex at low X2.",
+    "falsification": "If Y1 deviates from 0.46 by >0.03 or Y2 from 0.20 by >0.015, there's unexpected nonlinearity in the mid-range.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 49 (X2=0.43): Y1=0.304 vs",
+    "prediction_error": [
+      -0.00612551524724575,
+      0.0019367266042949194,
+      -0.002696770283921568,
+      0.0006388497492459122
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.58,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 41,
+    "hypothesis": "FINAL OPTIMIZED MODEL: Template [1.0, X2, 1.0, 1.0, 0.67, 0.10] spans the entire Pareto front. Y1 \u2248 -0.06 + 1.05*X2 (approx linear in this template). Y2 \u2248 0.05 + 0.31*X2 (approx linear). Y4 \u2248 0.02 + 0.26*X2 + slight convexity. Y3 \u2248 0.997 (constant). All objectives satisfied with Y3>>0.4. The Pareto front is well-sampled at X2=[0.20,0.35,0.43,0.52,0.65,0.75,0.82,0.90,1.00]. Remaining gaps to fill: X2\u2208{0.10,0.28,0.58,0.95}.",
+    "reasoning": "Explore: test extreme low X2 boundary for minimum achievable Y2. Extrapolating from pt51 (X2=0.20): gradient-based prediction gives Y2\u22480.068. This could achieve a Y2 below 0.07 \u2014 the absolute minimum on the Pareto front. Tests whether Y2 continues decreasing linearly below X2=0.20 or hits a floor. Also tests whether Y1 stays positive.",
+    "reconciliation": "Point 49 (X2=0.43): Y1=0.304 vs 0.31, Y2=0.154 vs 0.15 \u2014 excellent. Point 50 (X2=0.82): Y1=0.724 vs 0.72, Y2=0.289 vs 0.29 \u2014 perfect. Point 51 (X2=0.20): Y1=0.112 vs predicted 0.09 \u2014 2.2% off, Y2=0.091 (new record low!) exactly as predicted. Y4=0.083 vs 0.10 \u2014 somewhat worse than expected. The X2-Y4 relationship may be slightly convex at low X2.",
+    "falsification": "If Y2>0.08, there's a Y2 floor that prevents further minimization below X2=0.20. If Y1<0 (negative), the multiplicative model breaks down at extreme low X2. If Y4>0.06, the X2-Y4 convexity is less severe than feared.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 49 (X2=0.43): Y1=0.304 vs",
+    "prediction_error": [
+      0.008698106325977166,
+      0.0008166505381259209,
+      -0.002696770283921568,
+      -0.004236467647320975
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.1,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 42,
+    "hypothesis": "FINAL MODEL (very high confidence): Template [1.0, X2, 1.0, 1.0, 0.67, 0.10] spans entire Pareto front. Within this template: Y1 \u2248 1.00*X2 - 0.05 (nearly linear). Y2 \u2248 0.32*X2 + 0.04 (nearly linear). Y4 \u2248 0.32*X2 + 0.01 (slightly convex at low X2). Y3 \u2248 0.997 (constant, far above constraint). Pareto front is thoroughly sampled at 12 X2 values from 0.10 to 1.00. Remaining budget best used to: (1) fill 3 small gaps, (2) verify no alternative configurations can break through.",
+    "reasoning": "Exploit: fill the last significant gap on the high-Y1 end of the Pareto front between pt45 (X2=0.90, Y1=0.822) and pt36 (X2=1.00, Y1=0.948). Interpolation gives Y1\u22480.885, Y2\u22480.341. This is an important Pareto region where Y1 is very high but Y2 cost starts accelerating.",
+    "reconciliation": "Point 52 (X2=0.28): Y1=0.173 vs 0.17, Y2=0.111 vs 0.11 \u2014 perfect. Point 53 (X2=0.58): Y1=0.454 vs 0.46, Y2=0.202 vs 0.20 \u2014 spot on. Point 54 (X2=0.10): Y1=0.049 vs 0.04 (+0.009), Y2=0.071 vs 0.07 \u2014 new absolute Y2 minimum at 0.071! Y4=0.036 vs 0.04 \u2014 slightly worse due to low-X2 convexity in Y4.",
+    "falsification": "If Y1<0.87 or Y2>0.35, the X2-output relationships are nonlinear near X2=1.0, suggesting a knee in the trade-off curve we haven't captured.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 52 (X2=0.28): Y1=0.173 vs",
+    "prediction_error": [
+      -0.006025832355761818,
+      0.0011222915568629976,
+      -0.002696770283921568,
+      0.0036679257866731874
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.95,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 43,
+    "hypothesis": "FINAL MODEL (very high confidence): Template [1.0, X2, 1.0, 1.0, 0.67, 0.10] spans entire Pareto front. Within this template: Y1 \u2248 1.00*X2 - 0.05 (nearly linear). Y2 \u2248 0.32*X2 + 0.04 (nearly linear). Y4 \u2248 0.32*X2 + 0.01 (slightly convex at low X2). Y3 \u2248 0.997 (constant, far above constraint). Pareto front is thoroughly sampled at 12 X2 values from 0.10 to 1.00. Remaining budget best used to: (1) fill 3 small gaps, (2) verify no alternative configurations can break through.",
+    "reasoning": "Exploit: fill the gap between pt48 (X2=0.65, Y1=0.529) and pt42 (X2=0.75, Y1=0.642). This is the sweet-spot region where Y1 is substantial and Y2 is still moderate. Interpolation: Y1\u22480.586, Y2\u22480.245, Y4\u22480.263.",
+    "reconciliation": "Point 52 (X2=0.28): Y1=0.173 vs 0.17, Y2=0.111 vs 0.11 \u2014 perfect. Point 53 (X2=0.58): Y1=0.454 vs 0.46, Y2=0.202 vs 0.20 \u2014 spot on. Point 54 (X2=0.10): Y1=0.049 vs 0.04 (+0.009), Y2=0.071 vs 0.07 \u2014 new absolute Y2 minimum at 0.071! Y4=0.036 vs 0.04 \u2014 slightly worse due to low-X2 convexity in Y4.",
+    "falsification": "If any output deviates by >0.02 from interpolation, the model has unexpected nonlinearity in this densely-bracketed region.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 52 (X2=0.28): Y1=0.173 vs",
+    "prediction_error": [
+      -0.0052879512892608505,
+      -0.005722623121139442,
+      -0.002696770283921568,
+      0.0027927638361464058
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.7,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 44,
+    "hypothesis": "FINAL MODEL (very high confidence): Template [1.0, X2, 1.0, 1.0, 0.67, 0.10] spans entire Pareto front. Within this template: Y1 \u2248 1.00*X2 - 0.05 (nearly linear). Y2 \u2248 0.32*X2 + 0.04 (nearly linear). Y4 \u2248 0.32*X2 + 0.01 (slightly convex at low X2). Y3 \u2248 0.997 (constant, far above constraint). Pareto front is thoroughly sampled at 12 X2 values from 0.10 to 1.00. Remaining budget best used to: (1) fill 3 small gaps, (2) verify no alternative configurations can break through.",
+    "reasoning": "Explore: test whether X5=1.0 (vs 0.67) gives any Y1 improvement at moderate X2. Compare with pt43 (same but X5=0.67, Y1=0.392). If sigmoid is truly saturated, Y1 should be identical. But at pt4 (X5=0.97, high X2*X4), Y1=0.450 was relatively high. Tests for any residual X5 benefit beyond the supposed saturation at 0.67.",
+    "reconciliation": "Point 52 (X2=0.28): Y1=0.173 vs 0.17, Y2=0.111 vs 0.11 \u2014 perfect. Point 53 (X2=0.58): Y1=0.454 vs 0.46, Y2=0.202 vs 0.20 \u2014 spot on. Point 54 (X2=0.10): Y1=0.049 vs 0.04 (+0.009), Y2=0.071 vs 0.07 \u2014 new absolute Y2 minimum at 0.071! Y4=0.036 vs 0.04 \u2014 slightly worse due to low-X2 convexity in Y4.",
+    "falsification": "If Y1>0.42 (an increase >0.03 from pt43), the sigmoid hasn't fully saturated by X5=0.67 at moderate X2, meaning X5=1.0 should be used in the template. If Y1=0.392\u00b10.01, saturation is confirmed.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 52 (X2=0.28): Y1=0.173 vs",
+    "prediction_error": [
+      0.0020549355061033614,
+      0.0019129067670276279,
+      -0.002696770283921568,
+      0.002191884811266087
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.52,
+      1.0,
+      1.0,
+      1.0,
+      0.1
+    ]
+  },
+  {
+    "step": 45,
+    "hypothesis": "FULLY VALIDATED MODEL: Template [1.0, X2, 1.0, 1.0, 0.67, 0.10]. Y1=1.00*X2-0.05, Y2=0.32*X2+0.04, Y4=0.33*X2+0.01 (slight convexity at low X2), Y3=0.997 (constant). Pareto front is densely sampled from X2=0.10 to X2=1.00. Current best Pareto points are well-distributed. Remaining 15 evaluations: use to try alternative configurations that might break through the Pareto frontier, and fill any remaining Y4 optimization gaps.",
+    "reasoning": "Exploit: this is the absolute maximum Y1 and Y4 point on the Pareto front. We have pt36 at this config with X1=1.0 (Y1=0.948, Y4=0.322) but need to verify consistency. Actually pt36 IS this exact point. Let me shift slightly \u2014 use X5=0.55 instead to verify sigmoid saturation holds at this extreme and squeeze any last bit of efficiency.",
+    "reconciliation": "Point 55 (X2=0.95): Y1=0.884 vs 0.89, Y2=0.341 vs 0.34 \u2014 perfect. Point 56 (X2=0.70): Y1=0.585 vs 0.59, Y2=0.244 vs 0.25 \u2014 spot on. Point 57 (X5=1.0 vs 0.67): Y1=0.3921 vs pt43's 0.3920 \u2014 literally identical (\u0394=0.0001). X5 sigmoid is COMPLETELY saturated by 0.67. No benefit whatsoever from X5>0.67.",
+    "falsification": "N/A - adjusting point to avoid duplicate.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "\n\n{\"reconciliation\":\"Point 55 (X2=0.95): Y1=0.884 ",
+    "prediction_error": [
+      -0.0023017150536711606,
+      0.001744202291991459,
+      -0.002696770283921568,
+      -0.00819397520029419
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.67,
+      0.1
+    ]
+  },
+  {
+    "step": 46,
+    "hypothesis": "FULLY VALIDATED MODEL: Template [1.0, X2, 1.0, 1.0, 0.67, 0.10]. Y1=1.00*X2-0.05, Y2=0.32*X2+0.04, Y4=0.33*X2+0.01 (slight convexity at low X2), Y3=0.997 (constant). Pareto front is densely sampled from X2=0.10 to X2=1.00. Current best Pareto points are well-distributed. Remaining 15 evaluations: use to try alternative configurations that might break through the Pareto frontier, and fill any remaining Y4 optimization gaps.",
+    "reasoning": "Exploit: verify that X5=0.55 gives same performance as X5=0.67 at the maximum Y1 configuration. If confirmed, we can use X5=0.55 as the optimal minimum X5 threshold. This tests the sigmoid saturation at the most extreme X2*X4 configuration where the multiplicative amplification is strongest.",
+    "reconciliation": "Point 55 (X2=0.95): Y1=0.884 vs 0.89, Y2=0.341 vs 0.34 \u2014 perfect. Point 56 (X2=0.70): Y1=0.585 vs 0.59, Y2=0.244 vs 0.25 \u2014 spot on. Point 57 (X5=1.0 vs 0.67): Y1=0.3921 vs pt43's 0.3920 \u2014 literally identical (\u0394=0.0001). X5 sigmoid is COMPLETELY saturated by 0.67. No benefit whatsoever from X5>0.67.",
+    "falsification": "If Y1<0.92 (drop >0.03), the sigmoid hasn't fully saturated at X5=0.55 when X2*X4 is maximal, meaning the amplified three-way interaction shifts the saturation threshold rightward at high X2*X4.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "\n\n{\"reconciliation\":\"Point 55 (X2=0.95): Y1=0.884 ",
+    "prediction_error": [
+      -0.0034517393728620283,
+      0.0019003693069542527,
+      -0.002696770283921568,
+      0.0018060247997058188
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.55,
+      0.1
+    ]
+  },
+  {
+    "step": 47,
+    "hypothesis": "FULLY VALIDATED MODEL: Template [1.0, X2, 1.0, 1.0, 0.67, 0.10]. Y1=1.00*X2-0.05, Y2=0.32*X2+0.04, Y4=0.33*X2+0.01 (slight convexity at low X2), Y3=0.997 (constant). Pareto front is densely sampled from X2=0.10 to X2=1.00. Current best Pareto points are well-distributed. Remaining 15 evaluations: use to try alternative configurations that might break through the Pareto frontier, and fill any remaining Y4 optimization gaps.",
+    "reasoning": "Explore: test whether X6=0.30 (instead of 0.10) can improve Y1 without proportionally hurting Y2/Y4. At high X2, the X6 gradient for Y1 is near zero (pt55: dY1/dX6=-0.001) while Y2 gradient is -0.12 (beneficial!). This surprising sign suggests at very high X2, increasing X6 slightly might REDUCE Y2 while barely affecting Y1. If Y2<0.29, this creates a new Pareto point that dominates X6=0.1 configurations.",
+    "reconciliation": "Point 55 (X2=0.95): Y1=0.884 vs 0.89, Y2=0.341 vs 0.34 \u2014 perfect. Point 56 (X2=0.70): Y1=0.585 vs 0.59, Y2=0.244 vs 0.25 \u2014 spot on. Point 57 (X5=1.0 vs 0.67): Y1=0.3921 vs pt43's 0.3920 \u2014 literally identical (\u0394=0.0001). X5 sigmoid is COMPLETELY saturated by 0.67. No benefit whatsoever from X5>0.67.",
+    "falsification": "If Y2>0.32 (worse than pt50 at X2=0.82,X6=0.1 which gives Y2=0.289), then X6=0.30 hurts Y2 as expected from the overall correlation and our model should stay at X6=0.10. If Y4<0.25, the X6 penalty on Y4 is too severe to justify any Y1 gain.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "\n\n{\"reconciliation\":\"Point 55 (X2=0.95): Y1=0.884 ",
+    "prediction_error": [
+      0.06581166057624577,
+      -0.009576291608352772,
+      -0.002696770283921568,
+      0.005086688508922799
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.85,
+      1.0,
+      1.0,
+      0.67,
+      0.3
+    ]
+  },
+  {
+    "step": 48,
+    "hypothesis": "UPDATED MODEL: At high X2 (>0.85), X6 has a REVERSED effect on Y2 \u2014 negative gradient means increasing X6 reduces Y2. Combined with X6's positive effect on Y1, moderate X6 (0.2-0.4) at high X2 could Pareto-dominate the X6=0.1 template. Y4 still penalized by X6 but the Y1+Y2 gains may compensate. The dY2/dX6 sign flip happens around X2\u22480.80-0.85. Below X2=0.80, X6=0.1 remains optimal.",
+    "reasoning": "Exploit the X6 reversal discovery at maximum X2. Gradient at pt58: dY1/dX6=-0.034 (negligible), dY2/dX6=-0.147 (Y2 improves!). From pt36/58 (X6=0.1): Y1=0.948, Y2=0.362. Adding X6 delta: Y2\u22480.362-0.147*0.2=0.333. Y1 barely affected. If confirmed, this DOMINATES the X6=0.1 configuration on Y2 while matching Y1. Y4 penalty: -0.02.",
+    "reconciliation": "Point 58 (X2=1.0 duplicate of pt36): Y1=0.9477, exact match \u2014 confirms reproducibility. Point 59 (X5=0.55): Y1=0.9465 vs pt58's 0.9477 \u2014 only 0.0012 difference, confirming sigmoid fully saturated by X5=0.55 even at max X2*X4. Point 60 (X6=0.30): Y1=0.786 vs predicted 0.72 \u2014 a significant +0.066 surprise! X6=0.30 at X2=0.85 yielded Y1 higher than expected, while Y2=0.290 was actually BETTER than pt50 (X2=0.82, X6=0.1, Y2=0.289). This means X6=0.30 is nearly Y2-neutral at high X2 while boosting Y1 substantially.",
+    "falsification": "If Y2>0.36 (no improvement vs X6=0.1), the gradient sign is misleading and X6=0.1 remains optimal everywhere. If Y1<0.93, X6 hurts Y1 at max X2*X4 more than the gradient suggests.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 58 (X2=1.0 duplicate of p",
+    "prediction_error": [
+      -0.04339195767186077,
+      0.008086196701060977,
+      -0.002696770283921568,
+      0.002222658640180286
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.67,
+      0.3
+    ]
+  },
+  {
+    "step": 49,
+    "hypothesis": "UPDATED MODEL: At high X2 (>0.85), X6 has a REVERSED effect on Y2 \u2014 negative gradient means increasing X6 reduces Y2. Combined with X6's positive effect on Y1, moderate X6 (0.2-0.4) at high X2 could Pareto-dominate the X6=0.1 template. Y4 still penalized by X6 but the Y1+Y2 gains may compensate. The dY2/dX6 sign flip happens around X2\u22480.80-0.85. Below X2=0.80, X6=0.1 remains optimal.",
+    "reasoning": "Exploit: test X6=0.25 at X2=0.95 to find optimal X6 at near-max X2. From pt55 (X2=0.95, X6=0.1): Y1=0.884, Y2=0.341. If the Y2 reversal holds here too, Y2 could drop to ~0.32 while Y1 gets a slight boost from X6. This would be a new best point on the high-Y1 Pareto frontier.",
+    "reconciliation": "Point 58 (X2=1.0 duplicate of pt36): Y1=0.9477, exact match \u2014 confirms reproducibility. Point 59 (X5=0.55): Y1=0.9465 vs pt58's 0.9477 \u2014 only 0.0012 difference, confirming sigmoid fully saturated by X5=0.55 even at max X2*X4. Point 60 (X6=0.30): Y1=0.786 vs predicted 0.72 \u2014 a significant +0.066 surprise! X6=0.30 at X2=0.85 yielded Y1 higher than expected, while Y2=0.290 was actually BETTER than pt50 (X2=0.82, X6=0.1, Y2=0.289). This means X6=0.30 is nearly Y2-neutral at high X2 while boosting Y1 substantially.",
+    "falsification": "If Y2>0.34 (same as pt55), the X6 reversal doesn't extend to X2=0.95 and is localized to X2=1.0. If Y4<0.28, the Y4 penalty from X6=0.25 outweighs any Y2 gain.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 58 (X2=1.0 duplicate of p",
+    "prediction_error": [
+      -0.027660215229614815,
+      0.005872744635955662,
+      -0.002696770283921568,
+      -0.0015011409991295688
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.95,
+      1.0,
+      1.0,
+      0.67,
+      0.25
+    ]
+  },
+  {
+    "step": 50,
+    "hypothesis": "UPDATED MODEL: At high X2 (>0.85), X6 has a REVERSED effect on Y2 \u2014 negative gradient means increasing X6 reduces Y2. Combined with X6's positive effect on Y1, moderate X6 (0.2-0.4) at high X2 could Pareto-dominate the X6=0.1 template. Y4 still penalized by X6 but the Y1+Y2 gains may compensate. The dY2/dX6 sign flip happens around X2\u22480.80-0.85. Below X2=0.80, X6=0.1 remains optimal.",
+    "reasoning": "Explore: test whether X6 reversal extends down to X2=0.70. At pt56 (X2=0.70, X6=0.1): Y1=0.585, Y2=0.244. The gradient at this point shows dY2/dX6=0.004 (near zero, slightly positive). So at X2=0.70, increasing X6 should barely affect Y2 but should boost Y1. If Y2 stays at ~0.244 while Y1 rises to ~0.62, this creates a new Pareto point.",
+    "reconciliation": "Point 58 (X2=1.0 duplicate of pt36): Y1=0.9477, exact match \u2014 confirms reproducibility. Point 59 (X5=0.55): Y1=0.9465 vs pt58's 0.9477 \u2014 only 0.0012 difference, confirming sigmoid fully saturated by X5=0.55 even at max X2*X4. Point 60 (X6=0.30): Y1=0.786 vs predicted 0.72 \u2014 a significant +0.066 surprise! X6=0.30 at X2=0.85 yielded Y1 higher than expected, while Y2=0.290 was actually BETTER than pt50 (X2=0.82, X6=0.1, Y2=0.289). This means X6=0.30 is nearly Y2-neutral at high X2 while boosting Y1 substantially.",
+    "falsification": "If Y2>0.26, X6 still hurts Y2 at X2=0.70 and the reversal only occurs above X2\u22480.85. If Y1<0.60, the X6 boost to Y1 is weaker than expected at moderate X2.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 58 (X2=1.0 duplicate of p",
+    "prediction_error": [
+      0.005855641829231151,
+      0.005786334956975947,
+      -0.002696770283921568,
+      0.001924996632460707
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.7,
+      1.0,
+      1.0,
+      0.67,
+      0.3
+    ]
+  },
+  {
+    "step": 51,
+    "hypothesis": "FINAL UPDATED MODEL: Two optimal X6 regimes. For X2\u22650.85: X6\u22480.25-0.35 is optimal (reduces Y2, slightly boosts Y1, costs some Y4). For X2<0.80: X6=0.10 remains optimal (dY2/dX6 near zero or positive). The dY2/dX6 sign flips because at high X2*X4, the X6 interaction term reverses. Optimal template becomes: [1.0, X2, 1.0, 1.0, 0.67, X6(X2)] where X6=0.1 for X2<0.8, X6=0.25-0.35 for X2>0.85.",
+    "reasoning": "Exploit: push the X6 frontier further at X2=1.0 to find optimal X6. We have X6=0.1\u2192Y2=0.362, X6=0.3\u2192Y2=0.338. Gradient dY2/dX6=\u22120.094 suggests Y2 continues dropping. At X6=0.5: Y2\u22480.338\u22120.094*0.2=0.319. Y1\u22480.957+0.115*0.2=0.980. This could achieve the ultimate Y1 maximum AND lower Y2 simultaneously. Y4 penalty: ~0.28.",
+    "reconciliation": "Point 61 (X2=1.0, X6=0.30): Y1=0.957 vs predicted 1.00 \u2014 overestimated by 4.3%, but crucially Y2=0.338 which IS lower than pt58's Y2=0.362. The X6 Y2-reversal is CONFIRMED: increasing X6 from 0.1\u21920.3 at X2=1.0 reduced Y2 by 0.024 while boosting Y1 by 0.009. Point 62 (X2=0.95, X6=0.25): Y1=0.892 vs pt55(X6=0.1) Y1=0.884, Y2=0.326 vs 0.341. Both improved! X6=0.25 Pareto-dominates X6=0.10 at X2=0.95. Point 63 (X2=0.70, X6=0.30): Y1=0.626 vs pt56(X6=0.1) Y1=0.585 (+0.041), Y2=0.246 vs 0.244 (+0.002 \u2014 nearly neutral). Y4=0.242 vs 0.263 (\u22120.021 penalty). Mixed results \u2014 Y1 gains but Y4 worsens.",
+    "falsification": "If Y2>0.34 (no further Y2 improvement beyond X6=0.3), the Y2 reversal saturates quickly. If Y1<0.95, the X6 Y1 boost is negligible at these levels.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 61 (X2=1.0, X6=0.30): Y1=",
+    "prediction_error": [
+      0.029789606530824297,
+      0.012856805879776056,
+      -0.002696770283921568,
+      0.004886042029962456
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.67,
+      0.5
+    ]
+  },
+  {
+    "step": 52,
+    "hypothesis": "FINAL UPDATED MODEL: Two optimal X6 regimes. For X2\u22650.85: X6\u22480.25-0.35 is optimal (reduces Y2, slightly boosts Y1, costs some Y4). For X2<0.80: X6=0.10 remains optimal (dY2/dX6 near zero or positive). The dY2/dX6 sign flips because at high X2*X4, the X6 interaction term reverses. Optimal template becomes: [1.0, X2, 1.0, 1.0, 0.67, X6(X2)] where X6=0.1 for X2<0.8, X6=0.25-0.35 for X2>0.85.",
+    "reasoning": "Exploit: optimize the X2=0.90 Pareto point with elevated X6. From pt45(X6=0.1): Y1=0.822, Y2=0.321. Gradient at pt62 suggests dY2/dX6\u2248\u22120.085 at X2=0.95. At X2=0.90 with X6=0.40: Y2\u22480.321\u22120.085*0.3=0.296, Y1\u22480.822+0.109*0.3=0.855. This maps the optimal X6 at this X2 level and should produce an excellent mid-high Pareto point.",
+    "reconciliation": "Point 61 (X2=1.0, X6=0.30): Y1=0.957 vs predicted 1.00 \u2014 overestimated by 4.3%, but crucially Y2=0.338 which IS lower than pt58's Y2=0.362. The X6 Y2-reversal is CONFIRMED: increasing X6 from 0.1\u21920.3 at X2=1.0 reduced Y2 by 0.024 while boosting Y1 by 0.009. Point 62 (X2=0.95, X6=0.25): Y1=0.892 vs pt55(X6=0.1) Y1=0.884, Y2=0.326 vs 0.341. Both improved! X6=0.25 Pareto-dominates X6=0.10 at X2=0.95. Point 63 (X2=0.70, X6=0.30): Y1=0.626 vs pt56(X6=0.1) Y1=0.585 (+0.041), Y2=0.246 vs 0.244 (+0.002 \u2014 nearly neutral). Y4=0.242 vs 0.263 (\u22120.021 penalty). Mixed results \u2014 Y1 gains but Y4 worsens.",
+    "falsification": "If Y2>0.32, the reversal is weaker at X2=0.90 than at X2=0.95-1.0, and the sign flip threshold is above X2=0.90. If Y4<0.25, the Y4 penalty from X6=0.40 is prohibitive.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 61 (X2=1.0, X6=0.30): Y1=",
+    "prediction_error": [
+      -0.009792065711158315,
+      0.0008977390009671793,
+      -0.002696770283921568,
+      0.0056061748681170975
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.9,
+      1.0,
+      1.0,
+      0.67,
+      0.4
+    ]
+  },
+  {
+    "step": 53,
+    "hypothesis": "FINAL UPDATED MODEL: Two optimal X6 regimes. For X2\u22650.85: X6\u22480.25-0.35 is optimal (reduces Y2, slightly boosts Y1, costs some Y4). For X2<0.80: X6=0.10 remains optimal (dY2/dX6 near zero or positive). The dY2/dX6 sign flips because at high X2*X4, the X6 interaction term reverses. Optimal template becomes: [1.0, X2, 1.0, 1.0, 0.67, X6(X2)] where X6=0.1 for X2<0.8, X6=0.25-0.35 for X2>0.85.",
+    "reasoning": "Explore: test where the X6 reversal boundary lies. At X2=0.82, gradient at pt50 showed dY2/dX6\u2248\u22120.054 (negative but weaker). With X6=0.40 (delta 0.30 from 0.10): Y2\u22480.289\u22120.054*0.3=0.273. If this works, the X6 reversal extends down to X2=0.82, expanding the improved Pareto front considerably.",
+    "reconciliation": "Point 61 (X2=1.0, X6=0.30): Y1=0.957 vs predicted 1.00 \u2014 overestimated by 4.3%, but crucially Y2=0.338 which IS lower than pt58's Y2=0.362. The X6 Y2-reversal is CONFIRMED: increasing X6 from 0.1\u21920.3 at X2=1.0 reduced Y2 by 0.024 while boosting Y1 by 0.009. Point 62 (X2=0.95, X6=0.25): Y1=0.892 vs pt55(X6=0.1) Y1=0.884, Y2=0.326 vs 0.341. Both improved! X6=0.25 Pareto-dominates X6=0.10 at X2=0.95. Point 63 (X2=0.70, X6=0.30): Y1=0.626 vs pt56(X6=0.1) Y1=0.585 (+0.041), Y2=0.246 vs 0.244 (+0.002 \u2014 nearly neutral). Y4=0.242 vs 0.263 (\u22120.021 penalty). Mixed results \u2014 Y1 gains but Y4 worsens.",
+    "falsification": "If Y2>0.29 (same or worse than pt50's Y2=0.289 at X6=0.1), the X6 reversal does NOT extend to X2=0.82 and the boundary is between 0.82 and 0.85. If Y1<0.75, X6=0.40 hurts Y1 at moderate X2.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 61 (X2=1.0, X6=0.30): Y1=",
+    "prediction_error": [
+      -0.015080422333210053,
+      -0.0012907045376816528,
+      -0.002696770283921568,
+      0.009749603891954894
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.82,
+      1.0,
+      1.0,
+      0.67,
+      0.4
+    ]
+  },
+  {
+    "step": 54,
+    "hypothesis": "FINAL MODEL WITH X6 REVERSAL: At high X2*X4, X6 has dual beneficial effects: boosts Y1 AND reduces Y2. The optimal X6 increases with X2: at X2=1.0, X6\u22480.5-0.7; at X2=0.90, X6\u22480.4-0.5; at X2=0.82, X6\u22480.3-0.4. Below X2=0.75, X6=0.1 likely optimal. Y4 penalty from X6 is ~0.09 per 0.1 X6 increase. Two Pareto frontiers exist: one maximizing Y1+Y2 (higher X6), one maximizing Y4 (X6=0.1).",
+    "reasoning": "Exploit: push X6 even higher at X2=1.0 to find optimal. From X6=0.1\u21920.3\u21920.5: Y1=[0.948,0.957,0.990], Y2=[0.362,0.338,0.323]. The Y2 trend suggests further improvement. Gradient dY2/dX6=\u22120.061 at pt64 implies Y2\u22480.323\u22120.061*0.2=0.311. Y1\u22480.990+0.210*0.2=1.032 (may cap). This could achieve Y1\u22481.0+ AND Y2\u22480.31 simultaneously.",
+    "reconciliation": "Point 64 (X2=1.0, X6=0.50): Y1=0.990 \u2014 new absolute Y1 maximum! Y2=0.323 \u2014 even lower than X6=0.30. The X6 reversal continues strongly. Point 65 (X2=0.90, X6=0.40): Y1=0.860, Y2=0.301 \u2014 both better than pt45 (X6=0.1, Y1=0.822, Y2=0.321). Pareto dominance confirmed at X2=0.90. Point 66 (X2=0.82, X6=0.40): Y1=0.775, Y2=0.279 \u2014 both better than pt50 (X6=0.1, Y1=0.724, Y2=0.289). The X6 reversal extends down to X2=0.82!",
+    "falsification": "If Y2>0.32 (no further improvement), X6=0.5 is already near-optimal. If Y1<0.98, X6 effect on Y1 saturates or reverses above 0.5.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 64 (X2=1.0, X6=0.50): Y1=",
+    "prediction_error": [
+      0.02867645749995762,
+      0.0027307146838208007,
+      -0.002696770283921568,
+      -0.0005694946131401535
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.67,
+      0.7
+    ]
+  },
+  {
+    "step": 55,
+    "hypothesis": "FINAL MODEL WITH X6 REVERSAL: At high X2*X4, X6 has dual beneficial effects: boosts Y1 AND reduces Y2. The optimal X6 increases with X2: at X2=1.0, X6\u22480.5-0.7; at X2=0.90, X6\u22480.4-0.5; at X2=0.82, X6\u22480.3-0.4. Below X2=0.75, X6=0.1 likely optimal. Y4 penalty from X6 is ~0.09 per 0.1 X6 increase. Two Pareto frontiers exist: one maximizing Y1+Y2 (higher X6), one maximizing Y4 (X6=0.1).",
+    "reasoning": "Exploit: optimize the X2=0.95 point with elevated X6. From pt62 (X6=0.25): Y1=0.892, Y2=0.326. Extrapolating with gradient dY2/dX6\u2248\u22120.085: Y2\u22480.326\u22120.085*0.15=0.313. Y1\u22480.892+0.109*0.15=0.908. This fills a gap in the improved Pareto front between pts 64-65 and should provide a strong intermediate point.",
+    "reconciliation": "Point 64 (X2=1.0, X6=0.50): Y1=0.990 \u2014 new absolute Y1 maximum! Y2=0.323 \u2014 even lower than X6=0.30. The X6 reversal continues strongly. Point 65 (X2=0.90, X6=0.40): Y1=0.860, Y2=0.301 \u2014 both better than pt45 (X6=0.1, Y1=0.822, Y2=0.321). Pareto dominance confirmed at X2=0.90. Point 66 (X2=0.82, X6=0.40): Y1=0.775, Y2=0.279 \u2014 both better than pt50 (X6=0.1, Y1=0.724, Y2=0.289). The X6 reversal extends down to X2=0.82!",
+    "falsification": "If Y2>0.33, the X6 benefit weakens between X2=0.90 and X2=1.0 at this X6 level.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 64 (X2=1.0, X6=0.50): Y1=",
+    "prediction_error": [
+      -0.01502720719048467,
+      0.005145252018164681,
+      -0.002696770283921568,
+      0.004729273370469744
+    ],
+    "directional_accuracy": [
+      true,
+      false,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.95,
+      1.0,
+      1.0,
+      0.67,
+      0.4
+    ]
+  },
+  {
+    "step": 56,
+    "hypothesis": "FINAL MODEL WITH X6 REVERSAL: At high X2*X4, X6 has dual beneficial effects: boosts Y1 AND reduces Y2. The optimal X6 increases with X2: at X2=1.0, X6\u22480.5-0.7; at X2=0.90, X6\u22480.4-0.5; at X2=0.82, X6\u22480.3-0.4. Below X2=0.75, X6=0.1 likely optimal. Y4 penalty from X6 is ~0.09 per 0.1 X6 increase. Two Pareto frontiers exist: one maximizing Y1+Y2 (higher X6), one maximizing Y4 (X6=0.1).",
+    "reasoning": "Explore: test whether X6 reversal extends to X2=0.75. At pt42 (X2=0.75, X6=0.1): Y1=0.642, Y2=0.263. Gradient at pt63 (X2=0.70) shows dY2/dX6=0.010 (barely positive). At X2=0.75, the sign may have just flipped negative. If Y2<0.263, the reversal extends this far and the improved template covers X2\u22650.75.",
+    "reconciliation": "Point 64 (X2=1.0, X6=0.50): Y1=0.990 \u2014 new absolute Y1 maximum! Y2=0.323 \u2014 even lower than X6=0.30. The X6 reversal continues strongly. Point 65 (X2=0.90, X6=0.40): Y1=0.860, Y2=0.301 \u2014 both better than pt45 (X6=0.1, Y1=0.822, Y2=0.321). Pareto dominance confirmed at X2=0.90. Point 66 (X2=0.82, X6=0.40): Y1=0.775, Y2=0.279 \u2014 both better than pt50 (X6=0.1, Y1=0.724, Y2=0.289). The X6 reversal extends down to X2=0.82!",
+    "falsification": "If Y2>0.265 (worse than X6=0.1 at X2=0.75), the reversal boundary is above X2=0.75, confirming it starts between 0.75 and 0.82.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 64 (X2=1.0, X6=0.50): Y1=",
+    "prediction_error": [
+      -0.0001342735557642305,
+      6.945722310147673e-05,
+      -0.002696770283921568,
+      0.009019679949804016
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.75,
+      1.0,
+      1.0,
+      0.67,
+      0.35
+    ]
+  },
+  {
+    "step": 57,
+    "hypothesis": "ULTIMATE MODEL: At X2=1.0 with X4=1.0, X6\u22480.7-0.9 appears optimal for Y1+Y2 maximization. Y1 increases ~0.15 per 0.1 X6 above baseline (diminishing). Y2 decreases ~0.08 per 0.1 X6 (also diminishing). Y4 penalty ~0.09 per 0.1 X6. The X6 effect depends strongly on X2*X4 level. At lower X2, the reversal weakens. Best overall: pt67 for Y1+Y2, pt36/58 for Y4.",
+    "reasoning": "Exploit: push X6 to near-maximum at X2=1.0. From the trend X6=[0.1,0.3,0.5,0.7]\u2192Y1=[0.948,0.957,0.990,1.039], Y2=[0.362,0.338,0.323,0.313]. Extrapolating: Y1\u22481.07, Y2\u22480.305. Could achieve unprecedented Y1>1.05 with Y2 potentially breaking below 0.31. This is the ultimate Y1 maximization point.",
+    "reconciliation": "Point 67 (X2=1.0, X6=0.70): Y1=1.039 \u2014 new ALL-TIME HIGH! Y2=0.313 \u2014 also best Y2 at X2=1.0! The X6 reversal continues even stronger at X6=0.70. Point 68 (X2=0.95, X6=0.40): Y1=0.915, Y2=0.315 \u2014 solid Pareto point dominating pt55. Point 69 (X2=0.75, X6=0.35): Y1=0.690, Y2=0.260 \u2014 essentially matched prediction perfectly. Y2=0.260 vs pt42 (X6=0.1, Y2=0.263) \u2014 marginal Y2 improvement confirms the reversal boundary is right around X2\u22480.75.",
+    "falsification": "If Y1<1.04 (saturating), the X6-Y1 benefit is fading. If Y2>0.315 (increasing), the Y2 reversal has peaked and is now reversing back.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 67 (X2=1.0, X6=0.70): Y1=",
+    "prediction_error": [
+      0.02830903099350257,
+      -0.004143506287139054,
+      -0.002696770283921568,
+      0.005565648355828567
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.67,
+      0.9
+    ]
+  },
+  {
+    "step": 58,
+    "hypothesis": "ULTIMATE MODEL: At X2=1.0 with X4=1.0, X6\u22480.7-0.9 appears optimal for Y1+Y2 maximization. Y1 increases ~0.15 per 0.1 X6 above baseline (diminishing). Y2 decreases ~0.08 per 0.1 X6 (also diminishing). Y4 penalty ~0.09 per 0.1 X6. The X6 effect depends strongly on X2*X4 level. At lower X2, the reversal weakens. Best overall: pt67 for Y1+Y2, pt36/58 for Y4.",
+    "reasoning": "Exploit: optimize X2=0.90 with higher X6. We have X6=0.10\u2192(0.822,0.321) and X6=0.40\u2192(0.860,0.301). Extrapolating to X6=0.55: Y1\u22480.89, Y2\u22480.29. This should create one of the strongest mid-high Pareto points, approaching Y1=0.9 with Y2 below 0.30 for the first time at this Y1 level.",
+    "reconciliation": "Point 67 (X2=1.0, X6=0.70): Y1=1.039 \u2014 new ALL-TIME HIGH! Y2=0.313 \u2014 also best Y2 at X2=1.0! The X6 reversal continues even stronger at X6=0.70. Point 68 (X2=0.95, X6=0.40): Y1=0.915, Y2=0.315 \u2014 solid Pareto point dominating pt55. Point 69 (X2=0.75, X6=0.35): Y1=0.690, Y2=0.260 \u2014 essentially matched prediction perfectly. Y2=0.260 vs pt42 (X6=0.1, Y2=0.263) \u2014 marginal Y2 improvement confirms the reversal boundary is right around X2\u22480.75.",
+    "falsification": "If Y2>0.30, the reversal saturates at X2=0.90 before X6=0.55. If Y1<0.86, the X6 boost to Y1 weakens faster at X2=0.90 than at X2=1.0.",
+    "explore_or_exploit": "exploit",
+    "biggest_surprise": "{\"reconciliation\":\"Point 67 (X2=1.0, X6=0.70): Y1=",
+    "prediction_error": [
+      0.005709041721373098,
+      0.005223703986748429,
+      -0.002696770283921568,
+      0.0029618160603850363
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.9,
+      1.0,
+      1.0,
+      0.67,
+      0.55
+    ]
+  },
+  {
+    "step": 59,
+    "hypothesis": "ULTIMATE MODEL: At X2=1.0 with X4=1.0, X6\u22480.7-0.9 appears optimal for Y1+Y2 maximization. Y1 increases ~0.15 per 0.1 X6 above baseline (diminishing). Y2 decreases ~0.08 per 0.1 X6 (also diminishing). Y4 penalty ~0.09 per 0.1 X6. The X6 effect depends strongly on X2*X4 level. At lower X2, the reversal weakens. Best overall: pt67 for Y1+Y2, pt36/58 for Y4.",
+    "reasoning": "Explore: test whether high X6 works at X2=0.82. We have X6=0.40\u2192(0.775,0.279). Pushing to X6=0.55: gradient dY2/dX6\u2248-0.022 suggests Y2\u22480.279-0.022*0.15=0.276. Y1\u22480.775+0.240*0.15=0.811. Tests whether the diminishing Y2 reversal at lower X2 still provides gains.",
+    "reconciliation": "Point 67 (X2=1.0, X6=0.70): Y1=1.039 \u2014 new ALL-TIME HIGH! Y2=0.313 \u2014 also best Y2 at X2=1.0! The X6 reversal continues even stronger at X6=0.70. Point 68 (X2=0.95, X6=0.40): Y1=0.915, Y2=0.315 \u2014 solid Pareto point dominating pt55. Point 69 (X2=0.75, X6=0.35): Y1=0.690, Y2=0.260 \u2014 essentially matched prediction perfectly. Y2=0.260 vs pt42 (X6=0.1, Y2=0.263) \u2014 marginal Y2 improvement confirms the reversal boundary is right around X2\u22480.75.",
+    "falsification": "If Y2>0.28 (worse than X6=0.40), the reversal saturates quickly at X2=0.82. If Y1<0.78, the X6 boost is negligible at this X2 level.",
+    "explore_or_exploit": "explore",
+    "biggest_surprise": "{\"reconciliation\":\"Point 67 (X2=1.0, X6=0.70): Y1=",
+    "prediction_error": [
+      0.004692284369257171,
+      0.006167587313291034,
+      -0.002696770283921568,
+      0.007031853739344396
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      1.0,
+      0.82,
+      1.0,
+      1.0,
+      0.67,
+      0.55
+    ]
+  }
+]
