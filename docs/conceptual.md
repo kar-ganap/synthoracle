@@ -48,31 +48,40 @@ The NEGF convergence study (2026-03-19) revealed that clean FoM extraction from 
 Inputs: X1..X6 ∈ [0.1, 1.0]
 
 Mechanisms:
-  M1 = X2^1.37 × X4^0.82 × (1 - exp(-3.14 × X1))     [throughput]
-  M2 = 0.47 × exp(-2.83 × X3 × √X1)                    [leakage]
-  Z  = X4 / (X4 + 0.31 × X6)                            [hidden coupling]
-  M4 = 1 + 0.73 × X6 × σ(5.2 × (X5 - 0.38))           [efficiency, hidden threshold]
+  M1 = X2^1.37 × X4^0.82 × (1 - exp(-5.0 × X1))      [throughput]
+  M2 = 0.55 × exp(-1.8 × X3 × √X1)                     [leakage]
+  Z  = X4 / (X4 + 1.0 × X6)                             [hidden coupling, centered at 0.5]
+  gate = σ(25.0 × (X5 - 0.38))                           [sharp threshold activation]
 
   M1_eff = M1 × Z
   M2_eff = M2 × (1 - 0.6 × Z)
+  M4_mult = 1 + 0.4 × X6 × gate                         [multiplicative threshold]
+  M4_add  = 0.5 × X6 × gate                              [additive threshold]
 
 Outputs:
-  Y1 = M1_eff × M4 - M2_eff                   [performance, maximize]
-  Y2 = 0.85 × M2_eff + 0.23 × M1_eff / M4    [cost, minimize]
+  Y1 = M1_eff × M4_mult + M4_add - M2_eff    [performance, maximize]
+  Y2 = 0.85 × M2_eff + 0.35 × M1_eff / M4_mult + 0.25 × (1 - Z)  [cost, minimize]
   Y3 = σ(8.1 × (X1 - 0.27)) × X3^0.5         [reliability, threshold Y3 > 0.4]
-  Y4 = M1_eff / (1 + 0.45 × M1_eff)           [speed, maximize, saturates]
+  Y4 = M1_eff / (1 + 2.0 × M1_eff)            [speed, maximize, saturates]
 ```
 
-**Causal DAG edges (ground truth):**
+Parameters were tuned via variance decomposition and conditional effect size analysis
+(experiments/characterization/) to ensure all 6 discoveries are detectable from 50-100
+samples. Key changes from initial spec: sharper M1 activation (k=5.0), centered Z
+coupling (c=1.0), sharp M4 threshold (steepness=25), M4 split into multiplicative +
+additive (enables X6 direction flip), direct Z penalty in Y2 (breaks cancellation),
+stronger Y4 saturation (coeff=2.0).
 
-| Edge | Type | Discovery difficulty |
-|---|---|---|
-| X2 → M1 → Y1,Y2,Y4 | Direct, strong | Easy |
-| X1 → M1, M2 (regime) | Regime-dependent | Medium |
-| X3 → M2 → Y1,Y2 | Regime-dependent | Medium |
-| X4 → Z → M1_eff, M2_eff | Hidden coupling | Hard |
-| X6 → Z AND M4 | Dual pathway | Hard |
-| X5 → M4 (threshold at 0.38) | Hidden activation | Hard |
+**Causal DAG edges (ground truth, 26 edges):**
+
+| Edge group | Type | Discovery difficulty | Effect size |
+|---|---|---|---|
+| X2 → M1 → Y1,Y2,Y4 | Direct, strong | Easy | ~29% of Y1 range |
+| X1 → M1, M2 (regime) | Regime-dependent | Medium | ~16% of Y1 range |
+| X3 → M2 → Y1,Y2 | Regime-dependent | Medium | ~15% of Y1 range |
+| X4 → Z → M1_eff, M2_eff, Y2 | Hidden coupling | Hard | ~21-27% of Y2 range |
+| X6 → Z AND M4_mult, M4_add | Dual pathway (direction flips) | Hard | ~14-23% of Y1 range |
+| X5 → M4_mult, M4_add (threshold) | Hidden activation at 0.38 | Hard | ~22-28% of Y1 (in favorable regime) |
 
 **Transfer variants:**
 - 1B: M2 changes from `exp(-a × X3 × √X1)` to `exp(-a × X3 / X1)` — regime boundary shifts
