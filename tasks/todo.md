@@ -26,12 +26,17 @@
 - [x] Run characterization on all oracles, generate plots + Pareto fronts
 - [x] 87 tests pass, lint/typecheck clean, retro written
 
-## Phase 1.2: BO Baseline
+## Phase 1.2: BO Baseline (COMPLETE)
 
-- [ ] Fix torch/botorch dependency for M-series Mac
-- [ ] BOResult dataclass + run_bo() with qNEHVI
-- [ ] Threshold constraint handling for medium oracle
-- [ ] Hypervolume tracking at each evaluation step
-- [ ] Tests (fast + slow)
-- [ ] Experiment script on all 4 oracles
-- [ ] make test && make lint && make typecheck — all green
+- [x] BoTorch qLogNEHVI with mixed objectives + threshold constraints
+- [x] HV convergence on all 4 oracles: Simple 1.29, 1A 0.28, 1B 0.26, 1C 0.55
+- [x] 23 tests (16 fast + 7 slow), lint/typecheck clean
+
+## Phase 2.0: VR Agent Core
+
+- [x] Shared numpy-only optim_utils (HV, Pareto, directions — no torch dep)
+- [x] VR agent: hypothesize→predict→reconcile loop with structured LLM output
+- [x] Prompt construction, JSON parsing, directional accuracy tracking
+- [x] Tests with mocked Anthropic client (148 total, no API calls)
+- [x] Manual integration test: HV 0.24 (vs BO 0.28), dir accuracy 55%, $1.46/run
+- [x] 148 tests pass, lint/typecheck clean, retro written
