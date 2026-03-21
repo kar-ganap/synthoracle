@@ -46,3 +46,12 @@
 - [x] Column permutation: shuffle Y rows relative to X in agent's observation table
 - [x] Go/no-go gate PASSED: Real HV 0.22 vs Permuted 0.13 — agent uses feedback
 - [x] 150 tests pass, lint/typecheck clean
+
+## Phase 2.1: Evaluation Harness
+
+- [x] eval/metrics.py — ComparisonMetrics, compute_comparison(), print_summary()
+- [x] eval/runner.py — run_experiment() with shared reference point
+- [x] eval/plot.py — HV convergence + final HV boxplot
+- [x] 160 tests pass, lint/typecheck clean
+- [ ] Run BO vs VR comparison on Medium 1A (10 seeds)
+- [ ] Review results and write retro
