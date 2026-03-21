@@ -26,8 +26,8 @@ After each block: review synthesis for coherence and gaps.
 
 | # | Paper | Key question for us | Status |
 |---|-------|-------------------|--------|
-| 01 | Cisse et al., "BORA" (IJCAI, 2025) | Closest prior art — hypothesis-driven BO. How do their hypotheses differ from our verbal regularization? | |
-| 02 | "LLMs for BO in Scientific Domains: Are We There Yet?" (2025) | LLMs show no feedback sensitivity. Does verbal regularization fix this? | |
+| 01 | Cisse et al., "BORA" (IJCAI, 2025) | Closest prior art — hypothesis-driven BO. How do their hypotheses differ from our verbal regularization? | Reviewed 2026-03-20. Less threatening than expected — hypotheses are correlational, no predictions, no causal reasoning. Clean differentiation. |
+| 02 | "LLMs for BO in Scientific Domains: Are We There Yet?" (2025) | LLMs show no feedback sensitivity. Does verbal regularization fix this? | Reviewed 2026-03-20. Core empirical threat. Permuted-feedback ablation now mandatory go/no-go gate. Setting differs (discrete vs continuous, no predictions). |
 
 ### Block B: Competitive Landscape (review before or during implementation)
 
