@@ -23,6 +23,9 @@ bo = [
     "torch>=2.2,<2.3",
     "matplotlib>=3.7",
 ]
+vr = [
+    "anthropic>=0.40",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -37,6 +40,7 @@ select = ["E", "F", "I", "W"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/test_bo_baseline.py" = ["E402", "I001"]
+"tests/test_vr_agent.py" = ["E402", "I001"]
 
 [tool.mypy]
 python_version = "3.10"
@@ -46,4 +50,8 @@ warn_unused_configs = true
 
 [[tool.mypy.overrides]]
 module = ["botorch.*", "gpytorch.*", "torch.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["anthropic.*", "pydantic.*"]
 ignore_missing_imports = true

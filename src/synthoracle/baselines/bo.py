@@ -25,6 +25,12 @@ from botorch.utils.multi_objective.hypervolume import Hypervolume
 from botorch.utils.multi_objective.pareto import is_non_dominated
 from gpytorch.mlls.sum_marginal_log_likelihood import SumMarginalLogLikelihood
 
+from synthoracle.optim_utils import (
+    compute_reference_point as _compute_reference_point_np,
+)
+from synthoracle.optim_utils import (
+    parse_directions as _parse_directions_np,
+)
 from synthoracle.oracle import Oracle
 
 
@@ -61,27 +67,9 @@ def _parse_directions(
 ) -> tuple[list[int], list[int], npt.NDArray[np.float64]]:
     """Extract objective and constraint indices from oracle directions.
 
-    Returns
-    -------
-    obj_indices : list of int
-        Indices of maximize/minimize outputs (the true objectives).
-    constraint_indices : list of int
-        Indices of threshold outputs.
-    signs : ndarray of shape (n_obj,)
-        +1 for maximize, -1 for minimize (to convert to all-maximize).
+    Delegates to synthoracle.optim_utils.parse_directions.
     """
-    directions = oracle.output_directions
-    obj_indices: list[int] = []
-    constraint_indices: list[int] = []
-    signs_list: list[float] = []
-    for i, d in enumerate(directions):
-        if d == "threshold":
-            constraint_indices.append(i)
-        else:
-            obj_indices.append(i)
-            signs_list.append(1.0 if d == "maximize" else -1.0)
-    signs = np.array(signs_list, dtype=np.float64)
-    return obj_indices, constraint_indices, signs
+    return _parse_directions_np(oracle)
 
 
 def _compute_reference_point(
@@ -93,19 +81,9 @@ def _compute_reference_point(
 ) -> npt.NDArray[np.float64]:
     """Compute reference point from random oracle samples.
 
-    Samples the oracle, transforms to all-maximize space, and returns
-    worst_per_objective - 0.1 * range.
+    Delegates to synthoracle.optim_utils.compute_reference_point.
     """
-    rng = np.random.default_rng(seed + 1000)
-    lo = oracle.bounds[:, 0]
-    hi = oracle.bounds[:, 1]
-    X = rng.uniform(lo, hi, size=(n_samples, oracle.n_inputs))
-    Y = oracle.evaluate_batch(X)
-    Y_obj = Y[:, obj_indices] * signs
-    worst = Y_obj.min(axis=0)
-    ranges = Y_obj.max(axis=0) - Y_obj.min(axis=0)
-    ref: npt.NDArray[np.float64] = worst - 0.1 * ranges
-    return ref
+    return _compute_reference_point_np(oracle, obj_indices, signs, seed, n_samples)
 
 
 def _generate_initial_design(
