@@ -67,6 +67,9 @@ TOOL_USE_RUNS: dict[str, tuple[str, Path, Path]] = {
     # Phase B: Model sweep tool runs
     "Sonnet tool": ("1A", VR_RESULTS / "sweep_sonnet_tool_seed42_log.json", VR_RESULTS / "sweep_sonnet_tool_seed42.npz"),
     "Haiku tool": ("1A", VR_RESULTS / "sweep_haiku_tool_seed42_log.json", VR_RESULTS / "sweep_haiku_tool_seed42.npz"),
+    # Head-to-head (structured iteration summaries)
+    "Opus h2h": ("1A", VR_RESULTS / "opus_h2h_seed42_log.json", VR_RESULTS / "opus_h2h_seed42.npz"),
+    "Sonnet h2h": ("1A", VR_RESULTS / "sonnet_h2h_seed42_log.json", VR_RESULTS / "sonnet_h2h_seed42.npz"),
 }
 
 # Batch VR run (Phase 2.2): label -> (oracle_label, log_path, npz_path)
