@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 import anthropic
 import numpy as np
 import numpy.typing as npt
+from pydantic import BaseModel, Field
 
 from synthoracle.agents.vr import _compute_correlations, _compute_local_gradients, _determine_phase
 from synthoracle.optim_utils import (
@@ -23,6 +24,54 @@ from synthoracle.optim_utils import (
     parse_directions,
 )
 from synthoracle.oracle import Oracle
+
+# ---------------------------------------------------------------------------
+# Pydantic schemas
+# ---------------------------------------------------------------------------
+
+
+class _CalibrationResponse(BaseModel):
+    """Structured output for calibration checkpoint predictions."""
+
+    predicted_outputs: list[float]
+
+
+class _EdgeConfidence(BaseModel):
+    """A single causal edge with confidence score."""
+
+    edge: str = Field(
+        description="Causal edge in 'Xi->Yj' format (e.g. 'X2->Y1', 'X3->Y3'). "
+        "For interactions use 'Xi*Xj->Yk' (e.g. 'X2*X4->Y1').",
+    )
+    confidence: float = Field(
+        description="Confidence 0.0 (no evidence) to 1.0 (certain).",
+    )
+    evidence: str = Field(
+        description="Brief evidence (e.g. 'OAT range=0.33', 'interaction std=0.14').",
+    )
+
+
+class _IterationSummary(BaseModel):
+    """Structured end-of-iteration summary from the tool agent."""
+
+    hypothesis: str = Field(
+        description="Your current causal model of the system in natural language.",
+    )
+    new_findings: list[str] = Field(
+        description="What this iteration revealed — one string per finding.",
+    )
+    surprises: list[str] = Field(
+        description="Predictions that were wrong and what you learned from each.",
+    )
+    next_plan: str = Field(
+        description="What to investigate next and why.",
+    )
+    edges: list[_EdgeConfidence] = Field(
+        description="ALL causal edges you have evidence for, with confidence scores. "
+        "Include every Xi->Yj edge you tested, even weak ones (confidence < 0.3). "
+        "Omitting an edge means you believe it does not exist.",
+    )
+
 
 # ---------------------------------------------------------------------------
 # Tool definitions
@@ -740,8 +789,9 @@ def _build_tool_iteration_prompt(
 
     lines.append("## Task")
     lines.append(
-        "Use your tools to investigate the system. When done, state your "
-        "updated hypothesis and plan for the next iteration."
+        "Use your tools to investigate the system. Track which causal edges "
+        "(Xi->Yj) you have evidence for and how confident you are in each. "
+        "When done, you will be asked for a structured summary."
     )
     if phase == "SCREEN":
         lines.append(
@@ -784,6 +834,7 @@ class VRToolsResult:
     mechanism_log: list[str]
     tool_calls: list[dict[str, object]] = field(default_factory=list)
     calibration_checks: list[dict[str, object]] = field(default_factory=list)
+    iteration_summaries: list[dict[str, object]] = field(default_factory=list)
     total_llm_calls: int = 0
     total_input_tokens: int = 0
     total_output_tokens: int = 0
@@ -895,6 +946,7 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
     mechanism_log: list[str] = []
     tool_calls_log: list[dict[str, object]] = []
     calibration_checks: list[dict[str, object]] = []
+    iteration_summaries: list[dict[str, object]] = []
     total_llm_calls = 0
     total_input_tokens = 0
     total_output_tokens = 0
@@ -913,29 +965,34 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             and eval_count < n_budget
         ):
             cal_point = rng.uniform(lo, hi)
+            cal_point_str = [round(float(v), 4) for v in cal_point]
             cal_msg = (
-                "CALIBRATION CHECK: Before your next experiment, predict all "
-                f"outputs for this point: "
-                f"{[round(float(v), 4) for v in cal_point]}. "
-                'Respond with JSON: {"predicted_outputs": '
-                f"[{', '.join(oracle.output_names)}]}}"
+                "CALIBRATION CHECK: Predict all outputs for this point: "
+                f"{cal_point_str}."
             )
             conversation.append({"role": "user", "content": cal_msg})
 
             cal_kwargs: dict[str, object] = {
                 "model": model,
-                "max_tokens": 500,
+                "max_tokens": 1024,
                 "system": system_prompt,
                 "messages": list(conversation),
+                "output_format": _CalibrationResponse,
             }
             if thinking is not None:
                 cal_kwargs["thinking"] = thinking
-            cal_response = client.messages.create(**cal_kwargs)  # type: ignore[call-overload]
+                raw_budget = thinking.get("budget_tokens", 0)
+                budget_tokens = (
+                    int(raw_budget) if raw_budget is not None else 0
+                )
+                cal_kwargs["max_tokens"] = max(1024, budget_tokens + 1024)
+            cal_response = client.messages.parse(**cal_kwargs)  # type: ignore[arg-type]
             total_llm_calls += 1
             total_input_tokens += cal_response.usage.input_tokens
             total_output_tokens += cal_response.usage.output_tokens
 
-            # Extract predicted_outputs from response
+            # Extract prediction from structured output
+            cal_predicted = np.full(oracle.n_outputs, np.nan)
             cal_text = ""
             for block in cal_response.content:
                 if hasattr(block, "text") and getattr(block, "type", "") == "text":
@@ -943,17 +1000,10 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
                     break
             conversation.append({"role": "assistant", "content": cal_text})
 
-            # Parse JSON prediction
-            cal_predicted = np.full(oracle.n_outputs, np.nan)
-            try:
-                cal_json = json.loads(
-                    cal_text[cal_text.index("{"):cal_text.rindex("}") + 1]
-                )
-                raw_preds = cal_json.get("predicted_outputs", [])
-                if isinstance(raw_preds, list) and len(raw_preds) == oracle.n_outputs:
-                    cal_predicted = np.array(raw_preds, dtype=np.float64)
-            except (ValueError, json.JSONDecodeError):
-                pass  # prediction parse failed — still evaluate and log
+            if cal_response.parsed_output is not None:
+                preds = cal_response.parsed_output.predicted_outputs
+                if len(preds) == oracle.n_outputs:
+                    cal_predicted = np.array(preds, dtype=np.float64)
 
             # Evaluate
             cal_actual = oracle.evaluate(cal_point)
@@ -970,21 +1020,31 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             hypervolumes.append(hv)
 
             # Log
+            parse_ok = not np.any(np.isnan(cal_predicted))
             calibration_checks.append({
                 "eval": eval_count,
                 "point": cal_point.tolist(),
                 "predicted": cal_predicted.tolist(),
                 "actual": cal_actual.tolist(),
                 "errors": cal_errors.tolist(),
-                "max_error": float(np.nanmax(np.abs(cal_errors))),
-                "mae": float(np.nanmean(np.abs(cal_errors))),
+                "max_error": float(np.nanmax(np.abs(cal_errors)))
+                if parse_ok else float("nan"),
+                "mae": float(np.mean(np.abs(cal_errors)))
+                if parse_ok else float("nan"),
             })
-            print(
-                f"  [CALIBRATION @ eval {eval_count}] "
-                f"MAE={float(np.nanmean(np.abs(cal_errors))):.4f} "
-                f"max|err|={float(np.nanmax(np.abs(cal_errors))):.4f}",
-                flush=True,
-            )
+            if parse_ok:
+                print(
+                    f"  [CALIBRATION @ eval {eval_count}] "
+                    f"MAE={float(np.mean(np.abs(cal_errors))):.4f} "
+                    f"max|err|={float(np.max(np.abs(cal_errors))):.4f}",
+                    flush=True,
+                )
+            else:
+                print(
+                    f"  [CALIBRATION @ eval {eval_count}] "
+                    f"parse failed — raw: {cal_text[:100]}",
+                    flush=True,
+                )
 
             # Inform agent of result
             conversation.append({
@@ -1103,14 +1163,74 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
 
             conversation.append({"role": "user", "content": tool_results_content})
 
-        # Extract hypothesis from final text blocks
-        hypothesis = ""
-        if msg is not None:
-            for block in msg.content:
-                if getattr(block, "type", "") == "text":
-                    hypothesis = block.text
-                    break
-        mechanism_log.append(f"Iteration: {hypothesis}")
+        # Structured iteration summary via messages.parse()
+        conversation.append({
+            "role": "user",
+            "content": (
+                "Provide your iteration summary. For the edges field, list EVERY "
+                "causal edge you have evidence for with confidence and evidence string."
+            ),
+        })
+        summary_kwargs: dict[str, object] = {
+            "model": model,
+            "max_tokens": max_tokens,
+            "system": system_prompt,
+            "messages": list(conversation),
+            "output_format": _IterationSummary,
+        }
+        if thinking is not None:
+            summary_kwargs["thinking"] = thinking
+            raw_budget = thinking.get("budget_tokens", 0)
+            budget_tokens = (
+                int(raw_budget) if raw_budget is not None else 0  # type: ignore[call-overload]
+            )
+            summary_kwargs["max_tokens"] = max(
+                max_tokens, budget_tokens + 4096,
+            )
+        summary_msg = client.messages.parse(**summary_kwargs)  # type: ignore[arg-type]
+        total_llm_calls += 1
+        total_input_tokens += summary_msg.usage.input_tokens
+        total_output_tokens += summary_msg.usage.output_tokens
+
+        # Extract text for conversation continuity
+        summary_text = ""
+        for block in summary_msg.content:
+            if hasattr(block, "text") and getattr(block, "type", "") == "text":
+                summary_text = block.text
+                break
+        conversation.append({"role": "assistant", "content": summary_text})
+
+        # Store structured summary
+        summary = summary_msg.parsed_output
+        if summary is not None:
+            # Convert edges list to confidence dict for downstream analysis
+            confidence_dict = {
+                e.edge: e.confidence for e in summary.edges
+            }
+            iteration_summaries.append({
+                "iteration": len(iteration_summaries),
+                "eval_count": eval_count,
+                "hypothesis": summary.hypothesis,
+                "new_findings": summary.new_findings,
+                "surprises": summary.surprises,
+                "next_plan": summary.next_plan,
+                "confidence": confidence_dict,
+                "edges": [
+                    {"edge": e.edge, "confidence": e.confidence,
+                     "evidence": e.evidence}
+                    for e in summary.edges
+                ],
+            })
+            mechanism_log.append(summary.hypothesis)
+        else:
+            # Fallback: extract from tool-loop exit text
+            hypothesis = ""
+            if msg is not None:
+                for block in msg.content:
+                    if getattr(block, "type", "") == "text":
+                        hypothesis = block.text
+                        break
+            mechanism_log.append(f"Iteration: {hypothesis}")
 
         # Checkpoint
         if checkpoint_dir is not None:
@@ -1156,6 +1276,7 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
         mechanism_log=mechanism_log,
         tool_calls=tool_calls_log,
         calibration_checks=calibration_checks,
+        iteration_summaries=iteration_summaries,
         total_llm_calls=total_llm_calls,
         total_input_tokens=total_input_tokens,
         total_output_tokens=total_output_tokens,

@@ -1595,6 +1595,182 @@ def plot_surprise_trajectory() -> None:
 
 
 # ======================================================================
+# 8. Causal Model Convergence
+# ======================================================================
+
+CONFIDENCE_THRESHOLD = 0.5  # edges with confidence >= this are "claimed"
+
+
+def compute_causal_model_convergence() -> None:
+    """Track per-iteration edge precision/recall from structured iteration summaries.
+
+    For each tool-use run with iteration_summaries, extract the confidence dict,
+    threshold at CONFIDENCE_THRESHOLD, and score against ground truth IO edges.
+    """
+    print("\n" + "=" * 70)
+    print("  8. Causal Model Convergence")
+    print("=" * 70)
+
+    found_any = False
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        with open(log_path) as f:
+            log = json.load(f)
+
+        summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+        if not summaries:
+            continue
+
+        found_any = True
+        oracle = _get_oracle(label)
+        gt_io = oracle.ground_truth().project_to_io()
+        gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+
+        print(f"\n  --- {run_name} ({len(summaries)} iterations) ---")
+        print(f"  {'Iter':>5} {'Evals':>6} {'Claimed':>8} {'TP':>4} {'FP':>4} "
+              f"{'Prec':>6} {'Recall':>7} {'#Edges':>7}")
+        print(f"  {'-' * 55}")
+
+        for s in summaries:
+            confidence = s.get("confidence", {})
+            # Threshold to get claimed edges
+            claimed = set()
+            for edge_str, conf in confidence.items():
+                if not isinstance(conf, (int, float)):
+                    continue
+                if conf >= CONFIDENCE_THRESHOLD:
+                    # Parse "Xi->Yj" format
+                    parts = edge_str.replace(" ", "").split("->")
+                    if len(parts) == 2:
+                        claimed.add((parts[0], parts[1]))
+                    # Also handle "Xi*Xj->Yk" interaction format
+                    elif "*" in edge_str and "->" in edge_str:
+                        interaction_part, target = edge_str.split("->")
+                        for src in interaction_part.split("*"):
+                            claimed.add((src.strip(), target.strip()))
+
+            tp = len(gt_pairs & claimed)
+            fp = len(claimed - gt_pairs)
+            prec = tp / len(claimed) if claimed else 0.0
+            rec = tp / len(gt_pairs) if gt_pairs else 0.0
+
+            print(
+                f"  {s.get('iteration', '?'):>5} {s.get('eval_count', '?'):>6} "
+                f"{len(claimed):>8} {tp:>4} {fp:>4} "
+                f"{prec:>6.3f} {rec:>7.3f} {len(confidence):>7}"
+            )
+
+        # Confidence calibration: bin all edges by confidence, check GT fraction
+        print(f"\n  Confidence calibration:")
+        bins = [(0.0, 0.25), (0.25, 0.5), (0.5, 0.75), (0.75, 1.01)]
+        # Use last iteration's confidence
+        if summaries:
+            last_conf = summaries[-1].get("confidence", {})
+            for lo_b, hi_b in bins:
+                edges_in_bin = []
+                for edge_str, conf in last_conf.items():
+                    if not isinstance(conf, (int, float)):
+                        continue
+                    if lo_b <= conf < hi_b:
+                        parts = edge_str.replace(" ", "").split("->")
+                        if len(parts) == 2:
+                            is_true = (parts[0], parts[1]) in gt_pairs
+                            edges_in_bin.append(is_true)
+                if edges_in_bin:
+                    frac_true = sum(edges_in_bin) / len(edges_in_bin)
+                    print(f"    [{lo_b:.2f}, {hi_b:.2f}): {len(edges_in_bin)} edges, "
+                          f"{frac_true:.0%} true")
+                else:
+                    print(f"    [{lo_b:.2f}, {hi_b:.2f}): no edges")
+
+    if not found_any:
+        print("\n  No iteration summary data found in any run.")
+        print("  (Iteration summaries require the updated structured agent.)")
+
+
+def plot_causal_convergence() -> None:
+    """Plot per-iteration precision/recall for runs with iteration summaries."""
+    print("\n" + "=" * 70)
+    print("  8b. Causal Convergence Plot")
+    print("=" * 70)
+
+    plot_data: list[tuple[str, list[int], list[float], list[float]]] = []
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        with open(log_path) as f:
+            log = json.load(f)
+
+        summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+        if not summaries:
+            continue
+
+        oracle = _get_oracle(label)
+        gt_io = oracle.ground_truth().project_to_io()
+        gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+
+        evals_list: list[int] = []
+        prec_list: list[float] = []
+        rec_list: list[float] = []
+
+        for s in summaries:
+            confidence = s.get("confidence", {})
+            claimed = set()
+            for edge_str, conf in confidence.items():
+                if not isinstance(conf, (int, float)):
+                    continue
+                if conf >= CONFIDENCE_THRESHOLD:
+                    parts = edge_str.replace(" ", "").split("->")
+                    if len(parts) == 2:
+                        claimed.add((parts[0], parts[1]))
+
+            tp = len(gt_pairs & claimed)
+            prec = tp / len(claimed) if claimed else 0.0
+            rec = tp / len(gt_pairs) if gt_pairs else 0.0
+
+            evals_list.append(int(s.get("eval_count", 0)))
+            prec_list.append(prec)
+            rec_list.append(rec)
+
+        plot_data.append((run_name, evals_list, prec_list, rec_list))
+
+    if not plot_data:
+        print("  No data for causal convergence plot.")
+        return
+
+    fig, (ax_p, ax_r) = plt.subplots(1, 2, figsize=(14, 5))
+
+    for name, evals_l, prec_l, rec_l in plot_data:
+        ax_p.plot(evals_l, prec_l, "o-", linewidth=1.5, markersize=6, label=name)
+        ax_r.plot(evals_l, rec_l, "o-", linewidth=1.5, markersize=6, label=name)
+
+    ax_p.set_xlabel("Oracle Evaluations")
+    ax_p.set_ylabel("Precision")
+    ax_p.set_title("Causal Model Precision (claimed edges)")
+    ax_p.set_ylim(-0.05, 1.05)
+    ax_p.legend(fontsize=7)
+    ax_p.grid(True, alpha=0.3)
+
+    ax_r.set_xlabel("Oracle Evaluations")
+    ax_r.set_ylabel("Recall")
+    ax_r.set_title("Causal Model Recall (GT edges found)")
+    ax_r.set_ylim(-0.05, 1.05)
+    ax_r.legend(fontsize=7)
+    ax_r.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    out_path = OUT_DIR / "causal_convergence.png"
+    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"  Saved to {out_path}")
+
+
+# ======================================================================
 # Main
 # ======================================================================
 
@@ -1626,6 +1802,10 @@ def main() -> None:
     compute_surprise_analysis()
     compute_calibration_analysis()
     plot_surprise_trajectory()
+
+    # 8. Causal Model Convergence
+    compute_causal_model_convergence()
+    plot_causal_convergence()
 
     print("\n" + "=" * 70)
     print("  Done. All metrics computed for all runs.")

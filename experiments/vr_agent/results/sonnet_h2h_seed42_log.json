@@ -1,0 +1,2025 @@
+{
+  "tool_calls": [
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X1",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y2": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y3": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          },
+          "Y4": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          }
+        },
+        "predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior"
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X1": 0.1,
+            "Y1": 0.054264,
+            "Y2": 0.379565,
+            "Y3": 0.14943,
+            "Y4": 0.04802
+          },
+          {
+            "X1": 0.325,
+            "Y1": 0.184122,
+            "Y2": 0.342294,
+            "Y3": 0.452068,
+            "Y4": 0.089103
+          },
+          {
+            "X1": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X1": 0.775,
+            "Y1": 0.270968,
+            "Y2": 0.299916,
+            "Y3": 0.729416,
+            "Y4": 0.10456
+          },
+          {
+            "X1": 1.0,
+            "Y1": 0.291262,
+            "Y2": 0.285168,
+            "Y3": 0.73962,
+            "Y4": 0.10574
+          }
+        ],
+        "varied_input": "X1",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.237,
+            "magnitude_error": 0.263
+          },
+          "Y2": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "decrease",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.0944,
+            "magnitude_error": 0.4056
+          },
+          "Y3": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.5902,
+            "magnitude_error": 0.2902
+          },
+          "Y4": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.0577,
+            "magnitude_error": 0.2423
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X2",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y2": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y3": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          },
+          "Y4": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          }
+        },
+        "predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior"
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X2": 0.1,
+            "Y1": 0.101257,
+            "Y2": 0.28556,
+            "Y3": 0.67205,
+            "Y4": 0.011937
+          },
+          {
+            "X2": 0.325,
+            "Y1": 0.161178,
+            "Y2": 0.299723,
+            "Y3": 0.67205,
+            "Y4": 0.05474
+          },
+          {
+            "X2": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X2": 0.775,
+            "Y1": 0.3324,
+            "Y2": 0.340191,
+            "Y3": 0.67205,
+            "Y4": 0.143962
+          },
+          {
+            "X2": 1.0,
+            "Y1": 0.435222,
+            "Y2": 0.364493,
+            "Y3": 0.67205,
+            "Y4": 0.182203
+          }
+        ],
+        "varied_input": "X2",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.334,
+            "magnitude_error": 0.166
+          },
+          "Y2": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.0789,
+            "magnitude_error": 0.4211
+          },
+          "Y3": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.3
+          },
+          "Y4": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.1703,
+            "magnitude_error": 0.1297
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X3",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y2": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y3": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          },
+          "Y4": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          }
+        },
+        "predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior"
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X3": 0.1,
+            "Y1": 0.088035,
+            "Y2": 0.447703,
+            "Y3": 0.286563,
+            "Y4": 0.10088
+          },
+          {
+            "X3": 0.325,
+            "Y1": 0.175439,
+            "Y2": 0.37341,
+            "Y3": 0.516609,
+            "Y4": 0.10088
+          },
+          {
+            "X3": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X3": 0.775,
+            "Y1": 0.288101,
+            "Y2": 0.277647,
+            "Y3": 0.797758,
+            "Y4": 0.10088
+          },
+          {
+            "X3": 1.0,
+            "Y1": 0.323599,
+            "Y2": 0.247474,
+            "Y3": 0.906192,
+            "Y4": 0.10088
+          }
+        ],
+        "varied_input": "X3",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.2356,
+            "magnitude_error": 0.2644
+          },
+          "Y2": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "decrease",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.2002,
+            "magnitude_error": 0.2998
+          },
+          "Y3": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.6196,
+            "magnitude_error": 0.3196
+          },
+          "Y4": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.3
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X4",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y2": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y3": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          },
+          "Y4": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          }
+        },
+        "predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior"
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X4": 0.1,
+            "Y1": 0.043252,
+            "Y2": 0.417941,
+            "Y3": 0.67205,
+            "Y4": 0.009428
+          },
+          {
+            "X4": 0.325,
+            "Y1": 0.140228,
+            "Y2": 0.349033,
+            "Y3": 0.67205,
+            "Y4": 0.054356
+          },
+          {
+            "X4": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X4": 0.775,
+            "Y1": 0.33815,
+            "Y2": 0.305717,
+            "Y3": 0.67205,
+            "Y4": 0.140726
+          },
+          {
+            "X4": 1.0,
+            "Y1": 0.433354,
+            "Y2": 0.302788,
+            "Y3": 0.67205,
+            "Y4": 0.173732
+          }
+        ],
+        "varied_input": "X4",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.3901,
+            "magnitude_error": 0.1099
+          },
+          "Y2": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "decrease",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.1152,
+            "magnitude_error": 0.3848
+          },
+          "Y3": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.3
+          },
+          "Y4": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.1643,
+            "magnitude_error": 0.1357
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X5",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y2": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y3": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          },
+          "Y4": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          }
+        },
+        "predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior"
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X5": 0.1,
+            "Y1": -0.058102,
+            "Y2": 0.326267,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.325,
+            "Y1": 0.002732,
+            "Y2": 0.324395,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.775,
+            "Y1": 0.24441,
+            "Y2": 0.3183,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 1.0,
+            "Y1": 0.244425,
+            "Y2": 0.318299,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          }
+        ],
+        "varied_input": "X5",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.3025,
+            "magnitude_error": 0.1975
+          },
+          "Y2": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.008,
+            "magnitude_error": 0.492
+          },
+          "Y3": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.3
+          },
+          "Y4": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.3
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X6",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y2": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.5
+          },
+          "Y3": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          },
+          "Y4": {
+            "direction": "nonmonotonic",
+            "magnitude": 0.3
+          }
+        },
+        "predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior"
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X6": 0.1,
+            "Y1": 0.141664,
+            "Y2": 0.220924,
+            "Y3": 0.67205,
+            "Y4": 0.149797
+          },
+          {
+            "X6": 0.325,
+            "Y1": 0.175058,
+            "Y2": 0.281883,
+            "Y3": 0.67205,
+            "Y4": 0.120566
+          },
+          {
+            "X6": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X6": 0.775,
+            "Y1": 0.320833,
+            "Y2": 0.342824,
+            "Y3": 0.67205,
+            "Y4": 0.086721
+          },
+          {
+            "X6": 1.0,
+            "Y1": 0.410282,
+            "Y2": 0.360386,
+            "Y3": 0.67205,
+            "Y4": 0.076047
+          }
+        ],
+        "varied_input": "X6",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "Unknown - first sweep, predicting nonmonotonic as a safe prior",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.2686,
+            "magnitude_error": 0.2314
+          },
+          "Y2": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.5,
+            "actual_magnitude": 0.1395,
+            "magnitude_error": 0.3605
+          },
+          "Y3": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.3
+          },
+          "Y4": {
+            "direction_correct": false,
+            "predicted_direction": "nonmonotonic",
+            "actual_direction": "decrease",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.0737,
+            "magnitude_error": 0.2263
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "correlation_matrix",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "correlations": {
+          "X1": {
+            "Y1": 0.0609,
+            "Y2": -0.1732,
+            "Y3": 0.5882,
+            "Y4": 0.1483
+          },
+          "X2": {
+            "Y1": 0.4622,
+            "Y2": -0.0025,
+            "Y3": 0.0165,
+            "Y4": 0.7379
+          },
+          "X3": {
+            "Y1": 0.3416,
+            "Y2": -0.7675,
+            "Y3": 0.7831,
+            "Y4": 0.0864
+          },
+          "X4": {
+            "Y1": 0.4693,
+            "Y2": -0.4812,
+            "Y3": 0.0922,
+            "Y4": 0.5664
+          },
+          "X5": {
+            "Y1": 0.5109,
+            "Y2": -0.0076,
+            "Y3": 0.0353,
+            "Y4": -0.095
+          },
+          "X6": {
+            "Y1": 0.117,
+            "Y2": 0.4019,
+            "Y3": -0.0399,
+            "Y4": -0.4365
+          }
+        }
+      }
+    },
+    {
+      "name": "sensitivity_report",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "sensitivities": {
+          "X1": {
+            "Y1": 0.7466,
+            "Y2": 0.3343,
+            "Y3": 0.8576,
+            "Y4": 0.2303
+          },
+          "X2": {
+            "Y1": 0.7466,
+            "Y2": 0.3343,
+            "Y3": 0.8576,
+            "Y4": 0.2303
+          },
+          "X3": {
+            "Y1": 0.7466,
+            "Y2": 0.3343,
+            "Y3": 0.8576,
+            "Y4": 0.2303
+          },
+          "X4": {
+            "Y1": 0.7466,
+            "Y2": 0.3343,
+            "Y3": 0.8576,
+            "Y4": 0.2303
+          },
+          "X5": {
+            "Y1": 0.7466,
+            "Y2": 0.3343,
+            "Y3": 0.8576,
+            "Y4": 0.2303
+          },
+          "X6": {
+            "Y1": 0.7466,
+            "Y2": 0.3343,
+            "Y3": 0.8576,
+            "Y4": 0.2303
+          }
+        }
+      }
+    },
+    {
+      "name": "local_gradients",
+      "input": {
+        "point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ]
+      },
+      "cost": 0,
+      "result": {
+        "gradients": {
+          "X1": {
+            "Y1": 0.175858,
+            "Y2": -0.09241,
+            "Y3": 0.510876,
+            "Y4": 0.027507
+          },
+          "X2": {
+            "Y1": 0.383075,
+            "Y2": 0.090539,
+            "Y3": 0.0,
+            "Y4": 0.200581
+          },
+          "X3": {
+            "Y1": 0.246641,
+            "Y2": -0.209644,
+            "Y3": 0.610975,
+            "Y4": 0.0
+          },
+          "X4": {
+            "Y1": 0.44108,
+            "Y2": -0.087599,
+            "Y3": 0.0,
+            "Y4": 0.193262
+          },
+          "X5": {
+            "Y1": 0.105779,
+            "Y2": -0.002296,
+            "Y3": 0.0,
+            "Y4": 0.0
+          },
+          "X6": {
+            "Y1": 0.331005,
+            "Y2": 0.130007,
+            "Y3": 0.0,
+            "Y4": -0.073209
+          }
+        },
+        "point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ]
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6"
+        ],
+        "output": "Y1"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": 0.096703,
+          "X2": 0.409253,
+          "X3": 0.180314,
+          "X4": 0.426958,
+          "X5": 0.481994,
+          "X6": 0.132601,
+          "intercept": -0.743333
+        },
+        "r_squared": 0.798527,
+        "output": "Y1"
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6"
+        ],
+        "output": "Y2"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": -0.072789,
+          "X2": 0.038394,
+          "X3": -0.239975,
+          "X4": -0.134815,
+          "X5": -0.018759,
+          "X6": 0.1454,
+          "intercept": 0.481754
+        },
+        "r_squared": 0.902692,
+        "output": "Y2"
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6"
+        ],
+        "output": "Y3"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": 0.54361,
+          "X2": -0.019239,
+          "X3": 0.693701,
+          "X4": 0.009456,
+          "X5": 0.028106,
+          "X6": -0.069942,
+          "intercept": -0.018965
+        },
+        "r_squared": 0.876271,
+        "output": "Y3"
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6"
+        ],
+        "output": "Y4"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": 0.059255,
+          "X2": 0.169327,
+          "X3": -0.01037,
+          "X4": 0.154911,
+          "X5": -0.004252,
+          "X6": -0.076365,
+          "intercept": -0.062157
+        },
+        "r_squared": 0.947129,
+        "output": "Y4"
+      }
+    },
+    {
+      "name": "current_pareto_front",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "pareto_front": [
+          {
+            "X1": 0.844868,
+            "X2": 0.668498,
+            "X3": 0.782279,
+            "X4": 0.419073,
+            "X5": 0.973628,
+            "X6": 0.903809,
+            "Y1": 0.449771,
+            "Y2": 0.297237,
+            "Y3": 0.876142,
+            "Y4": 0.07491
+          },
+          {
+            "X1": 0.770286,
+            "X2": 0.970759,
+            "X3": 0.393243,
+            "X4": 0.433414,
+            "X5": 0.5226,
+            "X6": 0.270524,
+            "Y1": 0.26738,
+            "Y2": 0.346775,
+            "Y3": 0.616377,
+            "Y4": 0.184145
+          },
+          {
+            "X1": 0.730239,
+            "X2": 0.38113,
+            "X3": 0.849034,
+            "X4": 0.824288,
+            "X5": 0.448731,
+            "X6": 0.359495,
+            "Y1": 0.238881,
+            "Y2": 0.197825,
+            "Y3": 0.899797,
+            "Y4": 0.117969
+          },
+          {
+            "X1": 0.734649,
+            "X2": 0.802656,
+            "X3": 0.513024,
+            "X4": 0.611867,
+            "X5": 0.225817,
+            "X6": 0.203077,
+            "Y1": 0.227683,
+            "Y2": 0.305177,
+            "Y3": 0.700018,
+            "Y4": 0.209953
+          },
+          {
+            "X1": 0.701563,
+            "X2": 0.523987,
+            "X3": 0.608712,
+            "X4": 0.788499,
+            "X5": 0.671246,
+            "X6": 0.598221,
+            "Y1": 0.38621,
+            "Y2": 0.283766,
+            "Y3": 0.757234,
+            "Y4": 0.136237
+          },
+          {
+            "X1": 0.55,
+            "X2": 1.0,
+            "X3": 0.55,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.55,
+            "Y1": 0.435222,
+            "Y2": 0.364493,
+            "Y3": 0.67205,
+            "Y4": 0.182203
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 1.0,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.55,
+            "Y1": 0.323599,
+            "Y2": 0.247474,
+            "Y3": 0.906192,
+            "Y4": 0.10088
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 0.55,
+            "X4": 1.0,
+            "X5": 0.55,
+            "X6": 0.55,
+            "Y1": 0.433354,
+            "Y2": 0.302788,
+            "Y3": 0.67205,
+            "Y4": 0.173732
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 0.55,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.1,
+            "Y1": 0.141664,
+            "Y2": 0.220924,
+            "Y3": 0.67205,
+            "Y4": 0.149797
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 0.55,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.325,
+            "Y1": 0.175058,
+            "Y2": 0.281883,
+            "Y3": 0.67205,
+            "Y4": 0.120566
+          }
+        ],
+        "n_pareto": 10,
+        "hypervolume": 0.10649
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X3"
+        ],
+        "output": "Y3"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": 0.535948,
+          "X3": 0.696443,
+          "intercept": -0.045904
+        },
+        "r_squared": 0.869381,
+        "output": "Y3"
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X5",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "increase",
+            "magnitude": 0.25
+          },
+          "Y2": {
+            "direction": "flat",
+            "magnitude": 0.01
+          },
+          "Y3": {
+            "direction": "flat",
+            "magnitude": 0.0
+          },
+          "Y4": {
+            "direction": "flat",
+            "magnitude": 0.0
+          }
+        },
+        "predicted_trend": "X5 has a sharp threshold around 0.42-0.46 for Y1. Below: Y1 near 0 or negative. Above: Y1 ~ 0.24. Testing [0.35, 0.40, 0.43, 0.46, 0.50] to pin it down."
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X5": 0.1,
+            "Y1": -0.058102,
+            "Y2": 0.326267,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.325,
+            "Y1": 0.002732,
+            "Y2": 0.324395,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.775,
+            "Y1": 0.24441,
+            "Y2": 0.3183,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 1.0,
+            "Y1": 0.244425,
+            "Y2": 0.318299,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          }
+        ],
+        "varied_input": "X5",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "X5 has a sharp threshold around 0.42-0.46 for Y1. Below: Y1 near 0 or negative. Above: Y1 ~ 0.24. Testing [0.35, 0.40, 0.43, 0.46, 0.50] to pin it down.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.25,
+            "actual_magnitude": 0.3025,
+            "magnitude_error": 0.0525
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.01,
+            "actual_magnitude": 0.008,
+            "magnitude_error": 0.002
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.0,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.0
+          },
+          "Y4": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.0,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.0
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "interaction_test",
+      "input": {
+        "input_a": "X1",
+        "input_b": "X3",
+        "levels_a": [
+          0.3,
+          0.7,
+          1.0
+        ],
+        "levels_b": [
+          0.3,
+          0.7,
+          1.0
+        ],
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.7,
+          0.55
+        ],
+        "predicted_interaction": "Strong synergistic interaction: Y3 is multiplicative in X1*X3, not additive. Calibration showed additive model over-predicted Y3 by ~0.14 when X1 high but X3 low. Expect Y3 to be much lower when both X1 and X3 are low versus their sum predicting moderate values."
+      },
+      "cost": 9,
+      "result": {
+        "grid": [
+          {
+            "X1": 0.3,
+            "X3": 0.3,
+            "Y1": 0.116436,
+            "Y2": 0.398552,
+            "Y3": 0.306973,
+            "Y4": 0.086698
+          },
+          {
+            "X1": 0.3,
+            "X3": 0.7,
+            "Y1": 0.209778,
+            "Y2": 0.319211,
+            "Y3": 0.468908,
+            "Y4": 0.086698
+          },
+          {
+            "X1": 0.3,
+            "X3": 1.0,
+            "Y1": 0.259215,
+            "Y2": 0.27719,
+            "Y3": 0.560453,
+            "Y4": 0.086698
+          },
+          {
+            "X1": 0.7,
+            "X3": 0.3,
+            "Y1": 0.18959,
+            "Y2": 0.370854,
+            "Y3": 0.531401,
+            "Y4": 0.103761
+          },
+          {
+            "X1": 0.7,
+            "X3": 0.7,
+            "Y1": 0.300473,
+            "Y2": 0.276603,
+            "Y3": 0.811728,
+            "Y4": 0.103761
+          },
+          {
+            "X1": 0.7,
+            "X3": 1.0,
+            "Y1": 0.349244,
+            "Y2": 0.235148,
+            "Y3": 0.9702,
+            "Y4": 0.103761
+          },
+          {
+            "X1": 1.0,
+            "X3": 0.3,
+            "Y1": 0.214142,
+            "Y2": 0.354178,
+            "Y3": 0.546245,
+            "Y4": 0.10574
+          },
+          {
+            "X1": 1.0,
+            "X3": 0.7,
+            "Y1": 0.329293,
+            "Y2": 0.256299,
+            "Y3": 0.834404,
+            "Y4": 0.10574
+          },
+          {
+            "X1": 1.0,
+            "X3": 1.0,
+            "Y1": 0.37486,
+            "Y2": 0.217568,
+            "Y3": 0.997303,
+            "Y4": 0.10574
+          }
+        ],
+        "input_a": "X1",
+        "input_b": "X3",
+        "interaction_effects_std": {
+          "Y1": 0.004209,
+          "Y2": 0.003578,
+          "Y3": 0.037372,
+          "Y4": 0.0
+        },
+        "cost": 9,
+        "your_predicted_interaction": "Strong synergistic interaction: Y3 is multiplicative in X1*X3, not additive. Calibration showed additive model over-predicted Y3 by ~0.14 when X1 high but X3 low. Expect Y3 to be much lower when both X1 and X3 are low versus their sum predicting moderate values.",
+        "note": "Compare actual interaction effects against your prediction above."
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.4,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.04,
+          0.32,
+          0.672,
+          0.101
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.130105,
+          "Y2": 0.320948,
+          "Y3": 0.67205,
+          "Y4": 0.10088
+        },
+        "prediction_errors": {
+          "Y1": 0.090105,
+          "Y2": 0.000948,
+          "Y3": 5e-05,
+          "Y4": -0.00012
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.44,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.14,
+          0.32,
+          0.672,
+          0.101
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.189186,
+          "Y2": 0.319533,
+          "Y3": 0.67205,
+          "Y4": 0.10088
+        },
+        "prediction_errors": {
+          "Y1": 0.049186,
+          "Y2": -0.000467,
+          "Y3": 5e-05,
+          "Y4": -0.00012
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.48,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.22,
+          0.319,
+          0.672,
+          0.101
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.221455,
+          "Y2": 0.318802,
+          "Y3": 0.67205,
+          "Y4": 0.10088
+        },
+        "prediction_errors": {
+          "Y1": 0.001455,
+          "Y2": -0.000198,
+          "Y3": 5e-05,
+          "Y4": -0.00012
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "interaction_test",
+      "input": {
+        "input_a": "X2",
+        "input_b": "X6",
+        "levels_a": [
+          0.1,
+          0.55,
+          1.0
+        ],
+        "levels_b": [
+          0.1,
+          0.55,
+          1.0
+        ],
+        "base_point": [
+          1.0,
+          0.55,
+          1.0,
+          1.0,
+          0.7,
+          0.55
+        ],
+        "predicted_interaction": "Moderate interaction for Y1 and Y4. X2 increases both Y1 and Y4 while X6 increases Y1 but decreases Y4. Expect antagonistic interaction for Y4 (X2 and X6 pull in opposite directions). Y2 increases with both X2 and X6. Approximate size: ~0.05-0.10 for Y1, larger for Y4."
+      },
+      "cost": 9,
+      "result": {
+        "grid": [
+          {
+            "X2": 0.1,
+            "X6": 0.1,
+            "Y1": 0.048717,
+            "Y2": 0.070816,
+            "Y3": 0.997303,
+            "Y4": 0.035764
+          },
+          {
+            "X2": 0.1,
+            "X6": 0.55,
+            "Y1": 0.252534,
+            "Y2": 0.143916,
+            "Y3": 0.997303,
+            "Y4": 0.025919
+          },
+          {
+            "X2": 0.1,
+            "X6": 1.0,
+            "Y1": 0.465849,
+            "Y2": 0.184391,
+            "Y3": 0.997303,
+            "Y4": 0.020324
+          },
+          {
+            "X2": 0.55,
+            "X6": 0.1,
+            "Y1": 0.422654,
+            "Y2": 0.191824,
+            "Y3": 0.997303,
+            "Y4": 0.221628
+          },
+          {
+            "X2": 0.55,
+            "X6": 0.55,
+            "Y1": 0.563824,
+            "Y2": 0.217125,
+            "Y3": 0.997303,
+            "Y4": 0.180514
+          },
+          {
+            "X2": 0.55,
+            "X6": 1.0,
+            "Y1": 0.742683,
+            "Y2": 0.233835,
+            "Y3": 0.997303,
+            "Y4": 0.152267
+          },
+          {
+            "X2": 1.0,
+            "X6": 0.1,
+            "Y1": 0.947731,
+            "Y2": 0.36174,
+            "Y3": 0.997303,
+            "Y4": 0.321806
+          },
+          {
+            "X2": 1.0,
+            "X6": 0.55,
+            "Y1": 1.000932,
+            "Y2": 0.319924,
+            "Y3": 0.997303,
+            "Y4": 0.280858
+          },
+          {
+            "X2": 1.0,
+            "X6": 1.0,
+            "Y1": 1.131409,
+            "Y2": 0.303264,
+            "Y3": 0.997303,
+            "Y4": 0.249155
+          }
+        ],
+        "input_a": "X2",
+        "input_b": "X6",
+        "interaction_effects_std": {
+          "Y1": 0.039637,
+          "Y2": 0.029346,
+          "Y3": 0.0,
+          "Y4": 0.01074
+        },
+        "cost": 9,
+        "your_predicted_interaction": "Moderate interaction for Y1 and Y4. X2 increases both Y1 and Y4 while X6 increases Y1 but decreases Y4. Expect antagonistic interaction for Y4 (X2 and X6 pull in opposite directions). Y2 increases with both X2 and X6. Approximate size: ~0.05-0.10 for Y1, larger for Y4.",
+        "note": "Compare actual interaction effects against your prediction above."
+      }
+    },
+    {
+      "name": "current_pareto_front",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "pareto_front": [
+          {
+            "X1": 1.0,
+            "X2": 0.1,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "Y1": 0.048717,
+            "Y2": 0.070816,
+            "Y3": 0.997303,
+            "Y4": 0.035764
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.1,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.55,
+            "Y1": 0.252534,
+            "Y2": 0.143916,
+            "Y3": 0.997303,
+            "Y4": 0.025919
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.1,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 1.0,
+            "Y1": 0.465849,
+            "Y2": 0.184391,
+            "Y3": 0.997303,
+            "Y4": 0.020324
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.55,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "Y1": 0.422654,
+            "Y2": 0.191824,
+            "Y3": 0.997303,
+            "Y4": 0.221628
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.55,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.55,
+            "Y1": 0.563824,
+            "Y2": 0.217125,
+            "Y3": 0.997303,
+            "Y4": 0.180514
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.55,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 1.0,
+            "Y1": 0.742683,
+            "Y2": 0.233835,
+            "Y3": 0.997303,
+            "Y4": 0.152267
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "Y1": 0.947731,
+            "Y2": 0.36174,
+            "Y3": 0.997303,
+            "Y4": 0.321806
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.55,
+            "Y1": 1.000932,
+            "Y2": 0.319924,
+            "Y3": 0.997303,
+            "Y4": 0.280858
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 1.0,
+            "Y1": 1.131409,
+            "Y2": 0.303264,
+            "Y3": 0.997303,
+            "Y4": 0.249155
+          }
+        ],
+        "n_pareto": 9,
+        "hypervolume": 0.258676
+      }
+    },
+    {
+      "name": "local_gradients",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          1.0
+        ]
+      },
+      "cost": 0,
+      "result": {
+        "gradients": {
+          "X1": {
+            "Y1": 0.081758,
+            "Y2": -0.044685,
+            "Y3": 0.022594,
+            "Y4": 0.004337
+          },
+          "X2": {
+            "Y1": 0.950858,
+            "Y2": 0.169829,
+            "Y3": 0.0,
+            "Y4": 0.172018
+          },
+          "X3": {
+            "Y1": 0.115485,
+            "Y2": -0.098162,
+            "Y3": 0.499779,
+            "Y4": 0.0
+          },
+          "X4": {
+            "Y1": 0.930841,
+            "Y2": 0.08938,
+            "Y3": 0.0,
+            "Y4": 0.165882
+          },
+          "X5": {
+            "Y1": 0.005905,
+            "Y2": -0.0003,
+            "Y3": 0.0,
+            "Y4": 0.0
+          },
+          "X6": {
+            "Y1": 0.336437,
+            "Y2": -0.02366,
+            "Y3": 0.0,
+            "Y4": -0.062641
+          }
+        },
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          1.0
+        ]
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.7,
+          0.1
+        ],
+        "predicted_outputs": [
+          0.72,
+          0.29,
+          0.997,
+          0.28
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.700381,
+          "Y2": 0.281697,
+          "Y3": 0.997303,
+          "Y4": 0.285431
+        },
+        "prediction_errors": {
+          "Y1": -0.019619,
+          "Y2": -0.008303,
+          "Y3": 0.000303,
+          "Y4": 0.005431
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.3
+        ],
+        "predicted_outputs": [
+          0.98,
+          0.34,
+          0.997,
+          0.3
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.956699,
+          "Y2": 0.338077,
+          "Y3": 0.997303,
+          "Y4": 0.302223
+        },
+        "prediction_errors": {
+          "Y1": -0.023301,
+          "Y2": -0.001923,
+          "Y3": 0.000303,
+          "Y4": 0.002223
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          0.3,
+          1.0,
+          1.0,
+          0.7,
+          0.1
+        ],
+        "predicted_outputs": [
+          0.21,
+          0.13,
+          0.997,
+          0.14
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.189108,
+          "Y2": 0.116247,
+          "Y3": 0.997303,
+          "Y4": 0.128811
+        },
+        "prediction_errors": {
+          "Y1": -0.020892,
+          "Y2": -0.013753,
+          "Y3": 0.000303,
+          "Y4": -0.011189
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "current_pareto_front",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "pareto_front": [
+          {
+            "X1": 1.0,
+            "X2": 0.1,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "Y1": 0.048717,
+            "Y2": 0.070816,
+            "Y3": 0.997303,
+            "Y4": 0.035764
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.1,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.55,
+            "Y1": 0.252534,
+            "Y2": 0.143916,
+            "Y3": 0.997303,
+            "Y4": 0.025919
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.1,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 1.0,
+            "Y1": 0.465849,
+            "Y2": 0.184391,
+            "Y3": 0.997303,
+            "Y4": 0.020324
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.55,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "Y1": 0.422654,
+            "Y2": 0.191824,
+            "Y3": 0.997303,
+            "Y4": 0.221628
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.55,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.55,
+            "Y1": 0.563824,
+            "Y2": 0.217125,
+            "Y3": 0.997303,
+            "Y4": 0.180514
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.55,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 1.0,
+            "Y1": 0.742683,
+            "Y2": 0.233835,
+            "Y3": 0.997303,
+            "Y4": 0.152267
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "Y1": 0.947731,
+            "Y2": 0.36174,
+            "Y3": 0.997303,
+            "Y4": 0.321806
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.55,
+            "Y1": 1.000932,
+            "Y2": 0.319924,
+            "Y3": 0.997303,
+            "Y4": 0.280858
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 1.0,
+            "Y1": 1.131409,
+            "Y2": 0.303264,
+            "Y3": 0.997303,
+            "Y4": 0.249155
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.8,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "Y1": 0.700381,
+            "Y2": 0.281697,
+            "Y3": 0.997303,
+            "Y4": 0.285431
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.3,
+            "Y1": 0.956699,
+            "Y2": 0.338077,
+            "Y3": 0.997303,
+            "Y4": 0.302223
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.3,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "Y1": 0.189108,
+            "Y2": 0.116247,
+            "Y3": 0.997303,
+            "Y4": 0.128811
+          }
+        ],
+        "n_pareto": 12,
+        "hypervolume": 0.268211
+      }
+    }
+  ],
+  "mechanism_log": [
+    "Iteration: Now I have a comprehensive picture. Let me compile the analysis.",
+    "Iteration: Excellent \u2014 budget exhausted. Let me synthesize all findings.\n\n---\n\n## \ud83d\udcca Updated Hypothesis & System Model\n\n### Confirmed Structure\n\n| Input | Y1 (max) | Y2 (min) | Y3 (\u22650.4) | Y4 (max) | Role |\n|-------|----------|----------|-----------|----------|------|\n| **X1** | \u2191 (weak) | \u2193 (weak) | \u2191\u2191 (strong) | \u2191 (tiny) | Y3 constraint driver |\n| **X2** | \u2191\u2191 (0.95 grad) | \u2191 (costly) | flat | \u2191\u2191 (0.17) | Main Pareto axis |\n| **X3** | \u2191 (moderate) | \u2193\u2193 | \u2191\u2191 (strong) | flat | \"Free lunch\" + Y3 |\n| **X4** | \u2191\u2191 (0.93 grad) | \u2191 at high X2 | flat | \u2191\u2191 (0.17) | \"Free lunch\" at mid X2 |\n| **X5** | step/ramp | flat | flat | flat | Threshold gatekeeper |\n| **X6** | \u2191 (0.34) | **depends on X2!** | flat | \u2193\u2193 | Regime-dependent |\n\n---\n\n### Key Discoveries (What Surprised Me)\n\n1. **X5 has a hard ramp, not a step**: Y1 drops from 0.240 \u2192 0.003 \u2192 negative as X5 decreases from 0.55 \u2192 0.325 \u2192 0.1. Threshold region is X5 \u2208 [0.33, 0.55]. **Must keep X5 \u2265 0.55.**\n\n2. **Y3 is synergistic (not additive) in X1\u00d7X3**: The linear model predicted Y3\u22480.53 at (X1=0.87, X3=0.15) but actual was 0.387 (constraint **violated**). Y3 \u2248 1.22 \u00d7 X1^0.65 \u00d7 X3^0.50. Both X1 and X3 must be reasonably high together.\n\n3. **Critical antagonistic interaction: X2\u00d7X6 for Y2**: At LOW X2, X6\u2191 \u2192 Y2\u2191 (as expected). At HIGH X2=1.0, X6\u2191 \u2192 **Y2 actually decreases** (0.362 at X6=0.1 \u2192 0.303 at X6=1.0). This means the best overall Y2 at high performance is achieved at **X2=1.0, X6=1.0** \u2014 counterintuitive.\n\n4. **Y1 can exceed 1.0**: At [X1=1, X2=1, X3=1, X4=1, X5=0.7, X6=1.0], **Y1=1.131** \u2014 far beyond what midpoint evaluations suggested (0.24).\n\n---\n\n### Current Pareto Front (12 Non-Dominated Points)\nAll share the \"locked\" skeleton: **X1=1.0, X3=1.0, X4=1.0, X5=0.7** (Y3=0.997 always satisfied)\n\n| X2 | X6 | Y1 | Y2 | Y4 | Trade-off |\n|----|----|----|----|----|-----------|\n| 1.0 | 1.0 | **1.131** | 0.303 | 0.249 | Max Y1 |\n| 1.0 | 0.55 | 1.001 | 0.320 | 0.281 | Y1/Y4 balance |\n| 1.0 | 0.3 | 0.957 | 0.338 | 0.302 | \u2014 |\n| 1.0 | 0.1 | 0.948 | 0.362 | **0.322** | Max Y4 |\n| 0.8 | 0.1 | 0.700 | 0.282 | 0.285 | Good knee |\n| 0.55 | 0.1 | 0.423 | 0.192 | 0.222 | Low Y2 |\n| 0.3 | 0.1 | 0.189 | 0.116 | 0.129 | Very low Y2 |\n| 0.1 | 0.1 | 0.049 | **0.071** | 0.036 | Min Y2 |\n\n**Hypervolume: 0.268** (2.5\u00d7 improvement from starting 0.107)\n\n---\n\n### Plan for Next Iteration (OPTIMIZE Phase)\n\n**Hypothesis**: The Pareto front is fully parameterized by (X2, X6) with the \"free\" parameters locked at X1=X3=X4=1.0, X5\u22650.55. The main remaining unknowns are:\n1. Can fine-tuning X5 in [0.55, 0.7] improve things? (Gradient says essentially flat above 0.55)\n2. Are there better points at fractional X2/X6 values (dense Pareto front filling)?\n3. Is there any benefit to varying X1 from 1.0 (gradient says tiny positive Y1 effect, near-zero Y3 effect at saturation)?\n\n**What would falsify this**: Finding a point outside the X1=X3=X4=1.0 backbone that dominates a current Pareto point.\n\n**Next experiments**:\n- **Fill the X2 dense sweep** along X6=0.1 (values 0.4, 0.6, 0.9) to sharpen the Pareto curve\n- **Fill the X6 sweep** along X2=1.0 (values 0.15, 0.4, 0.7) to trace the Y1 vs Y4 frontier\n- **Test X5 sensitivity** at the best point: does X5=0.55 vs 0.7 vs 1.0 actually matter?\n- **Verify constraint robustness**: Test a slightly relaxed X1=0.9, X3=0.9 to see if Y3 still \u2265 0.4 while potentially gaining room elsewhere"
+  ],
+  "calibration_checks": [
+    {
+      "eval": 43,
+      "point": [
+        0.8680627659413495,
+        0.3105455372788067,
+        0.15247246752015942,
+        0.35324550281979694,
+        0.36423438199001523,
+        0.6957248632542056
+      ],
+      "predicted": [
+        NaN,
+        NaN,
+        NaN,
+        NaN
+      ],
+      "actual": [
+        -0.1680334331237437,
+        0.46366084922542217,
+        0.387426994291657,
+        0.02698695660937093
+      ],
+      "errors": [
+        NaN,
+        NaN,
+        NaN,
+        NaN
+      ],
+      "max_error": NaN,
+      "mae": NaN
+    }
+  ],
+  "eval_count": 72,
+  "total_llm_calls": 13,
+  "total_input_tokens": 336692,
+  "total_output_tokens": 43084
+}

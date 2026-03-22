@@ -90,6 +90,29 @@ class MockMessage:
         )
 
 
+class MockEdge:
+    """Mock for _EdgeConfidence."""
+
+    def __init__(self, edge: str, confidence: float, evidence: str) -> None:
+        self.edge = edge
+        self.confidence = confidence
+        self.evidence = evidence
+
+
+class MockParsedOutput:
+    """Mock for messages.parse() parsed_output."""
+
+    def __init__(self) -> None:
+        self.hypothesis = "X2 strongly drives Y1 based on OAT sweep."
+        self.new_findings = ["X2->Y1 is monotonically increasing"]
+        self.surprises = []
+        self.next_plan = "Test X3 next"
+        self.edges = [
+            MockEdge("X2->Y1", 0.9, "OAT range=0.33"),
+            MockEdge("X2->Y4", 0.6, "OAT range=0.17"),
+        ]
+
+
 class MockMessages:
     """Mock for client.messages that simulates tool-use flow."""
 
@@ -106,6 +129,12 @@ class MockMessages:
                     "n_levels": 3,
                     "base_point": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
                     "predicted_trend": "X2 increases Y1 monotonically",
+                    "predicted_trends": {
+                        "Y1": {"direction": "increase", "magnitude": 0.3},
+                        "Y2": {"direction": "flat", "magnitude": 0.02},
+                        "Y3": {"direction": "flat", "magnitude": 0.01},
+                        "Y4": {"direction": "increase", "magnitude": 0.15},
+                    },
                 }),
             ])
         elif self.call_count == 2:
@@ -118,6 +147,16 @@ class MockMessages:
             return MockMessage([
                 MockTextBlock("X2 strongly drives Y1 based on OAT sweep."),
             ])
+
+    def parse(self, **kwargs: object) -> MockMessage:
+        """Mock for structured output via messages.parse()."""
+        msg = MockMessage([
+            MockTextBlock('{"hypothesis": "X2->Y1", "new_findings": [], '
+                          '"surprises": [], "next_plan": "test X3", '
+                          '"confidence": {"X2->Y1": 0.9}}'),
+        ])
+        msg.parsed_output = MockParsedOutput()  # type: ignore[attr-defined]
+        return msg
 
 
 @pytest.fixture
