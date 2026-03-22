@@ -113,7 +113,7 @@ def save_result(result: VRResult, output_dir: Path) -> None:
             "reconciliation": s.reconciliation,
             "falsification": s.falsification,
             "explore_or_exploit": s.explore_or_exploit,
-            "biggest_surprise": getattr(s, "raw_response", "")[:50],
+            "biggest_surprise": s.biggest_surprise,
             "prediction_error": s.prediction_error.tolist(),
             "directional_accuracy": s.directional_accuracy,
             "x": s.x.tolist(),
