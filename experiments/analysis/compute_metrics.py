@@ -64,11 +64,17 @@ TOOL_USE_RUNS: dict[str, tuple[str, Path, Path]] = {
     "1B fresh": ("1B", VR_RESULTS / "no_transfer_1b_seed42_log.json", VR_RESULTS / "no_transfer_1b_seed42.npz"),
     "1C transfer": ("1C", VR_RESULTS / "transfer_1c_seed42_log.json", VR_RESULTS / "transfer_1c_seed42.npz"),
     "1C fresh": ("1C", VR_RESULTS / "no_transfer_1c_seed42_log.json", VR_RESULTS / "no_transfer_1c_seed42.npz"),
+    # Phase B: Model sweep tool runs
+    "Sonnet tool": ("1A", VR_RESULTS / "sweep_sonnet_tool_seed42_log.json", VR_RESULTS / "sweep_sonnet_tool_seed42.npz"),
+    "Haiku tool": ("1A", VR_RESULTS / "sweep_haiku_tool_seed42_log.json", VR_RESULTS / "sweep_haiku_tool_seed42.npz"),
 }
 
 # Batch VR run (Phase 2.2): label -> (oracle_label, log_path, npz_path)
 BATCH_RUNS: dict[str, tuple[str, Path, Path]] = {
     "1A batch": ("1A", VR_RESULTS / "opus_test_seed42_log.json", VR_RESULTS / "opus_test_seed42.npz"),
+    # Phase B: Model sweep batch runs
+    "Sonnet batch": ("1A", VR_RESULTS / "sweep_sonnet_batch_seed42_log.json", VR_RESULTS / "sweep_sonnet_batch_seed42.npz"),
+    "Haiku batch": ("1A", VR_RESULTS / "sweep_haiku_batch_seed42_log.json", VR_RESULTS / "sweep_haiku_batch_seed42.npz"),
 }
 
 # V1 VR run (Phase 2.0 Sonnet): label -> (oracle_label, log_path, npz_path)
@@ -721,6 +727,10 @@ def plot_hv_vs_budget(ref_hvs: dict[str, float]) -> None:
         "fresh": "#8c564b",
         "ablation_real": "#e377c2",
         "ablation_permuted": "#7f7f7f",
+        "sonnet_tool": "#e6550d",
+        "sonnet_batch": "#fdae6b",
+        "haiku_tool": "#31a354",
+        "haiku_batch": "#a1d99b",
     }
 
     # --- Panel 0: Oracle 1A ---
@@ -777,6 +787,20 @@ def plot_hv_vs_budget(ref_hvs: dict[str, float]) -> None:
         hvs = np.load(abl_perm)["hypervolumes"]
         ax.plot(np.arange(1, len(hvs) + 1), hvs, color=colors["ablation_permuted"],
                 linewidth=1.5, linestyle=":", label="Ablation (permuted)")
+
+    # Phase B: Model sweep runs
+    sweep_runs = [
+        ("sweep_sonnet_tool_seed42.npz", colors["sonnet_tool"], "-", "Sonnet tool"),
+        ("sweep_sonnet_batch_seed42.npz", colors["sonnet_batch"], "--", "Sonnet batch"),
+        ("sweep_haiku_tool_seed42.npz", colors["haiku_tool"], "-", "Haiku tool"),
+        ("sweep_haiku_batch_seed42.npz", colors["haiku_batch"], "--", "Haiku batch"),
+    ]
+    for fname, color, ls, lbl in sweep_runs:
+        sweep_npz = VR_RESULTS / fname
+        if sweep_npz.exists():
+            hvs = np.load(sweep_npz)["hypervolumes"]
+            ax.plot(np.arange(1, len(hvs) + 1), hvs, color=color,
+                    linewidth=1.5, linestyle=ls, label=lbl)
 
     # Reference HV line
     if "1A" in ref_hvs:
@@ -1133,6 +1157,444 @@ def plot_prediction_accuracy() -> None:
 
 
 # ======================================================================
+# 7. Surprise Analysis
+# ======================================================================
+
+SURPRISE_THRESHOLD = 0.05  # max |pred_error| per output to flag as surprise
+
+
+def _compute_tool_surprises(
+    oracle: MediumOracle | MediumOracle1C,
+    tool_calls: list[dict[str, Any]],
+    initial_evals: int = 12,
+) -> list[dict[str, Any]]:
+    """Extract surprise events from tool-use agent runs.
+
+    Returns list of surprise dicts with: eval_count, tool_name, type, magnitude.
+    """
+    surprises: list[dict[str, Any]] = []
+    cumulative_cost = initial_evals
+
+    for tc in tool_calls:
+        name = tc.get("name", "")
+        inp = tc.get("input", {})
+        result = tc.get("result", {})
+        cost = int(tc.get("cost", 0))
+
+        if name == "evaluate_point":
+            # Check prediction errors from result (new format) or replay
+            pred_errors = result.get("prediction_errors", {}) if result else {}
+            if not pred_errors:
+                # Fall back: replay from input if result not saved
+                raw_pred = inp.get("predicted_outputs", [])
+                raw_point = inp.get("point", [])
+                if raw_pred and raw_point:
+                    actual = oracle.evaluate(np.array(raw_point, dtype=np.float64))
+                    pred = np.array(raw_pred, dtype=np.float64)
+                    if len(pred) == oracle.n_outputs:
+                        pred_errors = {
+                            oname: float(actual[i] - pred[i])
+                            for i, oname in enumerate(oracle.output_names)
+                        }
+
+            if pred_errors:
+                max_err = max(abs(float(v)) for v in pred_errors.values())
+                if max_err > SURPRISE_THRESHOLD:
+                    surprises.append({
+                        "eval": cumulative_cost + cost,
+                        "tool": "evaluate_point",
+                        "type": "prediction_error",
+                        "magnitude": round(max_err, 4),
+                        "details": pred_errors,
+                    })
+
+        elif name == "oat_sweep":
+            # Try structured trend_scores first (new format), then free-text
+            trend_scores = (result.get("trend_scores", {})
+                            if isinstance(result, dict) else {})
+            if trend_scores:
+                # Structured scoring — each output has direction_correct flag
+                mismatches: list[str] = []
+                mag_errors: list[float] = []
+                for oname, score in trend_scores.items():
+                    if not isinstance(score, dict):
+                        continue
+                    if not score.get("direction_correct", True):
+                        mismatches.append(
+                            f"{oname}: predicted {score.get('predicted_direction')}, "
+                            f"actual {score.get('actual_direction')}"
+                        )
+                    mag_errors.append(float(score.get("magnitude_error", 0.0)))
+
+                if mismatches:
+                    surprises.append({
+                        "eval": cumulative_cost + cost,
+                        "tool": "oat_sweep",
+                        "type": "trend_mismatch",
+                        "magnitude": len(mismatches),
+                        "details": mismatches,
+                        "mean_mag_error": round(
+                            sum(mag_errors) / len(mag_errors), 4
+                        ) if mag_errors else 0.0,
+                    })
+            else:
+                # Fall back to free-text parsing (old format)
+                predicted_trend = str(inp.get("predicted_trend", "")).lower()
+                input_name = inp.get("input_name", "")
+                n_levels = int(inp.get("n_levels", 5))
+                base_point = inp.get("base_point", [])
+                if predicted_trend and input_name and base_point:
+                    Y_sweep = _replay_oat_sweep(
+                        oracle, input_name, n_levels, base_point,
+                    )
+                    mismatches = []
+                    for j, oname in enumerate(oracle.output_names):
+                        actual_change = float(Y_sweep[-1, j] - Y_sweep[0, j])
+                        if abs(actual_change) < 0.02:
+                            actual_dir = "flat"
+                        elif actual_change > 0:
+                            actual_dir = "increase"
+                        else:
+                            actual_dir = "decrease"
+
+                        oname_lower = oname.lower()
+                        pred_dir = "unknown"
+                        for pat in [f"{oname_lower}: increase",
+                                    f"{oname_lower} increase",
+                                    f"{oname_lower}: rise",
+                                    f"{oname_lower}: positive"]:
+                            if pat in predicted_trend:
+                                pred_dir = "increase"
+                                break
+                        for pat in [f"{oname_lower}: decrease",
+                                    f"{oname_lower} decrease",
+                                    f"{oname_lower}: drop",
+                                    f"{oname_lower}: negative"]:
+                            if pat in predicted_trend:
+                                pred_dir = "decrease"
+                                break
+                        for pat in [f"{oname_lower}: flat",
+                                    f"{oname_lower}: no effect",
+                                    f"{oname_lower}: negligible"]:
+                            if pat in predicted_trend:
+                                pred_dir = "flat"
+                                break
+
+                        if pred_dir != "unknown" and pred_dir != actual_dir:
+                            mismatches.append(
+                                f"{oname}: predicted {pred_dir}, actual {actual_dir}"
+                            )
+
+                    if mismatches:
+                        surprises.append({
+                            "eval": cumulative_cost + cost,
+                            "tool": "oat_sweep",
+                            "type": "trend_mismatch",
+                            "magnitude": len(mismatches),
+                            "details": mismatches,
+                        })
+
+        cumulative_cost += cost
+
+    return surprises
+
+
+def _compute_batch_surprises(
+    step_logs: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Extract surprise events from batch agent step logs.
+
+    Returns list of surprise dicts with: step, magnitude, biggest_surprise text.
+    """
+    surprises: list[dict[str, Any]] = []
+
+    for entry in step_logs:
+        step = entry.get("step", -1)
+        pred_error = entry.get("prediction_error")
+        biggest_surprise = entry.get("biggest_surprise", "")
+
+        if pred_error is not None:
+            abs_errors = [abs(float(e)) for e in pred_error]
+            max_err = max(abs_errors) if abs_errors else 0.0
+            if max_err > SURPRISE_THRESHOLD:
+                surprises.append({
+                    "step": step,
+                    "type": "prediction_error",
+                    "magnitude": round(max_err, 4),
+                    "biggest_surprise": biggest_surprise[:200] if biggest_surprise else "",
+                })
+
+    return surprises
+
+
+def compute_surprise_analysis() -> None:
+    """Analyze surprise patterns across all runs.
+
+    Measures: surprise frequency, surprise rate by phase (early/mid/late),
+    whether surprise rate decreases over time (evidence of learning).
+    """
+    print("\n" + "=" * 70)
+    print("  7. Surprise Analysis")
+    print("=" * 70)
+
+    # Summary table header
+    summary: list[tuple[str, int, int, float, float, float]] = []
+    # (name, n_events, n_total, rate_early, rate_mid, rate_late)
+
+    # --- Tool-use runs ---
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        oracle = _get_oracle(label)
+        tool_calls = _load_tool_calls(log_path)
+        surprises = _compute_tool_surprises(oracle, tool_calls)
+
+        # Count total prediction-bearing tool calls (evaluate_point + oat_sweep with predictions)
+        pred_calls = [tc for tc in tool_calls
+                      if tc.get("name") in ("evaluate_point", "oat_sweep")
+                      and (tc.get("input", {}).get("predicted_outputs")
+                           or tc.get("input", {}).get("predicted_trend"))]
+        n_pred = len(pred_calls)
+
+        if not surprises:
+            summary.append((run_name, 0, n_pred, 0.0, 0.0, 0.0))
+            continue
+
+        # Bin by phase: early (first third of evals), mid, late
+        max_eval = max(s["eval"] for s in surprises)
+        third = max_eval / 3
+        early = [s for s in surprises if s["eval"] <= third]
+        mid = [s for s in surprises if third < s["eval"] <= 2 * third]
+        late = [s for s in surprises if s["eval"] > 2 * third]
+
+        # Rate = surprise events per phase (normalized by phase count if possible)
+        n_early = max(1, sum(1 for tc in tool_calls if int(tc.get("cost", 0)) > 0
+                             and _cumcost(tool_calls, tc, 12) <= third))
+        n_mid = max(1, sum(1 for tc in tool_calls if int(tc.get("cost", 0)) > 0
+                           and third < _cumcost(tool_calls, tc, 12) <= 2 * third))
+        n_late = max(1, sum(1 for tc in tool_calls if int(tc.get("cost", 0)) > 0
+                            and _cumcost(tool_calls, tc, 12) > 2 * third))
+
+        summary.append((
+            run_name, len(surprises), n_pred,
+            len(early) / n_early, len(mid) / n_mid, len(late) / n_late,
+        ))
+
+    # --- Batch runs ---
+    for run_name, (label, log_path, _npz_path) in {**BATCH_RUNS, **V1_RUNS}.items():
+        if not log_path.exists():
+            continue
+
+        step_logs = _load_step_logs(log_path)
+        if not step_logs:
+            continue
+
+        surprises = _compute_batch_surprises(step_logs)
+        n_total = len(step_logs)
+
+        if not surprises:
+            summary.append((run_name, 0, n_total, 0.0, 0.0, 0.0))
+            continue
+
+        # Bin by phase thirds
+        third = n_total / 3
+        early = [s for s in surprises if s["step"] < third]
+        mid = [s for s in surprises if third <= s["step"] < 2 * third]
+        late = [s for s in surprises if s["step"] >= 2 * third]
+
+        n_early = max(1, int(third))
+        n_mid = max(1, int(third))
+        n_late = max(1, n_total - 2 * int(third))
+
+        summary.append((
+            run_name, len(surprises), n_total,
+            len(early) / n_early, len(mid) / n_mid, len(late) / n_late,
+        ))
+
+    # Print summary table
+    print(f"\n  {'Run':<22} {'Surprises':>10} {'Total':>7} {'Early':>8} {'Mid':>8} {'Late':>8} {'Trend':>10}")
+    print("  " + "-" * 80)
+
+    for name, n_surp, n_total, r_early, r_mid, r_late in summary:
+        # Determine trend
+        if r_early > 0 and r_late > 0:
+            if r_late < r_early * 0.7:
+                trend = "LEARNING"
+            elif r_late > r_early * 1.3:
+                trend = "DEGRADING"
+            else:
+                trend = "FLAT"
+        elif r_early == 0 and r_late == 0:
+            trend = "NO DATA"
+        else:
+            trend = "---"
+
+        print(
+            f"  {name:<22} {n_surp:>10} {n_total:>7} "
+            f"{r_early:>8.2f} {r_mid:>8.2f} {r_late:>8.2f} {trend:>10}"
+        )
+
+    # Print detailed surprise logs for batch runs that have biggest_surprise text
+    for run_name, (label, log_path, _npz_path) in BATCH_RUNS.items():
+        if not log_path.exists():
+            continue
+        step_logs = _load_step_logs(log_path)
+        surprises = _compute_batch_surprises(step_logs)
+        notable = [s for s in surprises if s.get("biggest_surprise")]
+        if notable:
+            print(f"\n  --- {run_name}: Notable surprises ---")
+            for s in notable[:10]:
+                print(f"    Step {s['step']:>3} (mag={s['magnitude']:.3f}): "
+                      f"{s['biggest_surprise'][:100]}")
+            if len(notable) > 10:
+                print(f"    ... ({len(notable) - 10} more)")
+
+
+def _cumcost(
+    tool_calls: list[dict[str, Any]], tc: dict[str, Any], initial: int,
+) -> float:
+    """Compute cumulative eval cost up to and including a given tool call."""
+    total = initial
+    for t in tool_calls:
+        total += int(t.get("cost", 0))
+        if t is tc:
+            return float(total)
+    return float(total)
+
+
+def compute_calibration_analysis() -> None:
+    """Analyze calibration checkpoint data from tool-use runs."""
+    print("\n" + "=" * 70)
+    print("  7c. Calibration Checkpoints")
+    print("=" * 70)
+
+    found_any = False
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        with open(log_path) as f:
+            log = json.load(f)
+
+        cal_checks = log.get("calibration_checks", []) if isinstance(log, dict) else []
+        if not cal_checks:
+            continue
+
+        found_any = True
+        print(f"\n  --- {run_name} ({len(cal_checks)} checkpoints) ---")
+        print(f"  {'Eval':>6} {'MAE':>8} {'Max|err|':>10} {'Per-output errors'}")
+        print(f"  {'-' * 60}")
+
+        for check in cal_checks:
+            eval_n = check.get("eval", "?")
+            mae = check.get("mae", float("nan"))
+            max_err = check.get("max_error", float("nan"))
+            errors = check.get("errors", [])
+            err_str = ", ".join(f"{e:.4f}" for e in errors) if errors else "N/A"
+            print(f"  {eval_n:>6} {mae:>8.4f} {max_err:>10.4f} [{err_str}]")
+
+        # Trend assessment
+        if len(cal_checks) >= 2:
+            first_mae = cal_checks[0].get("mae", 0)
+            last_mae = cal_checks[-1].get("mae", 0)
+            if last_mae < first_mae * 0.7:
+                trend = "LEARNING (MAE decreased)"
+            elif last_mae > first_mae * 1.3:
+                trend = "DEGRADING (MAE increased)"
+            else:
+                trend = "STABLE"
+            print(f"  Trend: {trend} ({first_mae:.4f} -> {last_mae:.4f})")
+
+    if not found_any:
+        print("\n  No calibration checkpoint data found in any run.")
+        print("  (Calibration checkpoints are available in runs using the updated agent.)")
+
+
+def plot_surprise_trajectory() -> None:
+    """Plot surprise magnitude over time overlaid with HV curve for 1A runs."""
+    print("\n" + "=" * 70)
+    print("  7b. Surprise Trajectory Plot")
+    print("=" * 70)
+
+    # Collect 1A runs with surprise data
+    plot_data: list[tuple[str, list[float], list[float], list[float]]] = []
+    # (name, eval_indices, surprise_magnitudes, hv_curve)
+
+    # Batch runs
+    for run_name, (label, log_path, npz_path) in {**BATCH_RUNS, **V1_RUNS}.items():
+        if label != "1A" or not log_path.exists() or not npz_path.exists():
+            continue
+        step_logs = _load_step_logs(log_path)
+        surprises = _compute_batch_surprises(step_logs)
+        if not surprises:
+            continue
+        data = np.load(npz_path)
+        hvs = data["hypervolumes"].tolist()
+        # Map step index to eval index (step 0 = eval n_initial+1)
+        n_initial = 12
+        evals = [float(n_initial + s["step"] + 1) for s in surprises]
+        mags = [s["magnitude"] for s in surprises]
+        plot_data.append((run_name, evals, mags, hvs))
+
+    # Tool runs
+    for run_name, (label, log_path, npz_path) in TOOL_USE_RUNS.items():
+        if label != "1A" or not log_path.exists() or not npz_path.exists():
+            continue
+        oracle = _get_oracle(label)
+        tool_calls = _load_tool_calls(log_path)
+        surprises = _compute_tool_surprises(oracle, tool_calls)
+        if not surprises:
+            continue
+        data = np.load(npz_path)
+        hvs = data["hypervolumes"].tolist()
+        evals = [float(s["eval"]) for s in surprises]
+        mags = [float(s["magnitude"]) if isinstance(s["magnitude"], (int, float)) else 1.0
+                for s in surprises]
+        plot_data.append((run_name, evals, mags, hvs))
+
+    if not plot_data:
+        print("  No 1A runs with surprise data found.")
+        return
+
+    n_runs = len(plot_data)
+    fig, axes = plt.subplots(n_runs, 1, figsize=(12, 4 * n_runs), squeeze=False)
+
+    for row, (name, evals_s, mags, hvs) in enumerate(plot_data):
+        ax = axes[row, 0]
+
+        # HV curve on primary axis
+        hv_evals = np.arange(1, len(hvs) + 1)
+        ax.plot(hv_evals, hvs, color="#1f77b4", linewidth=1.5, label="HV")
+        ax.set_ylabel("Hypervolume", color="#1f77b4")
+        ax.tick_params(axis="y", labelcolor="#1f77b4")
+
+        # Surprise markers on secondary axis
+        ax2 = ax.twinx()
+        ax2.scatter(evals_s, mags, color="#d62728", s=30, alpha=0.7,
+                    label="Surprise", zorder=5)
+        ax2.set_ylabel("Surprise magnitude", color="#d62728")
+        ax2.tick_params(axis="y", labelcolor="#d62728")
+
+        ax.set_title(f"{name}: Surprises vs HV")
+        ax.set_xlabel("Oracle Evaluations")
+        ax.axvline(x=12, color="gray", linestyle="--", alpha=0.2)
+        ax.grid(True, alpha=0.3)
+
+        # Combined legend
+        lines1, labels1 = ax.get_legend_handles_labels()
+        lines2, labels2 = ax2.get_legend_handles_labels()
+        ax.legend(lines1 + lines2, labels1 + labels2, loc="upper left", fontsize=8)
+
+    plt.tight_layout()
+    out_path = OUT_DIR / "surprise_trajectory.png"
+    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"  Saved to {out_path}")
+
+
+# ======================================================================
 # Main
 # ======================================================================
 
@@ -1159,6 +1621,11 @@ def main() -> None:
     # 6. Prediction Accuracy (all runs with predictions)
     compute_prediction_accuracy()
     plot_prediction_accuracy()
+
+    # 7. Surprise Analysis
+    compute_surprise_analysis()
+    compute_calibration_analysis()
+    plot_surprise_trajectory()
 
     print("\n" + "=" * 70)
     print("  Done. All metrics computed for all runs.")

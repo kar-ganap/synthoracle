@@ -101,15 +101,45 @@ def _build_oracle_tools(oracle: Oracle) -> list[dict[str, object]]:
                     "predicted_trend": {
                         "type": "string",
                         "description": (
-                            "Your prediction for this sweep. E.g. "
-                            "'Y1 increases monotonically from ~0.2 to ~0.8, "
-                            "Y2 decreases slightly'. Be specific about "
-                            "direction, shape (linear/nonlinear/threshold), "
-                            "and approximate magnitudes."
+                            "Free-text prediction (optional, for your reasoning notes)."
                         ),
                     },
+                    "predicted_trends": {
+                        "type": "object",
+                        "description": (
+                            "Structured per-output predictions: direction and "
+                            "expected range (max - min) across the sweep."
+                        ),
+                        "properties": {
+                            oname: {
+                                "type": "object",
+                                "properties": {
+                                    "direction": {
+                                        "type": "string",
+                                        "enum": [
+                                            "increase",
+                                            "decrease",
+                                            "flat",
+                                            "nonmonotonic",
+                                        ],
+                                    },
+                                    "magnitude": {
+                                        "type": "number",
+                                        "description": (
+                                            "Expected output range (max - min)."
+                                        ),
+                                    },
+                                },
+                                "required": ["direction", "magnitude"],
+                            }
+                            for oname in oracle.output_names
+                        },
+                        "required": list(oracle.output_names),
+                    },
                 },
-                "required": ["input_name", "n_levels", "base_point", "predicted_trend"],
+                "required": [
+                    "input_name", "n_levels", "base_point", "predicted_trends",
+                ],
             },
         },
         {
@@ -322,17 +352,52 @@ def _execute_tool(
         # Include agent's prediction for accountability
         predicted_trend = str(tool_input.get("predicted_trend", ""))
 
+        # Score structured predictions if provided
+        new_Y_sweep = np.array(new_Y_list, dtype=np.float64)
+        predicted_trends = tool_input.get("predicted_trends", {})
+        trend_scores: dict[str, object] = {}
+        if isinstance(predicted_trends, dict) and predicted_trends:
+            for j, oname in enumerate(oracle.output_names):
+                pred = predicted_trends.get(oname, {})
+                if not isinstance(pred, dict):
+                    continue
+                actual_range = float(
+                    new_Y_sweep[:, j].max() - new_Y_sweep[:, j].min()
+                )
+                actual_change = float(
+                    new_Y_sweep[-1, j] - new_Y_sweep[0, j]
+                )
+                if actual_range < 0.02:
+                    actual_dir = "flat"
+                elif abs(actual_change) < actual_range * 0.5:
+                    actual_dir = "nonmonotonic"
+                elif actual_change > 0:
+                    actual_dir = "increase"
+                else:
+                    actual_dir = "decrease"
+
+                pred_dir = str(pred.get("direction", "unknown"))
+                pred_mag = float(pred.get("magnitude", 0.0))
+                trend_scores[oname] = {
+                    "direction_correct": pred_dir == actual_dir,
+                    "predicted_direction": pred_dir,
+                    "actual_direction": actual_dir,
+                    "predicted_magnitude": round(pred_mag, 4),
+                    "actual_magnitude": round(actual_range, 4),
+                    "magnitude_error": round(abs(pred_mag - actual_range), 4),
+                }
+
         sweep_result: dict[str, object] = {
             "sweep": rows,
             "varied_input": input_name,
             "n_levels": n_levels,
             "cost": n_levels,
             "your_predicted_trend": predicted_trend,
+            "trend_scores": trend_scores,
             "note": "Compare actual results against your prediction above.",
         }
         new_X = np.array(new_X_list, dtype=np.float64)
-        new_Y = np.array(new_Y_list, dtype=np.float64)
-        return sweep_result, new_X, new_Y, n_levels
+        return sweep_result, new_X, new_Y_sweep, n_levels
 
     if name == "interaction_test":
         input_a = str(tool_input.get("input_a", ""))
@@ -718,6 +783,7 @@ class VRToolsResult:
     total_seconds: float
     mechanism_log: list[str]
     tool_calls: list[dict[str, object]] = field(default_factory=list)
+    calibration_checks: list[dict[str, object]] = field(default_factory=list)
     total_llm_calls: int = 0
     total_input_tokens: int = 0
     total_output_tokens: int = 0
@@ -742,6 +808,7 @@ def run_vr_tools(
     max_tool_calls_per_iteration: int = 15,
     checkpoint_dir: str | None = None,
     prior_knowledge: str | None = None,
+    calibration_interval: int = 20,
 ) -> VRToolsResult:
     """Run the tool-use VR agent.
 
@@ -827,6 +894,7 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
   of weak effects, and interactions that weren't tested."""
     mechanism_log: list[str] = []
     tool_calls_log: list[dict[str, object]] = []
+    calibration_checks: list[dict[str, object]] = []
     total_llm_calls = 0
     total_input_tokens = 0
     total_output_tokens = 0
@@ -834,7 +902,102 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
     conversation: list[dict[str, object]] = []
     eval_count = n_initial
 
+    # Calibration checkpoint tracking
+    next_calibration = n_initial + calibration_interval
+
     while eval_count < n_budget:
+        # --- Calibration checkpoint ---
+        if (
+            calibration_interval > 0
+            and eval_count >= next_calibration
+            and eval_count < n_budget
+        ):
+            cal_point = rng.uniform(lo, hi)
+            cal_msg = (
+                "CALIBRATION CHECK: Before your next experiment, predict all "
+                f"outputs for this point: "
+                f"{[round(float(v), 4) for v in cal_point]}. "
+                'Respond with JSON: {"predicted_outputs": '
+                f"[{', '.join(oracle.output_names)}]}}"
+            )
+            conversation.append({"role": "user", "content": cal_msg})
+
+            cal_kwargs: dict[str, object] = {
+                "model": model,
+                "max_tokens": 500,
+                "system": system_prompt,
+                "messages": list(conversation),
+            }
+            if thinking is not None:
+                cal_kwargs["thinking"] = thinking
+            cal_response = client.messages.create(**cal_kwargs)  # type: ignore[call-overload]
+            total_llm_calls += 1
+            total_input_tokens += cal_response.usage.input_tokens
+            total_output_tokens += cal_response.usage.output_tokens
+
+            # Extract predicted_outputs from response
+            cal_text = ""
+            for block in cal_response.content:
+                if hasattr(block, "text") and getattr(block, "type", "") == "text":
+                    cal_text = block.text
+                    break
+            conversation.append({"role": "assistant", "content": cal_text})
+
+            # Parse JSON prediction
+            cal_predicted = np.full(oracle.n_outputs, np.nan)
+            try:
+                cal_json = json.loads(
+                    cal_text[cal_text.index("{"):cal_text.rindex("}") + 1]
+                )
+                raw_preds = cal_json.get("predicted_outputs", [])
+                if isinstance(raw_preds, list) and len(raw_preds) == oracle.n_outputs:
+                    cal_predicted = np.array(raw_preds, dtype=np.float64)
+            except (ValueError, json.JSONDecodeError):
+                pass  # prediction parse failed — still evaluate and log
+
+            # Evaluate
+            cal_actual = oracle.evaluate(cal_point)
+            cal_errors = cal_actual - cal_predicted
+            eval_count += 1
+
+            # Track HV
+            X_all = np.vstack([X_all, cal_point[np.newaxis, :]])
+            Y_all = np.vstack([Y_all, cal_actual[np.newaxis, :]])
+            hv = compute_hypervolume(
+                Y_all, obj_indices, signs, constraint_indices,
+                thresholds, oracle.output_names, reference_point,
+            )
+            hypervolumes.append(hv)
+
+            # Log
+            calibration_checks.append({
+                "eval": eval_count,
+                "point": cal_point.tolist(),
+                "predicted": cal_predicted.tolist(),
+                "actual": cal_actual.tolist(),
+                "errors": cal_errors.tolist(),
+                "max_error": float(np.nanmax(np.abs(cal_errors))),
+                "mae": float(np.nanmean(np.abs(cal_errors))),
+            })
+            print(
+                f"  [CALIBRATION @ eval {eval_count}] "
+                f"MAE={float(np.nanmean(np.abs(cal_errors))):.4f} "
+                f"max|err|={float(np.nanmax(np.abs(cal_errors))):.4f}",
+                flush=True,
+            )
+
+            # Inform agent of result
+            conversation.append({
+                "role": "user",
+                "content": (
+                    f"Calibration result — actual outputs: "
+                    f"{[round(float(v), 4) for v in cal_actual]}. "
+                    f"Your errors: {[round(float(v), 4) for v in cal_errors]}. "
+                    "Continue with your experiments."
+                ),
+            })
+            next_calibration += calibration_interval
+
         # Phase
         phase = _determine_phase(eval_count, n_budget)
 
@@ -929,6 +1092,7 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
                     "name": tc.name,
                     "input": tc.input,
                     "cost": cost,
+                    "result": result_dict,
                 })
                 tool_results_content.append({
                     "type": "tool_result",
@@ -991,6 +1155,7 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
         total_seconds=total_seconds,
         mechanism_log=mechanism_log,
         tool_calls=tool_calls_log,
+        calibration_checks=calibration_checks,
         total_llm_calls=total_llm_calls,
         total_input_tokens=total_input_tokens,
         total_output_tokens=total_output_tokens,

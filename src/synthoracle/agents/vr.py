@@ -81,6 +81,7 @@ class VRStepLog:
     raw_response: str
     explore_or_exploit: str
     falsification: str
+    biggest_surprise: str  # agent's most informative prediction failure
 
 
 @dataclass
@@ -825,6 +826,7 @@ def run_vr(
         batch_response: list[_ProposedPoint] | None = None
         batch_hypothesis = ""
         batch_reconciliation = ""
+        batch_biggest_surprise = ""
         raw_text = ""
         tokens_in = 0
         tokens_out = 0
@@ -872,6 +874,7 @@ def run_vr(
                     batch_response = list(parsed.points)
                     batch_hypothesis = parsed.hypothesis
                     batch_reconciliation = parsed.reconciliation
+                    batch_biggest_surprise = parsed.biggest_surprise
                     break
 
                 # parsed_output was None — try manual text parsing
@@ -880,6 +883,7 @@ def run_vr(
                 data = _extract_json(text)
                 batch_hypothesis = str(data.get("hypothesis", ""))
                 batch_reconciliation = str(data.get("reconciliation", ""))
+                batch_biggest_surprise = str(data.get("biggest_surprise", ""))
                 points_raw = data.get("points", [])
                 if isinstance(points_raw, list):
                     batch_response = []
@@ -971,6 +975,7 @@ def run_vr(
                 raw_response=raw_text,
                 explore_or_exploit=point.explore_or_exploit,
                 falsification=point.falsification,
+                biggest_surprise=batch_biggest_surprise,
             )
             step_logs.append(step_log)
 

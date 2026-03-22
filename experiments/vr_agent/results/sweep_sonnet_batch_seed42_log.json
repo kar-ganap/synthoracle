@@ -1,0 +1,1682 @@
+[
+  {
+    "step": 0,
+    "hypothesis": "Y2 is primarily governed by X3 (higher X3 strongly suppresses Y2) and secondarily by X4 (negative) and X6 (positive). Y3 threshold is controlled mainly by X3 and X1 \u2014 both must be above ~0.5 to ensure Y3>=0.4. Y1 is additively driven by X2, X5, and X4. Y4 is multiplicatively driven by X2 (positive) and X6 (negative suppressor), with X4 providing secondary boost. Key trade-off: maximizing Y4 needs high X2 and low X6; minimizing Y2 needs high X3; both are compatible, making X3-high + X6-low + X2-high a potentially dominant region.",
+    "reasoning": "Tests the 'sweet spot' hypothesis: high X3 for low Y2 and high Y3, high X2 for Y1 and Y4, low X6 to boost Y4. No prior point combined all three simultaneously. This is the most promising region and will test whether the independent correlations are additive.",
+    "reconciliation": "First iteration \u2014 no prior predictions to reconcile. Initial 12 observations are analyzed to identify input-output structure before proposing new points.",
+    "falsification": "If Y2 > 0.25 despite X3=0.90, or Y4 < 0.20 despite X2=0.90 and X6=0.15, then X3/X2/X6 effects are not additive and interactions must be considered.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      0.10329955685047593,
+      0.14212076543992114,
+      0.005895343744642623,
+      -0.014539823594994061
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.8,
+      0.9,
+      0.9,
+      0.7,
+      0.7,
+      0.15
+    ]
+  },
+  {
+    "step": 1,
+    "hypothesis": "Y2 is primarily governed by X3 (higher X3 strongly suppresses Y2) and secondarily by X4 (negative) and X6 (positive). Y3 threshold is controlled mainly by X3 and X1 \u2014 both must be above ~0.5 to ensure Y3>=0.4. Y1 is additively driven by X2, X5, and X4. Y4 is multiplicatively driven by X2 (positive) and X6 (negative suppressor), with X4 providing secondary boost. Key trade-off: maximizing Y4 needs high X2 and low X6; minimizing Y2 needs high X3; both are compatible, making X3-high + X6-low + X2-high a potentially dominant region.",
+    "reasoning": "OAT extreme test of X3=1.0 to establish the ceiling of Y3 and floor of Y2. X3 has the strongest correlation with both outputs. This will quantify the maximum benefit of X3 and reveal whether Y2 can reach near-zero or has a floor. Other variables held moderate to isolate X3's effect.",
+    "reconciliation": "First iteration \u2014 no prior predictions to reconcile. Initial 12 observations are analyzed to identify input-output structure before proposing new points.",
+    "falsification": "If Y2 > 0.15 with X3=1.0, then X3 is not the primary driver of Y2 and another variable must be responsible. If Y3 < 0.85, then Y3 is not monotonic in X3.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.09266387843849025,
+      0.15158399099968076,
+      -0.029799821969332285,
+      0.0384933180604206
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      0.6,
+      1.0,
+      0.6,
+      0.6,
+      0.3
+    ]
+  },
+  {
+    "step": 2,
+    "hypothesis": "Y2 is primarily governed by X3 (higher X3 strongly suppresses Y2) and secondarily by X4 (negative) and X6 (positive). Y3 threshold is controlled mainly by X3 and X1 \u2014 both must be above ~0.5 to ensure Y3>=0.4. Y1 is additively driven by X2, X5, and X4. Y4 is multiplicatively driven by X2 (positive) and X6 (negative suppressor), with X4 providing secondary boost. Key trade-off: maximizing Y4 needs high X2 and low X6; minimizing Y2 needs high X3; both are compatible, making X3-high + X6-low + X2-high a potentially dominant region.",
+    "reasoning": "OAT extreme test of X2=1.0 and X6=0.10 to establish the ceiling of Y4. Obs 10 holds the current Y4 record at 0.21 with X2=0.80, X6=0.20; this point pushes both to their optimal extremes. X4=0.80 also tests whether high X4 provides an additional Y4 boost. This isolates the X2-X6 axis for Y4.",
+    "reconciliation": "First iteration \u2014 no prior predictions to reconcile. Initial 12 observations are analyzed to identify input-output structure before proposing new points.",
+    "falsification": "If Y4 < 0.28 despite X2=1.0 and X6=0.10, then the X2/X6 relationship with Y4 is nonlinear or saturating and we need to look elsewhere for Y4 drivers.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.24890533623006356,
+      0.13820244839936455,
+      0.07151382640004933,
+      -0.04527118345086972
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.7,
+      1.0,
+      0.6,
+      0.8,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 3,
+    "hypothesis": "Y1 = strong function of X2 and X4 (additive, large coefficients ~0.8-1.0 each), with minor contributions from X5 and X1. Y2 has a hard floor ~0.19-0.20 driven by structural constraints; X3 suppresses Y2 but with diminishing returns, and X4 also suppresses Y2 modestly. Y3 is primarily controlled by X3 (scale) and X1 (offset/threshold) \u2014 low X1 can cause Y3 to fail even with high X3 (point 7: X1=0.22, Y3=0.22). Y4 = X2 positive, X6 strongly negative, X4 moderately positive. Key conflicts: Y2 minimization needs high X3+X4, Y1 maximization also needs high X4, so these align; the main tension is X2 (helps Y1+Y4 but weakly increases Y2) and X6 (must stay low for Y4).",
+    "reasoning": "OAT test of X1 at minimum (0.10). Point 7 (X1=0.22) gave Y3=0.22, violating the threshold. All other points have X1>0.60 and Y3>0.47. This test isolates whether X1 is a hard gate for Y3 feasibility \u2014 critical for PROBE phase strategy. X3=0.80 is high enough that if Y3 is still low, it confirms X1 is essential. Other variables held at moderate values.",
+    "reconciliation": "Y3 was well-predicted across all 3 points (errors <0.07). Y4 was also reasonable. The big systematic failure was Y2: I predicted 0.06\u20130.22 but got 0.21\u20130.36. Even with X3=1.0, Y2=0.21 \u2014 not near zero as expected. Y1 was substantially underpredicted for point 15 (0.44 predicted, 0.69 actual) due to X2=1.0 + X4=0.8 combination being stronger than anticipated. The local gradient dY1/dX4~0.88 at point 15 confirms X4 is a massive Y1 driver.",
+    "falsification": "If Y3 >= 0.65 despite X1=0.10, then X1 does not control Y3 and point 7's low Y3 was due to other factors (X3=0.30 was also low there). If Y3 < 0.4, it confirms X1 is a necessary condition for Y3 feasibility.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      -0.13676343619335116,
+      0.047773163390455065,
+      -0.09978075163841685,
+      -0.025618769859989635
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.1,
+      0.75,
+      0.8,
+      0.6,
+      0.5,
+      0.3
+    ]
+  },
+  {
+    "step": 4,
+    "hypothesis": "Y1 = strong function of X2 and X4 (additive, large coefficients ~0.8-1.0 each), with minor contributions from X5 and X1. Y2 has a hard floor ~0.19-0.20 driven by structural constraints; X3 suppresses Y2 but with diminishing returns, and X4 also suppresses Y2 modestly. Y3 is primarily controlled by X3 (scale) and X1 (offset/threshold) \u2014 low X1 can cause Y3 to fail even with high X3 (point 7: X1=0.22, Y3=0.22). Y4 = X2 positive, X6 strongly negative, X4 moderately positive. Key conflicts: Y2 minimization needs high X3+X4, Y1 maximization also needs high X4, so these align; the main tension is X2 (helps Y1+Y4 but weakly increases Y2) and X6 (must stay low for Y4).",
+    "reasoning": "OAT test of X5 at minimum (0.10) to resolve the contradiction: Pearson r=0.51 suggests X5 strongly drives Y1, but local gradients dY1/dX5 are tiny (0.001\u20130.089) near recent points. If Y1 barely drops from ~0.38 compared to a matched point with X5=0.70, then the correlation is spurious (confounded by other variables). This is a direct falsification test of X5's importance for Y1.",
+    "reconciliation": "Y3 was well-predicted across all 3 points (errors <0.07). Y4 was also reasonable. The big systematic failure was Y2: I predicted 0.06\u20130.22 but got 0.21\u20130.36. Even with X3=1.0, Y2=0.21 \u2014 not near zero as expected. Y1 was substantially underpredicted for point 15 (0.44 predicted, 0.69 actual) due to X2=1.0 + X4=0.8 combination being stronger than anticipated. The local gradient dY1/dX4~0.88 at point 15 confirms X4 is a massive Y1 driver.",
+    "falsification": "If Y1 < 0.25 with X5=0.10, the gradient estimates are wrong and X5 truly matters \u2014 must include X5 in optimization. If Y1 >= 0.35, then X5's r=0.51 correlation was confounded and X5 can be safely set to any value.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      -0.13698549205110172,
+      0.04784912015559081,
+      -0.02352844855357128,
+      0.030230830225825733
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.75,
+      0.8,
+      0.8,
+      0.6,
+      0.1,
+      0.25
+    ]
+  },
+  {
+    "step": 5,
+    "hypothesis": "Y1 = strong function of X2 and X4 (additive, large coefficients ~0.8-1.0 each), with minor contributions from X5 and X1. Y2 has a hard floor ~0.19-0.20 driven by structural constraints; X3 suppresses Y2 but with diminishing returns, and X4 also suppresses Y2 modestly. Y3 is primarily controlled by X3 (scale) and X1 (offset/threshold) \u2014 low X1 can cause Y3 to fail even with high X3 (point 7: X1=0.22, Y3=0.22). Y4 = X2 positive, X6 strongly negative, X4 moderately positive. Key conflicts: Y2 minimization needs high X3+X4, Y1 maximization also needs high X4, so these align; the main tension is X2 (helps Y1+Y4 but weakly increases Y2) and X6 (must stay low for Y4).",
+    "reasoning": "Exploit the identified optimal region: maximize X2 (top Y1+Y4 driver), maximize X4 (second-largest Y1 driver, dY1/dX4~0.88), keep X6 minimal (best for Y4), high X3 (suppress Y2, ensure Y3), high X1 (ensure Y3). Combines all positive drivers simultaneously. Tests whether gains are additive. Point 13 had X4=0.70 with Y1=0.56; this pushes X4 to 0.90, expecting a large jump in Y1.",
+    "reconciliation": "Y3 was well-predicted across all 3 points (errors <0.07). Y4 was also reasonable. The big systematic failure was Y2: I predicted 0.06\u20130.22 but got 0.21\u20130.36. Even with X3=1.0, Y2=0.21 \u2014 not near zero as expected. Y1 was substantially underpredicted for point 15 (0.44 predicted, 0.69 actual) due to X2=1.0 + X4=0.8 combination being stronger than anticipated. The local gradient dY1/dX4~0.88 at point 15 confirms X4 is a massive Y1 driver.",
+    "falsification": "If Y1 < 0.65, then gains from X2 and X4 are not additive (saturating or interacting negatively). If Y2 > 0.25, then the Y2 floor is not controllable with this variable set and further optimization of Y2 is infeasible without restructuring.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      0.014522746296526945,
+      0.16132798415091137,
+      -0.036371891120987376,
+      -0.010297432359721359
+    ],
+    "directional_accuracy": [
+      true,
+      false,
+      true,
+      true
+    ],
+    "x": [
+      0.85,
+      1.0,
+      0.85,
+      0.9,
+      0.7,
+      0.1
+    ]
+  },
+  {
+    "step": 6,
+    "hypothesis": "Y1 = large positive contributions from X2 (~0.7-1.0 coefficient) and X4 (~0.65-0.88), strong nonlinear gate on X1 (collapses below X1~0.40), X5 is negligible. Y2 = suppressed by X3 (primary lever) but raised by X2 and X4 \u2014 creating fundamental tension with Y1/Y4. Y3 = multiplicative function of X1 and X3; X1 acts as a gate (threshold near X1~0.35-0.50 based on points 7 and 16). Y4 = X2 positive, X6 strong negative, X4 moderate positive. Key insight: high X2+X4 boosts Y1/Y4 but raises Y2 \u2014 the Pareto frontier will require trading X4 down (sacrifice Y1) to bring Y2 below 0.25.",
+    "reasoning": "OAT sweep of X1 at intermediate value 0.40 to map the Y3 threshold crossing. We know X1=0.10\u2192Y3=0.18, X1=0.22\u2192Y3=0.22, and X1=0.70+\u2192Y3\u22650.75. The gradient collapses dramatically with X1 \u2014 need to locate where Y3 crosses 0.40. This is critical for defining the feasible operating region. All other variables held at moderate-high to isolate X1's contribution.",
+    "reconciliation": "Point 16 (X1=0.10): Y3=0.18 confirmed X1 is a hard gate for Y3 \u2014 cannot achieve feasibility at minimum X1. The massive local gradient (dY1/dX1=1.44, dY3/dX1=1.19) at X1=0.10 reveals strong nonlinearity. Point 17 (X5=0.10): Y1=0.24, confirming X5's near-zero local gradients are reliable \u2014 its Pearson r=0.48 correlation is spurious confounding. Point 18 (exploit): Y1=0.83 matched perfectly, but Y2=0.35 was 0.16 above my prediction of 0.19. The local gradients at point 18 show dY2/dX2=+0.375 and dY2/dX4=+0.248 \u2014 both large and positive \u2014 meaning high X2 and X4 actively raise Y2, counteracting X3's suppression.",
+    "falsification": "If Y3 >= 0.60 at X1=0.40, then the Y3 threshold crossing occurs below X1=0.40 and X1=0.35 may already be feasible. If Y3 < 0.25, the threshold is higher than 0.40 and aggressive X1 constraints must be imposed on all optimization.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.17786169788362743,
+      0.02383805939519057,
+      0.2513214890953129,
+      0.032563545714130226
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.4,
+      0.8,
+      0.82,
+      0.7,
+      0.5,
+      0.2
+    ]
+  },
+  {
+    "step": 7,
+    "hypothesis": "Y1 = large positive contributions from X2 (~0.7-1.0 coefficient) and X4 (~0.65-0.88), strong nonlinear gate on X1 (collapses below X1~0.40), X5 is negligible. Y2 = suppressed by X3 (primary lever) but raised by X2 and X4 \u2014 creating fundamental tension with Y1/Y4. Y3 = multiplicative function of X1 and X3; X1 acts as a gate (threshold near X1~0.35-0.50 based on points 7 and 16). Y4 = X2 positive, X6 strong negative, X4 moderate positive. Key insight: high X2+X4 boosts Y1/Y4 but raises Y2 \u2014 the Pareto frontier will require trading X4 down (sacrifice Y1) to bring Y2 below 0.25.",
+    "reasoning": "OAT test of X4 at minimum (0.15) to quantify its effect on Y1 and Y2 independently. Point 17 had X4=0.60, Y1=0.24 and gradient dY1/dX4=0.65. Dropping X4 by 0.45 should reduce Y1 by ~0.29 to near zero. Critically, this also tests whether low X4 can reduce Y2 (since dY2/dX4=+0.24 at recent points). If Y2 drops while Y1 drops, then X4 is indeed the key Y1 vs Y2 trade-off lever \u2014 reducing X4 cuts both, but we lose Y1 faster than Y2 falls.",
+    "reconciliation": "Point 16 (X1=0.10): Y3=0.18 confirmed X1 is a hard gate for Y3 \u2014 cannot achieve feasibility at minimum X1. The massive local gradient (dY1/dX1=1.44, dY3/dX1=1.19) at X1=0.10 reveals strong nonlinearity. Point 17 (X5=0.10): Y1=0.24, confirming X5's near-zero local gradients are reliable \u2014 its Pearson r=0.48 correlation is spurious confounding. Point 18 (exploit): Y1=0.83 matched perfectly, but Y2=0.35 was 0.16 above my prediction of 0.19. The local gradients at point 18 show dY2/dX2=+0.375 and dY2/dX4=+0.248 \u2014 both large and positive \u2014 meaning high X2 and X4 actively raise Y2, counteracting X3's suppression.",
+    "falsification": "If Y1 > 0.20 with X4=0.15, then X4 is not a primary Y1 driver and another variable dominates. If Y2 > 0.26 despite low X4, then Y2 is not sensitive to X4 and only X3 can suppress it.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.05413176355848741,
+      0.023547382846081627,
+      0.00952678799745299,
+      -0.03379582804748281
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.8,
+      0.8,
+      0.85,
+      0.15,
+      0.5,
+      0.15
+    ]
+  },
+  {
+    "step": 8,
+    "hypothesis": "Y1 = large positive contributions from X2 (~0.7-1.0 coefficient) and X4 (~0.65-0.88), strong nonlinear gate on X1 (collapses below X1~0.40), X5 is negligible. Y2 = suppressed by X3 (primary lever) but raised by X2 and X4 \u2014 creating fundamental tension with Y1/Y4. Y3 = multiplicative function of X1 and X3; X1 acts as a gate (threshold near X1~0.35-0.50 based on points 7 and 16). Y4 = X2 positive, X6 strong negative, X4 moderate positive. Key insight: high X2+X4 boosts Y1/Y4 but raises Y2 \u2014 the Pareto frontier will require trading X4 down (sacrifice Y1) to bring Y2 below 0.25.",
+    "reasoning": "Exploit the Pareto frontier: maximize X2 (Y1+Y4) and X3 (Y2 suppression), keep X6 minimal (Y4 boost), but reduce X4 to 0.55 (vs 0.90 in point 18) to curb Y2 from rising. Point 18 showed X4=0.90 pushed Y2 to 0.35 \u2014 dropping X4 to 0.55 should save 0.35*0.24=0.08 in Y2 while costing 0.35*0.88=0.31 in Y1, landing near Y1\u22480.55 and Y2\u22480.27. Tests whether the X3=1.0 maximum can suppress the Y2 residual below 0.25.",
+    "reconciliation": "Point 16 (X1=0.10): Y3=0.18 confirmed X1 is a hard gate for Y3 \u2014 cannot achieve feasibility at minimum X1. The massive local gradient (dY1/dX1=1.44, dY3/dX1=1.19) at X1=0.10 reveals strong nonlinearity. Point 17 (X5=0.10): Y1=0.24, confirming X5's near-zero local gradients are reliable \u2014 its Pearson r=0.48 correlation is spurious confounding. Point 18 (exploit): Y1=0.83 matched perfectly, but Y2=0.35 was 0.16 above my prediction of 0.19. The local gradients at point 18 show dY2/dX2=+0.375 and dY2/dX4=+0.248 \u2014 both large and positive \u2014 meaning high X2 and X4 actively raise Y2, counteracting X3's suppression.",
+    "falsification": "If Y2 > 0.28 despite X3=1.0 and reduced X4, then Y2 minimization cannot co-exist with high X2 regardless of X3, and a fundamentally different region (low X2) must be explored for Y2 optimization.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      -0.02834425206507807,
+      0.006000293876176621,
+      0.026520312593096618,
+      -0.017827391140531557
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.8,
+      1.0,
+      1.0,
+      0.55,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 9,
+    "hypothesis": "Y3 = f(X1) * g(X3), where X1 acts as a proportional gate: Y3 \u2248 2.0 * X1 * X3 (for X1 in [0.1,0.5]) flattening toward 0.95 for high X1. Threshold X1~0.25-0.30 for feasibility. Y1 = additive function of X2 (~0.7 coefficient) and X4 (~0.65-0.95 coefficient); X1 affects Y1 only when very low (<0.35). Y2 = suppressed by X3, has a quadratic response in X4 (minimum near X4~0.45-0.55), also raised by X2. Y4 = X2 strongly positive, X6 strongly negative, X4 moderately positive. Key Pareto lever: moderate X4 (0.50-0.65) sits near the Y2 minimum while still contributing positively to Y1 and Y4; X2 should be maximized carefully given its Y2 cost.",
+    "reasoning": "OAT probe of X1=0.25 to precisely map the Y3 feasibility boundary. Known: X1=0.10\u2192Y3=0.18 (fail), X1=0.40\u2192Y3=0.67 (pass). Simple proportional model predicts Y3\u22482.0*0.25*0.85=0.43, right at the threshold. This determines whether X1 must exceed 0.30 or 0.25 for Y3 feasibility \u2014 critical for all subsequent optimization. Other variables held at moderate to isolate X1 effect.",
+    "reconciliation": "Point 19 (X1=0.40): Y3=0.67 was much higher than my prediction of 0.42 \u2014 X1=0.40 is well above the Y3 threshold, confirming the threshold sits between 0.10 and 0.40. Y1=0.38 was also 0.18 above prediction, suggesting the X1 gate is less severe at 0.40 than expected. Point 20 (X4=0.15): Y1=0.054 perfectly confirmed that X4 is the primary Y1 driver \u2014 removing it collapses Y1 to near zero. Point 21: predictions were accurate within 0.03 across all outputs, validating the linear additive model in the high-X2/X4 region.",
+    "falsification": "If Y3 < 0.35 at X1=0.25, the X1-Y3 relationship is more severe than proportional and feasibility requires X1 > 0.35. If Y3 > 0.55, the threshold is below 0.25 and a much wider X1 range is feasible.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.024124702735652925,
+      0.023881583832464304,
+      -0.006280485198095542,
+      -0.015501543326204209
+    ],
+    "directional_accuracy": [
+      true,
+      false,
+      true,
+      true
+    ],
+    "x": [
+      0.25,
+      0.7,
+      0.85,
+      0.6,
+      0.5,
+      0.25
+    ]
+  },
+  {
+    "step": 10,
+    "hypothesis": "Y3 = f(X1) * g(X3), where X1 acts as a proportional gate: Y3 \u2248 2.0 * X1 * X3 (for X1 in [0.1,0.5]) flattening toward 0.95 for high X1. Threshold X1~0.25-0.30 for feasibility. Y1 = additive function of X2 (~0.7 coefficient) and X4 (~0.65-0.95 coefficient); X1 affects Y1 only when very low (<0.35). Y2 = suppressed by X3, has a quadratic response in X4 (minimum near X4~0.45-0.55), also raised by X2. Y4 = X2 strongly positive, X6 strongly negative, X4 moderately positive. Key Pareto lever: moderate X4 (0.50-0.65) sits near the Y2 minimum while still contributing positively to Y1 and Y4; X2 should be maximized carefully given its Y2 cost.",
+    "reasoning": "OAT test of X2=0.20 (near minimum) to probe whether Y2 can break the apparent floor of 0.198. Point 8 held the Y2 minimum with X2=0.38; dropping X2 further while keeping high X3 and X4 should test whether low X2 enables Y2<0.19. The local gradient dY2/dX2>0 at all tested points means less X2 should reduce Y2. Trade-off: Y1 and Y4 will collapse. This is a deliberate sacrifice of Y1/Y4 to characterize the Y2 floor.",
+    "reconciliation": "Point 19 (X1=0.40): Y3=0.67 was much higher than my prediction of 0.42 \u2014 X1=0.40 is well above the Y3 threshold, confirming the threshold sits between 0.10 and 0.40. Y1=0.38 was also 0.18 above prediction, suggesting the X1 gate is less severe at 0.40 than expected. Point 20 (X4=0.15): Y1=0.054 perfectly confirmed that X4 is the primary Y1 driver \u2014 removing it collapses Y1 to near zero. Point 21: predictions were accurate within 0.03 across all outputs, validating the linear additive model in the high-X2/X4 region.",
+    "falsification": "If Y2 > 0.22 despite X2=0.20, then there is a hard structural floor on Y2 that cannot be reduced by adjusting X2, and only other mechanisms (possibly X3>0.95 or unmeasured nonlinearities) control it. If Y2 < 0.16, the X2-Y2 relationship is stronger than gradients suggest.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.006405281547311958,
+      -0.030825929294788196,
+      0.016237042704458138,
+      0.020383884023915978
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.8,
+      0.2,
+      0.92,
+      0.8,
+      0.5,
+      0.25
+    ]
+  },
+  {
+    "step": 11,
+    "hypothesis": "Y3 = f(X1) * g(X3), where X1 acts as a proportional gate: Y3 \u2248 2.0 * X1 * X3 (for X1 in [0.1,0.5]) flattening toward 0.95 for high X1. Threshold X1~0.25-0.30 for feasibility. Y1 = additive function of X2 (~0.7 coefficient) and X4 (~0.65-0.95 coefficient); X1 affects Y1 only when very low (<0.35). Y2 = suppressed by X3, has a quadratic response in X4 (minimum near X4~0.45-0.55), also raised by X2. Y4 = X2 strongly positive, X6 strongly negative, X4 moderately positive. Key Pareto lever: moderate X4 (0.50-0.65) sits near the Y2 minimum while still contributing positively to Y1 and Y4; X2 should be maximized carefully given its Y2 cost.",
+    "reasoning": "Exploit the X4 nonlinearity hypothesis: position X4=0.60 near the expected Y2 minimum in X4 (between low-gradient point 20 and high-gradient point 18), while maximizing X3 for Y2 suppression, X2 for Y1/Y4, and minimizing X6. Compared to point 13 (X4=0.70, Y2=0.272), reducing X4 to 0.60 should drop Y2 by ~0.05 while reducing Y1 only moderately. Tests whether the Pareto frontier has a sweet spot at X4=0.55-0.65.",
+    "reconciliation": "Point 19 (X1=0.40): Y3=0.67 was much higher than my prediction of 0.42 \u2014 X1=0.40 is well above the Y3 threshold, confirming the threshold sits between 0.10 and 0.40. Y1=0.38 was also 0.18 above prediction, suggesting the X1 gate is less severe at 0.40 than expected. Point 20 (X4=0.15): Y1=0.054 perfectly confirmed that X4 is the primary Y1 driver \u2014 removing it collapses Y1 to near zero. Point 21: predictions were accurate within 0.03 across all outputs, validating the linear additive model in the high-X2/X4 region.",
+    "falsification": "If Y2 > 0.27 despite X4=0.60 and X3=0.95, then the Y2 quadratic minimum in X4 is either not real or occurs at a different X4 value, and the X3 saturation effect prevents further Y2 suppression beyond ~0.27.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      0.024200763819377247,
+      0.0026259536594150923,
+      0.005876928749601773,
+      0.005404318560806448
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.85,
+      0.85,
+      0.95,
+      0.6,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 12,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.8680627659413495,
+      0.3105455372788067,
+      0.15247246752015942,
+      0.35324550281979694,
+      0.36423438199001523,
+      0.6957248632542056
+    ]
+  },
+  {
+    "step": 13,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.6013289371071505,
+      0.8055083881957722,
+      0.6978821862946488,
+      0.4657481752960635,
+      0.8326183461994312,
+      0.25027562791693353
+    ]
+  },
+  {
+    "step": 14,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.12044086582047443,
+      0.18104307469807757,
+      0.7501234155368053,
+      0.5156895072262486,
+      0.2451446011302416,
+      0.5509402975930272
+    ]
+  },
+  {
+    "step": 15,
+    "hypothesis": "Y3 \u2248 saturating_function(X1 * X3), with Y3 \u2265 0.40 requiring X1*X3 \u2265 0.21 (e.g., X1=0.25 + X3=0.85 is barely feasible). Y1 = dominated by X2 (~0.7 coefficient) and X4 (~0.75-0.95 coefficient), with X1 acting as a collapse gate below 0.35. Y2 = suppressed by X3 (primary), and raised by a product interaction X2*X4 (not just additive): low X2 + high X4 (point 8, 23) achieves Y2<0.20, while high X2 + high X4 (point 18) gives Y2=0.35. Y4 = X2 strongly positive, X6 strongly negative (already at floor 0.10). X5 is generally negligible except possibly in low-X2/X3 regimes. Key Pareto trade-off: moderate X4 (0.50-0.65) and moderate X2 (0.75-0.85) while maximizing X3 appears to be the best balanced region.",
+    "reasoning": "Tests the X2\u00d7X4 interaction hypothesis for Y2. Points 8 (X2=0.38, X4=0.82) and 23 (X2=0.20, X4=0.80) achieved Y2<0.20 with high X4 but low X2. This point has X2=0.50 (significantly above those) but same high X4=0.80. If Y2 stays below 0.22, the X2 contribution to Y2 is modest and the Y2 minimum is accessible with moderate X2. If Y2 jumps to 0.24+, then X2's Y2 cost is high even at 0.50 and there's a sharp transition.",
+    "reconciliation": "Batch 5 was a parse failure (random fallback). Analyzing points 25-27: Point 25 (X3=0.15) gave Y2=0.464, confirming X3 is the primary Y2 suppressor \u2014 without it Y2 approaches 0.50. Point 26 (moderate everything) was consistent with the model: Y1=0.269, Y2=0.273. Point 27 (X1=0.12, X2=0.18) gave Y1=-0.223 and Y3=0.199, confirming both the X1 gate for Y3 and the X2 necessity for Y1. Key: Point 22 (X1=0.25, X3=0.85) gave Y3=0.424 \u2014 barely passing threshold \u2014 which is consistent with a multiplicative Y3 \u2248 f(X1*X3) model.",
+    "falsification": "If Y2 > 0.24 despite high X3=0.95 and X4=0.80, then the X2*X4 product interaction is real \u2014 X2 amplifies X4's Y2 penalty significantly, and any Y2 < 0.22 solution must use X2 < 0.38.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.05406979283690938,
+      -0.012233215496524008,
+      0.0015410603821565116,
+      0.0037804531091047977
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.8,
+      0.5,
+      0.95,
+      0.8,
+      0.5,
+      0.15
+    ]
+  },
+  {
+    "step": 16,
+    "hypothesis": "Y3 \u2248 saturating_function(X1 * X3), with Y3 \u2265 0.40 requiring X1*X3 \u2265 0.21 (e.g., X1=0.25 + X3=0.85 is barely feasible). Y1 = dominated by X2 (~0.7 coefficient) and X4 (~0.75-0.95 coefficient), with X1 acting as a collapse gate below 0.35. Y2 = suppressed by X3 (primary), and raised by a product interaction X2*X4 (not just additive): low X2 + high X4 (point 8, 23) achieves Y2<0.20, while high X2 + high X4 (point 18) gives Y2=0.35. Y4 = X2 strongly positive, X6 strongly negative (already at floor 0.10). X5 is generally negligible except possibly in low-X2/X3 regimes. Key Pareto trade-off: moderate X4 (0.50-0.65) and moderate X2 (0.75-0.85) while maximizing X3 appears to be the best balanced region.",
+    "reasoning": "Tests the X1*X3 multiplicative model for Y3 at X1=0.30. Known: X1=0.25+X3=0.85 gives Y3=0.424 (barely feasible, product=0.213). At X1=0.30+X3=0.95, product=0.285, predicting Y3\u22480.57 \u2014 well above threshold. If model holds, this confirms the product structure and establishes X1=0.30 as safe for Y3 with X3\u22650.90. This also improves Y1 compared to point 22 (X2=0.80 vs 0.70, X4=0.65 vs 0.60).",
+    "reconciliation": "Batch 5 was a parse failure (random fallback). Analyzing points 25-27: Point 25 (X3=0.15) gave Y2=0.464, confirming X3 is the primary Y2 suppressor \u2014 without it Y2 approaches 0.50. Point 26 (moderate everything) was consistent with the model: Y1=0.269, Y2=0.273. Point 27 (X1=0.12, X2=0.18) gave Y1=-0.223 and Y3=0.199, confirming both the X1 gate for Y3 and the X2 necessity for Y1. Key: Point 22 (X1=0.25, X3=0.85) gave Y3=0.424 \u2014 barely passing threshold \u2014 which is consistent with a multiplicative Y3 \u2248 f(X1*X3) model.",
+    "falsification": "If Y3 < 0.40 despite X1=0.30, X3=0.95 (product=0.285), then the multiplicative model breaks down and X1 requires a true threshold of at least 0.35 regardless of X3 level, forcing us to constrain X1 \u2265 0.40 in all optimization.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.01620935171826693,
+      0.008909558656541888,
+      -0.023738163189839345,
+      -0.0024498855142782716
+    ],
+    "directional_accuracy": [
+      false,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.3,
+      0.8,
+      0.95,
+      0.65,
+      0.5,
+      0.15
+    ]
+  },
+  {
+    "step": 17,
+    "hypothesis": "Y3 \u2248 saturating_function(X1 * X3), with Y3 \u2265 0.40 requiring X1*X3 \u2265 0.21 (e.g., X1=0.25 + X3=0.85 is barely feasible). Y1 = dominated by X2 (~0.7 coefficient) and X4 (~0.75-0.95 coefficient), with X1 acting as a collapse gate below 0.35. Y2 = suppressed by X3 (primary), and raised by a product interaction X2*X4 (not just additive): low X2 + high X4 (point 8, 23) achieves Y2<0.20, while high X2 + high X4 (point 18) gives Y2=0.35. Y4 = X2 strongly positive, X6 strongly negative (already at floor 0.10). X5 is generally negligible except possibly in low-X2/X3 regimes. Key Pareto trade-off: moderate X4 (0.50-0.65) and moderate X2 (0.75-0.85) while maximizing X3 appears to be the best balanced region.",
+    "reasoning": "Exploit the Pareto sweet spot: X3=1.0 maximizes Y2 suppression, X2=0.80 provides strong Y1/Y4 without excessive Y2 cost, X4=0.52 sits near the Y2 quadratic minimum (below the dY2/dX4 sign change) while still contributing to Y1. Compared to point 21 (X2=1.0, X4=0.55, Y2=0.256), reducing X2 by 0.20 should cut Y2 by ~0.047 (saving 0.050 in Y4 costs). Gradient extrapolation from points 21 and 24 both predict Y2\u22480.20, making this a strong Pareto candidate: Y1\u22650.35, Y2\u22640.21, Y3\u22650.99, Y4\u22650.20.",
+    "reconciliation": "Batch 5 was a parse failure (random fallback). Analyzing points 25-27: Point 25 (X3=0.15) gave Y2=0.464, confirming X3 is the primary Y2 suppressor \u2014 without it Y2 approaches 0.50. Point 26 (moderate everything) was consistent with the model: Y1=0.269, Y2=0.273. Point 27 (X1=0.12, X2=0.18) gave Y1=-0.223 and Y3=0.199, confirming both the X1 gate for Y3 and the X2 necessity for Y1. Key: Point 22 (X1=0.25, X3=0.85) gave Y3=0.424 \u2014 barely passing threshold \u2014 which is consistent with a multiplicative Y3 \u2248 f(X1*X3) model.",
+    "falsification": "If Y2 > 0.24 at this point, then Y2=0.20 is unachievable with X2=0.80 and requires X2 \u2264 0.50 or X4 \u2264 0.35, fundamentally restricting the Y1/Y4 achievable at any Pareto point with Y2<0.22.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      -0.014545753713831377,
+      0.004605653963332512,
+      0.0009688196755862633,
+      -0.001978265649735411
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.85,
+      0.8,
+      1.0,
+      0.52,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 18,
+    "hypothesis": "Y1 \u2248 0.72*X2 + 0.72*X4 - 0.48 (additive linear, accurate in high X1 region). Y2 \u2248 0.55 - 0.33*X3 + 0.22*X2 + 0.12*X4 + 0.18*X6 + possible X2*X4 interaction term (~+0.10*X2*X4). Y3 = saturating function of X1*X3 \u2014 approximately min(1, 3.5*X1*X3^0.5) for X1<0.60. Y4 \u2248 0.25*X2 - 0.19*X6 + 0.18*X4 - 0.05 (linear, well-calibrated). Best Pareto: moderate X2 (0.75-0.85), X3=1.00, moderate X4 (0.65-0.80), X6=0.10, X1\u22650.80 maximizes Y1+Y4 while constraining Y2. Record Y2-minimum is at low X2+low X6+high X3+high X4.",
+    "reasoning": "Probes the Y2 absolute minimum. Building on point 23 (X2=0.20, Y2=0.139 \u2014 record low) by reducing X6 from 0.25 to 0.10 (dY2/dX6\u22480.20 \u2192 saves ~0.03) and increasing X3 to 1.00 (saves ~0.005). X2=0.28 is slightly higher than point 23 but the X6 and X3 improvements should compensate. Tests whether Y2 can break below 0.13. Sacrifices Y1 and Y4 deliberately to characterize the Y2 floor \u2014 critical for understanding the true Pareto frontier boundary.",
+    "reconciliation": "Last batch was the best-predicted so far \u2014 all errors within \u00b10.06. Point 28 (X2=0.50, X4=0.80, X3=0.95, X6=0.15): Y2=0.178, near record low. Point 29 (X1=0.30, X3=0.95): Y3=0.546, consistent with multiplicative X1*X3 model (product=0.285). Point 30 (X2=0.80, X4=0.52, X3=1.00): Y1=0.366, Y2=0.205 \u2014 excellent balanced Pareto candidate. The model is now highly reliable for Y3, Y1, and Y4.",
+    "falsification": "If Y2 > 0.16 despite X3=1.00 and X6=0.10, then the Y2 floor is structural and cannot be reduced below ~0.14 regardless of X6/X3 manipulation, implying a hard minimum in the system. If Y2 < 0.11, then X6 has a much larger Y2 effect than local gradients suggest.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      -0.049940033646456064,
+      -0.016284348711449112,
+      0.01652031259309661,
+      0.026521012150723028
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.8,
+      0.28,
+      1.0,
+      0.75,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 19,
+    "hypothesis": "Y1 \u2248 0.72*X2 + 0.72*X4 - 0.48 (additive linear, accurate in high X1 region). Y2 \u2248 0.55 - 0.33*X3 + 0.22*X2 + 0.12*X4 + 0.18*X6 + possible X2*X4 interaction term (~+0.10*X2*X4). Y3 = saturating function of X1*X3 \u2014 approximately min(1, 3.5*X1*X3^0.5) for X1<0.60. Y4 \u2248 0.25*X2 - 0.19*X6 + 0.18*X4 - 0.05 (linear, well-calibrated). Best Pareto: moderate X2 (0.75-0.85), X3=1.00, moderate X4 (0.65-0.80), X6=0.10, X1\u22650.80 maximizes Y1+Y4 while constraining Y2. Record Y2-minimum is at low X2+low X6+high X3+high X4.",
+    "reasoning": "OAT test of X6 at high value (0.62) to directly quantify its contribution to Y2 and Y4 cost. Compare with point 28 (X6=0.15, Y2=0.178, Y4=0.174). With \u0394X6=+0.47 and dY2/dX6\u22480.15, expected \u0394Y2\u2248+0.07 \u2192 Y2\u22480.25. Y4 should drop sharply (dY4/dX6\u2248-0.12 \u2192 \u0394Y4\u2248-0.056). This paired comparison precisely quantifies the X6 trade-off rate between Y2 and Y4 \u2014 important for OPTIMIZE phase targeting.",
+    "reconciliation": "Last batch was the best-predicted so far \u2014 all errors within \u00b10.06. Point 28 (X2=0.50, X4=0.80, X3=0.95, X6=0.15): Y2=0.178, near record low. Point 29 (X1=0.30, X3=0.95): Y3=0.546, consistent with multiplicative X1*X3 model (product=0.285). Point 30 (X2=0.80, X4=0.52, X3=1.00): Y1=0.366, Y2=0.205 \u2014 excellent balanced Pareto candidate. The model is now highly reliable for Y3, Y1, and Y4.",
+    "falsification": "If Y4 > 0.14 despite X6=0.62, then X6's negative Y4 effect is much weaker than hypothesized (r=-0.68 might be confounded). If Y2 < 0.22, then X6's Y2 contribution is weak and only X3 and X2/X4 drive Y2.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.20733832793452522,
+      -0.043939689851302755,
+      0.02096881967558628,
+      0.05658000977901041
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      false
+    ],
+    "x": [
+      0.85,
+      0.55,
+      1.0,
+      0.75,
+      0.5,
+      0.62
+    ]
+  },
+  {
+    "step": 20,
+    "hypothesis": "Y1 \u2248 0.72*X2 + 0.72*X4 - 0.48 (additive linear, accurate in high X1 region). Y2 \u2248 0.55 - 0.33*X3 + 0.22*X2 + 0.12*X4 + 0.18*X6 + possible X2*X4 interaction term (~+0.10*X2*X4). Y3 = saturating function of X1*X3 \u2014 approximately min(1, 3.5*X1*X3^0.5) for X1<0.60. Y4 \u2248 0.25*X2 - 0.19*X6 + 0.18*X4 - 0.05 (linear, well-calibrated). Best Pareto: moderate X2 (0.75-0.85), X3=1.00, moderate X4 (0.65-0.80), X6=0.10, X1\u22650.80 maximizes Y1+Y4 while constraining Y2. Record Y2-minimum is at low X2+low X6+high X3+high X4.",
+    "reasoning": "Exploit the Pareto sweet spot by pushing X4 from 0.52 (pt30) to 0.80 while holding X2=0.80, X3=1.00, X6=0.10. From pt30: dY1/dX4=0.714, \u0394X4=+0.28 \u2192 \u0394Y1\u2248+0.20, so Y1\u22480.37+0.20=0.57. Y2: dY2/dX4=0.148 \u2192 \u0394Y2\u2248+0.041, so Y2\u22480.205+0.041=0.246. Cross-check from pt28 (X2=0.50, X4=0.80): adding \u0394X2=+0.30 \u2192 \u0394Y1\u2248+0.23, \u0394Y2\u2248+0.073, giving Y1\u22480.52, Y2\u22480.25. Both paths predict Y1>0.50 with Y2<0.25 \u2014 potentially the best feasible Pareto point combining high Y1, Y2<0.25, and high Y4.",
+    "reconciliation": "Last batch was the best-predicted so far \u2014 all errors within \u00b10.06. Point 28 (X2=0.50, X4=0.80, X3=0.95, X6=0.15): Y2=0.178, near record low. Point 29 (X1=0.30, X3=0.95): Y3=0.546, consistent with multiplicative X1*X3 model (product=0.285). Point 30 (X2=0.80, X4=0.52, X3=1.00): Y1=0.366, Y2=0.205 \u2014 excellent balanced Pareto candidate. The model is now highly reliable for Y3, Y1, and Y4.",
+    "falsification": "If Y2 > 0.27 despite X3=1.00, then the X2*X4 interaction pushes Y2 above the constraint when both exceed 0.75, and the Pareto frontier requires either X2\u22640.65 or X4\u22640.65 to maintain Y2<0.25 \u2014 fundamentally capping achievable Y1 below 0.50.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      0.02677880897709406,
+      0.01049832492087488,
+      0.010968819675586272,
+      -0.010964834148663671
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.85,
+      0.8,
+      1.0,
+      0.8,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 21,
+    "hypothesis": "Y1 \u2248 0.75*X2 + 0.72*X4 - 0.48 (well-validated for X1>0.5), possibly with a conditional X5 boost at high X3. Y2 \u2248 0.55 - 0.35*X3 + 0.22*X2 + 0.15*X4 + 0.20*X6 + 0.12*(X2*X4 product interaction). The X2*X4 interaction drives Y2 above the floor: Y2_floor~0.11 at X2\u21920, rising ~0.33 per unit X2*X4. Y3 = saturating(X1*X3), feasibility requires X1*X3\u22650.21. Y4 = 0.22*X2 - 0.15*X6 + 0.17*X4 - 0.04. Key trade-off: every 0.10 increase in X2 raises Y2 by 0.031 while raising Y1 by 0.096 \u2014 ratio 3:1. To maximize Y1 while bounding Y2<0.25, the Pareto optimal strategy uses X2~0.80, X4~0.70, X3=1.00, X6=0.10.",
+    "reasoning": "Maps the X2-X4 interaction for Y2 at the midpoint of both variables. Known: X2=0.28+X4=0.75 \u2192 Y2=0.114 (product=0.21), X2=0.80+X4=0.80 \u2192 Y2=0.251 (product=0.64). This point sits at product=0.42, interpolating the Y2 surface. Also provides a clean Y1/Y2 trade-off point between pt31 and pt33 to characterize the Pareto frontier gradient in the Y1=0.30-0.40 region. All other variables fixed at their optimal values to isolate the X2-X4 effect.",
+    "reconciliation": "Previous batch was very accurate for Y1/Y3/Y4. Point 31 (X2=0.28, X3=1.00, X4=0.75, X6=0.10) achieved Y2=0.1137 \u2014 new record minimum, matching my prediction of 0.13. Point 33 (X2=0.80, X4=0.80, X3=1.00, X6=0.10) gave Y1=0.557, Y2=0.251 \u2014 predicted 0.53/0.24, very close. The surprise was point 32: Y1=0.457 despite X2=0.55 \u2014 I predicted 0.25. High X6=0.62 was supposed to suppress Y4 (which it did: 0.137) but Y1 was 0.21 above prediction, unexplained by the additive model.",
+    "falsification": "If Y2 > 0.22 with X2*X4=0.42, then the Y2 response is superlinear/exponential in the product rather than linear, and points with X2>0.65 will be Pareto-dominated regardless of X3/X4 adjustments. If Y2 < 0.17, then the interaction is weaker than hypothesized.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      0.0026574996082757707,
+      -0.0018492577388656284,
+      0.0009688196755862633,
+      -0.00027234852371813
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.85,
+      0.65,
+      1.0,
+      0.65,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 22,
+    "hypothesis": "Y1 \u2248 0.75*X2 + 0.72*X4 - 0.48 (well-validated for X1>0.5), possibly with a conditional X5 boost at high X3. Y2 \u2248 0.55 - 0.35*X3 + 0.22*X2 + 0.15*X4 + 0.20*X6 + 0.12*(X2*X4 product interaction). The X2*X4 interaction drives Y2 above the floor: Y2_floor~0.11 at X2\u21920, rising ~0.33 per unit X2*X4. Y3 = saturating(X1*X3), feasibility requires X1*X3\u22650.21. Y4 = 0.22*X2 - 0.15*X6 + 0.17*X4 - 0.04. Key trade-off: every 0.10 increase in X2 raises Y2 by 0.031 while raising Y1 by 0.096 \u2014 ratio 3:1. To maximize Y1 while bounding Y2<0.25, the Pareto optimal strategy uses X2~0.80, X4~0.70, X3=1.00, X6=0.10.",
+    "reasoning": "Directly tests whether X5 has a conditional large effect on Y1. Point 32 showed dY1/dX5=0.405 with X5=0.50, X3=1.00, X6=0.62 \u2014 5x larger than typical. This point uses X5=0.85 (high) at X3=1.00 with low X6. If X5 truly matters under these conditions, Y1 should exceed 0.35. If X5 is negligible as in most points, Y1 should be ~0.24 based on X2 alone. This falsification test determines whether X5 can contribute meaningfully to the Pareto frontier. Low X2=0.42 ensures Y2 remains low regardless of outcome.",
+    "reconciliation": "Previous batch was very accurate for Y1/Y3/Y4. Point 31 (X2=0.28, X3=1.00, X4=0.75, X6=0.10) achieved Y2=0.1137 \u2014 new record minimum, matching my prediction of 0.13. Point 33 (X2=0.80, X4=0.80, X3=1.00, X6=0.10) gave Y1=0.557, Y2=0.251 \u2014 predicted 0.53/0.24, very close. The surprise was point 32: Y1=0.457 despite X2=0.55 \u2014 I predicted 0.25. High X6=0.62 was supposed to suppress Y4 (which it did: 0.137) but Y1 was 0.21 above prediction, unexplained by the additive model.",
+    "falsification": "If Y1 < 0.28 despite X5=0.85, then pt32's large X5 gradient was a local artifact and X5 contributes nothing to Y1 across the space \u2014 X5 can be fixed at any value in optimization. If Y1 > 0.38, then X5 is a genuine Y1 booster without Y2 cost, completely changing the optimization strategy.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      -0.007605664664700251,
+      -0.02589843666871916,
+      0.010968819675586272,
+      0.0038966356952557235
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.85,
+      0.42,
+      1.0,
+      0.8,
+      0.85,
+      0.1
+    ]
+  },
+  {
+    "step": 23,
+    "hypothesis": "Y1 \u2248 0.75*X2 + 0.72*X4 - 0.48 (well-validated for X1>0.5), possibly with a conditional X5 boost at high X3. Y2 \u2248 0.55 - 0.35*X3 + 0.22*X2 + 0.15*X4 + 0.20*X6 + 0.12*(X2*X4 product interaction). The X2*X4 interaction drives Y2 above the floor: Y2_floor~0.11 at X2\u21920, rising ~0.33 per unit X2*X4. Y3 = saturating(X1*X3), feasibility requires X1*X3\u22650.21. Y4 = 0.22*X2 - 0.15*X6 + 0.17*X4 - 0.04. Key trade-off: every 0.10 increase in X2 raises Y2 by 0.031 while raising Y1 by 0.096 \u2014 ratio 3:1. To maximize Y1 while bounding Y2<0.25, the Pareto optimal strategy uses X2~0.80, X4~0.70, X3=1.00, X6=0.10.",
+    "reasoning": "Exploits the upper Pareto frontier \u2014 maps whether Y1>0.60 is achievable while maintaining reasonable Y2. From pt33 (X2=0.80, X4=0.80, Y1=0.557, Y2=0.251): \u0394X2=+0.10, \u0394X4=-0.05 \u2192 \u0394Y1\u2248+0.096-0.033=+0.063, \u0394Y2\u2248+0.031-0.009=+0.022. Predicted Y1=0.62, Y2=0.27. This is the highest Y1 achievable within the Y2<0.30 constraint region. Combined with Y4\u22480.27, this tests whether a dominant Pareto point exists above pt33.",
+    "reconciliation": "Previous batch was very accurate for Y1/Y3/Y4. Point 31 (X2=0.28, X3=1.00, X4=0.75, X6=0.10) achieved Y2=0.1137 \u2014 new record minimum, matching my prediction of 0.13. Point 33 (X2=0.80, X4=0.80, X3=1.00, X6=0.10) gave Y1=0.557, Y2=0.251 \u2014 predicted 0.53/0.24, very close. The surprise was point 32: Y1=0.457 despite X2=0.55 \u2014 I predicted 0.25. High X6=0.62 was supposed to suppress Y4 (which it did: 0.137) but Y1 was 0.21 above prediction, unexplained by the additive model.",
+    "falsification": "If Y2 > 0.30, then the Y1>0.60 region is infeasible within Y2<0.27, and the optimal Pareto frontier for moderate Y2 targets is Y1\u22480.55 (pt33). If Y1 < 0.57, then nonlinearities are reducing returns at high X2 and the additive model overestimates gains.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      -5.264219118616964e-06,
+      0.00042850783882941723,
+      0.00395824100004083,
+      0.002014044338107368
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.9,
+      0.9,
+      1.0,
+      0.75,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 24,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.2370808924418516,
+      0.7266883375699624,
+      0.5015406480166277,
+      0.4429191034868343,
+      0.3713608802330889,
+      0.6672543338069996
+    ]
+  },
+  {
+    "step": 25,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.42563134949805137,
+      0.1788849273844909,
+      0.2062053119084638,
+      0.965707898094563,
+      0.9177226216368464,
+      0.7297364204296746
+    ]
+  },
+  {
+    "step": 26,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.3392829653135676,
+      0.9722587396129515,
+      0.8008758135692151,
+      0.7452011702430961,
+      0.5044253519294098,
+      0.3450174056606431
+    ]
+  },
+  {
+    "step": 27,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.18675186593814935,
+      0.9123421568894575,
+      0.51019866085025,
+      0.2821270283157073,
+      0.3753609617355873,
+      0.6212976120477064
+    ]
+  },
+  {
+    "step": 28,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.25909550464530856,
+      0.870952855683138,
+      0.7826675768516891,
+      0.7475166603558431,
+      0.48888373579759337,
+      0.6645779566321989
+    ]
+  },
+  {
+    "step": 29,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.625688172021462,
+      0.684861941399338,
+      0.1759998890259002,
+      0.4742266619535487,
+      0.13745275647570324,
+      0.544591737320067
+    ]
+  },
+  {
+    "step": 30,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.3968750910995068,
+      0.23007176997944223,
+      0.1930626709502965,
+      0.6288801149599408,
+      0.2535336716831975,
+      0.9326081065391175
+    ]
+  },
+  {
+    "step": 31,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.6229550257303554,
+      0.4121828240813534,
+      0.6318239423332751,
+      0.12052348392672775,
+      0.9627032919173008,
+      0.5340730932486102
+    ]
+  },
+  {
+    "step": 32,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.8044617045252576,
+      0.1744569999301947,
+      0.5379924977543443,
+      0.5416362949190688,
+      0.9440438094774846,
+      0.6145552471384679
+    ]
+  },
+  {
+    "step": 33,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.5261404609512584,
+      0.34027809678270426,
+      0.398412097608297,
+      0.5686051622243841,
+      0.4950203142745421,
+      0.11945087189229739
+    ]
+  },
+  {
+    "step": 34,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.843662731774922,
+      0.90654469465579,
+      0.2262241800987497,
+      0.5986325291851444,
+      0.1977181670218992,
+      0.7050160837358305
+    ]
+  },
+  {
+    "step": 35,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.3531104054551075,
+      0.6934803712227116,
+      0.7542951528581944,
+      0.7917827427258913,
+      0.1969668513603069,
+      0.9244106606238471
+    ]
+  },
+  {
+    "step": 36,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.3071925918053927,
+      0.1336713005585618,
+      0.5993672224523351,
+      0.4338300554761949,
+      0.8468107688191718,
+      0.8274263248578716
+    ]
+  },
+  {
+    "step": 37,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.38542500354044384,
+      0.9576094555627704,
+      0.3618260543261068,
+      0.5635514163085431,
+      0.3303685815108425,
+      0.942439213044067
+    ]
+  },
+  {
+    "step": 38,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.24814703582381634,
+      0.1404195574530961,
+      0.4915873540027341,
+      0.9931380076502533,
+      0.9025095396294226,
+      0.7737472175112543
+    ]
+  },
+  {
+    "step": 39,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.9017132417906724,
+      0.9041019757280768,
+      0.5669725243478042,
+      0.38433614664771376,
+      0.7948111888998892,
+      0.695495136850985
+    ]
+  },
+  {
+    "step": 40,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.4362919559863391,
+      0.18502000125536375,
+      0.7721106502141234,
+      0.3362144643305782,
+      0.9431318354804012,
+      0.3168735175051163
+    ]
+  },
+  {
+    "step": 41,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.21048213917033742,
+      0.8480014049124155,
+      0.23795588496204464,
+      0.2613414773419652,
+      0.6394445123687591,
+      0.887105836753718
+    ]
+  },
+  {
+    "step": 42,
+    "hypothesis": "For X3=1.00, X6=0.10, X1\u22650.80 (the optimal operating regime): Y1\u22480.75*X2+0.72*X4-0.48, Y2\u22480.19+0.31*X2+0.21*X4, Y4\u22480.22*X2+0.15*X4-0.01. Pareto frontier runs from (Y1=0.12, Y2=0.11) at low X2/X4 to (Y1=0.83, Y2=0.35) at high X2/X4. Key gap: between pt36 (Y1=0.62, Y2=0.27) and pt18 (Y1=0.83, Y2=0.35) \u2014 this region (Y1=0.68-0.75, Y2=0.29-0.32) is unexplored. Also: a Pareto improvement over pt24 (Y1=0.45, Y2=0.23) is achievable by using lower X2 + higher X4 combination.",
+    "reasoning": "Fills the Pareto gap between pt36 (Y1=0.62, Y2=0.27) and pt18 (Y1=0.83, Y2=0.35). From pt36 gradients (dY1/dX2=0.943, dY1/dX4=0.783, dY2/dX2=0.306, dY2/dX4=0.210): \u0394X2=+0.05+\u0394X4=+0.05 \u2192 \u0394Y1\u2248+0.086 \u2192 Y1\u22480.706, \u0394Y2\u2248+0.026 \u2192 Y2\u22480.296. This is a new Pareto-dominant point for Y1>0.65, providing information on whether the linear extrapolation holds in this range or saturates.",
+    "reconciliation": "Multiple consecutive parse failures (batches 9-14) led to random fallback evaluations covering suboptimal regions. Re-grounding in the validated data: the best-performing points remain pt36 (Y1=0.620, Y2=0.270, Y4=0.272), pt33 (Y1=0.557, Y2=0.251, Y4=0.259), and pt18 (Y1=0.835, Y2=0.351, Y4=0.310). The linear model Y1\u22480.75*X2+0.72*X4-0.48, Y2\u22480.55-0.35*X3+0.22*X2+0.15*X4 remains well-validated. The random explorations confirmed that X3<0.5 and X6>0.5 always lead to poor outcomes, while the high-X3/low-X6 regime dominates.",
+    "falsification": "If Y1 < 0.65 despite the gradient-based prediction of 0.71, then the Y1 response is saturating nonlinearly above X2=0.90 and the Pareto frontier has a ceiling near Y1=0.65 for Y2<0.32. If Y2 > 0.33, the X2*X4 interaction is stronger than additive at this combination.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      0.001079211964140292,
+      -0.0031044071229321957,
+      0.00485719216663949,
+      -0.0013118637080207218
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.92,
+      0.95,
+      1.0,
+      0.8,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 43,
+    "hypothesis": "For X3=1.00, X6=0.10, X1\u22650.80 (the optimal operating regime): Y1\u22480.75*X2+0.72*X4-0.48, Y2\u22480.19+0.31*X2+0.21*X4, Y4\u22480.22*X2+0.15*X4-0.01. Pareto frontier runs from (Y1=0.12, Y2=0.11) at low X2/X4 to (Y1=0.83, Y2=0.35) at high X2/X4. Key gap: between pt36 (Y1=0.62, Y2=0.27) and pt18 (Y1=0.83, Y2=0.35) \u2014 this region (Y1=0.68-0.75, Y2=0.29-0.32) is unexplored. Also: a Pareto improvement over pt24 (Y1=0.45, Y2=0.23) is achievable by using lower X2 + higher X4 combination.",
+    "reasoning": "Targets a Pareto improvement over pt24 (Y1=0.454, Y2=0.233) using high X4 to boost Y1 while keeping X2 low to contain Y2. From pt34 (X2=0.65, X4=0.65, Y1=0.343, Y2=0.188): \u0394X2=+0.08 \u2192 \u0394Y1\u2248+0.058, \u0394Y2\u2248+0.019; \u0394X4=+0.22 \u2192 \u0394Y1\u2248+0.114, \u0394Y2\u2248+0.024 \u2192 Y1\u22480.515, Y2\u22480.231. The low X2/high X4 combination exploits the asymmetry in the Y2 sensitivity (X4 raises Y2 less than X2 per unit Y1 gain).",
+    "reconciliation": "Multiple consecutive parse failures (batches 9-14) led to random fallback evaluations covering suboptimal regions. Re-grounding in the validated data: the best-performing points remain pt36 (Y1=0.620, Y2=0.270, Y4=0.272), pt33 (Y1=0.557, Y2=0.251, Y4=0.259), and pt18 (Y1=0.835, Y2=0.351, Y4=0.310). The linear model Y1\u22480.75*X2+0.72*X4-0.48, Y2\u22480.55-0.35*X3+0.22*X2+0.15*X4 remains well-validated. The random explorations confirmed that X3<0.5 and X6>0.5 always lead to poor outcomes, while the high-X3/low-X6 regime dominates.",
+    "falsification": "If Y1 < 0.45 or Y2 > 0.27 at this point, then X4 cannot substitute for X2 in boosting Y1 without raising Y2, and the Pareto boundary at Y2<0.24 is limited to Y1<0.48. If Y1 > 0.55, the X4 leverage is better than expected.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      0.025272702835769212,
+      0.008251119208764118,
+      0.00395824100004083,
+      0.003477843472398323
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.9,
+      0.73,
+      1.0,
+      0.87,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 44,
+    "hypothesis": "For X3=1.00, X6=0.10, X1\u22650.80 (the optimal operating regime): Y1\u22480.75*X2+0.72*X4-0.48, Y2\u22480.19+0.31*X2+0.21*X4, Y4\u22480.22*X2+0.15*X4-0.01. Pareto frontier runs from (Y1=0.12, Y2=0.11) at low X2/X4 to (Y1=0.83, Y2=0.35) at high X2/X4. Key gap: between pt36 (Y1=0.62, Y2=0.27) and pt18 (Y1=0.83, Y2=0.35) \u2014 this region (Y1=0.68-0.75, Y2=0.29-0.32) is unexplored. Also: a Pareto improvement over pt24 (Y1=0.45, Y2=0.23) is achievable by using lower X2 + higher X4 combination.",
+    "reasoning": "Explores the maximum achievable Y4 by combining X2=1.00 (max), X4=0.90 (near max), X3=1.00 (max Y2 suppression), X6=0.10 (min, max Y4). Differs from pt18 (X3=0.85, X5=0.70) by using X3=1.00 \u2014 should suppress Y2 by ~0.035 relative to pt18's Y2=0.351. Tests whether Y4>0.32 is achievable and characterizes the extreme of the Y1-Y2-Y4 Pareto surface. This fills the high-Y1/high-Y4 corner of the Pareto frontier.",
+    "reconciliation": "Multiple consecutive parse failures (batches 9-14) led to random fallback evaluations covering suboptimal regions. Re-grounding in the validated data: the best-performing points remain pt36 (Y1=0.620, Y2=0.270, Y4=0.272), pt33 (Y1=0.557, Y2=0.251, Y4=0.259), and pt18 (Y1=0.835, Y2=0.351, Y4=0.310). The linear model Y1\u22480.75*X2+0.72*X4-0.48, Y2\u22480.55-0.35*X3+0.22*X2+0.15*X4 remains well-validated. The random explorations confirmed that X3<0.5 and X6>0.5 always lead to poor outcomes, while the high-X3/low-X6 regime dominates.",
+    "falsification": "If Y4 < 0.31 despite max X2/X4 and min X6, then Y4 is saturating and cannot exceed the pt18 record of 0.310 regardless of X3 changes. If Y2 < 0.32 despite very high X2 and X4, then X3=1.00 provides stronger Y2 suppression than X3=0.85, and high-X3 is more valuable for the high-Y1 end of the frontier than previously estimated.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      -0.0007964507277404831,
+      -0.0007814812445319785,
+      0.00395824100004083,
+      -0.019920885482251238
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "x": [
+      0.9,
+      1.0,
+      1.0,
+      0.9,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 45,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.2767911991431159,
+      0.3792913056100853,
+      0.7996643544170599,
+      0.9746437834548706,
+      0.5506670675821081,
+      0.22950775229612572
+    ]
+  },
+  {
+    "step": 46,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.1125426589373814,
+      0.30669042699896976,
+      0.21863999600786893,
+      0.7098928062515717,
+      0.20964925416567803,
+      0.5556969384585697
+    ]
+  },
+  {
+    "step": 47,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.7248361920785978,
+      0.6230049482988121,
+      0.27979808649405186,
+      0.8237120735640364,
+      0.7438664166542215,
+      0.7650856035239876
+    ]
+  },
+  {
+    "step": 48,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.21795197640158193,
+      0.21137842328531015,
+      0.9348062959058568,
+      0.4578203744424466,
+      0.37085382260284583,
+      0.53972564081638
+    ]
+  },
+  {
+    "step": 49,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.6965777914872242,
+      0.9600609313422729,
+      0.35780160419384954,
+      0.9323275863808244,
+      0.1223735422476307,
+      0.5996782380941422
+    ]
+  },
+  {
+    "step": 50,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.6705776005129765,
+      0.19530766337567795,
+      0.22630563735752138,
+      0.4772028873846734,
+      0.9696087209288635,
+      0.6364382979109355
+    ]
+  },
+  {
+    "step": 51,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.9397208994401901,
+      0.8239248240516737,
+      0.5206434413997624,
+      0.8062871043269687,
+      0.11605310557928897,
+      0.19822959708916144
+    ]
+  },
+  {
+    "step": 52,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.8464857533944627,
+      0.8171353794926456,
+      0.30937666776979034,
+      0.5776926315391482,
+      0.6454142386300098,
+      0.8809650583984101
+    ]
+  },
+  {
+    "step": 53,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.642796441604853,
+      0.47131441234631233,
+      0.4367656390664645,
+      0.48329387773615895,
+      0.6867379230219768,
+      0.8807415685770924
+    ]
+  },
+  {
+    "step": 54,
+    "hypothesis": "The Pareto frontier for X3=1.00, X6=0.10, X1\u22650.90 is: Y2 \u2248 0.19 + 0.31*X2 + 0.21*X4, Y1 \u2248 0.75*X2 + 0.72*X4 - 0.48, Y4 \u2248 0.22*X2 + 0.14*X4 - 0.01. X4 has superior Y1:Y2 efficiency (ratio 3.8:1) vs X2 (ratio 3.1:1), meaning Pareto-optimal solutions should lean on X4 more than X2 when targeting Y2<0.25. The maximum achievable Y1 is ~0.94 at X4=1.00, X2=1.00, with Y2~0.36. The unexplored question is whether X4 effect on Y1 holds at X4=1.00 or saturates.",
+    "reasoning": "Maximum Y1 and Y4 push: tests X4=1.00 (never evaluated before). From pt57 (X4=0.90, Y1=0.849): \u0394X4=+0.10, dY1/dX4=0.872 \u2192 \u0394Y1\u2248+0.087, giving Y1\u22480.941. X1=0.95 adds +0.005 more. This will set the absolute Y1 record if the gradient holds. Y4\u22480.322 would also be a record. Accepts higher Y2\u22480.363 as the cost of maximum Y1/Y4. Tests whether the linear extrapolation holds to X4=1.00 or saturates.",
+    "reconciliation": "Batch 18 were random fallback points (64-66) placed in suboptimal regions: pt64 (X3=0.52) had Y2=0.326 despite high X1/X2/X4; pt65 (X6=0.88) had Y2=0.413; pt66 (X3=0.44, X6=0.88) had Y2=0.375. None approach the validated optimal region. The model from intentional evaluations (pt55-57) remains highly accurate. The deliberate batch 15 predictions were essentially perfect (errors <0.03 on all outputs), confirming the linear model Y1\u22480.75*X2+0.72*X4-0.48 and Y2\u22480.19+0.31*X2+0.21*X4 for X3=1.00, X6=0.10, X1\u22650.80 is now very well-calibrated.",
+    "falsification": "If Y1 < 0.87 despite X4=1.00, then the Y1 response saturates in X4 above 0.90 and maximum achievable Y1 is constrained to ~0.85. If Y2 > 0.38, the X2*X4 interaction is superlinear and the Pareto frontier is worse than modeled at high X4.",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      -5.7949865559958624e-05,
+      0.003342637089524647,
+      0.0009621625361186936,
+      0.0015847779868030099
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.95,
+      1.0,
+      1.0,
+      1.0,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 55,
+    "hypothesis": "The Pareto frontier for X3=1.00, X6=0.10, X1\u22650.90 is: Y2 \u2248 0.19 + 0.31*X2 + 0.21*X4, Y1 \u2248 0.75*X2 + 0.72*X4 - 0.48, Y4 \u2248 0.22*X2 + 0.14*X4 - 0.01. X4 has superior Y1:Y2 efficiency (ratio 3.8:1) vs X2 (ratio 3.1:1), meaning Pareto-optimal solutions should lean on X4 more than X2 when targeting Y2<0.25. The maximum achievable Y1 is ~0.94 at X4=1.00, X2=1.00, with Y2~0.36. The unexplored question is whether X4 effect on Y1 holds at X4=1.00 or saturates.",
+    "reasoning": "Fills the critical Pareto gap between pt55 (Y1=0.711, Y2=0.297) and pt57 (Y1=0.849, Y2=0.339). From pt55 gradients: \u0394X2=+0.01, \u0394X4=+0.06 \u2192 \u0394Y1\u2248+0.060, \u0394Y2\u2248+0.017. Predicted Y1\u22480.771, Y2\u22480.314 \u2014 a well-defined Pareto point that fills the frontier gap. Y4\u22480.300 represents a strong tri-objective (Y1+Y2+Y4) balance.",
+    "reconciliation": "Batch 18 were random fallback points (64-66) placed in suboptimal regions: pt64 (X3=0.52) had Y2=0.326 despite high X1/X2/X4; pt65 (X6=0.88) had Y2=0.413; pt66 (X3=0.44, X6=0.88) had Y2=0.375. None approach the validated optimal region. The model from intentional evaluations (pt55-57) remains highly accurate. The deliberate batch 15 predictions were essentially perfect (errors <0.03 on all outputs), confirming the linear model Y1\u22480.75*X2+0.72*X4-0.48 and Y2\u22480.19+0.31*X2+0.21*X4 for X3=1.00, X6=0.10, X1\u22650.80 is now very well-calibrated.",
+    "falsification": "If Y1 < 0.74 at this point, the Y1 gains from X2 and X4 are subadditive in this region and the linear model overestimates by >5%. If Y2 > 0.33, the interaction effect at high X2*X4 is stronger than predicted and the Pareto curve is concave rather than linear.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      0.0016467227520440275,
+      0.004351544050256451,
+      -0.00014280783336051428,
+      -0.001444409700499194
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.92,
+      0.96,
+      1.0,
+      0.86,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 56,
+    "hypothesis": "The Pareto frontier for X3=1.00, X6=0.10, X1\u22650.90 is: Y2 \u2248 0.19 + 0.31*X2 + 0.21*X4, Y1 \u2248 0.75*X2 + 0.72*X4 - 0.48, Y4 \u2248 0.22*X2 + 0.14*X4 - 0.01. X4 has superior Y1:Y2 efficiency (ratio 3.8:1) vs X2 (ratio 3.1:1), meaning Pareto-optimal solutions should lean on X4 more than X2 when targeting Y2<0.25. The maximum achievable Y1 is ~0.94 at X4=1.00, X2=1.00, with Y2~0.36. The unexplored question is whether X4 effect on Y1 holds at X4=1.00 or saturates.",
+    "reasoning": "Tests the X4-heavy Pareto strategy: uses X4=0.95 (maximum leverage) with X2=0.60 (reduced to save Y2). X4 has Y1:Y2 ratio of 3.8:1 vs X2's 3.1:1, so substituting X4 for X2 should be Pareto-efficient. From pt56 (X2=0.73, X4=0.87): \u0394X2=-0.13, \u0394X4=+0.08 \u2192 \u0394Y1\u2248-0.084, \u0394Y2\u2248-0.030. Predicted Y1\u22480.45, Y2\u22480.21. If Y2<0.21, this is Pareto-dominant over both pt30 (Y1=0.37, Y2=0.205) and pt56 (Y1=0.54, Y2=0.238) \u2014 filling the mid-range frontier with a genuinely new Pareto-optimal point.",
+    "reconciliation": "Batch 18 were random fallback points (64-66) placed in suboptimal regions: pt64 (X3=0.52) had Y2=0.326 despite high X1/X2/X4; pt65 (X6=0.88) had Y2=0.413; pt66 (X3=0.44, X6=0.88) had Y2=0.375. None approach the validated optimal region. The model from intentional evaluations (pt55-57) remains highly accurate. The deliberate batch 15 predictions were essentially perfect (errors <0.03 on all outputs), confirming the linear model Y1\u22480.75*X2+0.72*X4-0.48 and Y2\u22480.19+0.31*X2+0.21*X4 for X3=1.00, X6=0.10, X1\u22650.80 is now very well-calibrated.",
+    "falsification": "If Y2 > 0.23 with X2=0.60 and X4=0.95, the substitution of X2 for X4 does not achieve the expected Y2 savings and the X4 advantage in Y1:Y2 ratio doesn't hold at X4>0.90. If Y1 < 0.40, the gradient from pt56 overestimates the effect of X4 at this X2 level.",
+    "explore_or_exploit": "exploit",
+    "prediction_error": [
+      -0.005647108709262105,
+      -0.0037934045939282124,
+      0.00395824100004083,
+      4.267618462686085e-05
+    ],
+    "directional_accuracy": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "x": [
+      0.9,
+      0.6,
+      1.0,
+      0.95,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "step": 57,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.5085071938686698,
+      0.32305560665622235,
+      0.31299612669782306,
+      0.7714128522191017,
+      0.8349118870815193,
+      0.19475027186871247
+    ]
+  },
+  {
+    "step": 58,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.15990297125966035,
+      0.6349902973808066,
+      0.23155591977342846,
+      0.8421977714107072,
+      0.379301206531667,
+      0.22948473967402838
+    ]
+  },
+  {
+    "step": 59,
+    "hypothesis": "[PARSE FAILURE - random fallback]",
+    "reasoning": "[PARSE FAILURE]",
+    "reconciliation": "",
+    "falsification": "[PARSE FAILURE]",
+    "explore_or_exploit": "explore",
+    "prediction_error": [
+      NaN,
+      NaN,
+      NaN,
+      NaN
+    ],
+    "directional_accuracy": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "x": [
+      0.9288734252387052,
+      0.24897855046175035,
+      0.35624807410414205,
+      0.2382520556728528,
+      0.20394105729881948,
+      0.11903321470279604
+    ]
+  }
+]

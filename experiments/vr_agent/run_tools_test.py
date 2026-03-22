@@ -76,6 +76,7 @@ def save_result(result: VRToolsResult, output_dir: Path) -> None:
         json.dump({
             "tool_calls": result.tool_calls,
             "mechanism_log": result.mechanism_log,
+            "calibration_checks": result.calibration_checks,
             "eval_count": result.eval_count,
             "total_llm_calls": result.total_llm_calls,
             "total_input_tokens": result.total_input_tokens,
