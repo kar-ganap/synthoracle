@@ -741,6 +741,7 @@ def run_vr_tools(
     max_tokens: int = 16000,
     max_tool_calls_per_iteration: int = 15,
     checkpoint_dir: str | None = None,
+    prior_knowledge: str | None = None,
 ) -> VRToolsResult:
     """Run the tool-use VR agent.
 
@@ -808,6 +809,8 @@ def run_vr_tools(
     all_tools = oracle_tools + analysis_tools
 
     system_prompt = _build_tool_system_prompt(oracle, thresholds)
+    if prior_knowledge is not None:
+        system_prompt += "\n\n" + prior_knowledge
     mechanism_log: list[str] = []
     tool_calls_log: list[dict[str, object]] = []
     total_llm_calls = 0
@@ -929,7 +932,7 @@ def run_vr_tools(
                 if getattr(block, "type", "") == "text":
                     hypothesis = block.text
                     break
-        mechanism_log.append(f"Iteration: {hypothesis[:200]}")
+        mechanism_log.append(f"Iteration: {hypothesis}")
 
         # Checkpoint
         if checkpoint_dir is not None:
