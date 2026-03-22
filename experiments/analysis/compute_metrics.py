@@ -192,6 +192,47 @@ def _replay_interaction_test(
     return Y_arr, effects
 
 
+def _extract_edges_from_xy_data(
+    oracle: MediumOracle | MediumOracle1C,
+    X: npt.NDArray[np.float64],
+    Y: npt.NDArray[np.float64],
+) -> frozenset[Edge]:
+    """Extract IO edges from arbitrary X/Y data using partial correlations.
+
+    For each input, compute the range of each output conditional on that
+    input varying (approximate OAT from nearest-neighbor pairs). Uses
+    the same EDGE_THRESHOLD as tool-based extraction for apples-to-apples.
+    """
+    discovered_pairs: set[tuple[str, str]] = set()
+    n_inputs = oracle.n_inputs
+    n_outputs = oracle.n_outputs
+
+    for i in range(n_inputs):
+        # Bin the input into 5 equal-width bins
+        lo, hi = float(oracle.bounds[i, 0]), float(oracle.bounds[i, 1])
+        bin_edges = np.linspace(lo, hi, 6)
+
+        for j in range(n_outputs):
+            # Compute mean output per bin
+            bin_means = []
+            for b in range(5):
+                mask = (X[:, i] >= bin_edges[b]) & (X[:, i] < bin_edges[b + 1])
+                if b == 4:  # include upper bound in last bin
+                    mask = (X[:, i] >= bin_edges[b]) & (X[:, i] <= bin_edges[b + 1])
+                if mask.sum() > 0:
+                    bin_means.append(float(Y[mask, j].mean()))
+
+            if len(bin_means) >= 2:
+                out_range = max(bin_means) - min(bin_means)
+                if out_range > EDGE_THRESHOLD:
+                    discovered_pairs.add((oracle.input_names[i], oracle.output_names[j]))
+
+    return frozenset(
+        Edge(src, tgt, EdgeDifficulty.EASY, "discovered")
+        for src, tgt in discovered_pairs
+    )
+
+
 def _extract_edges_from_tool_calls(
     oracle: MediumOracle | MediumOracle1C,
     tool_calls: list[dict[str, Any]],
@@ -431,9 +472,38 @@ def compute_edge_precision_recall() -> None:
             false_pos = disc_pairs - gt_pairs
             print(f"    False+: {', '.join(f'{s}->{t}' for s, t in sorted(false_pos))}")
 
-    # Batch/v1 runs: no tool calls for edge extraction
-    for run_name in list(BATCH_RUNS) + list(V1_RUNS):
-        print(f"  {run_name:<22} {'N/A':>10} {'N/A':>10}   {'(no tool calls -- batch/v1 format)':>5}")
+    # Batch/v1 runs: extract edges from X/Y data (binned sensitivity)
+    for run_name, (label, _log_path, npz_path) in {**BATCH_RUNS, **V1_RUNS}.items():
+        if not npz_path.exists():
+            print(f"  {run_name:<22} (npz not found)")
+            continue
+
+        oracle = _get_oracle(label)
+        gt_io = oracle.ground_truth().project_to_io()
+        gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+
+        data = np.load(npz_path)
+        disc_edges = _extract_edges_from_xy_data(oracle, data["X"], data["Y"])
+        disc_pairs = {(e.source, e.target) for e in disc_edges}
+
+        io_nodes = frozenset(
+            n for n in oracle.ground_truth().nodes
+            if n.node_type in (NodeType.INPUT, NodeType.OUTPUT)
+        )
+        discovered_dag = CausalDAG(nodes=io_nodes, edges=disc_edges)
+        precision, recall = gt_io.precision_recall(discovered_dag)
+
+        tp = len(gt_pairs & disc_pairs)
+        fp = len(disc_pairs - gt_pairs)
+        fn = len(gt_pairs - disc_pairs)
+
+        print(f"  {run_name:<22} {precision:>10.3f} {recall:>10.3f} {tp:>5} {fp:>5} {fn:>5} {len(gt_pairs):>10}")
+        if fn > 0:
+            missed = gt_pairs - disc_pairs
+            print(f"    Missed: {', '.join(f'{s}->{t}' for s, t in sorted(missed))}")
+        if fp > 0:
+            false_pos = disc_pairs - gt_pairs
+            print(f"    False+: {', '.join(f'{s}->{t}' for s, t in sorted(false_pos))}")
 
     # BO runs
     bo_labels = ["BO 1A (10-seed)", "BO 1A (Phase 1.2)", "BO 1B (Phase 1.2)", "BO 1C (Phase 1.2)"]
@@ -907,7 +977,64 @@ def compute_prediction_accuracy() -> None:
 
         overall_mae = float(abs_errors.mean())
         print(f"  {'Overall':<8} {overall_mae:>8.4f}")
-        all_results.append((run_name, overall_mae, float("nan"), len(predictions)))
+
+        # Also extract directional accuracy from OAT sweep predictions
+        sweep_correct = 0
+        sweep_total = 0
+        for tc in tool_calls:
+            if tc.get("name") != "oat_sweep":
+                continue
+            inp = tc.get("input", {})
+            predicted_trend = str(inp.get("predicted_trend", "")).lower()
+            input_name = inp.get("input_name", "")
+            n_levels = int(inp.get("n_levels", 5))
+            base_point = inp.get("base_point", [])
+            if not base_point or not input_name:
+                continue
+
+            # Replay sweep to get actual directions
+            Y_sweep = _replay_oat_sweep(oracle, input_name, n_levels, base_point)
+            for j, oname in enumerate(oracle.output_names):
+                actual_change = float(Y_sweep[-1, j] - Y_sweep[0, j])
+                if abs(actual_change) < 0.02:
+                    actual_dir = "flat"
+                elif actual_change > 0:
+                    actual_dir = "increase"
+                else:
+                    actual_dir = "decrease"
+
+                # Parse predicted direction from text
+                oname_lower = oname.lower()
+                # Look for "Y1: increases" or "Y1 increases" patterns
+                pred_dir = "unknown"
+                for pattern in [f"{oname_lower}: increase", f"{oname_lower} increase",
+                                f"{oname_lower}: rise", f"{oname_lower} rise",
+                                f"{oname_lower}: positive", f"{oname_lower}: monot"]:
+                    if pattern in predicted_trend:
+                        pred_dir = "increase"
+                        break
+                for pattern in [f"{oname_lower}: decrease", f"{oname_lower} decrease",
+                                f"{oname_lower}: drop", f"{oname_lower}: negative"]:
+                    if pattern in predicted_trend:
+                        pred_dir = "decrease"
+                        break
+                for pattern in [f"{oname_lower}: flat", f"{oname_lower}: roughly flat",
+                                f"{oname_lower}: no effect", f"{oname_lower}: negligible"]:
+                    if pattern in predicted_trend:
+                        pred_dir = "flat"
+                        break
+
+                if pred_dir != "unknown":
+                    sweep_total += 1
+                    if pred_dir == actual_dir:
+                        sweep_correct += 1
+
+        if sweep_total > 0:
+            sweep_acc = sweep_correct / sweep_total
+            print(f"\n  OAT sweep directional accuracy: {sweep_correct}/{sweep_total} = {sweep_acc:.1%}")
+            all_results.append((run_name, overall_mae, sweep_acc, len(predictions) + sweep_total))
+        else:
+            all_results.append((run_name, overall_mae, float("nan"), len(predictions)))
 
     # --- Summary table ---
     print(f"\n  {'='*60}")
