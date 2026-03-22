@@ -1771,6 +1771,268 @@ def plot_causal_convergence() -> None:
 
 
 # ======================================================================
+# 9. Information-Theoretic Analysis (T6)
+# ======================================================================
+
+
+def _compute_sobol_indices_cached(
+    oracle: MediumOracle | MediumOracle1C,
+    label: str,
+) -> npt.NDArray[np.float64]:
+    """Get total-order Sobol indices, computing and caching if needed.
+
+    Returns shape (n_inputs, n_outputs).
+    """
+    cache_path = ANALYSIS_DIR / f"sobol_total_{label}.npy"
+    if cache_path.exists():
+        return np.load(cache_path)
+
+    from synthoracle.characterize import compute_sobol_indices
+    rng = np.random.default_rng(42)
+    _, st = compute_sobol_indices(oracle, 50_000, rng)
+    np.save(cache_path, st)
+    return st
+
+
+def _parse_edge_to_inputs(edge_str: str) -> tuple[list[str], str]:
+    """Parse 'Xi->Yj' or 'Xi*Xj->Yk' to (input_names, output_name)."""
+    edge_str = edge_str.replace(" ", "")
+    if "->" not in edge_str:
+        return [], ""
+    src_part, tgt = edge_str.split("->", 1)
+    # Handle interaction: "X2*X4" -> ["X2", "X4"]
+    inputs = [s.strip() for s in src_part.split("*") if s.strip()]
+    return inputs, tgt.strip()
+
+
+def _compute_agent_info_capture(
+    confidence: dict[str, object],
+    sobol_total: npt.NDArray[np.float64],
+    oracle: MediumOracle | MediumOracle1C,
+    threshold: float = CONFIDENCE_THRESHOLD,
+) -> dict[str, float]:
+    """Compute information capture per output from agent's edge confidence.
+
+    Returns dict mapping output name to fraction of Sobol sensitivity explained
+    by the agent's claimed inputs (confidence >= threshold).
+    """
+    input_names = list(oracle.input_names)
+    output_names = list(oracle.output_names)
+
+    # Build claimed input sets per output
+    claimed_per_output: dict[str, set[str]] = {o: set() for o in output_names}
+    for edge_str, conf in confidence.items():
+        if not isinstance(conf, (int, float)) or conf < threshold:
+            continue
+        inputs, output = _parse_edge_to_inputs(str(edge_str))
+        if output in claimed_per_output:
+            claimed_per_output[output].update(inputs)
+
+    # Compute capture ratio per output
+    capture: dict[str, float] = {}
+    for j, oname in enumerate(output_names):
+        total_sobol = float(sobol_total[:, j].sum())
+        if total_sobol < 1e-10:
+            capture[oname] = 1.0  # output has no sensitivity → trivially captured
+            continue
+        claimed_sobol = 0.0
+        for i, iname in enumerate(input_names):
+            if iname in claimed_per_output[oname]:
+                claimed_sobol += float(sobol_total[i, j])
+        capture[oname] = min(1.0, claimed_sobol / total_sobol)
+
+    return capture
+
+
+def _compute_mechanism_sufficiency(
+    oracle: MediumOracle,
+    n_samples: int = 100_000,
+) -> dict[str, float]:
+    """Compute mechanism sufficiency: how much of Y variance is explained by M.
+
+    For each output, fits a nonparametric regression (binned means) of Y on M
+    and computes R². For Y1, Y2, Y4 this should be ~1.0 (fully determined by M).
+    For Y3 it should be < 1.0 (bypasses mechanism layer).
+    """
+    rng = np.random.default_rng(42)
+    lo, hi = oracle.bounds[:, 0], oracle.bounds[:, 1]
+    X = rng.uniform(lo, hi, size=(n_samples, oracle.n_inputs))
+
+    Y_list = []
+    M_list = []
+    for i in range(n_samples):
+        y, m = oracle.evaluate_with_mechanisms(X[i])
+        Y_list.append(y)
+        M_list.append([m["M1_eff"], m["M2_eff"], m["Z"],
+                        m["M4_mult"], m["M4_add"], m["gate"]])
+
+    Y_arr = np.array(Y_list)
+    M_arr = np.array(M_list)
+
+    # For each output, compute R² of a polynomial regression on M
+    sufficiency: dict[str, float] = {}
+    for j, oname in enumerate(oracle.output_names):
+        y = Y_arr[:, j]
+        # OLS with M columns + pairwise cross terms
+        # Build feature matrix: M columns + pairwise products
+        n_m = M_arr.shape[1]
+        features = [M_arr]
+        for a in range(n_m):
+            for b in range(a, n_m):
+                features.append((M_arr[:, a] * M_arr[:, b]).reshape(-1, 1))
+        feat = np.hstack(features)
+        feat = np.hstack([feat, np.ones((n_samples, 1))])  # intercept
+
+        # OLS
+        coeffs, residuals, _, _ = np.linalg.lstsq(feat, y, rcond=None)
+        y_pred = feat @ coeffs
+        ss_res = float(np.sum((y - y_pred) ** 2))
+        ss_tot = float(np.sum((y - y.mean()) ** 2))
+        r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else 1.0
+        sufficiency[oname] = round(r2, 6)
+
+    return sufficiency
+
+
+def compute_information_analysis() -> None:
+    """T6: Information-theoretic evaluation of mechanism discovery.
+
+    Computes:
+    1. Oracle mechanism sufficiency: R²(M→Y) per output
+    2. Agent information capture: Sobol-based proxy per iteration
+    3. End-of-run capture for past runs (from edge P/R data)
+    """
+    print("\n" + "=" * 70)
+    print("  9. Information-Theoretic Analysis (T6)")
+    print("=" * 70)
+
+    # --- 9a. Oracle mechanism sufficiency ---
+    print("\n  9a. Mechanism Sufficiency: R²(M → Y)")
+    print(f"  {'Oracle':<10} {'Y1':>8} {'Y2':>8} {'Y3':>8} {'Y4':>8} {'Mean':>8}")
+    print(f"  {'-' * 50}")
+
+    for label, oracle, _ in ORACLE_CONFIGS:
+        if not hasattr(oracle, "evaluate_with_mechanisms"):
+            print(f"  {label:<10} (no mechanism exposure)")
+            continue
+        suff = _compute_mechanism_sufficiency(oracle)  # type: ignore[arg-type]
+        vals = [suff.get(o, 0.0) for o in oracle.output_names]
+        mean_r2 = sum(vals) / len(vals)
+        print(f"  {label:<10} {vals[0]:>8.4f} {vals[1]:>8.4f} "
+              f"{vals[2]:>8.4f} {vals[3]:>8.4f} {mean_r2:>8.4f}")
+
+    # --- 9b. Agent information capture ---
+    print("\n  9b. Agent Information Capture (Sobol-based)")
+
+    for oracle_label in ("1A", "1B", "1C"):
+        oracle = _get_oracle(oracle_label)
+        sobol_total = _compute_sobol_indices_cached(oracle, oracle_label)
+
+        # Runs with iteration summaries (per-iteration trajectory)
+        found_iter = False
+        for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+            if label != oracle_label or not log_path.exists():
+                continue
+            with open(log_path) as f:
+                log = json.load(f)
+            summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+            if not summaries:
+                continue
+
+            if not found_iter:
+                print(f"\n  Oracle {oracle_label} — per-iteration capture:")
+                print(f"  {'Run':<22} {'Iter':>5} {'Evals':>6} "
+                      f"{'Y1':>6} {'Y2':>6} {'Y3':>6} {'Y4':>6} {'Mean':>6}")
+                print(f"  {'-' * 65}")
+                found_iter = True
+
+            for s in summaries:
+                conf = s.get("confidence", {})
+                capture = _compute_agent_info_capture(conf, sobol_total, oracle)
+                vals = [capture.get(o, 0.0) for o in oracle.output_names]
+                mean_c = sum(vals) / len(vals)
+                print(f"  {run_name:<22} {s.get('iteration', '?'):>5} "
+                      f"{s.get('eval_count', '?'):>6} "
+                      f"{vals[0]:>6.3f} {vals[1]:>6.3f} "
+                      f"{vals[2]:>6.3f} {vals[3]:>6.3f} {mean_c:>6.3f}")
+
+        # Runs without iteration summaries — use end-of-run edge data
+        for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+            if label != oracle_label or not log_path.exists():
+                continue
+            with open(log_path) as f:
+                log = json.load(f)
+            # Skip if already handled above
+            if (isinstance(log, dict) and log.get("iteration_summaries")):
+                continue
+            # Build confidence from discovered edges (all confidence = 1.0)
+            tool_calls = _load_tool_calls(log_path)
+            disc_edges = _extract_edges_from_tool_calls(oracle, tool_calls)
+            conf = {f"{e.source}->{e.target}": 1.0 for e in disc_edges}
+            capture = _compute_agent_info_capture(conf, sobol_total, oracle)
+            vals = [capture.get(o, 0.0) for o in oracle.output_names]
+            mean_c = sum(vals) / len(vals)
+            print(f"  {run_name:<22} {'end':>5} {'---':>6} "
+                  f"{vals[0]:>6.3f} {vals[1]:>6.3f} "
+                  f"{vals[2]:>6.3f} {vals[3]:>6.3f} {mean_c:>6.3f} (from edges)")
+
+
+def plot_information_capture() -> None:
+    """Plot information capture trajectory for runs with iteration summaries."""
+    print("\n" + "=" * 70)
+    print("  9b. Information Capture Plot")
+    print("=" * 70)
+
+    plot_data: list[tuple[str, list[int], list[float]]] = []
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+        oracle = _get_oracle(label)
+        sobol_total = _compute_sobol_indices_cached(oracle, label)
+
+        with open(log_path) as f:
+            log = json.load(f)
+        summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+        if not summaries:
+            continue
+
+        evals_list: list[int] = []
+        captures: list[float] = []
+        for s in summaries:
+            conf = s.get("confidence", {})
+            capture = _compute_agent_info_capture(conf, sobol_total, oracle)
+            mean_c = sum(capture.values()) / len(capture) if capture else 0.0
+            evals_list.append(int(s.get("eval_count", 0)))
+            captures.append(mean_c)
+
+        plot_data.append((run_name, evals_list, captures))
+
+    if not plot_data:
+        print("  No iteration summary data for information capture plot.")
+        return
+
+    fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+
+    for name, evals_l, caps in plot_data:
+        ax.plot(evals_l, caps, "o-", linewidth=2, markersize=6, label=name)
+
+    ax.set_xlabel("Oracle Evaluations")
+    ax.set_ylabel("Information Capture (Sobol fraction)")
+    ax.set_title("T6: Agent Information Capture Over Time")
+    ax.set_ylim(-0.05, 1.05)
+    ax.axhline(y=1.0, color="gray", linestyle="--", alpha=0.3, label="Perfect capture")
+    ax.legend(fontsize=7)
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    out_path = OUT_DIR / "information_capture.png"
+    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"  Saved to {out_path}")
+
+
+# ======================================================================
 # Main
 # ======================================================================
 
@@ -1806,6 +2068,10 @@ def main() -> None:
     # 8. Causal Model Convergence
     compute_causal_model_convergence()
     plot_causal_convergence()
+
+    # 9. Information-Theoretic Analysis (T6)
+    compute_information_analysis()
+    plot_information_capture()
 
     print("\n" + "=" * 70)
     print("  Done. All metrics computed for all runs.")
