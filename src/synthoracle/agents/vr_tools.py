@@ -811,6 +811,20 @@ def run_vr_tools(
     system_prompt = _build_tool_system_prompt(oracle, thresholds)
     if prior_knowledge is not None:
         system_prompt += "\n\n" + prior_knowledge
+        system_prompt += """
+
+## Managing Prior Knowledge
+CRITICAL: Prior knowledge can be WRONG on this system variant.
+- Treat each prior claim as a HYPOTHESIS to test, not a fact.
+- Budget your first experiments to FALSIFY the prior: pick inputs where
+  the prior makes specific claims and test where it would be most wrong.
+- If a prior claim fails falsification, UPDATE immediately — do not
+  average with the prior or give it partial credit.
+- PAY SPECIAL ATTENTION to relationships the prior says are ZERO or
+  absent. These are the easiest to be wrong about — a single OAT sweep
+  can reveal a missed dependency.
+- The prior is most likely wrong about: threshold locations, the sign
+  of weak effects, and interactions that weren't tested."""
     mechanism_log: list[str] = []
     tool_calls_log: list[dict[str, object]] = []
     total_llm_calls = 0
