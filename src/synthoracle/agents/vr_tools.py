@@ -974,18 +974,14 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
 
             cal_kwargs: dict[str, object] = {
                 "model": model,
-                "max_tokens": 1024,
+                "max_tokens": 4096,
                 "system": system_prompt,
                 "messages": list(conversation),
                 "output_format": _CalibrationResponse,
             }
             if thinking is not None:
                 cal_kwargs["thinking"] = thinking
-                raw_budget = thinking.get("budget_tokens", 0)
-                budget_tokens = (
-                    int(raw_budget) if raw_budget is not None else 0
-                )
-                cal_kwargs["max_tokens"] = max(1024, budget_tokens + 1024)
+                cal_kwargs["max_tokens"] = 16000
             cal_response = client.messages.parse(**cal_kwargs)  # type: ignore[arg-type]
             total_llm_calls += 1
             total_input_tokens += cal_response.usage.input_tokens

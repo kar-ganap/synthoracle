@@ -680,3 +680,52 @@ class TestRunVRTools:
             max_tool_calls_per_iteration=15,
         )
         assert len(result.mechanism_log) >= 1
+
+    def test_iteration_summaries_populated(
+        self, oracle: MediumOracle, mock_anthropic: MockMessages,
+    ) -> None:
+        result = run_vr_tools(
+            oracle, n_initial=4, n_budget=7, seed=42,
+            max_tool_calls_per_iteration=15,
+        )
+        assert len(result.iteration_summaries) >= 1
+        s = result.iteration_summaries[0]
+        assert "hypothesis" in s
+        assert "confidence" in s
+        assert "edges" in s
+        assert isinstance(s["confidence"], dict)
+
+    def test_parse_kwargs_max_tokens_with_thinking(
+        self, oracle: MediumOracle, monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """Verify parse() calls get sufficient max_tokens when thinking is enabled."""
+        parse_calls: list[dict[str, object]] = []
+
+        class TrackingMessages(MockMessages):
+            def parse(self, **kwargs: object) -> MockMessage:
+                parse_calls.append(kwargs)
+                return super().parse(**kwargs)
+
+        tracking_msgs = TrackingMessages()
+
+        class MockClient:
+            def __init__(self, **kwargs: object) -> None:
+                self.messages = tracking_msgs
+
+        monkeypatch.setattr("anthropic.Anthropic", MockClient)
+
+        run_vr_tools(
+            oracle, n_initial=4, n_budget=7, seed=42,
+            max_tool_calls_per_iteration=15,
+            thinking={"type": "adaptive"},
+        )
+
+        # Should have at least 1 parse call (iteration summary)
+        assert len(parse_calls) >= 1
+        for call in parse_calls:
+            max_tokens = call.get("max_tokens", 0)
+            assert isinstance(max_tokens, (int, float))
+            # With adaptive thinking, max_tokens must be >> 1024
+            assert max_tokens >= 4096, (
+                f"parse() max_tokens={max_tokens} too low for thinking"
+            )
