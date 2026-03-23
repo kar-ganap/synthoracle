@@ -30,10 +30,27 @@ from synthoracle.oracle import Oracle
 # ---------------------------------------------------------------------------
 
 
-class _CalibrationResponse(BaseModel):
-    """Structured output for calibration checkpoint predictions."""
-
-    predicted_outputs: list[float]
+def _make_calibration_schema(n_outputs: int, output_names: tuple[str, ...]) -> type[BaseModel]:
+    """Create a CalibrationResponse schema with exact output count."""
+    return type(
+        "_CalibrationResponse",
+        (BaseModel,),
+        {
+            "__annotations__": {
+                "predicted_outputs": list[float],
+            },
+            "__doc__": (
+                f"Predict exactly {n_outputs} outputs: "
+                f"{', '.join(output_names)}."
+            ),
+            "predicted_outputs": Field(
+                description=f"Exactly {n_outputs} predicted values for "
+                f"{', '.join(output_names)}.",
+                min_length=n_outputs,
+                max_length=n_outputs,
+            ),
+        },
+    )
 
 
 class _EdgeConfidence(BaseModel):
@@ -974,12 +991,15 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             )
             conversation.append({"role": "user", "content": cal_msg})
 
+            cal_schema = _make_calibration_schema(
+                oracle.n_outputs, oracle.output_names,
+            )
             cal_kwargs: dict[str, object] = {
                 "model": model,
                 "max_tokens": 4096,
                 "system": system_prompt,
                 "messages": list(conversation),
-                "output_format": _CalibrationResponse,
+                "output_format": cal_schema,
             }
             if thinking is not None:
                 cal_kwargs["thinking"] = thinking
@@ -1000,15 +1020,8 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
 
             if cal_response.parsed_output is not None:
                 preds = cal_response.parsed_output.predicted_outputs
-                if len(preds) >= oracle.n_outputs:
-                    cal_predicted = np.array(
-                        preds[:oracle.n_outputs], dtype=np.float64,
-                    )
-                elif len(preds) > 0:
-                    # Partial prediction — pad with NaN
-                    cal_predicted[:len(preds)] = np.array(
-                        preds, dtype=np.float64,
-                    )
+                # Pydantic schema enforces exact length via min/max_length
+                cal_predicted = np.array(preds, dtype=np.float64)
 
             # Evaluate
             cal_actual = oracle.evaluate(cal_point)
