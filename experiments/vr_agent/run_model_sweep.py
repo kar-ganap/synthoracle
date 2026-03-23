@@ -57,7 +57,7 @@ OPUS_BATCH_LOG = RESULTS_DIR / "opus_test_seed42_log.json"
 
 # Per-model pricing: ($/M input tokens, $/M output tokens)
 PRICING: dict[str, tuple[float, float]] = {
-    "claude-opus-4-6": (15.0, 75.0),
+    "claude-opus-4-6": (5.0, 25.0),
     "claude-sonnet-4-6": (3.0, 15.0),
     "claude-haiku-4-5-20251001": (0.80, 4.0),
 }

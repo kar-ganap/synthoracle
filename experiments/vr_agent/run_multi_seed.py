@@ -36,7 +36,7 @@ N_BUDGET = 72
 MODEL = "claude-opus-4-6"
 THINKING = {"type": "adaptive"}
 THRESHOLDS = {"Y3": 0.4}
-PRICING = (15.0, 75.0)  # $/M tokens (input, output)
+PRICING = (5.0, 25.0)  # $/M tokens (input, output) — Opus 4.6 standard
 
 
 # ---------------------------------------------------------------------------

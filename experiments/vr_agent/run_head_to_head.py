@@ -43,7 +43,7 @@ RUNS: list[tuple[str, str, dict[str, object] | None]] = [
 ]
 
 PRICING: dict[str, tuple[float, float]] = {
-    "claude-opus-4-6": (15.0, 75.0),
+    "claude-opus-4-6": (5.0, 25.0),
     "claude-sonnet-4-6": (3.0, 15.0),
 }
 
