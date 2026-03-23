@@ -15,6 +15,7 @@ Outputs:
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 from typing import Any
@@ -1495,13 +1496,20 @@ def compute_calibration_analysis() -> None:
             mae = check.get("mae", float("nan"))
             max_err = check.get("max_error", float("nan"))
             errors = check.get("errors", [])
-            err_str = ", ".join(f"{e:.4f}" for e in errors) if errors else "N/A"
-            print(f"  {eval_n:>6} {mae:>8.4f} {max_err:>10.4f} [{err_str}]")
+            if math.isnan(mae):
+                print(f"  {eval_n:>6} {'FAILED':>8} {'---':>10} (parse failure)")
+            else:
+                err_str = ", ".join(f"{e:.4f}" for e in errors)
+                print(f"  {eval_n:>6} {mae:>8.4f} {max_err:>10.4f} [{err_str}]")
 
-        # Trend assessment
-        if len(cal_checks) >= 2:
-            first_mae = cal_checks[0].get("mae", 0)
-            last_mae = cal_checks[-1].get("mae", 0)
+        # Trend assessment — only from successful checkpoints
+        valid_maes = [
+            c.get("mae", float("nan")) for c in cal_checks
+            if not math.isnan(c.get("mae", float("nan")))
+        ]
+        if len(valid_maes) >= 2:
+            first_mae = valid_maes[0]
+            last_mae = valid_maes[-1]
             if last_mae < first_mae * 0.7:
                 trend = "LEARNING (MAE decreased)"
             elif last_mae > first_mae * 1.3:
@@ -1509,6 +1517,8 @@ def compute_calibration_analysis() -> None:
             else:
                 trend = "STABLE"
             print(f"  Trend: {trend} ({first_mae:.4f} -> {last_mae:.4f})")
+        elif len(valid_maes) == 1:
+            print(f"  Trend: single checkpoint (MAE={valid_maes[0]:.4f})")
 
     if not found_any:
         print("\n  No calibration checkpoint data found in any run.")
