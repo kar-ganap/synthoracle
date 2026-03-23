@@ -1774,6 +1774,210 @@ def plot_causal_convergence() -> None:
 
 
 # ======================================================================
+# 8c. Adversarial Prediction Analysis
+# ======================================================================
+
+
+def compute_adversarial_prediction_analysis() -> None:
+    """Compare prediction errors in adversarial vs non-adversarial regions.
+
+    Uses oracle.adversarial_regions() so the analysis is oracle-driven,
+    not hardcoded to any specific oracle variant.
+    """
+    print("\n" + "=" * 70)
+    print("  8c. Adversarial Prediction Analysis")
+    print("=" * 70)
+
+    found_any = False
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        oracle = _get_oracle(label)
+        regions = oracle.adversarial_regions()
+        if not regions:
+            continue
+
+        tool_calls = _load_tool_calls(log_path)
+        eval_pts = [tc for tc in tool_calls if tc.get("name") == "evaluate_point"]
+        if not eval_pts:
+            continue
+
+        # Collect (point, max_error) pairs with region labels
+        region_errors: dict[str, list[float]] = {r["name"]: [] for r in regions}
+        region_errors["non-adversarial"] = []
+
+        for tc in eval_pts:
+            inp = tc.get("input", {})
+            result = tc.get("result", {})
+            point = inp.get("point", [])
+            if not point:
+                continue
+
+            # Get prediction error
+            pred_errors = result.get("prediction_errors", {}) if isinstance(result, dict) else {}
+            if not pred_errors:
+                # Replay from input
+                raw_pred = inp.get("predicted_outputs", [])
+                if raw_pred and len(raw_pred) == oracle.n_outputs:
+                    actual = oracle.evaluate(np.array(point, dtype=np.float64))
+                    pred = np.array(raw_pred, dtype=np.float64)
+                    pred_errors = {
+                        oname: float(actual[i] - pred[i])
+                        for i, oname in enumerate(oracle.output_names)
+                    }
+            if not pred_errors:
+                continue
+
+            max_err = max(abs(float(v)) for v in pred_errors.values())
+            x = np.array(point, dtype=np.float64)
+
+            # Classify into regions
+            in_any = False
+            for r in regions:
+                test_fn = r["test"]
+                try:
+                    if test_fn(x):
+                        region_errors[str(r["name"])].append(max_err)
+                        in_any = True
+                except (IndexError, ZeroDivisionError):
+                    pass
+            if not in_any:
+                region_errors["non-adversarial"].append(max_err)
+
+        # Print if we have data
+        has_data = any(len(errs) > 0 for errs in region_errors.values())
+        if not has_data:
+            continue
+
+        found_any = True
+        print(f"\n  --- {run_name} ---")
+        print(f"  {'Region':<25} {'#Pts':>5} {'MAE':>8} {'Max|err|':>10}")
+        print(f"  {'-' * 52}")
+
+        for rname in ["non-adversarial"] + [r["name"] for r in regions]:
+            errs = region_errors.get(str(rname), [])
+            if not errs:
+                continue
+            mae = sum(errs) / len(errs)
+            max_e = max(errs)
+            print(f"  {rname:<25} {len(errs):>5} {mae:>8.4f} {max_e:>10.4f}")
+
+    if not found_any:
+        print("\n  No evaluate_point data with adversarial regions found.")
+
+
+# ======================================================================
+# 8d. Confidence Calibration Over Time
+# ======================================================================
+
+
+def compute_calibration_over_time() -> None:
+    """Track confidence calibration per iteration.
+
+    For each iteration, bin edges by confidence and compute fraction true.
+    Calibration error = mean |bucket_midpoint - fraction_true|.
+    """
+    print("\n" + "=" * 70)
+    print("  8d. Confidence Calibration Over Time")
+    print("=" * 70)
+
+    cal_bins = [(0.0, 0.33, "Low"), (0.33, 0.67, "Med"), (0.67, 1.01, "High")]
+    found_any = False
+
+    # Collect data for plot
+    plot_data: list[tuple[str, list[int], list[float]]] = []
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        with open(log_path) as f:
+            log = json.load(f)
+        summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+        if not summaries:
+            continue
+
+        oracle = _get_oracle(label)
+        gt_io = oracle.ground_truth().project_to_io()
+        gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+
+        if not found_any:
+            print(f"\n  {'Run':<22} {'Iter':>5} {'Evals':>6} {'CalErr':>7} "
+                  f"{'Low':>8} {'Med':>8} {'High':>8}")
+            print(f"  {'-' * 70}")
+            found_any = True
+
+        evals_list: list[int] = []
+        cal_errors: list[float] = []
+
+        for s in summaries:
+            confidence = s.get("confidence", {})
+            if not confidence:
+                continue
+
+            bin_results: list[tuple[float, float | None]] = []  # (midpoint, frac_true)
+            bin_strs: list[str] = []
+
+            for lo_b, hi_b, bin_name in cal_bins:
+                midpoint = (lo_b + hi_b) / 2
+                edges_in_bin: list[bool] = []
+                for edge_str, conf in confidence.items():
+                    if not isinstance(conf, (int, float)):
+                        continue
+                    if lo_b <= conf < hi_b:
+                        parts = edge_str.replace(" ", "").split("->")
+                        if len(parts) == 2:
+                            edges_in_bin.append((parts[0], parts[1]) in gt_pairs)
+
+                if edges_in_bin:
+                    frac = sum(edges_in_bin) / len(edges_in_bin)
+                    bin_results.append((midpoint, frac))
+                    bin_strs.append(f"{frac:.0%}({len(edges_in_bin)})")
+                else:
+                    bin_results.append((midpoint, None))
+                    bin_strs.append("---")
+
+            # Calibration error: mean |midpoint - frac_true| for bins with data
+            valid = [(m, f) for m, f in bin_results if f is not None]
+            cal_err = (sum(abs(m - f) for m, f in valid) / len(valid)
+                       if valid else float("nan"))
+
+            evals_list.append(int(s.get("eval_count", 0)))
+            cal_errors.append(cal_err)
+
+            print(f"  {run_name:<22} {s.get('iteration', '?'):>5} "
+                  f"{s.get('eval_count', '?'):>6} {cal_err:>7.3f} "
+                  f"{bin_strs[0]:>8} {bin_strs[1]:>8} {bin_strs[2]:>8}")
+
+        if evals_list:
+            plot_data.append((run_name, evals_list, cal_errors))
+
+    if not found_any:
+        print("\n  No iteration summary data for calibration tracking.")
+        return
+
+    # Plot
+    if plot_data:
+        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
+        for name, evals_l, errors in plot_data:
+            ax.plot(evals_l, errors, "o-", linewidth=2, markersize=6, label=name)
+        ax.set_xlabel("Oracle Evaluations")
+        ax.set_ylabel("Calibration Error (lower = better)")
+        ax.set_title("Confidence Calibration Over Time")
+        ax.set_ylim(-0.05, 0.6)
+        ax.axhline(y=0, color="gray", linestyle="--", alpha=0.3, label="Perfect")
+        ax.legend(fontsize=7)
+        ax.grid(True, alpha=0.3)
+        plt.tight_layout()
+        out_path = OUT_DIR / "calibration_over_time.png"
+        plt.savefig(out_path, dpi=150, bbox_inches="tight")
+        plt.close()
+        print(f"\n  Saved to {out_path}")
+
+
+# ======================================================================
 # 9. Information-Theoretic Analysis (T6)
 # ======================================================================
 
@@ -2071,6 +2275,8 @@ def main() -> None:
     # 8. Causal Model Convergence
     compute_causal_model_convergence()
     plot_causal_convergence()
+    compute_adversarial_prediction_analysis()
+    compute_calibration_over_time()
 
     # 9. Information-Theoretic Analysis (T6)
     compute_information_analysis()

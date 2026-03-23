@@ -112,6 +112,31 @@ class MediumOracle(Oracle):
         }
         return y, mechanisms
 
+    def adversarial_regions(self) -> list[dict[str, object]]:
+        """Regions where the Medium Oracle is nonlinear or interactive."""
+        return [
+            {
+                "name": "X5_threshold",
+                "description": "Near gate sigmoid (X5 ~ 0.38)",
+                "test": lambda x: 0.30 < x[4] < 0.46,
+            },
+            {
+                "name": "X2_X4_interaction",
+                "description": "Multiplicative synergy zone",
+                "test": lambda x: x[1] > 0.7 and x[3] > 0.7,
+            },
+            {
+                "name": "Z_sensitive",
+                "description": "Hidden coupling most sensitive",
+                "test": lambda x: 0.3 < x[3] / (x[3] + x[5]) < 0.7,
+            },
+            {
+                "name": "M2_regime",
+                "description": "Leakage-dominated regime (low X1)",
+                "test": lambda x: x[0] < 0.3,
+            },
+        ]
+
     def ground_truth(self) -> CausalDAG:
         """Return the ground-truth causal DAG.
 

@@ -31,6 +31,16 @@ class MediumOracle1C(MediumOracle):
         y[3] = y[3] + 0.3 * m5
         return y
 
+    def adversarial_regions(self) -> list[dict[str, object]]:
+        """Base regions + 1C-specific M5 coupling zone."""
+        regions = super().adversarial_regions()
+        regions.append({
+            "name": "M5_coupling",
+            "description": "1C-specific X3*X5 coupling for Y4",
+            "test": lambda x: x[2] > 0.5 and x[4] > 0.5,
+        })
+        return regions
+
     def ground_truth(self) -> CausalDAG:
         """Base DAG + M5 node and 3 new edges (29 total)."""
         base_dag = super().ground_truth()
