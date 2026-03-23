@@ -967,7 +967,9 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             cal_point = rng.uniform(lo, hi)
             cal_point_str = [round(float(v), 4) for v in cal_point]
             cal_msg = (
-                "CALIBRATION CHECK: Predict all outputs for this point: "
+                "CALIBRATION CHECK: Predict all "
+                f"{oracle.n_outputs} outputs "
+                f"({', '.join(oracle.output_names)}) for this point: "
                 f"{cal_point_str}."
             )
             conversation.append({"role": "user", "content": cal_msg})
@@ -998,8 +1000,15 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
 
             if cal_response.parsed_output is not None:
                 preds = cal_response.parsed_output.predicted_outputs
-                if len(preds) == oracle.n_outputs:
-                    cal_predicted = np.array(preds, dtype=np.float64)
+                if len(preds) >= oracle.n_outputs:
+                    cal_predicted = np.array(
+                        preds[:oracle.n_outputs], dtype=np.float64,
+                    )
+                elif len(preds) > 0:
+                    # Partial prediction — pad with NaN
+                    cal_predicted[:len(preds)] = np.array(
+                        preds, dtype=np.float64,
+                    )
 
             # Evaluate
             cal_actual = oracle.evaluate(cal_point)
@@ -1036,9 +1045,12 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
                     flush=True,
                 )
             else:
+                stop = getattr(cal_response, "stop_reason", "unknown")
                 print(
                     f"  [CALIBRATION @ eval {eval_count}] "
-                    f"parse failed — raw: {cal_text[:100]}",
+                    f"parse failed — stop={stop}, "
+                    f"parsed_output={cal_response.parsed_output}, "
+                    f"raw: {cal_text[:200]}",
                     flush=True,
                 )
 
