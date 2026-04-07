@@ -1003,7 +1003,7 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             }
             if thinking is not None:
                 cal_kwargs["thinking"] = thinking
-                cal_kwargs["max_tokens"] = 16000
+                cal_kwargs["max_tokens"] = 32000
             cal_response = client.messages.parse(**cal_kwargs)  # type: ignore[arg-type]
             total_llm_calls += 1
             total_input_tokens += cal_response.usage.input_tokens
