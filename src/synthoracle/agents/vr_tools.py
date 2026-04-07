@@ -621,8 +621,18 @@ def _execute_tool(
             result = {"error": "Need at least 2 data points for regression."}
             return result, empty_X, empty_Y, 0
 
+        # Filter to valid input names (agent may pass interaction terms like "X1*X3")
+        valid_inputs = [n for n in input_names_req if n in oracle.input_names]
+        if not valid_inputs:
+            result = {
+                "error": f"No valid input names. Use individual inputs "
+                f"({', '.join(oracle.input_names)}), not interaction terms.",
+                "invalid_inputs": input_names_req,
+            }
+            return result, empty_X, empty_Y, 0
+
         # Map names to column indices
-        in_indices = [list(oracle.input_names).index(n) for n in input_names_req]
+        in_indices = [list(oracle.input_names).index(n) for n in valid_inputs]
         out_idx = list(oracle.output_names).index(output_name)
 
         A = X_all[:, in_indices]
@@ -638,7 +648,7 @@ def _execute_tool(
         r_squared = 1.0 - ss_res / ss_tot if ss_tot > 1e-12 else 0.0
 
         coeff_dict: dict[str, float] = {}
-        for k, n in enumerate(input_names_req):
+        for k, n in enumerate(valid_inputs):
             coeff_dict[n] = round(float(coeffs[k]), 6)
         coeff_dict["intercept"] = round(float(coeffs[-1]), 6)
 
