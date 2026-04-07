@@ -31,7 +31,7 @@ from synthoracle.oracles.medium import MediumOracle
 RESULTS_DIR = Path("experiments/vr_agent/results/multi_seed")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-SEEDS = list(range(42, 52))  # 10 seeds: 42..51
+ALL_SEEDS = list(range(42, 52))  # 10 seeds: 42..51
 N_BUDGET = 72
 MODEL = "claude-opus-4-6"
 THINKING = {"type": "adaptive"}
@@ -221,6 +221,19 @@ def plot_hv_envelope(results: dict[int, VRToolsResult]) -> None:
 
 
 def main() -> None:
+    import sys
+
+    # Parse optional seed range from CLI: python run_multi_seed.py 43 47
+    if len(sys.argv) == 3:
+        seeds = list(range(int(sys.argv[1]), int(sys.argv[2]) + 1))
+    elif len(sys.argv) == 1:
+        seeds = ALL_SEEDS
+    else:
+        print("Usage: python run_multi_seed.py [start_seed end_seed]")
+        print("  No args: run all seeds (42-51)")
+        print("  Two args: run seeds in range [start, end] inclusive")
+        sys.exit(1)
+
     oracle = MediumOracle()
 
     # Shared reference point for comparable HV across seeds
@@ -228,14 +241,14 @@ def main() -> None:
     ref_point = compute_reference_point(oracle, obj_indices, signs, seed=0)
 
     print(f"Multi-seed Opus tool agent on Medium 1A")
-    print(f"Seeds: {SEEDS}")
+    print(f"Seeds: {seeds}")
     print(f"Budget: {N_BUDGET} evals per seed")
     print(f"Reference point: {ref_point}")
 
     results: dict[int, VRToolsResult] = {}
 
     # Load already-completed seeds
-    for seed in SEEDS:
+    for seed in seeds:
         npz_path = RESULTS_DIR / f"seed{seed}.npz"
         log_path = RESULTS_DIR / f"seed{seed}_log.json"
         if npz_path.exists() and log_path.exists():
@@ -261,7 +274,7 @@ def main() -> None:
             )
 
     # Run remaining seeds
-    remaining = [s for s in SEEDS if s not in results]
+    remaining = [s for s in seeds if s not in results]
     if remaining:
         print(f"\n  Running {len(remaining)} remaining seeds: {remaining}")
         for seed in remaining:
@@ -275,7 +288,7 @@ def main() -> None:
         print_aggregate(results)
         plot_hv_envelope(results)
 
-    print(f"\n  {len(results)}/{len(SEEDS)} seeds completed successfully.")
+    print(f"\n  {len(results)}/{len(seeds)} seeds completed successfully.")
 
 
 if __name__ == "__main__":
