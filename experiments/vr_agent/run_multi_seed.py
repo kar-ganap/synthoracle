@@ -233,10 +233,43 @@ def main() -> None:
     print(f"Reference point: {ref_point}")
 
     results: dict[int, VRToolsResult] = {}
+
+    # Load already-completed seeds
     for seed in SEEDS:
-        r = run_seed(seed, oracle, ref_point)
-        if r is not None:
-            results[seed] = r
+        npz_path = RESULTS_DIR / f"seed{seed}.npz"
+        log_path = RESULTS_DIR / f"seed{seed}_log.json"
+        if npz_path.exists() and log_path.exists():
+            print(f"\n  Seed {seed}: already complete, loading from disk.")
+            data = np.load(npz_path)
+            with open(log_path) as f:
+                log = json.load(f)
+            results[seed] = VRToolsResult(
+                X=data["X"], Y=data["Y"],
+                hypervolumes=data["hypervolumes"].tolist(),
+                pareto_X=data["pareto_X"], pareto_Y=data["pareto_Y"],
+                reference_point=data["reference_point"],
+                seed=seed, n_initial=12, n_budget=N_BUDGET,
+                eval_count=int(log.get("eval_count", len(data["hypervolumes"]))),
+                total_seconds=0.0,
+                mechanism_log=log.get("mechanism_log", []),
+                tool_calls=log.get("tool_calls", []),
+                calibration_checks=log.get("calibration_checks", []),
+                iteration_summaries=log.get("iteration_summaries", []),
+                total_llm_calls=int(log.get("total_llm_calls", 0)),
+                total_input_tokens=int(log.get("total_input_tokens", 0)),
+                total_output_tokens=int(log.get("total_output_tokens", 0)),
+            )
+
+    # Run remaining seeds
+    remaining = [s for s in SEEDS if s not in results]
+    if remaining:
+        print(f"\n  Running {len(remaining)} remaining seeds: {remaining}")
+        for seed in remaining:
+            r = run_seed(seed, oracle, ref_point)
+            if r is not None:
+                results[seed] = r
+    else:
+        print("\n  All seeds already complete.")
 
     if results:
         print_aggregate(results)
