@@ -57,7 +57,7 @@ OPUS_BATCH_LOG = RESULTS_DIR / "opus_test_seed42_log.json"
 
 # Per-model pricing: ($/M input tokens, $/M output tokens)
 PRICING: dict[str, tuple[float, float]] = {
-    "claude-opus-4-6": (15.0, 75.0),
+    "claude-opus-4-6": (5.0, 25.0),
     "claude-sonnet-4-6": (3.0, 15.0),
     "claude-haiku-4-5-20251001": (0.80, 4.0),
 }
@@ -307,6 +307,7 @@ def _summarize_tool_result(
             "tool_calls": result.tool_calls,
             "mechanism_log": result.mechanism_log,
             "calibration_checks": result.calibration_checks,
+            "iteration_summaries": result.iteration_summaries,
             "eval_count": result.eval_count,
             "total_llm_calls": result.total_llm_calls,
             "total_input_tokens": result.total_input_tokens,

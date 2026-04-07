@@ -67,6 +67,17 @@ class MediumOracle(Oracle):
         return ("maximize", "minimize", "threshold", "maximize")
 
     def evaluate(self, x: InputArray) -> OutputArray:
+        y, _ = self.evaluate_with_mechanisms(x)
+        return y
+
+    def evaluate_with_mechanisms(
+        self, x: InputArray,
+    ) -> tuple[OutputArray, dict[str, float]]:
+        """Evaluate and return intermediate mechanism values.
+
+        Returns (Y, mechanisms) where mechanisms is a dict of all
+        intermediate variables in the causal DAG.
+        """
         x1, x2, x3, x4, x5, x6 = x
 
         # Mechanisms
@@ -92,7 +103,39 @@ class MediumOracle(Oracle):
         y3 = float(_sigmoid(8.1 * (x1 - 0.27))) * x3**0.5
         y4 = m1_eff / (1.0 + 2.0 * m1_eff)
 
-        return np.array([y1, y2, y3, y4], dtype=np.float64)
+        y = np.array([y1, y2, y3, y4], dtype=np.float64)
+        mechanisms = {
+            "M1": float(m1), "M2": float(m2), "Z": float(z),
+            "gate": float(gate), "M1_eff": float(m1_eff),
+            "M2_eff": float(m2_eff), "M4_mult": float(m4_mult),
+            "M4_add": float(m4_add),
+        }
+        return y, mechanisms
+
+    def adversarial_regions(self) -> list[dict[str, object]]:
+        """Regions where the Medium Oracle is nonlinear or interactive."""
+        return [
+            {
+                "name": "X5_threshold",
+                "description": "Near gate sigmoid (X5 ~ 0.38)",
+                "test": lambda x: 0.30 < x[4] < 0.46,
+            },
+            {
+                "name": "X2_X4_interaction",
+                "description": "Multiplicative synergy zone",
+                "test": lambda x: x[1] > 0.7 and x[3] > 0.7,
+            },
+            {
+                "name": "Z_sensitive",
+                "description": "Hidden coupling most sensitive",
+                "test": lambda x: 0.3 < x[3] / (x[3] + x[5]) < 0.7,
+            },
+            {
+                "name": "M2_regime",
+                "description": "Leakage-dominated regime (low X1)",
+                "test": lambda x: x[0] < 0.3,
+            },
+        ]
 
     def ground_truth(self) -> CausalDAG:
         """Return the ground-truth causal DAG.

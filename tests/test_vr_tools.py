@@ -90,6 +90,29 @@ class MockMessage:
         )
 
 
+class MockEdge:
+    """Mock for _EdgeConfidence."""
+
+    def __init__(self, edge: str, confidence: float, evidence: str) -> None:
+        self.edge = edge
+        self.confidence = confidence
+        self.evidence = evidence
+
+
+class MockParsedOutput:
+    """Mock for messages.parse() parsed_output."""
+
+    def __init__(self) -> None:
+        self.hypothesis = "X2 strongly drives Y1 based on OAT sweep."
+        self.new_findings = ["X2->Y1 is monotonically increasing"]
+        self.surprises = []
+        self.next_plan = "Test X3 next"
+        self.edges = [
+            MockEdge("X2->Y1", 0.9, "OAT range=0.33"),
+            MockEdge("X2->Y4", 0.6, "OAT range=0.17"),
+        ]
+
+
 class MockMessages:
     """Mock for client.messages that simulates tool-use flow."""
 
@@ -106,6 +129,12 @@ class MockMessages:
                     "n_levels": 3,
                     "base_point": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
                     "predicted_trend": "X2 increases Y1 monotonically",
+                    "predicted_trends": {
+                        "Y1": {"direction": "increase", "magnitude": 0.3},
+                        "Y2": {"direction": "flat", "magnitude": 0.02},
+                        "Y3": {"direction": "flat", "magnitude": 0.01},
+                        "Y4": {"direction": "increase", "magnitude": 0.15},
+                    },
                 }),
             ])
         elif self.call_count == 2:
@@ -118,6 +147,16 @@ class MockMessages:
             return MockMessage([
                 MockTextBlock("X2 strongly drives Y1 based on OAT sweep."),
             ])
+
+    def parse(self, **kwargs: object) -> MockMessage:
+        """Mock for structured output via messages.parse()."""
+        msg = MockMessage([
+            MockTextBlock('{"hypothesis": "X2->Y1", "new_findings": [], '
+                          '"surprises": [], "next_plan": "test X3", '
+                          '"confidence": {"X2->Y1": 0.9}}'),
+        ])
+        msg.parsed_output = MockParsedOutput()  # type: ignore[attr-defined]
+        return msg
 
 
 @pytest.fixture
@@ -641,3 +680,52 @@ class TestRunVRTools:
             max_tool_calls_per_iteration=15,
         )
         assert len(result.mechanism_log) >= 1
+
+    def test_iteration_summaries_populated(
+        self, oracle: MediumOracle, mock_anthropic: MockMessages,
+    ) -> None:
+        result = run_vr_tools(
+            oracle, n_initial=4, n_budget=7, seed=42,
+            max_tool_calls_per_iteration=15,
+        )
+        assert len(result.iteration_summaries) >= 1
+        s = result.iteration_summaries[0]
+        assert "hypothesis" in s
+        assert "confidence" in s
+        assert "edges" in s
+        assert isinstance(s["confidence"], dict)
+
+    def test_parse_kwargs_max_tokens_with_thinking(
+        self, oracle: MediumOracle, monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """Verify parse() calls get sufficient max_tokens when thinking is enabled."""
+        parse_calls: list[dict[str, object]] = []
+
+        class TrackingMessages(MockMessages):
+            def parse(self, **kwargs: object) -> MockMessage:
+                parse_calls.append(kwargs)
+                return super().parse(**kwargs)
+
+        tracking_msgs = TrackingMessages()
+
+        class MockClient:
+            def __init__(self, **kwargs: object) -> None:
+                self.messages = tracking_msgs
+
+        monkeypatch.setattr("anthropic.Anthropic", MockClient)
+
+        run_vr_tools(
+            oracle, n_initial=4, n_budget=7, seed=42,
+            max_tool_calls_per_iteration=15,
+            thinking={"type": "adaptive"},
+        )
+
+        # Should have at least 1 parse call (iteration summary)
+        assert len(parse_calls) >= 1
+        for call in parse_calls:
+            max_tokens = call.get("max_tokens", 0)
+            assert isinstance(max_tokens, (int, float))
+            # With adaptive thinking, max_tokens must be >> 1024
+            assert max_tokens >= 4096, (
+                f"parse() max_tokens={max_tokens} too low for thinking"
+            )

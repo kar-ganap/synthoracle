@@ -73,8 +73,8 @@ def print_summary(result: VRResult) -> None:
     print(f"    LLM calls: {result.total_llm_calls}")
     print(f"    Input tokens: {result.total_input_tokens:,}")
     print(f"    Output tokens: {result.total_output_tokens:,}")
-    # Opus pricing: $15/M input, $75/M output
-    cost = result.total_input_tokens * 15 / 1e6 + result.total_output_tokens * 75 / 1e6
+    # Opus 4.6 pricing: $5/M input, $25/M output
+    cost = result.total_input_tokens * 5 / 1e6 + result.total_output_tokens * 25 / 1e6
     print(f"    Estimated cost: ${cost:.2f}")
 
 

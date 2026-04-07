@@ -6,9 +6,10 @@ Build a family of synthetic oracles with known causal structure to rigorously te
 
 ## Current State
 
-- **Current Stage:** Stage 0 — Foundation
-- **Current Phase:** Phase 0.1 — Literature Review
-- **Phase Status:** In progress (reviewing BORA + "LLMs for BO: Are We There Yet?")
+- **Current Stage:** Stage 2 (Walk) — VR agent + evaluation
+- **Current Phase:** Multi-seed evaluation (branch: `structured-iteration-summaries`)
+- **Completed:** Stages 0-1, Phases 2.0-2.3, model sweep, structured iteration summaries, T6 analysis
+- **Next:** 10-seed Opus multi-seed on Medium 1A, then transfer (1B/1C) and Hard oracle
 
 ## Constraints
 

@@ -70,6 +70,18 @@ class Oracle(ABC):
         """Per-output optimization direction: 'maximize', 'minimize', or 'threshold'."""
         ...
 
+    def adversarial_regions(self) -> list[dict[str, object]]:
+        """Return regions where the system is nonlinear or interactive.
+
+        Each region is a dict with:
+          - name: str — short identifier
+          - description: str — what makes this region challenging
+          - test: callable(x) -> bool — whether a point is in this region
+
+        Override in subclasses with oracle-specific regions.
+        """
+        return []
+
     def evaluate_batch(self, X: InputArray) -> OutputArray:
         """Evaluate oracle at multiple input points.
 

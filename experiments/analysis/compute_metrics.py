@@ -15,6 +15,7 @@ Outputs:
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 from typing import Any
@@ -67,6 +68,9 @@ TOOL_USE_RUNS: dict[str, tuple[str, Path, Path]] = {
     # Phase B: Model sweep tool runs
     "Sonnet tool": ("1A", VR_RESULTS / "sweep_sonnet_tool_seed42_log.json", VR_RESULTS / "sweep_sonnet_tool_seed42.npz"),
     "Haiku tool": ("1A", VR_RESULTS / "sweep_haiku_tool_seed42_log.json", VR_RESULTS / "sweep_haiku_tool_seed42.npz"),
+    # Head-to-head (structured iteration summaries)
+    "Opus h2h": ("1A", VR_RESULTS / "opus_h2h_seed42_log.json", VR_RESULTS / "opus_h2h_seed42.npz"),
+    "Sonnet h2h": ("1A", VR_RESULTS / "sonnet_h2h_seed42_log.json", VR_RESULTS / "sonnet_h2h_seed42.npz"),
 }
 
 # Batch VR run (Phase 2.2): label -> (oracle_label, log_path, npz_path)
@@ -1492,13 +1496,20 @@ def compute_calibration_analysis() -> None:
             mae = check.get("mae", float("nan"))
             max_err = check.get("max_error", float("nan"))
             errors = check.get("errors", [])
-            err_str = ", ".join(f"{e:.4f}" for e in errors) if errors else "N/A"
-            print(f"  {eval_n:>6} {mae:>8.4f} {max_err:>10.4f} [{err_str}]")
+            if math.isnan(mae):
+                print(f"  {eval_n:>6} {'FAILED':>8} {'---':>10} (parse failure)")
+            else:
+                err_str = ", ".join(f"{e:.4f}" for e in errors)
+                print(f"  {eval_n:>6} {mae:>8.4f} {max_err:>10.4f} [{err_str}]")
 
-        # Trend assessment
-        if len(cal_checks) >= 2:
-            first_mae = cal_checks[0].get("mae", 0)
-            last_mae = cal_checks[-1].get("mae", 0)
+        # Trend assessment — only from successful checkpoints
+        valid_maes = [
+            c.get("mae", float("nan")) for c in cal_checks
+            if not math.isnan(c.get("mae", float("nan")))
+        ]
+        if len(valid_maes) >= 2:
+            first_mae = valid_maes[0]
+            last_mae = valid_maes[-1]
             if last_mae < first_mae * 0.7:
                 trend = "LEARNING (MAE decreased)"
             elif last_mae > first_mae * 1.3:
@@ -1506,6 +1517,8 @@ def compute_calibration_analysis() -> None:
             else:
                 trend = "STABLE"
             print(f"  Trend: {trend} ({first_mae:.4f} -> {last_mae:.4f})")
+        elif len(valid_maes) == 1:
+            print(f"  Trend: single checkpoint (MAE={valid_maes[0]:.4f})")
 
     if not found_any:
         print("\n  No calibration checkpoint data found in any run.")
@@ -1595,6 +1608,648 @@ def plot_surprise_trajectory() -> None:
 
 
 # ======================================================================
+# 8. Causal Model Convergence
+# ======================================================================
+
+CONFIDENCE_THRESHOLD = 0.5  # edges with confidence >= this are "claimed"
+
+
+def compute_causal_model_convergence() -> None:
+    """Track per-iteration edge precision/recall from structured iteration summaries.
+
+    For each tool-use run with iteration_summaries, extract the confidence dict,
+    threshold at CONFIDENCE_THRESHOLD, and score against ground truth IO edges.
+    """
+    print("\n" + "=" * 70)
+    print("  8. Causal Model Convergence")
+    print("=" * 70)
+
+    found_any = False
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        with open(log_path) as f:
+            log = json.load(f)
+
+        summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+        if not summaries:
+            continue
+
+        found_any = True
+        oracle = _get_oracle(label)
+        gt_io = oracle.ground_truth().project_to_io()
+        gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+
+        print(f"\n  --- {run_name} ({len(summaries)} iterations) ---")
+        print(f"  {'Iter':>5} {'Evals':>6} {'Claimed':>8} {'TP':>4} {'FP':>4} "
+              f"{'Prec':>6} {'Recall':>7} {'#Edges':>7}")
+        print(f"  {'-' * 55}")
+
+        for s in summaries:
+            confidence = s.get("confidence", {})
+            # Threshold to get claimed edges
+            claimed = set()
+            for edge_str, conf in confidence.items():
+                if not isinstance(conf, (int, float)):
+                    continue
+                if conf >= CONFIDENCE_THRESHOLD:
+                    # Parse "Xi->Yj" format
+                    parts = edge_str.replace(" ", "").split("->")
+                    if len(parts) == 2:
+                        claimed.add((parts[0], parts[1]))
+                    # Also handle "Xi*Xj->Yk" interaction format
+                    elif "*" in edge_str and "->" in edge_str:
+                        interaction_part, target = edge_str.split("->")
+                        for src in interaction_part.split("*"):
+                            claimed.add((src.strip(), target.strip()))
+
+            tp = len(gt_pairs & claimed)
+            fp = len(claimed - gt_pairs)
+            prec = tp / len(claimed) if claimed else 0.0
+            rec = tp / len(gt_pairs) if gt_pairs else 0.0
+
+            print(
+                f"  {s.get('iteration', '?'):>5} {s.get('eval_count', '?'):>6} "
+                f"{len(claimed):>8} {tp:>4} {fp:>4} "
+                f"{prec:>6.3f} {rec:>7.3f} {len(confidence):>7}"
+            )
+
+        # Confidence calibration: bin all edges by confidence, check GT fraction
+        print(f"\n  Confidence calibration:")
+        bins = [(0.0, 0.25), (0.25, 0.5), (0.5, 0.75), (0.75, 1.01)]
+        # Use last iteration's confidence
+        if summaries:
+            last_conf = summaries[-1].get("confidence", {})
+            for lo_b, hi_b in bins:
+                edges_in_bin = []
+                for edge_str, conf in last_conf.items():
+                    if not isinstance(conf, (int, float)):
+                        continue
+                    if lo_b <= conf < hi_b:
+                        parts = edge_str.replace(" ", "").split("->")
+                        if len(parts) == 2:
+                            is_true = (parts[0], parts[1]) in gt_pairs
+                            edges_in_bin.append(is_true)
+                if edges_in_bin:
+                    frac_true = sum(edges_in_bin) / len(edges_in_bin)
+                    print(f"    [{lo_b:.2f}, {hi_b:.2f}): {len(edges_in_bin)} edges, "
+                          f"{frac_true:.0%} true")
+                else:
+                    print(f"    [{lo_b:.2f}, {hi_b:.2f}): no edges")
+
+    if not found_any:
+        print("\n  No iteration summary data found in any run.")
+        print("  (Iteration summaries require the updated structured agent.)")
+
+
+def plot_causal_convergence() -> None:
+    """Plot per-iteration precision/recall for runs with iteration summaries."""
+    print("\n" + "=" * 70)
+    print("  8b. Causal Convergence Plot")
+    print("=" * 70)
+
+    plot_data: list[tuple[str, list[int], list[float], list[float]]] = []
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        with open(log_path) as f:
+            log = json.load(f)
+
+        summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+        if not summaries:
+            continue
+
+        oracle = _get_oracle(label)
+        gt_io = oracle.ground_truth().project_to_io()
+        gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+
+        evals_list: list[int] = []
+        prec_list: list[float] = []
+        rec_list: list[float] = []
+
+        for s in summaries:
+            confidence = s.get("confidence", {})
+            claimed = set()
+            for edge_str, conf in confidence.items():
+                if not isinstance(conf, (int, float)):
+                    continue
+                if conf >= CONFIDENCE_THRESHOLD:
+                    parts = edge_str.replace(" ", "").split("->")
+                    if len(parts) == 2:
+                        claimed.add((parts[0], parts[1]))
+
+            tp = len(gt_pairs & claimed)
+            prec = tp / len(claimed) if claimed else 0.0
+            rec = tp / len(gt_pairs) if gt_pairs else 0.0
+
+            evals_list.append(int(s.get("eval_count", 0)))
+            prec_list.append(prec)
+            rec_list.append(rec)
+
+        plot_data.append((run_name, evals_list, prec_list, rec_list))
+
+    if not plot_data:
+        print("  No data for causal convergence plot.")
+        return
+
+    fig, (ax_p, ax_r) = plt.subplots(1, 2, figsize=(14, 5))
+
+    for name, evals_l, prec_l, rec_l in plot_data:
+        ax_p.plot(evals_l, prec_l, "o-", linewidth=1.5, markersize=6, label=name)
+        ax_r.plot(evals_l, rec_l, "o-", linewidth=1.5, markersize=6, label=name)
+
+    ax_p.set_xlabel("Oracle Evaluations")
+    ax_p.set_ylabel("Precision")
+    ax_p.set_title("Causal Model Precision (claimed edges)")
+    ax_p.set_ylim(-0.05, 1.05)
+    ax_p.legend(fontsize=7)
+    ax_p.grid(True, alpha=0.3)
+
+    ax_r.set_xlabel("Oracle Evaluations")
+    ax_r.set_ylabel("Recall")
+    ax_r.set_title("Causal Model Recall (GT edges found)")
+    ax_r.set_ylim(-0.05, 1.05)
+    ax_r.legend(fontsize=7)
+    ax_r.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    out_path = OUT_DIR / "causal_convergence.png"
+    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"  Saved to {out_path}")
+
+
+# ======================================================================
+# 8c. Adversarial Prediction Analysis
+# ======================================================================
+
+
+def compute_adversarial_prediction_analysis() -> None:
+    """Compare prediction errors in adversarial vs non-adversarial regions.
+
+    Uses oracle.adversarial_regions() so the analysis is oracle-driven,
+    not hardcoded to any specific oracle variant.
+    """
+    print("\n" + "=" * 70)
+    print("  8c. Adversarial Prediction Analysis")
+    print("=" * 70)
+
+    found_any = False
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        oracle = _get_oracle(label)
+        regions = oracle.adversarial_regions()
+        if not regions:
+            continue
+
+        tool_calls = _load_tool_calls(log_path)
+        eval_pts = [tc for tc in tool_calls if tc.get("name") == "evaluate_point"]
+        if not eval_pts:
+            continue
+
+        # Collect (point, max_error) pairs with region labels
+        region_errors: dict[str, list[float]] = {r["name"]: [] for r in regions}
+        region_errors["non-adversarial"] = []
+
+        for tc in eval_pts:
+            inp = tc.get("input", {})
+            result = tc.get("result", {})
+            point = inp.get("point", [])
+            if not point:
+                continue
+
+            # Get prediction error
+            pred_errors = result.get("prediction_errors", {}) if isinstance(result, dict) else {}
+            if not pred_errors:
+                # Replay from input
+                raw_pred = inp.get("predicted_outputs", [])
+                if raw_pred and len(raw_pred) == oracle.n_outputs:
+                    actual = oracle.evaluate(np.array(point, dtype=np.float64))
+                    pred = np.array(raw_pred, dtype=np.float64)
+                    pred_errors = {
+                        oname: float(actual[i] - pred[i])
+                        for i, oname in enumerate(oracle.output_names)
+                    }
+            if not pred_errors:
+                continue
+
+            max_err = max(abs(float(v)) for v in pred_errors.values())
+            x = np.array(point, dtype=np.float64)
+
+            # Classify into regions
+            in_any = False
+            for r in regions:
+                test_fn = r["test"]
+                try:
+                    if test_fn(x):
+                        region_errors[str(r["name"])].append(max_err)
+                        in_any = True
+                except (IndexError, ZeroDivisionError):
+                    pass
+            if not in_any:
+                region_errors["non-adversarial"].append(max_err)
+
+        # Print if we have data
+        has_data = any(len(errs) > 0 for errs in region_errors.values())
+        if not has_data:
+            continue
+
+        found_any = True
+        print(f"\n  --- {run_name} ---")
+        print(f"  {'Region':<25} {'#Pts':>5} {'MAE':>8} {'Max|err|':>10}")
+        print(f"  {'-' * 52}")
+
+        for rname in ["non-adversarial"] + [r["name"] for r in regions]:
+            errs = region_errors.get(str(rname), [])
+            if not errs:
+                continue
+            mae = sum(errs) / len(errs)
+            max_e = max(errs)
+            print(f"  {rname:<25} {len(errs):>5} {mae:>8.4f} {max_e:>10.4f}")
+
+    if not found_any:
+        print("\n  No evaluate_point data with adversarial regions found.")
+
+
+# ======================================================================
+# 8d. Confidence Calibration Over Time
+# ======================================================================
+
+
+def compute_calibration_over_time() -> None:
+    """Track confidence calibration per iteration.
+
+    For each iteration, bin edges by confidence and compute fraction true.
+    Calibration error = mean |bucket_midpoint - fraction_true|.
+    """
+    print("\n" + "=" * 70)
+    print("  8d. Confidence Calibration Over Time")
+    print("=" * 70)
+
+    cal_bins = [(0.0, 0.33, "Low"), (0.33, 0.67, "Med"), (0.67, 1.01, "High")]
+    found_any = False
+
+    # Collect data for plot
+    plot_data: list[tuple[str, list[int], list[float]]] = []
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+
+        with open(log_path) as f:
+            log = json.load(f)
+        summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+        if not summaries:
+            continue
+
+        oracle = _get_oracle(label)
+        gt_io = oracle.ground_truth().project_to_io()
+        gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+
+        if not found_any:
+            print(f"\n  {'Run':<22} {'Iter':>5} {'Evals':>6} {'CalErr':>7} "
+                  f"{'Low':>8} {'Med':>8} {'High':>8}")
+            print(f"  {'-' * 70}")
+            found_any = True
+
+        evals_list: list[int] = []
+        cal_errors: list[float] = []
+
+        for s in summaries:
+            confidence = s.get("confidence", {})
+            if not confidence:
+                continue
+
+            bin_results: list[tuple[float, float | None]] = []  # (midpoint, frac_true)
+            bin_strs: list[str] = []
+
+            for lo_b, hi_b, bin_name in cal_bins:
+                midpoint = (lo_b + hi_b) / 2
+                edges_in_bin: list[bool] = []
+                for edge_str, conf in confidence.items():
+                    if not isinstance(conf, (int, float)):
+                        continue
+                    if lo_b <= conf < hi_b:
+                        parts = edge_str.replace(" ", "").split("->")
+                        if len(parts) == 2:
+                            edges_in_bin.append((parts[0], parts[1]) in gt_pairs)
+
+                if edges_in_bin:
+                    frac = sum(edges_in_bin) / len(edges_in_bin)
+                    bin_results.append((midpoint, frac))
+                    bin_strs.append(f"{frac:.0%}({len(edges_in_bin)})")
+                else:
+                    bin_results.append((midpoint, None))
+                    bin_strs.append("---")
+
+            # Calibration error: mean |midpoint - frac_true| for bins with data
+            valid = [(m, f) for m, f in bin_results if f is not None]
+            cal_err = (sum(abs(m - f) for m, f in valid) / len(valid)
+                       if valid else float("nan"))
+
+            evals_list.append(int(s.get("eval_count", 0)))
+            cal_errors.append(cal_err)
+
+            print(f"  {run_name:<22} {s.get('iteration', '?'):>5} "
+                  f"{s.get('eval_count', '?'):>6} {cal_err:>7.3f} "
+                  f"{bin_strs[0]:>8} {bin_strs[1]:>8} {bin_strs[2]:>8}")
+
+        if evals_list:
+            plot_data.append((run_name, evals_list, cal_errors))
+
+    if not found_any:
+        print("\n  No iteration summary data for calibration tracking.")
+        return
+
+    # Plot
+    if plot_data:
+        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
+        for name, evals_l, errors in plot_data:
+            ax.plot(evals_l, errors, "o-", linewidth=2, markersize=6, label=name)
+        ax.set_xlabel("Oracle Evaluations")
+        ax.set_ylabel("Calibration Error (lower = better)")
+        ax.set_title("Confidence Calibration Over Time")
+        ax.set_ylim(-0.05, 0.6)
+        ax.axhline(y=0, color="gray", linestyle="--", alpha=0.3, label="Perfect")
+        ax.legend(fontsize=7)
+        ax.grid(True, alpha=0.3)
+        plt.tight_layout()
+        out_path = OUT_DIR / "calibration_over_time.png"
+        plt.savefig(out_path, dpi=150, bbox_inches="tight")
+        plt.close()
+        print(f"\n  Saved to {out_path}")
+
+
+# ======================================================================
+# 9. Information-Theoretic Analysis (T6)
+# ======================================================================
+
+
+def _compute_sobol_indices_cached(
+    oracle: MediumOracle | MediumOracle1C,
+    label: str,
+) -> npt.NDArray[np.float64]:
+    """Get total-order Sobol indices, computing and caching if needed.
+
+    Returns shape (n_inputs, n_outputs).
+    """
+    cache_path = ANALYSIS_DIR / f"sobol_total_{label}.npy"
+    if cache_path.exists():
+        return np.load(cache_path)
+
+    from synthoracle.characterize import compute_sobol_indices
+    rng = np.random.default_rng(42)
+    _, st = compute_sobol_indices(oracle, 50_000, rng)
+    np.save(cache_path, st)
+    return st
+
+
+def _parse_edge_to_inputs(edge_str: str) -> tuple[list[str], str]:
+    """Parse 'Xi->Yj' or 'Xi*Xj->Yk' to (input_names, output_name)."""
+    edge_str = edge_str.replace(" ", "")
+    if "->" not in edge_str:
+        return [], ""
+    src_part, tgt = edge_str.split("->", 1)
+    # Handle interaction: "X2*X4" -> ["X2", "X4"]
+    inputs = [s.strip() for s in src_part.split("*") if s.strip()]
+    return inputs, tgt.strip()
+
+
+def _compute_agent_info_capture(
+    confidence: dict[str, object],
+    sobol_total: npt.NDArray[np.float64],
+    oracle: MediumOracle | MediumOracle1C,
+    threshold: float = CONFIDENCE_THRESHOLD,
+) -> dict[str, float]:
+    """Compute information capture per output from agent's edge confidence.
+
+    Returns dict mapping output name to fraction of Sobol sensitivity explained
+    by the agent's claimed inputs (confidence >= threshold).
+    """
+    input_names = list(oracle.input_names)
+    output_names = list(oracle.output_names)
+
+    # Build claimed input sets per output
+    claimed_per_output: dict[str, set[str]] = {o: set() for o in output_names}
+    for edge_str, conf in confidence.items():
+        if not isinstance(conf, (int, float)) or conf < threshold:
+            continue
+        inputs, output = _parse_edge_to_inputs(str(edge_str))
+        if output in claimed_per_output:
+            claimed_per_output[output].update(inputs)
+
+    # Compute capture ratio per output
+    capture: dict[str, float] = {}
+    for j, oname in enumerate(output_names):
+        total_sobol = float(sobol_total[:, j].sum())
+        if total_sobol < 1e-10:
+            capture[oname] = 1.0  # output has no sensitivity → trivially captured
+            continue
+        claimed_sobol = 0.0
+        for i, iname in enumerate(input_names):
+            if iname in claimed_per_output[oname]:
+                claimed_sobol += float(sobol_total[i, j])
+        capture[oname] = min(1.0, claimed_sobol / total_sobol)
+
+    return capture
+
+
+def _compute_mechanism_sufficiency(
+    oracle: MediumOracle,
+    n_samples: int = 100_000,
+) -> dict[str, float]:
+    """Compute mechanism sufficiency: how much of Y variance is explained by M.
+
+    For each output, fits a nonparametric regression (binned means) of Y on M
+    and computes R². For Y1, Y2, Y4 this should be ~1.0 (fully determined by M).
+    For Y3 it should be < 1.0 (bypasses mechanism layer).
+    """
+    rng = np.random.default_rng(42)
+    lo, hi = oracle.bounds[:, 0], oracle.bounds[:, 1]
+    X = rng.uniform(lo, hi, size=(n_samples, oracle.n_inputs))
+
+    Y_list = []
+    M_list = []
+    for i in range(n_samples):
+        y, m = oracle.evaluate_with_mechanisms(X[i])
+        Y_list.append(y)
+        M_list.append([m["M1_eff"], m["M2_eff"], m["Z"],
+                        m["M4_mult"], m["M4_add"], m["gate"]])
+
+    Y_arr = np.array(Y_list)
+    M_arr = np.array(M_list)
+
+    # For each output, compute R² of a polynomial regression on M
+    sufficiency: dict[str, float] = {}
+    for j, oname in enumerate(oracle.output_names):
+        y = Y_arr[:, j]
+        # OLS with M columns + pairwise cross terms
+        # Build feature matrix: M columns + pairwise products
+        n_m = M_arr.shape[1]
+        features = [M_arr]
+        for a in range(n_m):
+            for b in range(a, n_m):
+                features.append((M_arr[:, a] * M_arr[:, b]).reshape(-1, 1))
+        feat = np.hstack(features)
+        feat = np.hstack([feat, np.ones((n_samples, 1))])  # intercept
+
+        # OLS
+        coeffs, residuals, _, _ = np.linalg.lstsq(feat, y, rcond=None)
+        y_pred = feat @ coeffs
+        ss_res = float(np.sum((y - y_pred) ** 2))
+        ss_tot = float(np.sum((y - y.mean()) ** 2))
+        r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else 1.0
+        sufficiency[oname] = round(r2, 6)
+
+    return sufficiency
+
+
+def compute_information_analysis() -> None:
+    """T6: Information-theoretic evaluation of mechanism discovery.
+
+    Computes:
+    1. Oracle mechanism sufficiency: R²(M→Y) per output
+    2. Agent information capture: Sobol-based proxy per iteration
+    3. End-of-run capture for past runs (from edge P/R data)
+    """
+    print("\n" + "=" * 70)
+    print("  9. Information-Theoretic Analysis (T6)")
+    print("=" * 70)
+
+    # --- 9a. Oracle mechanism sufficiency ---
+    print("\n  9a. Mechanism Sufficiency: R²(M → Y)")
+    print(f"  {'Oracle':<10} {'Y1':>8} {'Y2':>8} {'Y3':>8} {'Y4':>8} {'Mean':>8}")
+    print(f"  {'-' * 50}")
+
+    for label, oracle, _ in ORACLE_CONFIGS:
+        if not hasattr(oracle, "evaluate_with_mechanisms"):
+            print(f"  {label:<10} (no mechanism exposure)")
+            continue
+        suff = _compute_mechanism_sufficiency(oracle)  # type: ignore[arg-type]
+        vals = [suff.get(o, 0.0) for o in oracle.output_names]
+        mean_r2 = sum(vals) / len(vals)
+        print(f"  {label:<10} {vals[0]:>8.4f} {vals[1]:>8.4f} "
+              f"{vals[2]:>8.4f} {vals[3]:>8.4f} {mean_r2:>8.4f}")
+
+    # --- 9b. Agent information capture ---
+    print("\n  9b. Agent Information Capture (Sobol-based)")
+
+    for oracle_label in ("1A", "1B", "1C"):
+        oracle = _get_oracle(oracle_label)
+        sobol_total = _compute_sobol_indices_cached(oracle, oracle_label)
+
+        # Runs with iteration summaries (per-iteration trajectory)
+        found_iter = False
+        for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+            if label != oracle_label or not log_path.exists():
+                continue
+            with open(log_path) as f:
+                log = json.load(f)
+            summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+            if not summaries:
+                continue
+
+            if not found_iter:
+                print(f"\n  Oracle {oracle_label} — per-iteration capture:")
+                print(f"  {'Run':<22} {'Iter':>5} {'Evals':>6} "
+                      f"{'Y1':>6} {'Y2':>6} {'Y3':>6} {'Y4':>6} {'Mean':>6}")
+                print(f"  {'-' * 65}")
+                found_iter = True
+
+            for s in summaries:
+                conf = s.get("confidence", {})
+                capture = _compute_agent_info_capture(conf, sobol_total, oracle)
+                vals = [capture.get(o, 0.0) for o in oracle.output_names]
+                mean_c = sum(vals) / len(vals)
+                print(f"  {run_name:<22} {s.get('iteration', '?'):>5} "
+                      f"{s.get('eval_count', '?'):>6} "
+                      f"{vals[0]:>6.3f} {vals[1]:>6.3f} "
+                      f"{vals[2]:>6.3f} {vals[3]:>6.3f} {mean_c:>6.3f}")
+
+        # Runs without iteration summaries — use end-of-run edge data
+        for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+            if label != oracle_label or not log_path.exists():
+                continue
+            with open(log_path) as f:
+                log = json.load(f)
+            # Skip if already handled above
+            if (isinstance(log, dict) and log.get("iteration_summaries")):
+                continue
+            # Build confidence from discovered edges (all confidence = 1.0)
+            tool_calls = _load_tool_calls(log_path)
+            disc_edges = _extract_edges_from_tool_calls(oracle, tool_calls)
+            conf = {f"{e.source}->{e.target}": 1.0 for e in disc_edges}
+            capture = _compute_agent_info_capture(conf, sobol_total, oracle)
+            vals = [capture.get(o, 0.0) for o in oracle.output_names]
+            mean_c = sum(vals) / len(vals)
+            print(f"  {run_name:<22} {'end':>5} {'---':>6} "
+                  f"{vals[0]:>6.3f} {vals[1]:>6.3f} "
+                  f"{vals[2]:>6.3f} {vals[3]:>6.3f} {mean_c:>6.3f} (from edges)")
+
+
+def plot_information_capture() -> None:
+    """Plot information capture trajectory for runs with iteration summaries."""
+    print("\n" + "=" * 70)
+    print("  9b. Information Capture Plot")
+    print("=" * 70)
+
+    plot_data: list[tuple[str, list[int], list[float]]] = []
+
+    for run_name, (label, log_path, _npz_path) in TOOL_USE_RUNS.items():
+        if not log_path.exists():
+            continue
+        oracle = _get_oracle(label)
+        sobol_total = _compute_sobol_indices_cached(oracle, label)
+
+        with open(log_path) as f:
+            log = json.load(f)
+        summaries = log.get("iteration_summaries", []) if isinstance(log, dict) else []
+        if not summaries:
+            continue
+
+        evals_list: list[int] = []
+        captures: list[float] = []
+        for s in summaries:
+            conf = s.get("confidence", {})
+            capture = _compute_agent_info_capture(conf, sobol_total, oracle)
+            mean_c = sum(capture.values()) / len(capture) if capture else 0.0
+            evals_list.append(int(s.get("eval_count", 0)))
+            captures.append(mean_c)
+
+        plot_data.append((run_name, evals_list, captures))
+
+    if not plot_data:
+        print("  No iteration summary data for information capture plot.")
+        return
+
+    fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+
+    for name, evals_l, caps in plot_data:
+        ax.plot(evals_l, caps, "o-", linewidth=2, markersize=6, label=name)
+
+    ax.set_xlabel("Oracle Evaluations")
+    ax.set_ylabel("Information Capture (Sobol fraction)")
+    ax.set_title("T6: Agent Information Capture Over Time")
+    ax.set_ylim(-0.05, 1.05)
+    ax.axhline(y=1.0, color="gray", linestyle="--", alpha=0.3, label="Perfect capture")
+    ax.legend(fontsize=7)
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    out_path = OUT_DIR / "information_capture.png"
+    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"  Saved to {out_path}")
+
+
+# ======================================================================
 # Main
 # ======================================================================
 
@@ -1626,6 +2281,16 @@ def main() -> None:
     compute_surprise_analysis()
     compute_calibration_analysis()
     plot_surprise_trajectory()
+
+    # 8. Causal Model Convergence
+    compute_causal_model_convergence()
+    plot_causal_convergence()
+    compute_adversarial_prediction_analysis()
+    compute_calibration_over_time()
+
+    # 9. Information-Theoretic Analysis (T6)
+    compute_information_analysis()
+    plot_information_capture()
 
     print("\n" + "=" * 70)
     print("  Done. All metrics computed for all runs.")
