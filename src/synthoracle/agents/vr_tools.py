@@ -1004,7 +1004,9 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             if thinking is not None:
                 cal_kwargs["thinking"] = thinking
                 cal_kwargs["max_tokens"] = 32000
-            cal_response = client.messages.parse(**cal_kwargs)  # type: ignore[arg-type]
+            cal_response = client.messages.parse(  # type: ignore[arg-type]
+                timeout=600.0, **cal_kwargs,
+            )
             total_llm_calls += 1
             total_input_tokens += cal_response.usage.input_tokens
             total_output_tokens += cal_response.usage.output_tokens
@@ -1103,7 +1105,9 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             if thinking is not None:
                 create_kwargs["thinking"] = thinking
 
-            msg = client.messages.create(**create_kwargs)  # type: ignore[call-overload]
+            msg = client.messages.create(  # type: ignore[call-overload]
+                timeout=600.0, **create_kwargs,
+            )
             total_llm_calls += 1
             total_input_tokens += msg.usage.input_tokens
             total_output_tokens += msg.usage.output_tokens
@@ -1208,7 +1212,9 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             summary_kwargs["max_tokens"] = max(
                 max_tokens, budget_tokens + 4096,
             )
-        summary_msg = client.messages.parse(**summary_kwargs)  # type: ignore[arg-type]
+        summary_msg = client.messages.parse(  # type: ignore[arg-type]
+            timeout=600.0, **summary_kwargs,
+        )
         total_llm_calls += 1
         total_input_tokens += summary_msg.usage.input_tokens
         total_output_tokens += summary_msg.usage.output_tokens
