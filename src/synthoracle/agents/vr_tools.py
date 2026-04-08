@@ -621,8 +621,18 @@ def _execute_tool(
             result = {"error": "Need at least 2 data points for regression."}
             return result, empty_X, empty_Y, 0
 
+        # Filter to valid input names (agent may pass interaction terms like "X1*X3")
+        valid_inputs = [n for n in input_names_req if n in oracle.input_names]
+        if not valid_inputs:
+            result = {
+                "error": f"No valid input names. Use individual inputs "
+                f"({', '.join(oracle.input_names)}), not interaction terms.",
+                "invalid_inputs": input_names_req,
+            }
+            return result, empty_X, empty_Y, 0
+
         # Map names to column indices
-        in_indices = [list(oracle.input_names).index(n) for n in input_names_req]
+        in_indices = [list(oracle.input_names).index(n) for n in valid_inputs]
         out_idx = list(oracle.output_names).index(output_name)
 
         A = X_all[:, in_indices]
@@ -638,7 +648,7 @@ def _execute_tool(
         r_squared = 1.0 - ss_res / ss_tot if ss_tot > 1e-12 else 0.0
 
         coeff_dict: dict[str, float] = {}
-        for k, n in enumerate(input_names_req):
+        for k, n in enumerate(valid_inputs):
             coeff_dict[n] = round(float(coeffs[k]), 6)
         coeff_dict["intercept"] = round(float(coeffs[-1]), 6)
 
@@ -1003,8 +1013,10 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             }
             if thinking is not None:
                 cal_kwargs["thinking"] = thinking
-                cal_kwargs["max_tokens"] = 16000
-            cal_response = client.messages.parse(**cal_kwargs)  # type: ignore[arg-type]
+                cal_kwargs["max_tokens"] = 32000
+            cal_response = client.messages.parse(  # type: ignore[arg-type]
+                timeout=600.0, **cal_kwargs,
+            )
             total_llm_calls += 1
             total_input_tokens += cal_response.usage.input_tokens
             total_output_tokens += cal_response.usage.output_tokens
@@ -1103,7 +1115,9 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             if thinking is not None:
                 create_kwargs["thinking"] = thinking
 
-            msg = client.messages.create(**create_kwargs)  # type: ignore[call-overload]
+            msg = client.messages.create(  # type: ignore[call-overload]
+                timeout=600.0, **create_kwargs,
+            )
             total_llm_calls += 1
             total_input_tokens += msg.usage.input_tokens
             total_output_tokens += msg.usage.output_tokens
@@ -1208,7 +1222,9 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             summary_kwargs["max_tokens"] = max(
                 max_tokens, budget_tokens + 4096,
             )
-        summary_msg = client.messages.parse(**summary_kwargs)  # type: ignore[arg-type]
+        summary_msg = client.messages.parse(  # type: ignore[arg-type]
+            timeout=600.0, **summary_kwargs,
+        )
         total_llm_calls += 1
         total_input_tokens += summary_msg.usage.input_tokens
         total_output_tokens += summary_msg.usage.output_tokens

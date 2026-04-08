@@ -2250,6 +2250,355 @@ def plot_information_capture() -> None:
 
 
 # ======================================================================
+# 10. Multi-Seed Aggregate Analysis
+# ======================================================================
+
+MULTI_SEED_DIR = VR_RESULTS / "multi_seed"
+
+
+def _load_multi_seed_data() -> list[tuple[int, dict[str, Any], dict[str, Any]]]:
+    """Load all multi-seed results. Returns list of (seed, log_dict, npz_dict)."""
+    results = []
+    for log_path in sorted(MULTI_SEED_DIR.glob("seed*_log.json")):
+        seed_str = log_path.stem.replace("_log", "").replace("seed", "")
+        try:
+            seed = int(seed_str)
+        except ValueError:
+            continue
+        npz_path = MULTI_SEED_DIR / f"seed{seed}.npz"
+        if not npz_path.exists():
+            continue
+        with open(log_path) as f:
+            log = json.load(f)
+        data = dict(np.load(npz_path))
+        results.append((seed, log, data))
+    return results
+
+
+def compute_multi_seed_aggregate() -> None:
+    """Section 10: Aggregate analysis over all multi-seed runs."""
+    print("\n" + "=" * 70)
+    print("  10. Multi-Seed Aggregate Analysis (Medium 1A)")
+    print("=" * 70)
+
+    seeds_data = _load_multi_seed_data()
+    if not seeds_data:
+        print("\n  No multi-seed data found.")
+        return
+
+    oracle = MediumOracle()
+    gt_io = oracle.ground_truth().project_to_io()
+    gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+    sobol_total = _compute_sobol_indices_cached(oracle, "1A")
+    regions = oracle.adversarial_regions()
+
+    n_seeds = len(seeds_data)
+    print(f"\n  Seeds loaded: {n_seeds}")
+
+    # --- 10a. HV ---
+    final_hvs = [float(d["hypervolumes"][-1]) for _, _, d in seeds_data]
+    print(f"\n  10a. Final Hypervolume")
+    print(f"  VR tool agent: {np.mean(final_hvs):.4f} +/- {np.std(final_hvs):.4f}")
+    print(f"    range: [{np.min(final_hvs):.4f}, {np.max(final_hvs):.4f}]")
+
+    bo_stats = _load_bo_1a_stats()
+    if bo_stats is not None:
+        bo_mean_final = float(bo_stats[0][-1])
+        bo_std_final = float(bo_stats[1][-1])
+        print(f"  BO baseline:   {bo_mean_final:.4f} +/- {bo_std_final:.4f}")
+        # Simple comparison
+        vr_mean = np.mean(final_hvs)
+        print(f"  VR/BO ratio:   {vr_mean / bo_mean_final:.1%}")
+
+    # --- 10b. Edge P/R ---
+    precisions = []
+    recalls = []
+    missed_counts: dict[str, int] = {}
+    for seed, log, data in seeds_data:
+        tool_calls = log.get("tool_calls", [])
+        disc_edges = _extract_edges_from_tool_calls(oracle, tool_calls)
+        disc_pairs = {(e.source, e.target) for e in disc_edges}
+        io_nodes = frozenset(
+            n for n in oracle.ground_truth().nodes
+            if n.node_type in (NodeType.INPUT, NodeType.OUTPUT)
+        )
+        dag = CausalDAG(nodes=io_nodes, edges=disc_edges)
+        p, r = gt_io.precision_recall(dag)
+        precisions.append(p)
+        recalls.append(r)
+        for src, tgt in gt_pairs - disc_pairs:
+            key = f"{src}->{tgt}"
+            missed_counts[key] = missed_counts.get(key, 0) + 1
+
+    print(f"\n  10b. Edge Precision / Recall")
+    print(f"  Precision: {np.mean(precisions):.3f} +/- {np.std(precisions):.3f}")
+    print(f"  Recall:    {np.mean(recalls):.3f} +/- {np.std(recalls):.3f}")
+    if missed_counts:
+        print(f"  Most missed edges:")
+        for edge, count in sorted(missed_counts.items(), key=lambda x: -x[1]):
+            print(f"    {edge}: missed in {count}/{n_seeds} seeds")
+
+    # --- 10c. OAT Prediction Accuracy ---
+    dir_accs = []
+    mag_errs = []
+    for seed, log, data in seeds_data:
+        tc_list = log.get("tool_calls", [])
+        seed_correct = 0
+        seed_total = 0
+        seed_mag_errs: list[float] = []
+        for tc in tc_list:
+            if tc.get("name") != "oat_sweep":
+                continue
+            result = tc.get("result", {})
+            if not isinstance(result, dict):
+                continue
+            scores = result.get("trend_scores", {})
+            for oname, score in scores.items():
+                if not isinstance(score, dict):
+                    continue
+                seed_total += 1
+                if score.get("direction_correct"):
+                    seed_correct += 1
+                seed_mag_errs.append(float(score.get("magnitude_error", 0.0)))
+        if seed_total > 0:
+            dir_accs.append(seed_correct / seed_total)
+        if seed_mag_errs:
+            mag_errs.append(np.mean(seed_mag_errs))
+
+    print(f"\n  10c. OAT Prediction Accuracy")
+    if dir_accs:
+        print(f"  Direction accuracy: {np.mean(dir_accs):.1%} +/- {np.std(dir_accs):.1%}")
+    if mag_errs:
+        print(f"  Magnitude error:   {np.mean(mag_errs):.4f} +/- {np.std(mag_errs):.4f}")
+
+    # --- 10d. Calibration ---
+    cal_first = []
+    cal_last = []
+    learning_count = 0
+    for seed, log, data in seeds_data:
+        checks = log.get("calibration_checks", [])
+        valid = [c for c in checks if not math.isnan(c.get("mae", float("nan")))]
+        if len(valid) >= 1:
+            cal_first.append(valid[0]["mae"])
+        if len(valid) >= 2:
+            cal_last.append(valid[-1]["mae"])
+            if valid[-1]["mae"] < valid[0]["mae"] * 0.8:
+                learning_count += 1
+
+    print(f"\n  10d. Calibration Checkpoints")
+    if cal_first:
+        print(f"  First checkpoint MAE: {np.mean(cal_first):.4f} +/- {np.std(cal_first):.4f}")
+    if cal_last:
+        print(f"  Last checkpoint MAE:  {np.mean(cal_last):.4f} +/- {np.std(cal_last):.4f}")
+        print(f"  Seeds showing learning (last < 80% of first): "
+              f"{learning_count}/{len(cal_last)}")
+
+    # --- 10e. Surprise Rate ---
+    surprise_rates: list[float] = []
+    for seed, log, data in seeds_data:
+        tc_list = log.get("tool_calls", [])
+        eval_pts = [tc for tc in tc_list if tc.get("name") == "evaluate_point"]
+        if not eval_pts:
+            continue
+        n_surprises = 0
+        for tc in eval_pts:
+            result = tc.get("result", {})
+            if not isinstance(result, dict):
+                continue
+            pred_errors = result.get("prediction_errors", {})
+            if pred_errors:
+                max_err = max(abs(float(v)) for v in pred_errors.values())
+                if max_err > SURPRISE_THRESHOLD:
+                    n_surprises += 1
+        surprise_rates.append(n_surprises / len(eval_pts))
+
+    print(f"\n  10e. Surprise Rate (evaluate_point, threshold={SURPRISE_THRESHOLD})")
+    if surprise_rates:
+        print(f"  Mean surprise rate: {np.mean(surprise_rates):.1%} +/- "
+              f"{np.std(surprise_rates):.1%}")
+
+    # --- 10f. Adversarial Prediction ---
+    if regions:
+        adv_errors: dict[str, list[float]] = {r["name"]: [] for r in regions}
+        adv_errors["non-adversarial"] = []
+        for seed, log, data in seeds_data:
+            for tc in log.get("tool_calls", []):
+                if tc.get("name") != "evaluate_point":
+                    continue
+                inp = tc.get("input", {})
+                result = tc.get("result", {})
+                point = inp.get("point", [])
+                if not point:
+                    continue
+                pred_errors = result.get("prediction_errors", {}) if isinstance(result, dict) else {}
+                if not pred_errors:
+                    continue
+                max_err = max(abs(float(v)) for v in pred_errors.values())
+                x = np.array(point, dtype=np.float64)
+                in_any = False
+                for r in regions:
+                    try:
+                        if r["test"](x):
+                            adv_errors[str(r["name"])].append(max_err)
+                            in_any = True
+                    except (IndexError, ZeroDivisionError):
+                        pass
+                if not in_any:
+                    adv_errors["non-adversarial"].append(max_err)
+
+        print(f"\n  10f. Adversarial Prediction (pooled across seeds)")
+        print(f"  {'Region':<25} {'#Pts':>5} {'MAE':>8} {'Max|err|':>10}")
+        print(f"  {'-' * 52}")
+        for rname in ["non-adversarial"] + [str(r["name"]) for r in regions]:
+            errs = adv_errors.get(rname, [])
+            if errs:
+                print(f"  {rname:<25} {len(errs):>5} {np.mean(errs):>8.4f} "
+                      f"{np.max(errs):>10.4f}")
+
+    # --- 10g. Information Capture ---
+    captures: list[float] = []
+    for seed, log, data in seeds_data:
+        tc_list = log.get("tool_calls", [])
+        disc_edges = _extract_edges_from_tool_calls(oracle, tc_list)
+        conf = {f"{e.source}->{e.target}": 1.0 for e in disc_edges}
+        capture = _compute_agent_info_capture(conf, sobol_total, oracle)
+        captures.append(np.mean(list(capture.values())))
+
+    print(f"\n  10g. Information Capture (Sobol proxy)")
+    if captures:
+        print(f"  Mean capture: {np.mean(captures):.4f} +/- {np.std(captures):.4f}")
+
+    # --- 10h. Cost ---
+    costs = []
+    for seed, log, data in seeds_data:
+        it = int(log.get("total_input_tokens", 0))
+        ot = int(log.get("total_output_tokens", 0))
+        costs.append(it * 5.0 / 1e6 + ot * 25.0 / 1e6)
+
+    print(f"\n  10h. Cost")
+    print(f"  Per seed: ${np.mean(costs):.2f} +/- ${np.std(costs):.2f}")
+    print(f"  Total:    ${np.sum(costs):.2f}")
+
+    # --- 10i. Per-seed detail table ---
+    print(f"\n  10i. Per-Seed Detail")
+    print(f"  {'Seed':>6} {'HV':>8} {'Prec':>6} {'Rec':>6} "
+          f"{'OAT%':>6} {'Cal1':>6} {'CalN':>6} {'Cost':>7}")
+    print(f"  {'-' * 55}")
+    for i, (seed, log, data) in enumerate(seeds_data):
+        hv = final_hvs[i]
+        p = precisions[i]
+        r = recalls[i]
+        da = f"{dir_accs[i]:.0%}" if i < len(dir_accs) else "---"
+        checks = log.get("calibration_checks", [])
+        valid = [c for c in checks if not math.isnan(c.get("mae", float("nan")))]
+        c1 = f"{valid[0]['mae']:.3f}" if valid else "---"
+        cn = f"{valid[-1]['mae']:.3f}" if len(valid) >= 2 else c1
+        cost = costs[i]
+        print(f"  {seed:>6} {hv:>8.4f} {p:>6.3f} {r:>6.3f} "
+              f"{da:>6} {c1:>6} {cn:>6} ${cost:>6.2f}")
+
+
+def plot_multi_seed_summary() -> None:
+    """2x2 summary plot for multi-seed results."""
+    print("\n" + "=" * 70)
+    print("  10b. Multi-Seed Summary Plot")
+    print("=" * 70)
+
+    seeds_data = _load_multi_seed_data()
+    if not seeds_data:
+        print("  No multi-seed data.")
+        return
+
+    oracle = MediumOracle()
+    gt_io = oracle.ground_truth().project_to_io()
+    gt_pairs = {(e.source, e.target) for e in gt_io.edges}
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+    # --- Panel 1: HV boxplot VR vs BO ---
+    ax = axes[0, 0]
+    final_hvs = [float(d["hypervolumes"][-1]) for _, _, d in seeds_data]
+    box_data = [final_hvs]
+    labels = ["VR tool"]
+    bo_hvs = []
+    for s in range(42, 52):
+        bo_path = COMP_RESULTS / f"bo_seed{s}.npz"
+        if bo_path.exists():
+            bo_hvs.append(float(np.load(bo_path)["hypervolumes"][-1]))
+    if bo_hvs:
+        box_data.append(bo_hvs)
+        labels.append("BO")
+    ax.boxplot(box_data, labels=labels)
+    ax.set_ylabel("Final Hypervolume")
+    ax.set_title("Final HV Distribution (10 seeds)")
+    ax.grid(True, alpha=0.3)
+
+    # --- Panel 2: Edge recall per seed ---
+    ax = axes[0, 1]
+    recalls = []
+    for seed, log, data in seeds_data:
+        disc_edges = _extract_edges_from_tool_calls(oracle, log.get("tool_calls", []))
+        disc_pairs = {(e.source, e.target) for e in disc_edges}
+        recalls.append(len(gt_pairs & disc_pairs) / len(gt_pairs))
+    ax.bar(range(len(seeds_data)), recalls, color="#2ca02c", alpha=0.7)
+    ax.set_xticks(range(len(seeds_data)))
+    ax.set_xticklabels([str(s) for s, _, _ in seeds_data], fontsize=8)
+    ax.set_xlabel("Seed")
+    ax.set_ylabel("Edge Recall")
+    ax.set_title("Causal Edge Recall per Seed")
+    ax.set_ylim(0, 1.05)
+    ax.axhline(y=np.mean(recalls), color="black", linestyle="--", alpha=0.5)
+    ax.grid(True, alpha=0.3)
+
+    # --- Panel 3: Calibration trajectories ---
+    ax = axes[1, 0]
+    for seed, log, data in seeds_data:
+        checks = log.get("calibration_checks", [])
+        valid = [c for c in checks if not math.isnan(c.get("mae", float("nan")))]
+        if len(valid) >= 2:
+            evals = [c["eval"] for c in valid]
+            maes = [c["mae"] for c in valid]
+            ax.plot(evals, maes, "o-", alpha=0.5, markersize=4)
+    ax.set_xlabel("Oracle Evaluations")
+    ax.set_ylabel("Calibration MAE")
+    ax.set_title("Calibration Trajectories (all seeds)")
+    ax.grid(True, alpha=0.3)
+
+    # --- Panel 4: OAT direction accuracy per seed ---
+    ax = axes[1, 1]
+    dir_accs = []
+    for seed, log, data in seeds_data:
+        correct = 0
+        total = 0
+        for tc in log.get("tool_calls", []):
+            if tc.get("name") != "oat_sweep":
+                continue
+            scores = tc.get("result", {}).get("trend_scores", {})
+            for score in scores.values():
+                if isinstance(score, dict):
+                    total += 1
+                    if score.get("direction_correct"):
+                        correct += 1
+        dir_accs.append(correct / total if total > 0 else 0)
+    ax.bar(range(len(seeds_data)), dir_accs, color="#ff7f0e", alpha=0.7)
+    ax.set_xticks(range(len(seeds_data)))
+    ax.set_xticklabels([str(s) for s, _, _ in seeds_data], fontsize=8)
+    ax.set_xlabel("Seed")
+    ax.set_ylabel("OAT Direction Accuracy")
+    ax.set_title("OAT Prediction Accuracy per Seed")
+    ax.set_ylim(0, 1.05)
+    ax.axhline(y=np.mean(dir_accs), color="black", linestyle="--", alpha=0.5)
+    ax.grid(True, alpha=0.3)
+
+    plt.suptitle("Medium 1A: Opus Tool Agent (10 seeds)", fontsize=14)
+    plt.tight_layout()
+    out_path = OUT_DIR / "multi_seed_summary.png"
+    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"  Saved to {out_path}")
+
+
+# ======================================================================
 # Main
 # ======================================================================
 
@@ -2291,6 +2640,10 @@ def main() -> None:
     # 9. Information-Theoretic Analysis (T6)
     compute_information_analysis()
     plot_information_capture()
+
+    # 10. Multi-Seed Aggregate
+    compute_multi_seed_aggregate()
+    plot_multi_seed_summary()
 
     print("\n" + "=" * 70)
     print("  Done. All metrics computed for all runs.")

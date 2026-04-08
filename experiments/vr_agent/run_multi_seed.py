@@ -31,7 +31,7 @@ from synthoracle.oracles.medium import MediumOracle
 RESULTS_DIR = Path("experiments/vr_agent/results/multi_seed")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-SEEDS = list(range(42, 52))  # 10 seeds: 42..51
+ALL_SEEDS = list(range(42, 52))  # 10 seeds: 42..51
 N_BUDGET = 72
 MODEL = "claude-opus-4-6"
 THINKING = {"type": "adaptive"}
@@ -221,6 +221,19 @@ def plot_hv_envelope(results: dict[int, VRToolsResult]) -> None:
 
 
 def main() -> None:
+    import sys
+
+    # Parse optional seed range from CLI: python run_multi_seed.py 43 47
+    if len(sys.argv) == 3:
+        seeds = list(range(int(sys.argv[1]), int(sys.argv[2]) + 1))
+    elif len(sys.argv) == 1:
+        seeds = ALL_SEEDS
+    else:
+        print("Usage: python run_multi_seed.py [start_seed end_seed]")
+        print("  No args: run all seeds (42-51)")
+        print("  Two args: run seeds in range [start, end] inclusive")
+        sys.exit(1)
+
     oracle = MediumOracle()
 
     # Shared reference point for comparable HV across seeds
@@ -228,21 +241,54 @@ def main() -> None:
     ref_point = compute_reference_point(oracle, obj_indices, signs, seed=0)
 
     print(f"Multi-seed Opus tool agent on Medium 1A")
-    print(f"Seeds: {SEEDS}")
+    print(f"Seeds: {seeds}")
     print(f"Budget: {N_BUDGET} evals per seed")
     print(f"Reference point: {ref_point}")
 
     results: dict[int, VRToolsResult] = {}
-    for seed in SEEDS:
-        r = run_seed(seed, oracle, ref_point)
-        if r is not None:
-            results[seed] = r
+
+    # Load already-completed seeds
+    for seed in seeds:
+        npz_path = RESULTS_DIR / f"seed{seed}.npz"
+        log_path = RESULTS_DIR / f"seed{seed}_log.json"
+        if npz_path.exists() and log_path.exists():
+            print(f"\n  Seed {seed}: already complete, loading from disk.")
+            data = np.load(npz_path)
+            with open(log_path) as f:
+                log = json.load(f)
+            results[seed] = VRToolsResult(
+                X=data["X"], Y=data["Y"],
+                hypervolumes=data["hypervolumes"].tolist(),
+                pareto_X=data["pareto_X"], pareto_Y=data["pareto_Y"],
+                reference_point=data["reference_point"],
+                seed=seed, n_initial=12, n_budget=N_BUDGET,
+                eval_count=int(log.get("eval_count", len(data["hypervolumes"]))),
+                total_seconds=0.0,
+                mechanism_log=log.get("mechanism_log", []),
+                tool_calls=log.get("tool_calls", []),
+                calibration_checks=log.get("calibration_checks", []),
+                iteration_summaries=log.get("iteration_summaries", []),
+                total_llm_calls=int(log.get("total_llm_calls", 0)),
+                total_input_tokens=int(log.get("total_input_tokens", 0)),
+                total_output_tokens=int(log.get("total_output_tokens", 0)),
+            )
+
+    # Run remaining seeds
+    remaining = [s for s in seeds if s not in results]
+    if remaining:
+        print(f"\n  Running {len(remaining)} remaining seeds: {remaining}")
+        for seed in remaining:
+            r = run_seed(seed, oracle, ref_point)
+            if r is not None:
+                results[seed] = r
+    else:
+        print("\n  All seeds already complete.")
 
     if results:
         print_aggregate(results)
         plot_hv_envelope(results)
 
-    print(f"\n  {len(results)}/{len(SEEDS)} seeds completed successfully.")
+    print(f"\n  {len(results)}/{len(seeds)} seeds completed successfully.")
 
 
 if __name__ == "__main__":
