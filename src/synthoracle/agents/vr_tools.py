@@ -1014,26 +1014,38 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             if thinking is not None:
                 cal_kwargs["thinking"] = thinking
                 cal_kwargs["max_tokens"] = 32000
-            cal_response = client.messages.parse(  # type: ignore[arg-type]
-                timeout=600.0, **cal_kwargs,
-            )
-            total_llm_calls += 1
-            total_input_tokens += cal_response.usage.input_tokens
-            total_output_tokens += cal_response.usage.output_tokens
+            cal_response = None
+            for _cal_attempt in range(2):
+                try:
+                    cal_response = client.messages.parse(  # type: ignore[arg-type]
+                        timeout=1200.0, **cal_kwargs,
+                    )
+                    break
+                except Exception as cal_err:
+                    if _cal_attempt == 0:
+                        print(
+                            f"  [CALIBRATION retry] {type(cal_err).__name__}: "
+                            f"{str(cal_err)[:100]}",
+                            flush=True,
+                        )
+                    # On second failure, leave cal_response as None
+            if cal_response is not None:
+                total_llm_calls += 1
+                total_input_tokens += cal_response.usage.input_tokens
+                total_output_tokens += cal_response.usage.output_tokens
 
             # Extract prediction from structured output
             cal_predicted = np.full(oracle.n_outputs, np.nan)
             cal_text = ""
-            for block in cal_response.content:
-                if hasattr(block, "text") and getattr(block, "type", "") == "text":
-                    cal_text = block.text
-                    break
-            conversation.append({"role": "assistant", "content": cal_text})
-
-            if cal_response.parsed_output is not None:
-                preds = cal_response.parsed_output.predicted_outputs
-                # Pydantic schema enforces exact length via min/max_length
-                cal_predicted = np.array(preds, dtype=np.float64)
+            if cal_response is not None:
+                for block in cal_response.content:
+                    if hasattr(block, "text") and getattr(block, "type", "") == "text":
+                        cal_text = block.text
+                        break
+                if cal_response.parsed_output is not None:
+                    preds = cal_response.parsed_output.predicted_outputs
+                    cal_predicted = np.array(preds, dtype=np.float64)
+            conversation.append({"role": "assistant", "content": cal_text or "{}"})
 
             # Evaluate
             cal_actual = oracle.evaluate(cal_point)
