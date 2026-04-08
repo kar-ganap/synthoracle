@@ -1253,23 +1253,32 @@ immediately — do not average with the prior or give it partial credit."""
             summary_kwargs["max_tokens"] = max(
                 max_tokens, budget_tokens + 4096,
             )
-        summary_msg = client.messages.parse(  # type: ignore[arg-type]
-            timeout=600.0, **summary_kwargs,
-        )
-        total_llm_calls += 1
-        total_input_tokens += summary_msg.usage.input_tokens
-        total_output_tokens += summary_msg.usage.output_tokens
+        try:
+            summary_msg = client.messages.parse(  # type: ignore[arg-type]
+                timeout=600.0, **summary_kwargs,
+            )
+            total_llm_calls += 1
+            total_input_tokens += summary_msg.usage.input_tokens
+            total_output_tokens += summary_msg.usage.output_tokens
+        except Exception as summary_err:
+            print(
+                f"  [SUMMARY parse failed] {type(summary_err).__name__}: "
+                f"{str(summary_err)[:100]}",
+                flush=True,
+            )
+            summary_msg = None
 
         # Extract text for conversation continuity
         summary_text = ""
-        for block in summary_msg.content:
-            if hasattr(block, "text") and getattr(block, "type", "") == "text":
-                summary_text = block.text
-                break
-        conversation.append({"role": "assistant", "content": summary_text})
+        if summary_msg is not None:
+            for block in summary_msg.content:
+                if hasattr(block, "text") and getattr(block, "type", "") == "text":
+                    summary_text = block.text
+                    break
+        conversation.append({"role": "assistant", "content": summary_text or "{}"})
 
         # Store structured summary
-        summary = summary_msg.parsed_output
+        summary = summary_msg.parsed_output if summary_msg is not None else None
         if summary is not None:
             # Convert edges list to confidence dict for downstream analysis
             confidence_dict = {
@@ -1299,6 +1308,29 @@ immediately — do not average with the prior or give it partial credit."""
                         hypothesis = block.text
                         break
             mechanism_log.append(f"Iteration: {hypothesis}")
+
+        # Condense conversation to prevent unbounded context growth.
+        # Keep: system prompt (implicit), iteration summaries, and a
+        # brief data recap. Drop: raw tool call/result history.
+        if len(conversation) > 20:
+            condensed: list[dict[str, object]] = []
+            # Keep the last iteration summary exchange (user ask + assistant response)
+            condensed.append({
+                "role": "user",
+                "content": (
+                    f"[Context condensed. Iteration {len(iteration_summaries)} complete. "
+                    f"Evals: {eval_count}/{n_budget}. "
+                    f"Current HV: {hypervolumes[-1]:.4f}. "
+                    f"Data: {len(X_all)} points observed.]\n\n"
+                    f"Previous iteration summary:\n{summary_text or mechanism_log[-1]}"
+                ),
+            })
+            condensed.append({
+                "role": "assistant",
+                "content": "Understood. I have my full causal model and "
+                "will continue from here.",
+            })
+            conversation = condensed
 
         # Checkpoint
         if checkpoint_dir is not None:
