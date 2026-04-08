@@ -1146,18 +1146,43 @@ immediately — do not average with the prior or give it partial credit."""
             if thinking is not None:
                 create_kwargs["thinking"] = thinking
 
-            msg = client.messages.create(  # type: ignore[call-overload]
-                timeout=600.0, **create_kwargs,
-            )
+            t_call = time.monotonic()
+            try:
+                msg = client.messages.create(  # type: ignore[call-overload]
+                    timeout=600.0, **create_kwargs,
+                )
+            except Exception as api_err:
+                elapsed = time.monotonic() - t_call
+                print(
+                    f"    [tool call {tool_calls_this_iter + 1}] "
+                    f"FAILED after {elapsed:.0f}s: {type(api_err).__name__}. "
+                    f"Retrying...",
+                    flush=True,
+                )
+                try:
+                    msg = client.messages.create(  # type: ignore[call-overload]
+                        timeout=1200.0, **create_kwargs,
+                    )
+                except Exception:
+                    print(
+                        f"    [tool call {tool_calls_this_iter + 1}] "
+                        f"Retry also failed. Ending iteration.",
+                        flush=True,
+                    )
+                    break
+
             total_llm_calls += 1
             total_input_tokens += msg.usage.input_tokens
             total_output_tokens += msg.usage.output_tokens
+            call_secs = time.monotonic() - t_call
 
-            # Progress logging
+            # Progress logging with timestamp
+            elapsed_total = time.monotonic() - t0
             print(
                 f"    [tool call {tool_calls_this_iter + 1}] "
                 f"tokens={msg.usage.input_tokens}in+{msg.usage.output_tokens}out "
-                f"budget={eval_count}/{n_budget}",
+                f"budget={eval_count}/{n_budget} "
+                f"({call_secs:.0f}s call, {elapsed_total:.0f}s total)",
                 flush=True,
             )
 
@@ -1312,7 +1337,7 @@ immediately — do not average with the prior or give it partial credit."""
         # Condense conversation to prevent unbounded context growth.
         # Keep: system prompt (implicit), iteration summaries, and a
         # brief data recap. Drop: raw tool call/result history.
-        if len(conversation) > 20:
+        if len(conversation) > 6:
             condensed: list[dict[str, object]] = []
             # Keep the last iteration summary exchange (user ask + assistant response)
             condensed.append({
@@ -1350,9 +1375,11 @@ immediately — do not average with the prior or give it partial credit."""
             )
 
         # Progress
+        elapsed_total = time.monotonic() - t0
         print(
             f"  [Iteration done] evals={eval_count}/{n_budget} "
-            f"HV={hypervolumes[-1]:.4f} tools_used={tool_calls_this_iter}",
+            f"HV={hypervolumes[-1]:.4f} tools_used={tool_calls_this_iter} "
+            f"({elapsed_total:.0f}s total)",
             flush=True,
         )
 
