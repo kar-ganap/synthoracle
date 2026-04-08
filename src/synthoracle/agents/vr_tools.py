@@ -1338,24 +1338,70 @@ immediately — do not average with the prior or give it partial credit."""
         # Keep: system prompt (implicit), iteration summaries, and a
         # brief data recap. Drop: raw tool call/result history.
         if len(conversation) > 6:
-            condensed: list[dict[str, object]] = []
-            # Keep the last iteration summary exchange (user ask + assistant response)
-            condensed.append({
-                "role": "user",
-                "content": (
-                    f"[Context condensed. Iteration {len(iteration_summaries)} complete. "
-                    f"Evals: {eval_count}/{n_budget}. "
-                    f"Current HV: {hypervolumes[-1]:.4f}. "
-                    f"Data: {len(X_all)} points observed.]\n\n"
-                    f"Previous iteration summary:\n{summary_text or mechanism_log[-1]}"
-                ),
-            })
-            condensed.append({
-                "role": "assistant",
-                "content": "Understood. I have my full causal model and "
-                "will continue from here.",
-            })
-            conversation = condensed
+            # Build compact data summary for context retention
+            y_mins = Y_all.min(axis=0)
+            y_maxs = Y_all.max(axis=0)
+            output_ranges = ", ".join(
+                f"{oracle.output_names[j]}=[{y_mins[j]:.3f}, {y_maxs[j]:.3f}]"
+                for j in range(oracle.n_outputs)
+            )
+
+            # Best values per output (accounting for direction)
+            best_lines = []
+            for j, (oname, direction) in enumerate(
+                zip(oracle.output_names, oracle.output_directions)
+            ):
+                if direction == "maximize":
+                    best_lines.append(f"{oname}: best={Y_all[:, j].max():.4f}")
+                elif direction == "minimize":
+                    best_lines.append(f"{oname}: best={Y_all[:, j].min():.4f}")
+
+            # Recent evaluate_point results (last 5 for context)
+            recent_evals = []
+            for tc in reversed(tool_calls_log):
+                if tc.get("name") == "evaluate_point" and len(recent_evals) < 5:
+                    inp = tc.get("input", {})
+                    res = tc.get("result", {})
+                    if isinstance(res, dict) and "outputs" in res:
+                        recent_evals.append(
+                            f"  point={inp.get('point', '?')} -> "
+                            f"{res['outputs']}"
+                        )
+
+            remaining = n_budget - eval_count
+            condensed_content = (
+                f"[Context condensed after iteration "
+                f"{len(iteration_summaries)}]\n\n"
+                f"## Status\n"
+                f"Evals: {eval_count}/{n_budget} ({remaining} remaining). "
+                f"HV: {hypervolumes[-1]:.4f}. "
+                f"Pareto front: {len(Y_all)} points observed.\n\n"
+                f"## Output Ranges\n{output_ranges}\n"
+                f"Best values: {', '.join(best_lines)}\n\n"
+                f"## Your Causal Model\n"
+                f"{summary_text or mechanism_log[-1]}\n\n"
+            )
+            if recent_evals:
+                condensed_content += (
+                    f"## Recent Evaluations\n"
+                    + "\n".join(recent_evals) + "\n\n"
+                )
+            condensed_content += (
+                f"## Next Steps\n"
+                f"You have {remaining} evals left. Use evaluate_point "
+                f"for targeted Pareto optimization based on your causal model."
+            )
+
+            conversation = [
+                {"role": "user", "content": condensed_content},
+                {
+                    "role": "assistant",
+                    "content": (
+                        "Understood. I have my causal model, the data summary, "
+                        "and recent evaluations. Continuing with optimization."
+                    ),
+                },
+            ]
 
         # Checkpoint
         if checkpoint_dir is not None:
