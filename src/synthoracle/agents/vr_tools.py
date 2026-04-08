@@ -959,17 +959,29 @@ def run_vr_tools(
         system_prompt += """
 
 ## Managing Prior Knowledge
-CRITICAL: Prior knowledge can be WRONG on this system variant.
-- Treat each prior claim as a HYPOTHESIS to test, not a fact.
-- Budget your first experiments to FALSIFY the prior: pick inputs where
-  the prior makes specific claims and test where it would be most wrong.
-- If a prior claim fails falsification, UPDATE immediately — do not
-  average with the prior or give it partial credit.
-- PAY SPECIAL ATTENTION to relationships the prior says are ZERO or
-  absent. These are the easiest to be wrong about — a single OAT sweep
-  can reveal a missed dependency.
-- The prior is most likely wrong about: threshold locations, the sign
-  of weak effects, and interactions that weren't tested."""
+CRITICAL: This is a DIFFERENT system. The prior is from a related system
+and may be substantially wrong — wrong edges, wrong functional forms,
+wrong interactions.
+
+SCREEN FIRST, THEN COMPARE TO PRIOR:
+- Start with OAT sweeps on ALL inputs, exactly as if you had no prior.
+  OAT sweeps are cheap and give you ground truth for THIS system.
+- After screening, compare your OAT results to the prior's claims.
+  Where do they agree? Where do they disagree?
+- Only run expensive interaction tests on edges where YOUR OAT data
+  supports the interaction — not because the prior claims it exists.
+- The prior tells you what to LOOK FOR in your data, not what
+  experiments to SKIP.
+
+COMMON PRIOR FAILURES (expect these):
+- Edges that exist in the prior but are absent here (false positives)
+- Edges absent from the prior that exist here (false negatives)
+- Functional forms that changed (monotonic → nonmonotonic, threshold → smooth)
+- Interaction pairs that shifted (e.g. X2*X4 → X2*X6)
+- Sign reversals on specific outputs
+
+When your OAT data contradicts the prior, TRUST YOUR DATA. Update
+immediately — do not average with the prior or give it partial credit."""
     mechanism_log: list[str] = []
     tool_calls_log: list[dict[str, object]] = []
     calibration_checks: list[dict[str, object]] = []
