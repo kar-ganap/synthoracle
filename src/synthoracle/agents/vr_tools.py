@@ -968,16 +968,23 @@ SCREEN FIRST, THEN COMPARE TO PRIOR:
   OAT sweeps are cheap and give you ground truth for THIS system.
 - After screening, compare your OAT results to the prior's claims.
   Where do they agree? Where do they disagree?
-- Only run expensive interaction tests on edges where YOUR OAT data
-  supports the interaction — not because the prior claims it exists.
 - The prior tells you what to LOOK FOR in your data, not what
   experiments to SKIP.
 
+INTERACTION TESTS — STRICT RULE:
+- Do NOT run interaction tests to verify prior interaction claims.
+  The prior's interactions (e.g. X2*X4) may not exist in this system.
+- Only run interaction tests when YOUR OAT data shows anomalies that
+  suggest an interaction: e.g. an input's OAT range changes drastically
+  at different base points, or local gradients show unexpected patterns.
+- Each interaction test costs 9+ evals. That budget is better spent on
+  optimization unless you have strong OAT evidence of nonadditive effects.
+
 COMMON PRIOR FAILURES (expect these):
-- Edges that exist in the prior but are absent here (false positives)
-- Edges absent from the prior that exist here (false negatives)
-- Functional forms that changed (monotonic → nonmonotonic, threshold → smooth)
-- Interaction pairs that shifted (e.g. X2*X4 → X2*X6)
+- Edges that exist in the prior but are absent here
+- Edges absent from the prior that exist here
+- Functional forms that changed (monotonic to nonmonotonic, threshold to smooth)
+- Interaction pairs that shifted or disappeared entirely
 - Sign reversals on specific outputs
 
 When your OAT data contradicts the prior, TRUST YOUR DATA. Update
