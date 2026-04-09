@@ -959,17 +959,36 @@ def run_vr_tools(
         system_prompt += """
 
 ## Managing Prior Knowledge
-CRITICAL: Prior knowledge can be WRONG on this system variant.
-- Treat each prior claim as a HYPOTHESIS to test, not a fact.
-- Budget your first experiments to FALSIFY the prior: pick inputs where
-  the prior makes specific claims and test where it would be most wrong.
-- If a prior claim fails falsification, UPDATE immediately — do not
-  average with the prior or give it partial credit.
-- PAY SPECIAL ATTENTION to relationships the prior says are ZERO or
-  absent. These are the easiest to be wrong about — a single OAT sweep
-  can reveal a missed dependency.
-- The prior is most likely wrong about: threshold locations, the sign
-  of weak effects, and interactions that weren't tested."""
+CRITICAL: This is a DIFFERENT system. The prior is from a related system
+and may be substantially wrong — wrong edges, wrong functional forms,
+wrong interactions.
+
+SCREEN FIRST, THEN COMPARE TO PRIOR:
+- Start with OAT sweeps on ALL inputs, exactly as if you had no prior.
+  OAT sweeps are cheap and give you ground truth for THIS system.
+- After screening, compare your OAT results to the prior's claims.
+  Where do they agree? Where do they disagree?
+- The prior tells you what to LOOK FOR in your data, not what
+  experiments to SKIP.
+
+INTERACTION TESTS — STRICT RULE:
+- Do NOT run interaction tests to verify prior interaction claims.
+  The prior's interactions (e.g. X2*X4) may not exist in this system.
+- Only run interaction tests when YOUR OAT data shows anomalies that
+  suggest an interaction: e.g. an input's OAT range changes drastically
+  at different base points, or local gradients show unexpected patterns.
+- Each interaction test costs 9+ evals. That budget is better spent on
+  optimization unless you have strong OAT evidence of nonadditive effects.
+
+COMMON PRIOR FAILURES (expect these):
+- Edges that exist in the prior but are absent here
+- Edges absent from the prior that exist here
+- Functional forms that changed (monotonic to nonmonotonic, threshold to smooth)
+- Interaction pairs that shifted or disappeared entirely
+- Sign reversals on specific outputs
+
+When your OAT data contradicts the prior, TRUST YOUR DATA. Update
+immediately — do not average with the prior or give it partial credit."""
     mechanism_log: list[str] = []
     tool_calls_log: list[dict[str, object]] = []
     calibration_checks: list[dict[str, object]] = []
@@ -1014,26 +1033,38 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             if thinking is not None:
                 cal_kwargs["thinking"] = thinking
                 cal_kwargs["max_tokens"] = 32000
-            cal_response = client.messages.parse(  # type: ignore[arg-type]
-                timeout=600.0, **cal_kwargs,
-            )
-            total_llm_calls += 1
-            total_input_tokens += cal_response.usage.input_tokens
-            total_output_tokens += cal_response.usage.output_tokens
+            cal_response = None
+            for _cal_attempt in range(2):
+                try:
+                    cal_response = client.messages.parse(  # type: ignore[arg-type]
+                        timeout=1200.0, **cal_kwargs,
+                    )
+                    break
+                except Exception as cal_err:
+                    if _cal_attempt == 0:
+                        print(
+                            f"  [CALIBRATION retry] {type(cal_err).__name__}: "
+                            f"{str(cal_err)[:100]}",
+                            flush=True,
+                        )
+                    # On second failure, leave cal_response as None
+            if cal_response is not None:
+                total_llm_calls += 1
+                total_input_tokens += cal_response.usage.input_tokens
+                total_output_tokens += cal_response.usage.output_tokens
 
             # Extract prediction from structured output
             cal_predicted = np.full(oracle.n_outputs, np.nan)
             cal_text = ""
-            for block in cal_response.content:
-                if hasattr(block, "text") and getattr(block, "type", "") == "text":
-                    cal_text = block.text
-                    break
-            conversation.append({"role": "assistant", "content": cal_text})
-
-            if cal_response.parsed_output is not None:
-                preds = cal_response.parsed_output.predicted_outputs
-                # Pydantic schema enforces exact length via min/max_length
-                cal_predicted = np.array(preds, dtype=np.float64)
+            if cal_response is not None:
+                for block in cal_response.content:
+                    if hasattr(block, "text") and getattr(block, "type", "") == "text":
+                        cal_text = block.text
+                        break
+                if cal_response.parsed_output is not None:
+                    preds = cal_response.parsed_output.predicted_outputs
+                    cal_predicted = np.array(preds, dtype=np.float64)
+            conversation.append({"role": "assistant", "content": cal_text or "{}"})
 
             # Evaluate
             cal_actual = oracle.evaluate(cal_point)
@@ -1115,18 +1146,43 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             if thinking is not None:
                 create_kwargs["thinking"] = thinking
 
-            msg = client.messages.create(  # type: ignore[call-overload]
-                timeout=600.0, **create_kwargs,
-            )
+            t_call = time.monotonic()
+            try:
+                msg = client.messages.create(  # type: ignore[call-overload]
+                    timeout=600.0, **create_kwargs,
+                )
+            except Exception as api_err:
+                elapsed = time.monotonic() - t_call
+                print(
+                    f"    [tool call {tool_calls_this_iter + 1}] "
+                    f"FAILED after {elapsed:.0f}s: {type(api_err).__name__}. "
+                    f"Retrying...",
+                    flush=True,
+                )
+                try:
+                    msg = client.messages.create(  # type: ignore[call-overload]
+                        timeout=1200.0, **create_kwargs,
+                    )
+                except Exception:
+                    print(
+                        f"    [tool call {tool_calls_this_iter + 1}] "
+                        f"Retry also failed. Ending iteration.",
+                        flush=True,
+                    )
+                    break
+
             total_llm_calls += 1
             total_input_tokens += msg.usage.input_tokens
             total_output_tokens += msg.usage.output_tokens
+            call_secs = time.monotonic() - t_call
 
-            # Progress logging
+            # Progress logging with timestamp
+            elapsed_total = time.monotonic() - t0
             print(
                 f"    [tool call {tool_calls_this_iter + 1}] "
                 f"tokens={msg.usage.input_tokens}in+{msg.usage.output_tokens}out "
-                f"budget={eval_count}/{n_budget}",
+                f"budget={eval_count}/{n_budget} "
+                f"({call_secs:.0f}s call, {elapsed_total:.0f}s total)",
                 flush=True,
             )
 
@@ -1222,23 +1278,32 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             summary_kwargs["max_tokens"] = max(
                 max_tokens, budget_tokens + 4096,
             )
-        summary_msg = client.messages.parse(  # type: ignore[arg-type]
-            timeout=600.0, **summary_kwargs,
-        )
-        total_llm_calls += 1
-        total_input_tokens += summary_msg.usage.input_tokens
-        total_output_tokens += summary_msg.usage.output_tokens
+        try:
+            summary_msg = client.messages.parse(  # type: ignore[arg-type]
+                timeout=600.0, **summary_kwargs,
+            )
+            total_llm_calls += 1
+            total_input_tokens += summary_msg.usage.input_tokens
+            total_output_tokens += summary_msg.usage.output_tokens
+        except Exception as summary_err:
+            print(
+                f"  [SUMMARY parse failed] {type(summary_err).__name__}: "
+                f"{str(summary_err)[:100]}",
+                flush=True,
+            )
+            summary_msg = None
 
         # Extract text for conversation continuity
         summary_text = ""
-        for block in summary_msg.content:
-            if hasattr(block, "text") and getattr(block, "type", "") == "text":
-                summary_text = block.text
-                break
-        conversation.append({"role": "assistant", "content": summary_text})
+        if summary_msg is not None:
+            for block in summary_msg.content:
+                if hasattr(block, "text") and getattr(block, "type", "") == "text":
+                    summary_text = block.text
+                    break
+        conversation.append({"role": "assistant", "content": summary_text or "{}"})
 
         # Store structured summary
-        summary = summary_msg.parsed_output
+        summary = summary_msg.parsed_output if summary_msg is not None else None
         if summary is not None:
             # Convert edges list to confidence dict for downstream analysis
             confidence_dict = {
@@ -1269,6 +1334,75 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
                         break
             mechanism_log.append(f"Iteration: {hypothesis}")
 
+        # Condense conversation to prevent unbounded context growth.
+        # Keep: system prompt (implicit), iteration summaries, and a
+        # brief data recap. Drop: raw tool call/result history.
+        if len(conversation) > 6:
+            # Build compact data summary for context retention
+            y_mins = Y_all.min(axis=0)
+            y_maxs = Y_all.max(axis=0)
+            output_ranges = ", ".join(
+                f"{oracle.output_names[j]}=[{y_mins[j]:.3f}, {y_maxs[j]:.3f}]"
+                for j in range(oracle.n_outputs)
+            )
+
+            # Best values per output (accounting for direction)
+            best_lines = []
+            for j, (oname, direction) in enumerate(
+                zip(oracle.output_names, oracle.output_directions)
+            ):
+                if direction == "maximize":
+                    best_lines.append(f"{oname}: best={Y_all[:, j].max():.4f}")
+                elif direction == "minimize":
+                    best_lines.append(f"{oname}: best={Y_all[:, j].min():.4f}")
+
+            # Recent evaluate_point results (last 5 for context)
+            recent_evals = []
+            for tc in reversed(tool_calls_log):
+                if tc.get("name") == "evaluate_point" and len(recent_evals) < 5:
+                    inp = tc.get("input", {})
+                    res = tc.get("result", {})
+                    if isinstance(res, dict) and "outputs" in res:
+                        recent_evals.append(
+                            f"  point={inp.get('point', '?')} -> "
+                            f"{res['outputs']}"
+                        )
+
+            remaining = n_budget - eval_count
+            condensed_content = (
+                f"[Context condensed after iteration "
+                f"{len(iteration_summaries)}]\n\n"
+                f"## Status\n"
+                f"Evals: {eval_count}/{n_budget} ({remaining} remaining). "
+                f"HV: {hypervolumes[-1]:.4f}. "
+                f"Pareto front: {len(Y_all)} points observed.\n\n"
+                f"## Output Ranges\n{output_ranges}\n"
+                f"Best values: {', '.join(best_lines)}\n\n"
+                f"## Your Causal Model\n"
+                f"{summary_text or mechanism_log[-1]}\n\n"
+            )
+            if recent_evals:
+                condensed_content += (
+                    f"## Recent Evaluations\n"
+                    + "\n".join(recent_evals) + "\n\n"
+                )
+            condensed_content += (
+                f"## Next Steps\n"
+                f"You have {remaining} evals left. Use evaluate_point "
+                f"for targeted Pareto optimization based on your causal model."
+            )
+
+            conversation = [
+                {"role": "user", "content": condensed_content},
+                {
+                    "role": "assistant",
+                    "content": (
+                        "Understood. I have my causal model, the data summary, "
+                        "and recent evaluations. Continuing with optimization."
+                    ),
+                },
+            ]
+
         # Checkpoint
         if checkpoint_dir is not None:
             import pathlib
@@ -1287,9 +1421,11 @@ CRITICAL: Prior knowledge can be WRONG on this system variant.
             )
 
         # Progress
+        elapsed_total = time.monotonic() - t0
         print(
             f"  [Iteration done] evals={eval_count}/{n_budget} "
-            f"HV={hypervolumes[-1]:.4f} tools_used={tool_calls_this_iter}",
+            f"HV={hypervolumes[-1]:.4f} tools_used={tool_calls_this_iter} "
+            f"({elapsed_total:.0f}s total)",
             flush=True,
         )
 
