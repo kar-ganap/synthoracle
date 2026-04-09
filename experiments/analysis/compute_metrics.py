@@ -31,6 +31,8 @@ from synthoracle.dag import CausalDAG, Edge, EdgeDifficulty, Node, NodeType
 from synthoracle.optim_utils import compute_hypervolume, compute_reference_point, parse_directions
 from synthoracle.oracles.medium import MediumOracle
 from synthoracle.oracles.medium_1c import MediumOracle1C
+from synthoracle.oracles.medium_1d import MediumOracle1D
+from synthoracle.oracles.medium_1e import MediumOracle1E
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -48,10 +50,14 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 # Oracle configs
 # ---------------------------------------------------------------------------
 
-ORACLE_CONFIGS: list[tuple[str, MediumOracle | MediumOracle1C, dict[str, float]]] = [
+ORACLE_CONFIGS: list[
+    tuple[str, MediumOracle | MediumOracle1C | MediumOracle1D | MediumOracle1E, dict[str, float]]
+] = [
     ("1A", MediumOracle(variant="1A"), {"Y3": 0.4}),
     ("1B", MediumOracle(variant="1B"), {"Y3": 0.4}),
     ("1C", MediumOracle1C(), {"Y3": 0.4}),
+    ("1D", MediumOracle1D(), {"Y3": 0.4}),
+    ("1E", MediumOracle1E(), {"Y3": 0.4}),
 ]
 
 # ---------------------------------------------------------------------------
@@ -71,6 +77,17 @@ TOOL_USE_RUNS: dict[str, tuple[str, Path, Path]] = {
     # Head-to-head (structured iteration summaries)
     "Opus h2h": ("1A", VR_RESULTS / "opus_h2h_seed42_log.json", VR_RESULTS / "opus_h2h_seed42.npz"),
     "Sonnet h2h": ("1A", VR_RESULTS / "sonnet_h2h_seed42_log.json", VR_RESULTS / "sonnet_h2h_seed42.npz"),
+    # n=6 ablation
+    "Opus n=6": ("1A", VR_RESULTS / "opus_n6_seed42_log.json", VR_RESULTS / "opus_n6_seed42.npz"),
+    # Extended budget
+    "1A ext 144": ("1A", VR_RESULTS / "1a_extended_144_seed42_log.json", VR_RESULTS / "1a_extended_144_seed42.npz"),
+    # Transfer 1D
+    "1D prior": ("1D", VR_RESULTS / "transfer_1d_prior_seed42_log.json", VR_RESULTS / "transfer_1d_prior_seed42.npz"),
+    "1D fresh": ("1D", VR_RESULTS / "transfer_1d_fresh_seed42_log.json", VR_RESULTS / "transfer_1d_fresh_seed42.npz"),
+    "1D prior 144": ("1D", VR_RESULTS / "transfer_1d_prior_144_seed42_log.json", VR_RESULTS / "transfer_1d_prior_144_seed42.npz"),
+    # Transfer 1E
+    "1E prior": ("1E", VR_RESULTS / "transfer_1e_prior_seed42_log.json", VR_RESULTS / "transfer_1e_prior_seed42.npz"),
+    "1E fresh": ("1E", VR_RESULTS / "transfer_1e_fresh_seed42_log.json", VR_RESULTS / "transfer_1e_fresh_seed42.npz"),
 }
 
 # Batch VR run (Phase 2.2): label -> (oracle_label, log_path, npz_path)
@@ -108,7 +125,7 @@ EDGE_THRESHOLD = 0.05  # output range threshold for declaring an edge
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _get_oracle(label: str) -> MediumOracle | MediumOracle1C:
+def _get_oracle(label: str) -> MediumOracle | MediumOracle1C | MediumOracle1D | MediumOracle1E:
     """Get oracle instance by label."""
     for lbl, oracle, _ in ORACLE_CONFIGS:
         if lbl == label:
