@@ -1,0 +1,251 @@
+======================================================================
+  HD Oracle — Full Diagnostic Analysis
+======================================================================
+
+######################################################################
+#  HD 72-budget (base)
+######################################################################
+
+  Loaded 3 VR seeds, 3 BO seeds
+
+======================================================================
+  1. Final Hypervolume
+======================================================================
+
+  VR HD (3 seeds):
+    HV = 0.2569 +/- 0.0110
+    range: [0.2415, 0.2668]
+  BO HD (3 seeds):
+    HV = 0.2658 +/- 0.0018
+    range: [0.2636, 0.2679]
+  VR/BO ratio: 96.6%
+
+======================================================================
+  2. Edge Precision / Recall (vs ground-truth IO projection)
+======================================================================
+  Ground-truth IO edges: 18
+   seed   prec    rec   TP   FP   FN  FP_noise
+     42  1.000  0.556   10    0    8         0
+     43  1.000  0.611   11    0    7         0
+     44  1.000  0.889   16    0    2         0
+
+  Aggregate:
+    Precision: 1.000 +/- 0.000
+    Recall:    0.685 +/- 0.146
+
+  Most missed (real) edges:
+    X5->Y2: missed in 3/3 seeds
+    X4->Y2: missed in 2/3 seeds
+    X4->Y4: missed in 2/3 seeds
+    X3->Y1: missed in 1/3 seeds
+    X2->Y4: missed in 1/3 seeds
+    X1->Y4: missed in 1/3 seeds
+    X3->Y2: missed in 1/3 seeds
+    X2->Y2: missed in 1/3 seeds
+    X6->Y1: missed in 1/3 seeds
+    X6->Y4: missed in 1/3 seeds
+    X1->Y2: missed in 1/3 seeds
+    X6->Y2: missed in 1/3 seeds
+    X5->Y1: missed in 1/3 seeds
+
+  False positives: zero across all seeds.
+
+======================================================================
+  3. Screening Efficiency
+======================================================================
+   seed  oat_real  oat_noise  int_real  int_noise  total_evals
+     42         3          0         2          0           33
+     43         4          0         2          0           38
+     44         5          0         0          0           25
+
+  Aggregate over 3 seeds:
+    OAT sweeps:        real=12 noise=0
+    Interaction tests: real=4 noise=0
+    Noise tool-call fraction: 0.0%
+    Tool-call evals on noise: 0/96 (0.0%)
+
+  (Note: 1/12 of inputs would be sampled at random = 50.0% on noise;
+   the agent allocates 0% => perfect screening.)
+
+======================================================================
+  4. OAT Prediction Accuracy
+======================================================================
+   seed  n_pred  dir_acc   mag_MAE
+     42      12    91.7%    0.0190
+     43      16    81.2%    0.0966
+     44      20   100.0%    0.0236
+
+  Aggregate direction accuracy: 91.0% +/- 7.7%
+  Aggregate magnitude MAE:      0.0464 +/- 0.0356
+
+======================================================================
+  5. Calibration over time (structured checkpoints)
+======================================================================
+   seed  n_ckpt   first_MAE   last_MAE  learn?
+     42       1      0.0727     0.0727      no
+     43       0         ---        ---     ---
+     44       1      0.0365     0.0365      no
+
+  First checkpoint MAE: 0.0546 +/- 0.0181
+  Last checkpoint MAE:  0.0546 +/- 0.0181
+  Seeds showing learning (last < 80% of first): 0/2
+
+======================================================================
+  6. Adversarial Region Prediction Error
+======================================================================
+  Region                     #Pts      MAE   Max|err|
+  ----------------------------------------------------
+  non-adversarial              18   0.0409     0.1648
+  X2_X4_interaction            20   0.1141     0.3478
+  Z_sensitive                  17   0.1110     0.3316
+
+======================================================================
+  7. Noise Edge Confidence (final iteration summaries)
+======================================================================
+
+  seed 42: 27 real edges, 0 noise edges listed
+
+  seed 43: 28 real edges, 24 noise edges listed
+    noise confidences: mean=0.000 max=0.000
+    all noise edges at <= 0.3 confidence (explicit dismissal)
+
+  seed 44: 20 real edges, 0 noise edges listed
+
+======================================================================
+  8. Cost
+======================================================================
+   seed    input_tok   output_tok     cost  iters
+     42      205,333       54,758 $  2.40      2
+     43      310,790       99,489 $  4.04      3
+     44      237,684       84,538 $  3.30      3
+
+  Per seed: $3.25 +/- $0.67
+  Total:    $9.74
+
+  HV envelope saved: /Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/experiments/analysis/results/hd_hv_envelope.png
+
+######################################################################
+#  HD 144-budget (extended)
+######################################################################
+
+  Loaded 3 VR seeds, 3 BO seeds
+
+======================================================================
+  1. Final Hypervolume
+======================================================================
+
+  VR HD (3 seeds):
+    HV = 0.2681 +/- 0.0015
+    range: [0.2662, 0.2698]
+  BO HD (3 seeds):
+    HV = 0.2658 +/- 0.0018
+    range: [0.2636, 0.2679]
+  VR/BO ratio: 100.9%
+
+======================================================================
+  2. Edge Precision / Recall (vs ground-truth IO projection)
+======================================================================
+  Ground-truth IO edges: 18
+   seed   prec    rec   TP   FP   FN  FP_noise
+     42  1.000  0.944   17    0    1         0
+     43  1.000  0.944   17    0    1         0
+     44  1.000  0.944   17    0    1         0
+
+  Aggregate:
+    Precision: 1.000 +/- 0.000
+    Recall:    0.944 +/- 0.000
+
+  Most missed (real) edges:
+    X5->Y2: missed in 3/3 seeds
+
+  False positives: zero across all seeds.
+
+======================================================================
+  3. Screening Efficiency
+======================================================================
+   seed  oat_real  oat_noise  int_real  int_noise  total_evals
+     42        10          6         2          0           98
+     43         7          0         3          0           67
+     44         6          1         4          0           71
+
+  Aggregate over 3 seeds:
+    OAT sweeps:        real=23 noise=7
+    Interaction tests: real=9 noise=0
+    Noise tool-call fraction: 17.9%
+    Tool-call evals on noise: 35/236 (14.8%)
+
+  (Note: 1/12 of inputs would be sampled at random = 50.0% on noise;
+   the agent allocates 0% => perfect screening.)
+
+======================================================================
+  4. OAT Prediction Accuracy
+======================================================================
+   seed  n_pred  dir_acc   mag_MAE
+     42      64    79.7%    0.0662
+     43      28    64.3%    0.2145
+     44      28    78.6%    0.0977
+
+  Aggregate direction accuracy: 74.2% +/- 7.0%
+  Aggregate magnitude MAE:      0.1261 +/- 0.0638
+
+======================================================================
+  5. Calibration over time (structured checkpoints)
+======================================================================
+   seed  n_ckpt   first_MAE   last_MAE  learn?
+     42       4      0.0609     0.0474     yes
+     43       3      0.0493     0.0354     yes
+     44       3      0.2208     0.0773     yes
+
+  First checkpoint MAE: 0.1103 +/- 0.0782
+  Last checkpoint MAE:  0.0534 +/- 0.0177
+  Seeds showing learning (last < 80% of first): 3/3
+
+======================================================================
+  6. Adversarial Region Prediction Error
+======================================================================
+  Region                     #Pts      MAE   Max|err|
+  ----------------------------------------------------
+  non-adversarial              27   0.0337     0.1919
+  X2_X4_interaction            60   0.0458     0.4362
+  Z_sensitive                  57   0.0370     0.3514
+
+======================================================================
+  7. Noise Edge Confidence (final iteration summaries)
+======================================================================
+
+  seed 42: 36 real edges, 24 noise edges listed
+    noise confidences: mean=0.020 max=0.020
+    all noise edges at <= 0.3 confidence (explicit dismissal)
+
+  seed 43: 34 real edges, 24 noise edges listed
+    noise confidences: mean=0.050 max=0.050
+    all noise edges at <= 0.3 confidence (explicit dismissal)
+
+  seed 44: 34 real edges, 0 noise edges listed
+
+======================================================================
+  8. Cost
+======================================================================
+   seed    input_tok   output_tok     cost  iters
+     42      522,418      166,196 $  6.77      5
+     43      481,718      131,586 $  5.70      4
+     44      681,633      274,511 $ 10.27      8
+
+  Per seed: $7.58 +/- $1.95
+  Total:    $22.74
+
+  HV envelope saved: /Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/experiments/analysis/results/hd_ext_hv_envelope.png
+
+======================================================================
+  Comparison: HD 72 vs HD 144 (extended budget)
+======================================================================
+
+  HV @ 72:  0.2569 +/- 0.0110 (n=3)
+  HV @ 144: 0.2681 +/- 0.0015 (n=3)
+
+  Cost @ 72:  $3.25 +/- $0.67
+  Cost @ 144: $7.58 +/- $1.95
+
+======================================================================
+  Done.
+======================================================================

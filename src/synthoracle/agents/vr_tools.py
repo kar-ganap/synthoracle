@@ -1003,7 +1003,15 @@ immediately — do not average with the prior or give it partial credit."""
     # Calibration checkpoint tracking
     next_calibration = n_initial + calibration_interval
 
+    # Safety valve: detect iterations that add zero evals (can happen when
+    # adaptive thinking consumes all output tokens, leaving no room for
+    # tool_use blocks). Break out if this persists for several iterations.
+    no_progress_streak = 0
+    max_no_progress_iters = 3
+
     while eval_count < n_budget:
+        eval_count_before_iter = eval_count
+
         # --- Calibration checkpoint ---
         if (
             calibration_interval > 0
@@ -1428,6 +1436,25 @@ immediately — do not average with the prior or give it partial credit."""
             f"({elapsed_total:.0f}s total)",
             flush=True,
         )
+
+        # Safety valve: track no-progress iterations and bail out if stuck.
+        if eval_count == eval_count_before_iter:
+            no_progress_streak += 1
+            print(
+                f"  [NO PROGRESS] iteration added 0 evals "
+                f"(streak={no_progress_streak}/{max_no_progress_iters})",
+                flush=True,
+            )
+            if no_progress_streak >= max_no_progress_iters:
+                print(
+                    f"  [SAFETY VALVE] {max_no_progress_iters} consecutive "
+                    f"no-progress iterations — breaking out of main loop "
+                    f"(eval_count={eval_count}/{n_budget}).",
+                    flush=True,
+                )
+                break
+        else:
+            no_progress_streak = 0
 
     # Extract Pareto front
     pareto_X, pareto_Y = extract_pareto_front(X_all, Y_all, oracle, thresholds)
