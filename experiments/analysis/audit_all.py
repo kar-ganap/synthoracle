@@ -180,19 +180,19 @@ ORACLE_CONDITIONS: dict[str, list[ConditionDef]] = {
             "prior_72",
             72,
             "opus",
-            [42],
+            [42, 43, 44],  # extended to n=3 by run_transfer_1d_1e_n3.py
             "transfer_1d_prior_seed{seed}_log.json",
             "transfer_1d_prior_seed{seed}.npz",
-            notes="n=1 prior, screen-first protocol",
+            notes="3-seed prior, screen-first protocol",
         ),
         _condition(
             "fresh_72",
             72,
             "opus",
-            [42],
+            [42, 43, 44],  # extended to n=3
             "transfer_1d_fresh_seed{seed}_log.json",
             "transfer_1d_fresh_seed{seed}.npz",
-            notes="n=1 fresh",
+            notes="3-seed fresh",
         ),
         _condition(
             "prior_144",
@@ -209,19 +209,19 @@ ORACLE_CONDITIONS: dict[str, list[ConditionDef]] = {
             "prior_72",
             72,
             "opus",
-            [42],
+            [42, 43, 44],  # extended to n=3
             "transfer_1e_prior_seed{seed}_log.json",
             "transfer_1e_prior_seed{seed}.npz",
-            notes="n=1 prior (Opus), screen-first",
+            notes="3-seed prior (Opus), screen-first",
         ),
         _condition(
             "fresh_72",
             72,
             "opus",
-            [42],
+            [42, 43, 44],  # extended to n=3
             "transfer_1e_fresh_seed{seed}_log.json",
             "transfer_1e_fresh_seed{seed}.npz",
-            notes="n=1 fresh",
+            notes="3-seed fresh",
         ),
         _condition(
             "sonnet_prior_72",
@@ -252,14 +252,41 @@ ORACLE_CONDITIONS: dict[str, list[ConditionDef]] = {
             "hd_vr_ext_seed{seed}.npz",
             notes="3-seed Opus, 144 budget",
         ),
+        _condition(
+            "sonnet_72",
+            72,
+            "sonnet",
+            [42, 43, 44],
+            "hd_vr_sonnet_seed{seed}_log.json",
+            "hd_vr_sonnet_seed{seed}.npz",
+            notes="3-seed Sonnet (model generality)",
+        ),
     ],
 }
 
 
 def _bo_runs_for(oracle_label: str) -> list[Path]:
-    """Return BO baseline npz paths for a given oracle."""
+    """Return BO baseline npz paths for a given oracle.
+
+    Prefers the new 144-eval BO baselines (`bo_{oracle}_n144_seed{N}.npz`)
+    when available — they extend further than the original 54-66 eval
+    baselines, fixing the crossover_eval comparison length mismatch with
+    extended-budget VR runs.
+    """
+    # Map oracle label → (default paths, n144 prefix)
+    n144_files: dict[str, list[Path]] = {
+        "1A": [VR_RESULTS / f"bo_1a_n144_seed{s}.npz" for s in [42, 43, 44]],
+        "1D": [VR_RESULTS / f"bo_1d_n144_seed{s}.npz" for s in [42, 43, 44]],
+        "1E": [VR_RESULTS / f"bo_1e_n144_seed{s}.npz" for s in [42, 43, 44]],
+        "HD": [VR_RESULTS / f"bo_hd_n144_seed{s}.npz" for s in [42, 43, 44]],
+    }
+    if oracle_label in n144_files:
+        existing_n144 = [p for p in n144_files[oracle_label] if p.exists()]
+        if existing_n144:
+            return existing_n144  # prefer longer curves
+
+    # Fallback: original BO baselines
     if oracle_label == "1A":
-        # 10-seed BO baseline
         return [COMP_RESULTS / f"bo_seed{s}.npz" for s in range(42, 52)
                 if (COMP_RESULTS / f"bo_seed{s}.npz").exists()]
     if oracle_label == "1B":
