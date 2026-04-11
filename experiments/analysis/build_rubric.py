@@ -660,30 +660,73 @@ def build_rules_of_thumb(audit: dict) -> str:
         f"values (n=100k samples per oracle)."
     ))
 
+    n_d_prior = d_prior_72.get("n_seeds_vr", 1)
+    n_d_fresh = d_fresh_72.get("n_seeds_vr", 1)
+    n_e_prior = e_prior_72.get("n_seeds_vr", 1)
+    n_e_fresh = e_fresh_72.get("n_seeds_vr", 1)
+    n_evidence_label = (
+        f"n={n_d_prior}/{n_d_fresh}/{n_e_prior}/{n_e_fresh} for "
+        f"1D prior/fresh and 1E prior/fresh"
+    )
+    n_caveat = (
+        " — *directional only*" if max(n_d_prior, n_d_fresh, n_e_prior, n_e_fresh) == 1
+        else ""
+    )
+
+    # Compute σ-aware comparison if available
+    d_prior_std = d_prior_72.get("vr_final_hv_std", 0.0)
+    d_fresh_std = d_fresh_72.get("vr_final_hv_std", 0.0)
     rules.append((
         "Prior topology preservation matters more than functional similarity",
         f"On 1D (functional shifts only, topology preserved), the prior gives a "
         f"**−{(1 - d_prior_72['vr_over_bo'] / d_fresh_72['vr_over_bo']) * 100:.0f}% "
-        f"penalty** at 72 budget (n=1: prior {d_prior_72['vr_over_bo']:.2f} vs fresh "
-        f"{d_fresh_72['vr_over_bo']:.2f}). At extended budget the penalty erases: prior "
-        f"reaches **{d_prior_144['vr_over_bo']:.0%}** of BO. On 1E (full rewire, 16/18 "
+        f"penalty** at 72 budget "
+        f"(prior {d_prior_72['vr_over_bo']:.3f} ± {d_prior_std/d_prior_72.get('vr_final_hv_mean', 1):.3f} "
+        f"vs fresh {d_fresh_72['vr_over_bo']:.3f} ± {d_fresh_std/d_fresh_72.get('vr_final_hv_mean', 1):.3f}). "
+        f"At extended budget the penalty erases: prior reaches "
+        f"**{d_prior_144['vr_over_bo']:.0%}** of BO. On 1E (full rewire, 16/18 "
         f"edges shared but Y2/Y4 essentially uncorrelated with 1A), prior and fresh "
-        f"are **statistically equivalent** ({e_prior_72['vr_over_bo']:.0%} vs "
+        f"are **equivalent** ({e_prior_72['vr_over_bo']:.0%} vs "
         f"{e_fresh_72['vr_over_bo']:.0%}) — when the prior is *obviously* wrong the "
         f"agent dismisses it cleanly via the screen-first protocol. The dangerous "
         f"case is the *partially wrong* prior (1D), not the *catastrophically wrong* "
-        f"one (1E). **Evidence:** 1D and 1E prior/fresh conditions (n=1 each — "
-        f"directional)."
+        f"one (1E). **Evidence:** {n_evidence_label}{n_caveat}."
     ))
 
+    n_e_sonnet = e_sonnet_72.get("n_seeds_vr", 1)
+    e_caveat = " — *directional*" if n_e_sonnet == 1 else ""
     rules.append((
         "Model generality (Sonnet vs Opus on transfer)",
         f"On 1E transfer, Sonnet reaches "
         f"**{e_sonnet_72['vr_final_hv_frac_ref_mean']:.3f} of ref HV** vs Opus's "
         f"{e_prior_72['vr_final_hv_frac_ref_mean']:.3f} — essentially identical. The "
         f"transfer protocol is model-general; the result is not Opus-specific. "
-        f"**Evidence:** 1E sonnet_prior_72 vs 1E prior_72 (n=1 each)."
+        f"**Evidence:** 1E sonnet_prior_72 (n={n_e_sonnet}) vs 1E prior_72 "
+        f"(n={n_e_prior}){e_caveat}."
     ))
+
+    # New rule: Sonnet HD screening generality (added by gap-closing experiments)
+    if "sonnet_72" in audit["HD"]["conditions"]:
+        sonnet_hd = audit["HD"]["conditions"]["sonnet_72"]
+        sonnet_opt = sonnet_hd.get("optimization", {})
+        sonnet_screen = sonnet_hd.get("screening", {})
+        sonnet_n = sonnet_opt.get("n_seeds_vr", 0)
+        if sonnet_n > 0:
+            opus_hd_72 = audit["HD"]["conditions"]["base_72"]
+            rules.append((
+                "Screening behavior generalizes across LLMs",
+                f"On HD with Sonnet (n={sonnet_n}), the agent reaches "
+                f"**{sonnet_opt['vr_over_bo']:.0%}** of BO (vs Opus "
+                f"{opus_hd_72['optimization']['vr_over_bo']:.0%}) and spends "
+                f"**{sonnet_screen.get('noise_oat_fraction', 0)*100:.0f}%** of OAT "
+                f"sweeps on noise dimensions (Opus: "
+                f"{opus_hd_72['screening'].get('noise_oat_fraction', 0)*100:.0f}%). "
+                f"Max noise edge confidence: **{sonnet_screen.get('max_noise_edge_confidence', 0):.2f}** "
+                f"(Opus: {opus_hd_72['screening'].get('max_noise_edge_confidence', 0):.2f}). "
+                f"The screening behavior — central to HD's headline result — is "
+                f"**not Opus-specific**. **Evidence:** HD sonnet_72 (n={sonnet_n}) "
+                f"vs HD base_72 (n={opus_hd_72['optimization']['n_seeds_vr']})."
+            ))
 
     for i, (title, body) in enumerate(rules, 1):
         out.append(f"### Rule {i}: {title}")
@@ -697,20 +740,30 @@ def build_rules_of_thumb(audit: dict) -> str:
 def build_limitations(audit: dict) -> str:
     """Section 11: limitations and durability notes."""
     out = ["## 11. Limitations and permanence notes\n"]
-    out.append("**Statistical depth:**")
-    out.append("- 1A: 10-seed multi-seed (statistically robust)")
-    out.append("- HD: 3-seed at base + 3-seed at extended (small but consistent)")
-    out.append("- 1A extended: 4-seed (small but consistent)")
-    out.append("- **1B, 1C, 1D, 1E: n=1 per condition** — all transfer claims rest on "
-               "single seeds. Rules of thumb derived from these are *directional*.")
+
+    # Auto-detect statistical depth from audit data
+    out.append("**Statistical depth (auto-extracted from audit_data.json):**")
+    out.append("")
+    out.append("| Oracle | Conditions and n_seeds |")
+    out.append("|---|---|")
+    for label in ORACLES_IN_RUBRIC:
+        cond_strs = []
+        for _c_name, cond in audit[label]["conditions"].items():
+            n = cond["n_seeds"]
+            if n > 0:
+                cond_strs.append(f"{cond['label']} (n={n})")
+        if cond_strs:
+            out.append(f"| {label} | {', '.join(cond_strs)} |")
     out.append("")
     out.append("**Coverage:**")
-    out.append("- Only Opus 4.6 evaluated at multi-seed depth. Sonnet has n=1 on 1E "
-               "transfer; Haiku is not in this rubric.")
+    out.append("- Opus 4.6 is the primary model evaluated. Sonnet 4.6 has limited "
+               "coverage (1E transfer, HD if Sonnet HD experiments have landed).")
     out.append("- Only 2 budget levels tested (72 and 144 evals). Sample efficiency "
                "interpolation between or extrapolation beyond these is not validated.")
     out.append("- HD is the only oracle with irrelevant inputs. The k/d scaling claim "
                "rests on a single dimensionality data point.")
+    out.append("- 1B and 1C are excluded from the rubric (stepping stones — see "
+               "Section 2). They appear in the catalog only.")
     out.append("")
     out.append("**Durability classification (what ages and what doesn't):**")
     out.append("")
