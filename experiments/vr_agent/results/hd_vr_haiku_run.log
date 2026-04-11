@@ -1,0 +1,139 @@
+
+============================================================
+  VR agent: HD oracle Haiku (3 seeds, 72 evals)
+  (Phase 2.3 pilot on 1A: iteration_summaries failed;
+   expect partial rubric data — edge P/R + tool-call allocation)
+============================================================
+
+  Running VR HD seed 42 (72 evals, 12 inputs, claude-haiku-4-5-20251001, thinking=off)...
+    [tool call 1] tokens=3069in+87out budget=24/72 (1s call, 1s total)
+    [tool call 3] tokens=4275in+1405out budget=24/72 (8s call, 9s total)
+    [tool call 7] tokens=8030in+894out budget=44/72 (5s call, 15s total)
+    [tool call 10] tokens=10708in+672out budget=59/72 (5s call, 19s total)
+    [tool call 12] tokens=12476in+915out budget=67/72 (6s call, 26s total)
+    [tool call 15] tokens=13915in+361out budget=71/72 (2s call, 28s total)
+  [Iteration done] evals=71/72 HV=0.0841 tools_used=18 (60s total)
+  [CALIBRATION @ eval 72] MAE=0.1639 max|err|=0.4155
+    [tool call 1] tokens=7823in+593out budget=72/72 (6s call, 68s total)
+    [tool call 4] tokens=10823in+345out budget=72/72 (3s call, 71s total)
+    [tool call 8] tokens=11639in+2089out budget=72/72 (16s call, 87s total)
+  [Iteration done] evals=72/72 HV=0.0841 tools_used=7 (130s total)
+  Seed 42: HV=0.0841 cost=$0.16 evals=72 iters=2
+
+  Running VR HD seed 43 (72 evals, 12 inputs, claude-haiku-4-5-20251001, thinking=off)...
+    [tool call 1] tokens=3069in+84out budget=24/72 (1s call, 1s total)
+    [tool call 3] tokens=4269in+1793out budget=24/72 (10s call, 11s total)
+    [tool call 8] tokens=8958in+473out budget=49/72 (5s call, 16s total)
+    [tool call 10] tokens=10626in+980out budget=49/72 (7s call, 23s total)
+    [tool call 13] tokens=13599in+664out budget=72/72 (5s call, 28s total)
+  [Iteration done] evals=72/72 HV=0.1632 tools_used=15 (49s total)
+  Seed 43: HV=0.1632 cost=$0.07 evals=72 iters=1
+
+  Running VR HD seed 44 (72 evals, 12 inputs, claude-haiku-4-5-20251001, thinking=off)...
+    [tool call 1] tokens=3069in+87out budget=24/72 (1s call, 1s total)
+    [tool call 3] tokens=4269in+1139out budget=24/72 (7s call, 8s total)
+    [tool call 6] tokens=7059in+843out budget=39/72 (6s call, 14s total)
+    [tool call 9] tokens=9592in+652out budget=54/72 (5s call, 19s total)
+    [tool call 11] tokens=11630in+854out budget=72/72 (6s call, 24s total)
+    [tool call 14] tokens=12643in+301out budget=72/72 (2s call, 26s total)
+  [Iteration done] evals=72/72 HV=0.1009 tools_used=17 (52s total)
+  Seed 44: HV=0.1009 cost=$0.08 evals=72 iters=1
+
+============================================================
+  VR HD Haiku aggregate (3 seeds)
+============================================================
+  Final HV: 0.1161 +/- 0.0340 (min=0.0841, max=0.1632)
+  Total cost: $0.30 (mean $0.10/seed)
+
+  Per-seed summary:
+   seed       HV  evals iters  oat_real  oat_noise  real_edges  noise_edges
+     42   0.0841     72     2         6          3          20           23
+     43   0.1632     72     1         6          0          28           24
+     44   0.1009     72     1         6          2          24           24
+
+  Screening efficiency (across seeds):
+    OAT total: 23 (real 18, noise 5)
+    Noise sweep fraction: 21.7%
+
+  Edge confidence (final iteration, across seeds):
+    Real edges (mean):  24.0
+    Noise edges (mean): 23.67
+    seed 42 noise edges:
+      X8->Y1: 0.35
+      X12->Y4: 0.35
+      X7->Y3: 0.30
+      X9->Y2: 0.30
+      X8->Y4: 0.28
+      X9->Y1: 0.28
+      X12->Y3: 0.28
+      X10->Y2: 0.25
+      X12->Y1: 0.25
+      X7->Y1: 0.22
+      X7->Y4: 0.22
+      X9->Y4: 0.22
+      X10->Y3: 0.22
+      X11->Y3: 0.22
+      X12->Y2: 0.22
+      X7->Y2: 0.20
+      X8->Y2: 0.20
+      X9->Y3: 0.20
+      X10->Y4: 0.20
+      X11->Y1: 0.20
+      X11->Y2: 0.20
+      X11->Y4: 0.20
+      X10->Y1: 0.18
+    seed 43 noise edges:
+      X7->Y1: 0.05
+      X7->Y2: 0.05
+      X7->Y3: 0.05
+      X7->Y4: 0.05
+      X8->Y1: 0.05
+      X8->Y2: 0.05
+      X8->Y3: 0.05
+      X8->Y4: 0.05
+      X9->Y1: 0.05
+      X9->Y2: 0.05
+      X9->Y3: 0.05
+      X9->Y4: 0.05
+      X10->Y1: 0.05
+      X10->Y2: 0.05
+      X10->Y3: 0.05
+      X10->Y4: 0.05
+      X11->Y1: 0.05
+      X11->Y2: 0.05
+      X11->Y3: 0.05
+      X11->Y4: 0.05
+      X12->Y1: 0.05
+      X12->Y2: 0.05
+      X12->Y3: 0.05
+      X12->Y4: 0.05
+    seed 44 noise edges:
+      X9->Y2: 0.60
+      X8->Y1: 0.55
+      X9->Y3: 0.55
+      X9->Y1: 0.40
+      X12->Y2: 0.40
+      X9->Y4: 0.35
+      X10->Y1: 0.35
+      X10->Y2: 0.30
+      X10->Y4: 0.30
+      X10->Y3: 0.25
+      X11->Y1: 0.25
+      X11->Y3: 0.25
+      X8->Y2: 0.15
+      X8->Y3: 0.15
+      X8->Y4: 0.15
+      X11->Y2: 0.15
+      X11->Y4: 0.15
+      X12->Y3: 0.15
+      X12->Y4: 0.15
+      X7->Y1: 0.10
+      X7->Y2: 0.10
+      X7->Y3: 0.10
+      X7->Y4: 0.10
+      X12->Y1: 0.10
+
+  Comparison vs BO HD (3 seeds):
+    VR: 0.1161 +/- 0.0340
+    BO: 0.2658 +/- 0.0018
+    VR/BO: 43.7%

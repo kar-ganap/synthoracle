@@ -151,13 +151,20 @@ def _run_vr_seed(
             **_seed_edge_stats(log.get("iteration_summaries", [])),
         }
 
+    # Haiku 4.5 does not support adaptive thinking; skip thinking kwarg
+    # entirely (API returns 400 on any adaptive thinking request).
+    thinking_kwarg: dict[str, object] | None = {"type": "adaptive"}
+    if "haiku" in model.lower():
+        thinking_kwarg = None
+
     print(f"\n  Running VR HD seed {seed} ({n_budget} evals, 12 inputs, "
-          f"{model})...", flush=True)
+          f"{model}, thinking={'adaptive' if thinking_kwarg else 'off'})...",
+          flush=True)
     try:
         r = run_vr_tools(
             oracle, n_budget=n_budget, seed=seed,
             thresholds=THRESHOLDS, reference_point=ref_point,
-            model=model, thinking={"type": "adaptive"},
+            model=model, thinking=thinking_kwarg,
             max_tokens=max_tokens, max_tool_calls_per_iteration=15,
             checkpoint_dir=str(RESULTS_DIR / f"{file_prefix}_seed{seed}_ckpt"),
             calibration_interval=calibration_interval,

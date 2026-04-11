@@ -87,6 +87,7 @@ Reported separately for VR and BO; per-row VR/BO ratio at each threshold is the 
 | HD / base_72 (72 budget, opus, n=3) | 38 | 11 | 58 | 26 | 61 | 30 |
 | HD / extended_144 (144 budget, opus, n=3) | 66 | 11 | 92 | 26 | 96 | 30 |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 45 | 11 | 59 | 26 | 63 | 30 |
+| HD / haiku_72 (72 budget, haiku, n=3) | 17 | 11 | n/a | 26 | n/a | 30 |
 
 **Reading the table:**
 - **VR > BO at low thresholds (50%, 75%)**: BO's qNEHVI converges fast on smooth Pareto fronts; VR spends early budget on screening + OAT sweeps and only catches up after building its causal model. This is the "understanding tax" in dimensional units.
@@ -114,6 +115,7 @@ All HV values normalized to oracle's own reference HV (raw HVs in Appendix A). T
 | HD / base_72 (72 budget, opus, n=3) | 1.010 ± 0.043 | 1.045 ± 0.007 | 0.966 | n/a | 1/3 |
 | HD / extended_144 (144 budget, opus, n=3) | 1.054 ± 0.006 | 1.045 ± 0.007 | 1.009 | 134 | 3/3 |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 0.999 ± 0.053 | 1.045 ± 0.007 | 0.956 | n/a | 0/3 |
+| HD / haiku_72 (72 budget, haiku, n=3) | 0.456 ± 0.134 | 1.045 ± 0.007 | 0.437 | n/a | 0/3 |
 
 ---
 
@@ -135,6 +137,7 @@ Edges are compared against the IO projection of each oracle's ground-truth DAG (
 | HD / base_72 (72 budget, opus, n=3) | 18 | 1.000 ± 0.000 | 0.685 ± 0.146 | X5->Y2 |
 | HD / extended_144 (144 budget, opus, n=3) | 18 | 1.000 ± 0.000 | 0.944 ± 0.000 | X5->Y2 |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 18 | 1.000 ± 0.000 | 0.815 ± 0.146 | X5->Y2 |
+| HD / haiku_72 (72 budget, haiku, n=3) | 18 | 1.000 ± 0.000 | 0.907 ± 0.026 | X5->Y2 |
 
 ---
 
@@ -155,6 +158,7 @@ For each output, sums the Sobol total index of inputs the agent claimed (confide
 | HD / base_72 (72 budget, opus, n=3) | 0.996 ± 0.005 | 1.000 | 0.998 | 1.000 | 0.987 |
 | HD / extended_144 (144 budget, opus, n=3) | 0.996 ± 0.005 | 1.000 | 0.998 | 1.000 | 0.987 |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 0.999 ± 0.000 | 1.000 | 0.998 | 1.000 | 1.000 |
+| HD / haiku_72 (72 budget, haiku, n=3) | 0.959 ± 0.057 | 0.968 | 0.883 | 1.000 | 0.987 |
 
 ---
 
@@ -175,6 +179,7 @@ For each output, sums the Sobol total index of inputs the agent claimed (confide
 | HD / base_72 (72 budget, opus, n=3) | 0.910 ± 0.077 | 0.0464 ± 0.0356 | 16 |
 | HD / extended_144 (144 budget, opus, n=3) | 0.742 ± 0.070 | 0.1261 ± 0.0638 | 40 |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 0.851 ± 0.090 | 0.0608 ± 0.0196 | 27 |
+| HD / haiku_72 (72 budget, haiku, n=3) | 0.662 ± 0.040 | 0.3093 ± 0.1283 | 28 |
 
 ### 7b. Calibration learning
 
@@ -191,6 +196,7 @@ Fraction of seeds where last-checkpoint MAE < 0.8 × first-checkpoint MAE. `lear
 | HD / base_72 (72 budget, opus, n=3) | 2/3 | 1.0 | 0.0546 | n/a | n/a |
 | HD / extended_144 (144 budget, opus, n=3) | 3/3 | 3.0 | 0.1103 | 0.0534 | 100% |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 3/3 | 1.0 | 0.0536 | n/a | n/a |
+| HD / haiku_72 (72 budget, haiku, n=3) | 1/3 | 0.0 | 0.1639 | n/a | n/a |
 
 ### 7c. Adversarial region prediction error
 
@@ -221,6 +227,7 @@ Fraction of tool-call evaluations spent on inputs whose total Sobol index is bel
 | HD / base_72 (72 budget, opus, n=3) | 6 (X10,X11,X12,X7,X8,X9) | 0/12 (0.0%) | 0/96 (0.0%) | 0.00 |
 | HD / extended_144 (144 budget, opus, n=3) | 6 (X10,X11,X12,X7,X8,X9) | 7/30 (23.3%) | 35/236 (14.8%) | 0.05 |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 6 (X10,X11,X12,X7,X8,X9) | 4/20 (20.0%) | 18/98 (18.4%) | 0.30 |
+| HD / haiku_72 (72 budget, haiku, n=3) | 6 (X10,X11,X12,X7,X8,X9) | 5/23 (21.7%) | 36/179 (20.1%) | 0.60 |
 
 **Reading the table:** at base budget HD does 0% noise OAT sweeps (pure inference-based dismissal). At extended budget HD shifts to **verification mode**, spending ~15% of tool-call evals on noise dimensions to explicitly confirm zero effect — but no noise edge ever exceeds confidence 0.05. Both strategies produce zero false-positive noise edges.
 
@@ -243,6 +250,7 @@ Fraction of tool-call evaluations spent on inputs whose total Sobol index is bel
 | HD / base_72 (72 budget, opus, n=3) | 0.0434 | 0.1458 | 0.0047 |
 | HD / extended_144 (144 budget, opus, n=3) | 0.0059 | 0.0000 | 0.0047 |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 0.0532 | 0.1458 | 0.0000 |
+| HD / haiku_72 (72 budget, haiku, n=3) | 0.1336 | 0.0262 | 0.0566 |
 
 ---
 
@@ -305,7 +313,7 @@ On HD with Sonnet (n=3), the agent reaches **96%** of BO (vs Opus 97%) and spend
 | 1A | multi_seed_72 (n=10), extended_144 (n=4) |
 | 1D | prior_72 (n=3), fresh_72 (n=3), prior_144 (n=1) |
 | 1E | prior_72 (n=3), fresh_72 (n=3), sonnet_prior_72 (n=1) |
-| HD | base_72 (n=3), extended_144 (n=3), sonnet_72 (n=3) |
+| HD | base_72 (n=3), extended_144 (n=3), sonnet_72 (n=3), haiku_72 (n=3) |
 
 **Coverage:**
 - Opus 4.6 is the primary model evaluated. Sonnet 4.6 has limited coverage (1E transfer, HD if Sonnet HD experiments have landed).
@@ -349,6 +357,7 @@ On HD with Sonnet (n=3), the agent reaches **96%** of BO (vs Opus 97%) and spend
 | HD / base_72 (72 budget, opus, n=3) | 0.2569 ± 0.0110 | 0.2658 ± 0.0018 | 0.2544 |
 | HD / extended_144 (144 budget, opus, n=3) | 0.2681 ± 0.0015 | 0.2658 ± 0.0018 | 0.2544 |
 | HD / sonnet_72 (72 budget, sonnet, n=3) | 0.2541 ± 0.0135 | 0.2658 ± 0.0018 | 0.2544 |
+| HD / haiku_72 (72 budget, haiku, n=3) | 0.1161 ± 0.0340 | 0.2658 ± 0.0018 | 0.2544 |
 
 ## Appendix B: Ephemeral metrics (pointer)
 

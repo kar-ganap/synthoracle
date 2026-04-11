@@ -2104,15 +2104,15 @@
             "X5->Y2": 3,
             "X4->Y4": 2,
             "X4->Y2": 2,
+            "X3->Y1": 1,
+            "X2->Y2": 1,
+            "X2->Y4": 1,
             "X1->Y4": 1,
             "X3->Y2": 1,
-            "X3->Y1": 1,
-            "X2->Y4": 1,
-            "X2->Y2": 1,
-            "X1->Y2": 1,
-            "X6->Y4": 1,
             "X6->Y2": 1,
             "X6->Y1": 1,
+            "X6->Y4": 1,
+            "X1->Y2": 1,
             "X5->Y1": 1
           },
           "edges_by_difficulty_in_gt": {
@@ -2397,12 +2397,12 @@
           "missed_counts": {
             "X5->Y2": 3,
             "X1->Y4": 1,
-            "X6->Y4": 1,
             "X6->Y2": 1,
-            "X2->Y4": 1,
-            "X2->Y2": 1,
             "X6->Y1": 1,
-            "X2->Y1": 1
+            "X6->Y4": 1,
+            "X2->Y2": 1,
+            "X2->Y1": 1,
+            "X2->Y4": 1
           },
           "edges_by_difficulty_in_gt": {
             "EASY": 18,
@@ -2500,6 +2500,132 @@
           "input_tokens_mean": 236375.33333333334,
           "output_tokens_mean": 87657.33333333333,
           "iters_per_seed_median": 2.0
+        }
+      },
+      "haiku_72": {
+        "label": "haiku_72",
+        "budget": 72,
+        "model": "haiku",
+        "n_seeds": 3,
+        "notes": "3-seed Haiku (capability floor test; expect partial data)",
+        "optimization": {
+          "n_seeds_vr": 3,
+          "n_seeds_bo": 3,
+          "vr_final_hv_mean": 0.11605490054464403,
+          "vr_final_hv_std": 0.033999048827311515,
+          "vr_final_hv_min": 0.08413576521843653,
+          "vr_final_hv_max": 0.16315575240996572,
+          "vr_final_hv_frac_ref_mean": 0.4561276796680502,
+          "vr_final_hv_frac_ref_std": 0.13362561322050126,
+          "bo_final_hv_mean": 0.2657877256116474,
+          "bo_final_hv_std": 0.0017538410824404292,
+          "bo_final_hv_frac_ref_mean": 1.0446188657139313,
+          "vr_over_bo": 0.43664507184284457,
+          "sample_efficiency_vr": {
+            "50pct": 17.0,
+            "75pct": null,
+            "90pct": null
+          },
+          "sample_efficiency_bo": {
+            "50pct": 11.0,
+            "75pct": 26.666666666666668,
+            "90pct": 30.0
+          },
+          "crossover_eval": null,
+          "seeds_crossing_bo": 0
+        },
+        "edge_pr": {
+          "n_seeds": 3,
+          "precision_mean": 1.0,
+          "precision_std": 0.0,
+          "recall_mean": 0.9074074074074074,
+          "recall_std": 0.026189140043946214,
+          "n_gt_edges": 18,
+          "hardest_missed_edge": "X5->Y2",
+          "missed_counts": {
+            "X5->Y2": 3,
+            "X1->Y4": 2
+          },
+          "edges_by_difficulty_in_gt": {
+            "EASY": 18,
+            "MEDIUM": 0,
+            "HARD": 0
+          },
+          "edges_found_by_difficulty_mean": {
+            "EASY": 16.333333333333332,
+            "MEDIUM": 0.0,
+            "HARD": 0.0
+          }
+        },
+        "info_capture": {
+          "n_seeds": 3,
+          "per_output_mean": {
+            "Y1": 0.9683396556346072,
+            "Y2": 0.8826013460650747,
+            "Y3": 1.0,
+            "Y4": 0.9866590671597587
+          },
+          "per_output_std": {
+            "Y1": 0.04477448839094112,
+            "Y2": 0.16262989724430976,
+            "Y3": 0.0,
+            "Y4": 0.018866928157377696
+          },
+          "mean_across_outputs": 0.9594000172148602,
+          "std_across_outputs": 0.056567828448157206
+        },
+        "oat_accuracy": {
+          "n_seeds": 3,
+          "direction_accuracy_mean": 0.6620370370370371,
+          "direction_accuracy_std": 0.03982557994001215,
+          "magnitude_mae_mean": 0.30930787037037033,
+          "magnitude_mae_std": 0.12827244358933562,
+          "predictions_per_seed_mean": 28.0
+        },
+        "calibration": {
+          "n_seeds": 3,
+          "n_seeds_with_data": 1,
+          "median_checkpoints_per_seed": 0.0,
+          "first_mae_mean": 0.16394806277960716,
+          "last_mae_mean": null,
+          "learning_fraction": null,
+          "n_seeds_showing_learning": 0,
+          "n_seeds_with_two_checkpoints": 0
+        },
+        "adversarial": {
+          "n_seeds": 3,
+          "regions": {},
+          "max_adv_over_non_adv_ratio": null,
+          "max_adv_mae": null,
+          "non_adv_n_points": 0,
+          "adv_total_n_points": 0
+        },
+        "screening": {
+          "n_seeds": 3,
+          "low_sobol_inputs": [
+            "X10",
+            "X11",
+            "X12",
+            "X7",
+            "X8",
+            "X9"
+          ],
+          "oat_total": 23,
+          "oat_noise": 5,
+          "noise_oat_fraction": 0.21739130434782608,
+          "total_evals_in_tool_calls": 179,
+          "noise_evals_in_tool_calls": 36,
+          "noise_eval_fraction": 0.2011173184357542,
+          "max_noise_edge_confidence": 0.6
+        },
+        "cost": {
+          "n_seeds": 3,
+          "cost_per_seed_mean": 0.101204,
+          "cost_per_seed_std": 0.0386850392415466,
+          "total_cost": 0.303612,
+          "input_tokens_mean": 76433.33333333333,
+          "output_tokens_mean": 10014.333333333334,
+          "iters_per_seed_median": 1.0
         }
       }
     }
