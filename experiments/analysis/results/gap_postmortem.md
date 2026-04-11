@@ -153,6 +153,98 @@ diagnostic that surfaces the difference."
 
 ---
 
+## Experiment B2: Haiku HD @ n=3 (added after preregistration)
+
+**Motivation:** After seeing the Opus → Sonnet screening strategy gradient
+(0% noise OAT → 20%), we added a Haiku HD run to test the capability floor
+and complete the 3-tier model sweep. This experiment was NOT pre-registered
+so the predictions below are post-hoc expectations.
+
+**Post-hoc expectations (stated before running, recorded in this paragraph
+only):** Haiku would continue the trend (~30-50% noise OAT) with moderate
+HV degradation (~75% of BO). Based on the Phase 2.3 Haiku-on-1A pilot
+which reached 62% of BO with decent edge recall but zero structured
+iteration summaries.
+
+### Surprises
+
+1. **Haiku does not support adaptive thinking.** First run attempt failed
+   immediately with HTTP 400 "adaptive thinking is not supported on this
+   model." Re-ran with `thinking=None` and got usable data.
+
+2. **Haiku HV collapsed to 43.7% of BO** — much worse than the ~75%
+   expectation. Larger capability gap than anticipated.
+
+3. **Structured iteration summaries worked** (contra Phase 2.3 pilot).
+   Haiku 4.5 produces usable Pydantic-parsed output now; we have full
+   rubric data for Haiku including info capture and edge confidences.
+
+4. **Seed 44 crossed the 0.5 false-positive threshold.** Haiku seed 44
+   claimed **two noise edges as real**: X9→Y2 at 0.60 and X8→Y1 at 0.55.
+   This is the first time in the entire project that VR produces a
+   false positive noise edge claim under the strict ≥0.5 confidence
+   definition.
+
+### Full 3-tier comparison (HD 72, n=3 each)
+
+| Model | HV ± std | VR/BO | Noise OAT % | Max noise conf | Info capture | False positives |
+|---|---|---|---|---|---|---|
+| Opus | 0.257 ± 0.011 | 96.6% | 0% | 0.00 | 0.996 | 0 |
+| Sonnet | 0.254 ± 0.014 | 95.6% | 20% | 0.30 | 0.999 | 0 |
+| **Haiku** | **0.116 ± 0.034** | **43.7%** | 22% | **0.60** | 0.959 | **2 (seed 44)** |
+
+### Findings
+
+1. **Capability cliff, not gradient.** The HV drops 52pp from Sonnet (95.6%)
+   to Haiku (43.7%) — a cliff, not a smooth gradient. The cognitive style
+   gradient (Opus 0% → Sonnet/Haiku 20-22% noise OAT) is real but does NOT
+   predict the HV cliff.
+
+2. **Discovery-vs-optimization decoupling.** Haiku's info capture (Sobol-
+   weighted recall) is 0.959 — near-parity with Opus/Sonnet. Haiku
+   correctly identifies the high-impact causal edges. But its HV is only
+   44% of BO. **Haiku discovers the causal structure but cannot exploit
+   it for optimization.** This is a qualitatively different failure mode
+   from what I expected (expected: "Haiku fails to discover").
+
+3. **Zero-false-positive property breaks at Haiku.** Opus (max conf 0.00)
+   and Sonnet (max conf 0.30) both stay below the 0.5 "claimed edge"
+   threshold on every seed. Haiku seed 44 claims two noise edges at 0.55
+   and 0.60. The VR guarantee of "no false causal claims" holds for
+   Sonnet-and-above, breaks at the Haiku tier.
+
+4. **Capability floor identified.** The VR protocol's zero-false-positive
+   and competitive-HV properties hold above the Sonnet capability tier.
+   At the Haiku tier, both break. This is a useful result for practitioners:
+   **pick a Sonnet-class or better model for VR-style causal reasoning.**
+
+### Rule updates from Haiku HD
+
+- **Rule 10 (model generality)** needs complete restatement. The old claim
+  "VR is model-general" is wrong. The new claim is:
+  **"VR's headline properties (competitive HV, zero false positive claims)
+  generalize from Opus to Sonnet — a ~40% cheaper model — but break at
+  Haiku. This identifies a practical capability floor at the Sonnet tier
+  for VR-style protocols that rely on adaptive thinking and structured
+  iteration summaries."**
+
+- **Rule 11 (new) — discovery vs optimization decoupling:**
+  "Causal discovery (info capture) and optimization (HV) can decouple.
+  Haiku HD recovers 0.959 info capture (near-parity with Opus/Sonnet) but
+  only 43.7% of BO on HV. Discovering the structure is not sufficient; the
+  agent must also exploit it. At Haiku tier, exploitation fails even when
+  discovery succeeds."
+
+- **Rule 12 (new) — cognitive strategy gradient:**
+  "Models achieve the same outcomes via different tool-use strategies
+  when all three properties (HV, false positives, recall) coincide — as
+  they do for Opus and Sonnet on HD. Opus: 0% noise OAT, dismissal by
+  inference. Sonnet: 20% noise OAT, verification with residual uncertainty.
+  When the outcomes diverge (Haiku), the strategy difference is no longer
+  just cosmetic."
+
+---
+
 ## Experiment C: BO baselines @ 144 budget
 
 **Status:** Partial. BO 1A @ 144 complete. BO 1D and BO HD still running
