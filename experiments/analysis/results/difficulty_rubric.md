@@ -14,11 +14,13 @@ Computed once per oracle from `oracle.ground_truth()`, `Sobol`, and `_compute_me
 | Oracle | d | k | k/d | d_eff | k/d_eff | DAG depth | Interaction frac | Adv regions | Noise dims | Ref HV | R²(M→Y) mean |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | 1A | 6 | 7 | 1.17 | 6 | 1.17 | 3 | 0.16 | 4 | 0 | 0.262 | 0.961 |
-| 1B | 6 | 7 | 1.17 | 6 | 1.17 | 3 | 0.18 | 4 | 0 | 0.248 | 0.799 |
-| 1C | 6 | 8 | 1.33 | 6 | 1.33 | 3 | 0.14 | 5 | 0 | 0.497 | 0.961 |
+| 1B * | 6 | 7 | 1.17 | 6 | 1.17 | 3 | 0.18 | 4 | 0 | 0.248 | 0.799 |
+| 1C * | 6 | 8 | 1.33 | 6 | 1.33 | 3 | 0.14 | 5 | 0 | 0.497 | 0.961 |
 | 1D | 6 | 7 | 1.17 | 6 | 1.17 | 3 | 0.10 | 5 | 0 | 1.102 | 0.748 |
 | 1E | 6 | 7 | 1.17 | 6 | 1.17 | 3 | 0.13 | 4 | 0 | 0.259 | 0.960 |
 | HD | 12 | 7 | 0.58 | 6 | 1.17 | 3 | 0.17 | 5 | 6 | 0.254 | 0.961 |
+
+_\* 1B, 1C are early transfer variants that were superseded by 1D and 1E in Phase 2.5 (see Section 2 footnote). They appear here in the catalog for completeness but are excluded from observed-metric tables and rules of thumb._
 
 **Mechanism sufficiency R²(M→Y) per output:**
 
@@ -46,18 +48,23 @@ Computed once per oracle from `oracle.ground_truth()`, `Sobol`, and `_compute_me
 Compares each variant's IO-projected ground truth against 1A's. `Y-correlation` is computed on a shared LHS sample (n=200, seed=7) via `evaluate_batch`. NaN means oracles have different input dimensionality so direct correlation is not defined.
 
 
-| Variant | Edges shared | Wrong (must unlearn) | Missing (must discover) | Y1 corr | Y2 corr | Y3 corr | Y4 corr |
-|---|---|---|---|---|---|---|---|
-| 1B | 18/18 | 0 | 0 | 0.91 | 0.62 | 1.00 | 1.00 |
-| 1C | 18/18 | 0 | 2 | 1.00 | 1.00 | 1.00 | 0.65 |
-| 1D | 18/18 | 0 | 1 | 0.86 | 0.71 | 0.74 | 0.88 |
-| 1E | 16/18 | 2 | 3 | 0.66 | -0.05 | 0.52 | 0.00 |
+**Why 1B and 1C are not transfer tests.** The audit empirically confirms what Phase 2.5 design rationale stated: 1B and 1C are topologically too similar to 1A to test transfer:
 
-**Interpretation:**
-- **1B**: identical topology (18/18 shared, 0 wrong, 0 missing). The only difference is the M2 functional form, which shows up as Y2 correlation 0.62. **Weakest transfer test** — the prior is essentially correct.
-- **1C**: same 18 edges plus 2 new ones (X3→Y4, X5→Y4 for the new mechanism M5). 1A's prior is correct on existing edges but blind to the new mechanism. Pure **discovery test**, no false positives in prior.
-- **1D**: 18/18 shared + 1 new edge (X3→Y4 from log contribution). The challenge is functional: Y2 sign flip + X1×X5 interaction + X3→Y3 inverted-U. Y correlations all positive (0.71–0.88) but materially shifted. **Functional-form test**.
-- **1E**: 16/18 shared, **2 wrong** + **3 missing** edges. Y2 correlation **−0.05**, Y4 correlation **0.005** — essentially uncorrelated. The agent must unlearn X3→Y3 and X4→Y4 (which don't exist in 1E) and discover X4→Y3, X3→Y4, X5→Y4 (rewired). **Hardest transfer test**.
+- **1B**: identical IO topology (18/18 edges shared, 0 wrong, 0 missing). The only change is the M2 functional form, which shows up as Y2 correlation 0.62. The prior is *structurally correct* — this measures local function shift, not transfer.
+- **1C**: 18/18 + 2 new edges (X3→Y4, X5→Y4 for the new mechanism M5). The prior is *fully correct* on existing edges and only blind to the new mechanism. This is a pure discovery test, not a transfer test.
+
+Phase 2.5 designed **1D** (functional shifts + 1 new edge) and **1E** (full topology rewire: 16/18 shared + 2 wrong + 3 missing) as the canonical transfer testbeds. **The remaining sections of this rubric (3-9) and the rules of thumb (10) are based on 1A, 1D, 1E, and HD only.** 1B and 1C are documented here as stepping stones and excluded from the rest of the rubric.
+
+| Variant | Edges shared | Wrong (must unlearn) | Missing (must discover) | Y1 corr | Y2 corr | Y3 corr | Y4 corr | Used in rubric? |
+|---|---|---|---|---|---|---|---|---|
+| 1B | 18/18 | 0 | 0 | 0.91 | 0.62 | 1.00 | 1.00 | no — stepping stone |
+| 1C | 18/18 | 0 | 2 | 1.00 | 1.00 | 1.00 | 0.65 | no — stepping stone |
+| 1D | 18/18 | 0 | 1 | 0.86 | 0.71 | 0.74 | 0.88 | **yes** |
+| 1E | 16/18 | 2 | 3 | 0.66 | -0.05 | 0.52 | 0.00 | **yes** |
+
+**Interpretation of the canonical transfer variants:**
+- **1D (Functional shift)**: 18/18 shared + 1 new edge. The challenge is functional: Y2 sign flip + X1×X5 interaction + X3→Y3 inverted-U. Y correlations all positive (0.71–0.88) but materially shifted. **Tests whether the agent can unlearn wrong functional forms while leveraging correct edge existence.**
+- **1E (Topology rewire)**: 16/18 shared, **2 wrong** + **3 missing** edges. Y2 correlation **−0.05**, Y4 correlation **0.005** — essentially uncorrelated. The agent must unlearn X3→Y3 and X4→Y4 (false in 1E) and discover X4→Y3, X3→Y4, X5→Y4 (rewired). **Tests whether the agent can dismiss confidently-held false beliefs and rebuild from scratch.**
 
 ---
 
@@ -71,10 +78,6 @@ Reported separately for VR and BO; per-row VR/BO ratio at each threshold is the 
 |---|---|---|---|---|---|---|
 | 1A / multi_seed_72 (72 budget, opus, n=10) | 54 | 12 | 69 | 14 | 70 | 19 |
 | 1A / extended_144 (144 budget, opus, n=4) | 48 | 12 | 59 | 14 | 66 | 19 |
-| 1B / transfer_72 (72 budget, opus, n=1) | 51 | 10 | 61 | 13 | 67 | 16 |
-| 1B / fresh_72 (72 budget, opus, n=1) | 47 | 10 | 58 | 13 | 68 | 16 |
-| 1C / transfer_72 (72 budget, opus, n=1) | 51 | 10 | 67 | 15 | 71 | 16 |
-| 1C / fresh_72 (72 budget, opus, n=1) | 61 | 10 | 65 | 15 | 68 | 16 |
 | 1D / prior_72 (72 budget, opus, n=1) | 67 | 13 | 68 | 13 | 69 | 14 |
 | 1D / fresh_72 (72 budget, opus, n=1) | 62 | 13 | 65 | 13 | 66 | 14 |
 | 1D / prior_144 (144 budget, opus, n=1) | 52 | 13 | 53 | 13 | 54 | 14 |
@@ -88,7 +91,7 @@ Reported separately for VR and BO; per-row VR/BO ratio at each threshold is the 
 - **VR > BO at low thresholds (50%, 75%)**: BO's qNEHVI converges fast on smooth Pareto fronts; VR spends early budget on screening + OAT sweeps and only catches up after building its causal model. This is the "understanding tax" in dimensional units.
 - **At 90%**: the gap is widest because BO is approaching its asymptote while VR is still exploring. This is where extended-budget VR closes the gap (see Section 4 crossover).
 - **HD base_72 vs HD extended_144**: at 50% VR needs 38 vs 66 evals — the extended-budget agent **takes longer** to reach 50% because it spends more time on systematic screening (including noise verification). At 90% the extended agent catches up.
-- **1E rows show "2 evals to 50%"**: this is a quirk of 1E's HV landscape, not an agent achievement. 1E's reference HV (0.259) is small enough that the random LHS-init phase already produces points exceeding 50% within the first ~2 evaluations. For these oracles the 50% threshold is degenerate; only the 75%/90% thresholds compare the agent's actual tool-budget contribution. **1B shows the same effect mildly** for the same reason.
+- **1E rows show "2 evals to 50%"**: this is a quirk of 1E's HV landscape, not an agent achievement. 1E's reference HV (0.259) is small enough that the random LHS-init phase already produces points exceeding 50% within the first ~2 evaluations. For 1E, only the 75%/90% thresholds compare the agent's actual tool-budget contribution.
 - **Method-honest comparison**: BO and VR both include their initial LHS phase in the trajectory, so the comparison is apples-to-apples in terms of "oracle evaluations consumed." The interpretation issue above is about the *informativeness* of the threshold, not a fairness issue.
 
 ---
@@ -101,10 +104,6 @@ All HV values normalized to oracle's own reference HV (raw HVs in Appendix A). T
 |---|---|---|---|---|---|
 | 1A / multi_seed_72 (72 budget, opus, n=10) | 0.735 ± 0.105 | 1.050 ± 0.005 | 0.699 | n/a | 0/10 |
 | 1A / extended_144 (144 budget, opus, n=4) | 1.060 ± 0.005 | 1.050 ± 0.005 | 1.009 | 123 | 4/4 |
-| 1B / transfer_72 (72 budget, opus, n=1) | 0.965 ± 0.000 | 1.048 ± 0.000 | 0.921 | n/a | 0/1 |
-| 1B / fresh_72 (72 budget, opus, n=1) | 0.952 ± 0.000 | 1.048 ± 0.000 | 0.908 | n/a | 0/1 |
-| 1C / transfer_72 (72 budget, opus, n=1) | 0.927 ± 0.000 | 1.113 ± 0.000 | 0.833 | n/a | 0/1 |
-| 1C / fresh_72 (72 budget, opus, n=1) | 0.980 ± 0.000 | 1.113 ± 0.000 | 0.881 | n/a | 0/1 |
 | 1D / prior_72 (72 budget, opus, n=1) | 0.957 ± 0.000 | 1.184 ± 0.000 | 0.808 | n/a | 0/1 |
 | 1D / fresh_72 (72 budget, opus, n=1) | 1.049 ± 0.000 | 1.184 ± 0.000 | 0.886 | n/a | 0/1 |
 | 1D / prior_144 (144 budget, opus, n=1) | 1.186 ± 0.000 | 1.184 ± 0.000 | 1.002 | 105 | 1/1 |
@@ -125,10 +124,6 @@ Edges are compared against the IO projection of each oracle's ground-truth DAG (
 |---|---|---|---|---|
 | 1A / multi_seed_72 (72 budget, opus, n=10) | 18 | 1.000 ± 0.000 | 0.944 ± 0.000 | X5->Y2 |
 | 1A / extended_144 (144 budget, opus, n=4) | 18 | 1.000 ± 0.000 | 0.944 ± 0.000 | X5->Y2 |
-| 1B / transfer_72 (72 budget, opus, n=1) | 18 | 1.000 ± 0.000 | 0.944 ± 0.000 | X5->Y2 |
-| 1B / fresh_72 (72 budget, opus, n=1) | 18 | 1.000 ± 0.000 | 0.944 ± 0.000 | X5->Y2 |
-| 1C / transfer_72 (72 budget, opus, n=1) | 20 | 1.000 ± 0.000 | 0.950 ± 0.000 | X5->Y2 |
-| 1C / fresh_72 (72 budget, opus, n=1) | 20 | 1.000 ± 0.000 | 0.950 ± 0.000 | X5->Y2 |
 | 1D / prior_72 (72 budget, opus, n=1) | 19 | 1.000 ± 0.000 | 1.000 ± 0.000 | — |
 | 1D / fresh_72 (72 budget, opus, n=1) | 19 | 1.000 ± 0.000 | 1.000 ± 0.000 | — |
 | 1D / prior_144 (144 budget, opus, n=1) | 19 | 1.000 ± 0.000 | 1.000 ± 0.000 | — |
@@ -148,10 +143,6 @@ For each output, sums the Sobol total index of inputs the agent claimed (confide
 |---|---|---|---|---|---|
 | 1A / multi_seed_72 (72 budget, opus, n=10) | 0.996 ± 0.005 | 1.000 | 0.998 | 1.000 | 0.987 |
 | 1A / extended_144 (144 budget, opus, n=4) | 0.999 ± 0.000 | 1.000 | 0.998 | 1.000 | 1.000 |
-| 1B / transfer_72 (72 budget, opus, n=1) | 0.999 ± 0.000 | 1.000 | 0.998 | 1.000 | 1.000 |
-| 1B / fresh_72 (72 budget, opus, n=1) | 0.999 ± 0.000 | 1.000 | 0.998 | 1.000 | 1.000 |
-| 1C / transfer_72 (72 budget, opus, n=1) | 0.999 ± 0.000 | 1.000 | 0.998 | 1.000 | 1.000 |
-| 1C / fresh_72 (72 budget, opus, n=1) | 0.999 ± 0.000 | 1.000 | 0.998 | 1.000 | 1.000 |
 | 1D / prior_72 (72 budget, opus, n=1) | 1.000 ± 0.000 | 1.000 | 1.000 | 1.000 | 1.000 |
 | 1D / fresh_72 (72 budget, opus, n=1) | 1.000 ± 0.000 | 1.000 | 1.000 | 1.000 | 1.000 |
 | 1D / prior_144 (144 budget, opus, n=1) | 1.000 ± 0.000 | 1.000 | 1.000 | 1.000 | 1.000 |
@@ -235,10 +226,6 @@ Fraction of tool-call evaluations spent on inputs whose total Sobol index is bel
 |---|---|---|---|
 | 1A / multi_seed_72 (72 budget, opus, n=10) | 0.1052 | 0.0000 | 0.0048 |
 | 1A / extended_144 (144 budget, opus, n=4) | 0.0054 | 0.0000 | 0.0000 |
-| 1B / transfer_72 (72 budget, opus, n=1) | 0.0000 | 0.0000 | 0.0000 |
-| 1B / fresh_72 (72 budget, opus, n=1) | 0.0000 | 0.0000 | 0.0000 |
-| 1C / transfer_72 (72 budget, opus, n=1) | 0.0000 | 0.0000 | 0.0000 |
-| 1C / fresh_72 (72 budget, opus, n=1) | 0.0000 | 0.0000 | 0.0000 |
 | 1D / prior_72 (72 budget, opus, n=1) | 0.0000 | 0.0000 | 0.0000 |
 | 1D / fresh_72 (72 budget, opus, n=1) | 0.0000 | 0.0000 | 0.0000 |
 | 1D / prior_144 (144 budget, opus, n=1) | 0.0000 | 0.0000 | 0.0000 |
@@ -336,10 +323,6 @@ On 1E transfer, Sonnet reaches **1.063 of ref HV** vs Opus's 1.064 — essential
 |---|---|---|---|
 | 1A / multi_seed_72 (72 budget, opus, n=10) | 0.1926 ± 0.0276 | 0.2754 ± 0.0012 | 0.2622 |
 | 1A / extended_144 (144 budget, opus, n=4) | 0.2780 ± 0.0014 | 0.2754 ± 0.0012 | 0.2622 |
-| 1B / transfer_72 (72 budget, opus, n=1) | 0.2392 ± 0.0000 | 0.2597 ± 0.0000 | 0.2478 |
-| 1B / fresh_72 (72 budget, opus, n=1) | 0.2358 ± 0.0000 | 0.2597 ± 0.0000 | 0.2478 |
-| 1C / transfer_72 (72 budget, opus, n=1) | 0.4610 ± 0.0000 | 0.5535 ± 0.0000 | 0.4972 |
-| 1C / fresh_72 (72 budget, opus, n=1) | 0.4874 ± 0.0000 | 0.5535 ± 0.0000 | 0.4972 |
 | 1D / prior_72 (72 budget, opus, n=1) | 1.0544 ± 0.0000 | 1.3049 ± 0.0001 | 1.1022 |
 | 1D / fresh_72 (72 budget, opus, n=1) | 1.1558 ± 0.0000 | 1.3049 ± 0.0001 | 1.1022 |
 | 1D / prior_144 (144 budget, opus, n=1) | 1.3072 ± 0.0000 | 1.3049 ± 0.0001 | 1.1022 |

@@ -19,7 +19,18 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 AUDIT_PATH = ROOT / "experiments" / "analysis" / "results" / "audit_data.json"
 OUT_PATH = ROOT / "experiments" / "analysis" / "results" / "difficulty_rubric.md"
 
+# All oracles in the catalog (Section 1) — full family for completeness
 ORACLE_ORDER = ["1A", "1B", "1C", "1D", "1E", "HD"]
+
+# Oracles included in observed-metric tables and rules of thumb.
+# 1B and 1C are excluded: 1B has identical IO topology to 1A (18/18 edges
+# shared, only Y2 functional change), 1C has correct prior + 2 new edges
+# (pure discovery test). They were early variants that revealed the design
+# problem and motivated 1D (functional shift) + 1E (topology rewire) as
+# the canonical transfer tests in Phase 2.5. See Phase 2.5 retro:
+#   "1B/1C were too similar to 1A for credible transfer"
+ORACLES_IN_RUBRIC = ["1A", "1D", "1E", "HD"]
+SKIPPED_ORACLES = ["1B", "1C"]
 
 
 # ---------------------------------------------------------------------------
@@ -86,11 +97,13 @@ def build_intrinsic_table(audit: dict) -> str:
     sep = "|" + "|".join(["---"] * 12) + "|"
     out.append(header)
     out.append(sep)
+    # Catalog includes all 6 oracles for completeness (even early variants).
     for label in ORACLE_ORDER:
         intr = audit[label]["intrinsics"]
         suff = intr["mechanism_sufficiency"]["mean"]
+        marker = " *" if label in SKIPPED_ORACLES else ""
         out.append(
-            f"| {label} | {intr['d']} | {intr['k_mechanisms']} | "
+            f"| {label}{marker} | {intr['d']} | {intr['k_mechanisms']} | "
             f"{fmt(intr['k_over_d'], 2)} | {intr['d_eff']} | "
             f"{fmt(intr['k_over_d_eff'], 2)} | {intr['dag_depth']} | "
             f"{fmt(intr['interaction_fraction'], 2)} | "
@@ -99,6 +112,11 @@ def build_intrinsic_table(audit: dict) -> str:
             f"{fmt(intr['reference_hv'], 3)} | "
             f"{fmt(suff, 3)} |"
         )
+    out.append("")
+    out.append(f"_\\* {', '.join(SKIPPED_ORACLES)} are early transfer variants "
+               f"that were superseded by 1D and 1E in Phase 2.5 (see Section 2 "
+               f"footnote). They appear here in the catalog for completeness but "
+               f"are excluded from observed-metric tables and rules of thumb._")
 
     out.append("")
     out.append("**Mechanism sufficiency R²(M→Y) per output:**")
@@ -158,28 +176,57 @@ def build_prior_quality_table(audit: dict) -> str:
                "via `evaluate_batch`. NaN means oracles have different input "
                "dimensionality so direct correlation is not defined.\n")
     out.append("")
+    out.append("**Why 1B and 1C are not transfer tests.** The audit empirically "
+               "confirms what Phase 2.5 design rationale stated: 1B and 1C are "
+               "topologically too similar to 1A to test transfer:")
+    out.append("")
+    out.append("- **1B**: identical IO topology (18/18 edges shared, 0 wrong, "
+               "0 missing). The only change is the M2 functional form, which shows "
+               "up as Y2 correlation 0.62. The prior is *structurally correct* — "
+               "this measures local function shift, not transfer.")
+    out.append("- **1C**: 18/18 + 2 new edges (X3→Y4, X5→Y4 for the new mechanism M5). "
+               "The prior is *fully correct* on existing edges and only blind to the "
+               "new mechanism. This is a pure discovery test, not a transfer test.")
+    out.append("")
+    out.append("Phase 2.5 designed **1D** (functional shifts + 1 new edge) and "
+               "**1E** (full topology rewire: 16/18 shared + 2 wrong + 3 missing) "
+               "as the canonical transfer testbeds. **The remaining sections of "
+               "this rubric (3-9) and the rules of thumb (10) are based on 1A, 1D, "
+               "1E, and HD only.** 1B and 1C are documented here as stepping stones "
+               "and excluded from the rest of the rubric.")
+    out.append("")
 
     out.append("| Variant | Edges shared | Wrong (must unlearn) | "
-               "Missing (must discover) | Y1 corr | Y2 corr | Y3 corr | Y4 corr |")
-    out.append("|---|---|---|---|---|---|---|---|")
+               "Missing (must discover) | Y1 corr | Y2 corr | Y3 corr | Y4 corr | "
+               "Used in rubric? |")
+    out.append("|---|---|---|---|---|---|---|---|---|")
     for label in ["1B", "1C", "1D", "1E"]:
         pq = audit[label].get("prior_quality_vs_1A")
         if pq is None:
             continue
         ycorr = pq["y_correlation"]
+        used = "no — stepping stone" if label in SKIPPED_ORACLES else "**yes**"
         out.append(
             f"| {label} | {pq['edges_shared']}/{pq['edges_in_1a_prior']} | "
             f"{pq['edges_wrong_in_prior']} | {pq['edges_missing_from_prior']} | "
             f"{fmt(ycorr.get('Y1'), 2)} | {fmt(ycorr.get('Y2'), 2)} | "
-            f"{fmt(ycorr.get('Y3'), 2)} | {fmt(ycorr.get('Y4'), 2)} |"
+            f"{fmt(ycorr.get('Y3'), 2)} | {fmt(ycorr.get('Y4'), 2)} | "
+            f"{used} |"
         )
 
     out.append("")
-    out.append("**Interpretation:**")
-    out.append("- **1B**: identical topology (18/18 shared, 0 wrong, 0 missing). The only difference is the M2 functional form, which shows up as Y2 correlation 0.62. **Weakest transfer test** — the prior is essentially correct.")
-    out.append("- **1C**: same 18 edges plus 2 new ones (X3→Y4, X5→Y4 for the new mechanism M5). 1A's prior is correct on existing edges but blind to the new mechanism. Pure **discovery test**, no false positives in prior.")
-    out.append("- **1D**: 18/18 shared + 1 new edge (X3→Y4 from log contribution). The challenge is functional: Y2 sign flip + X1×X5 interaction + X3→Y3 inverted-U. Y correlations all positive (0.71–0.88) but materially shifted. **Functional-form test**.")
-    out.append("- **1E**: 16/18 shared, **2 wrong** + **3 missing** edges. Y2 correlation **−0.05**, Y4 correlation **0.005** — essentially uncorrelated. The agent must unlearn X3→Y3 and X4→Y4 (which don't exist in 1E) and discover X4→Y3, X3→Y4, X5→Y4 (rewired). **Hardest transfer test**.")
+    out.append("**Interpretation of the canonical transfer variants:**")
+    out.append("- **1D (Functional shift)**: 18/18 shared + 1 new edge. The challenge "
+               "is functional: Y2 sign flip + X1×X5 interaction + X3→Y3 inverted-U. "
+               "Y correlations all positive (0.71–0.88) but materially shifted. "
+               "**Tests whether the agent can unlearn wrong functional forms while "
+               "leveraging correct edge existence.**")
+    out.append("- **1E (Topology rewire)**: 16/18 shared, **2 wrong** + **3 missing** "
+               "edges. Y2 correlation **−0.05**, Y4 correlation **0.005** — "
+               "essentially uncorrelated. The agent must unlearn X3→Y3 and X4→Y4 "
+               "(false in 1E) and discover X4→Y3, X3→Y4, X5→Y4 (rewired). "
+               "**Tests whether the agent can dismiss confidently-held false beliefs "
+               "and rebuild from scratch.**")
     out.append("")
 
     return "\n".join(out)
@@ -205,7 +252,7 @@ def build_sample_efficiency_table(audit: dict) -> str:
     out.append("")
     out.append("| Run | 50% VR | 50% BO | 75% VR | 75% BO | 90% VR | 90% BO |")
     out.append("|---|---|---|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for cond_name, cond in audit[label]["conditions"].items():
             if cond["n_seeds"] == 0:
                 continue
@@ -240,10 +287,8 @@ def build_sample_efficiency_table(audit: dict) -> str:
     out.append("- **1E rows show \"2 evals to 50%\"**: this is a quirk of 1E's HV "
                "landscape, not an agent achievement. 1E's reference HV (0.259) is small "
                "enough that the random LHS-init phase already produces points exceeding "
-               "50% within the first ~2 evaluations. For these oracles the 50% threshold "
-               "is degenerate; only the 75%/90% thresholds compare the agent's actual "
-               "tool-budget contribution. **1B shows the same effect mildly** for the "
-               "same reason.")
+               "50% within the first ~2 evaluations. For 1E, only the 75%/90% thresholds "
+               "compare the agent's actual tool-budget contribution.")
     out.append("- **Method-honest comparison**: BO and VR both include their initial "
                "LHS phase in the trajectory, so the comparison is apples-to-apples in "
                "terms of \"oracle evaluations consumed.\" The interpretation issue above "
@@ -264,7 +309,7 @@ def build_optimization_table(audit: dict) -> str:
     out.append("| Run | VR HV (%ref) | BO HV (%ref) | VR/BO | Crossover eval | "
                "Seeds crossing BO |")
     out.append("|---|---|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for cond_name, cond in audit[label]["conditions"].items():
             opt = cond["optimization"]
             if opt.get("n_seeds_vr", 0) == 0:
@@ -300,7 +345,7 @@ def build_discovery_table(audit: dict) -> str:
     out.append("")
     out.append("| Run | GT edges | Precision | Recall | Hardest missed edge |")
     out.append("|---|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for _cond_name, cond in audit[label]["conditions"].items():
             ep = cond["edge_pr"]
             if ep.get("n_seeds", 0) == 0:
@@ -327,7 +372,7 @@ def build_info_capture_table(audit: dict) -> str:
     out.append("")
     out.append("| Run | Mean across outputs | Y1 | Y2 | Y3 | Y4 |")
     out.append("|---|---|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for cond_name, cond in audit[label]["conditions"].items():
             ic = cond["info_capture"]
             if ic.get("n_seeds", 0) == 0:
@@ -354,7 +399,7 @@ def build_prediction_table(audit: dict) -> str:
     out.append("")
     out.append("| Run | OAT direction acc | OAT magnitude MAE | Predictions/seed |")
     out.append("|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for cond_name, cond in audit[label]["conditions"].items():
             oat = cond["oat_accuracy"]
             if oat.get("n_seeds", 0) == 0:
@@ -378,7 +423,7 @@ def build_prediction_table(audit: dict) -> str:
     out.append("| Run | Seeds with cal data | Median checkpoints/seed | "
                "First MAE | Last MAE | Learning fraction |")
     out.append("|---|---|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for cond_name, cond in audit[label]["conditions"].items():
             cal = cond["calibration"]
             n_data = cal.get("n_seeds_with_data", 0)
@@ -409,7 +454,7 @@ def build_prediction_table(audit: dict) -> str:
     out.append("| Run | Max adv MAE | Non-adv MAE | Adv/non-adv ratio | "
                "Pts in adv / non-adv |")
     out.append("|---|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for _cond_name, cond in audit[label]["conditions"].items():
             adv = cond["adversarial"]
             if adv.get("n_seeds", 0) == 0:
@@ -442,7 +487,7 @@ def build_screening_table(audit: dict) -> str:
     out.append("| Run | Low-Sobol inputs | OAT noise / total | "
                "Tool-call evals on noise | Max noise edge confidence |")
     out.append("|---|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for cond_name, cond in audit[label]["conditions"].items():
             sc = cond["screening"]
             if sc.get("n_seeds", 0) == 0:
@@ -480,7 +525,7 @@ def build_variance_table(audit: dict) -> str:
     out.append("")
     out.append("| Run | σ(HV %ref) | σ(recall) | σ(info capture) |")
     out.append("|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         for cond_name, cond in audit[label]["conditions"].items():
             n = cond["n_seeds"]
             if n == 0:
@@ -701,7 +746,7 @@ def build_appendix(audit: dict) -> str:
     out.append("")
     out.append("| Run | VR HV (raw) | BO HV (raw) | Reference HV |")
     out.append("|---|---|---|---|")
-    for label in ORACLE_ORDER:
+    for label in ORACLES_IN_RUBRIC:
         ref_hv = audit[label]["intrinsics"]["reference_hv"]
         for cond_name, cond in audit[label]["conditions"].items():
             opt = cond["optimization"]
