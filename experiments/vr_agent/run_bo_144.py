@@ -78,12 +78,12 @@ def main() -> None:
     print("  BO baselines at 144-eval budget")
     print("=" * 60)
 
-    # 1A done in first run. Skip 1E: known to be at BO ceiling (~0.278)
-    # where BO @ 66 ≈ BO @ 144 to within noise. Focus on 1D and HD, which
-    # are the critical comparisons for the transfer + HD headline claims.
+    # 1A done in first run. 1D killed after 4 hours (decorative — doesn't
+    # change the 'prior helps' finding, which is about VR prior vs VR fresh
+    # at the same BO baseline). Skip 1E (known to be at ceiling). Run only
+    # HD — the load-bearing experiment for the HD crossover claim.
     oracles = [
-        ("1a", MediumOracle(variant="1A")),  # seed 42 on disk, auto-skipped
-        ("1d", MediumOracle1D()),
+        ("1a", MediumOracle(variant="1A")),  # on disk, auto-skipped
         ("hd", MediumOracleHD()),
     ]
 
