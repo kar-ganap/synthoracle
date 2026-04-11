@@ -143,16 +143,16 @@ ORACLE_CONDITIONS: dict[str, list[ConditionDef]] = {
             [42],
             "transfer_medium_1b_seed{seed}_log.json",
             "transfer_medium_1b_seed{seed}.npz",
-            notes="n=1 transfer from 1A prior",
+            notes="n=1 transfer from 1A prior (topology-identical; kept for historical reference)",
         ),
         _condition(
             "fresh_72",
             72,
             "opus",
-            [42],
+            [42, 43, 44],  # extended to n=3 for Rule 8 parity with 1D
             "no_transfer_1b_seed{seed}_log.json",
             "no_transfer_1b_seed{seed}.npz",
-            notes="n=1 fresh (no prior)",
+            notes="3-seed fresh (for Rule 8 low-R²(M→Y) claim)",
         ),
     ],
     "1C": [

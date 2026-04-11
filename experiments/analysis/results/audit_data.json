@@ -457,7 +457,7 @@
         "budget": 72,
         "model": "opus",
         "n_seeds": 1,
-        "notes": "n=1 transfer from 1A prior",
+        "notes": "n=1 transfer from 1A prior (topology-identical; kept for historical reference)",
         "optimization": {
           "n_seeds_vr": 1,
           "n_seeds_bo": 1,
@@ -557,25 +557,25 @@
         "label": "fresh_72",
         "budget": 72,
         "model": "opus",
-        "n_seeds": 1,
-        "notes": "n=1 fresh (no prior)",
+        "n_seeds": 3,
+        "notes": "3-seed fresh (for Rule 8 low-R\u00b2(M\u2192Y) claim)",
         "optimization": {
-          "n_seeds_vr": 1,
+          "n_seeds_vr": 3,
           "n_seeds_bo": 1,
-          "vr_final_hv_mean": 0.23577890471243945,
-          "vr_final_hv_std": 0.0,
-          "vr_final_hv_min": 0.23577890471243945,
-          "vr_final_hv_max": 0.23577890471243945,
-          "vr_final_hv_frac_ref_mean": 0.9515430588910478,
-          "vr_final_hv_frac_ref_std": 0.0,
+          "vr_final_hv_mean": 0.23874371083746979,
+          "vr_final_hv_std": 0.005986813126120007,
+          "vr_final_hv_min": 0.2333580471711768,
+          "vr_final_hv_max": 0.24709418062879307,
+          "vr_final_hv_frac_ref_mean": 0.9635082543892244,
+          "vr_final_hv_frac_ref_std": 0.024161239030205554,
           "bo_final_hv_mean": 0.25974488735764883,
           "bo_final_hv_std": 0.0,
           "bo_final_hv_frac_ref_mean": 1.0482636050457825,
-          "vr_over_bo": 0.9077326106819186,
+          "vr_over_bo": 0.9191469109023808,
           "sample_efficiency_vr": {
-            "50pct": 47.0,
-            "75pct": 58.0,
-            "90pct": 68.0
+            "50pct": 36.666666666666664,
+            "75pct": 62.333333333333336,
+            "90pct": 67.33333333333333
           },
           "sample_efficiency_bo": {
             "50pct": 10.0,
@@ -586,15 +586,15 @@
           "seeds_crossing_bo": 0
         },
         "edge_pr": {
-          "n_seeds": 1,
+          "n_seeds": 3,
           "precision_mean": 1.0,
           "precision_std": 0.0,
-          "recall_mean": 0.9444444444444444,
-          "recall_std": 0.0,
+          "recall_mean": 0.9444444444444443,
+          "recall_std": 1.1102230246251565e-16,
           "n_gt_edges": 18,
           "hardest_missed_edge": "X5->Y2",
           "missed_counts": {
-            "X5->Y2": 1
+            "X5->Y2": 3
           },
           "edges_by_difficulty_in_gt": {
             "EASY": 18,
@@ -608,50 +608,77 @@
           }
         },
         "info_capture": {
-          "n_seeds": 1,
+          "n_seeds": 3,
           "per_output_mean": {
             "Y1": 1.0,
-            "Y2": 0.9977570222025889,
+            "Y2": 0.9977570222025888,
             "Y3": 1.0,
             "Y4": 1.0
           },
           "per_output_std": {
             "Y1": 0.0,
-            "Y2": 0.0,
+            "Y2": 1.1102230246251565e-16,
             "Y3": 0.0,
             "Y4": 0.0
           },
-          "mean_across_outputs": 0.9994392555506473,
-          "std_across_outputs": 0.0
+          "mean_across_outputs": 0.9994392555506474,
+          "std_across_outputs": 1.1102230246251565e-16
         },
         "oat_accuracy": {
-          "n": 0
+          "n_seeds": 2,
+          "direction_accuracy_mean": 0.6041666666666666,
+          "direction_accuracy_std": 0.0625,
+          "magnitude_mae_mean": 0.11252916666666668,
+          "magnitude_mae_std": 0.025220833333333338,
+          "predictions_per_seed_mean": 24.0
         },
         "calibration": {
-          "n_seeds_with_data": 0,
-          "n_seeds": 1
+          "n_seeds": 3,
+          "n_seeds_with_data": 2,
+          "median_checkpoints_per_seed": 2.0,
+          "first_mae_mean": 0.1135226461453044,
+          "last_mae_mean": 0.08175407023190227,
+          "learning_fraction": 0.5,
+          "n_seeds_showing_learning": 1,
+          "n_seeds_with_two_checkpoints": 2
         },
         "adversarial": {
-          "n_seeds": 1,
-          "regions": {},
+          "n_seeds": 3,
+          "regions": {
+            "X2_X4_interaction": {
+              "n_points": 8,
+              "mae": 0.037971500000000005,
+              "max_err": 0.067071
+            },
+            "Z_sensitive": {
+              "n_points": 3,
+              "mae": 0.046016,
+              "max_err": 0.067071
+            },
+            "M2_regime": {
+              "n_points": 5,
+              "mae": 0.043706,
+              "max_err": 0.077823
+            }
+          },
           "max_adv_over_non_adv_ratio": null,
-          "max_adv_mae": null,
+          "max_adv_mae": 0.046016,
           "non_adv_n_points": 0,
-          "adv_total_n_points": 0
+          "adv_total_n_points": 16
         },
         "screening": {
-          "n_seeds": 1,
+          "n_seeds": 3,
           "low_sobol_inputs": [],
           "note": "no zero-effect inputs"
         },
         "cost": {
-          "n_seeds": 1,
-          "cost_per_seed_mean": 0.0,
-          "cost_per_seed_std": 0.0,
-          "total_cost": 0.0,
-          "input_tokens_mean": 0.0,
-          "output_tokens_mean": 0.0,
-          "iters_per_seed_median": 0.0
+          "n_seeds": 3,
+          "cost_per_seed_mean": 2.9193983333333335,
+          "cost_per_seed_std": 2.0651494358372444,
+          "total_cost": 8.758195,
+          "input_tokens_mean": 244914.66666666666,
+          "output_tokens_mean": 67793.0,
+          "iters_per_seed_median": 3.0
         }
       }
     }
@@ -2106,13 +2133,13 @@
             "X4->Y2": 2,
             "X3->Y1": 1,
             "X2->Y2": 1,
+            "X3->Y2": 1,
             "X2->Y4": 1,
             "X1->Y4": 1,
-            "X3->Y2": 1,
-            "X6->Y2": 1,
-            "X6->Y1": 1,
-            "X6->Y4": 1,
             "X1->Y2": 1,
+            "X6->Y4": 1,
+            "X6->Y1": 1,
+            "X6->Y2": 1,
             "X5->Y1": 1
           },
           "edges_by_difficulty_in_gt": {
@@ -2397,12 +2424,12 @@
           "missed_counts": {
             "X5->Y2": 3,
             "X1->Y4": 1,
-            "X6->Y2": 1,
-            "X6->Y1": 1,
-            "X6->Y4": 1,
             "X2->Y2": 1,
-            "X2->Y1": 1,
-            "X2->Y4": 1
+            "X6->Y4": 1,
+            "X6->Y1": 1,
+            "X6->Y2": 1,
+            "X2->Y4": 1,
+            "X2->Y1": 1
           },
           "edges_by_difficulty_in_gt": {
             "EASY": 18,
