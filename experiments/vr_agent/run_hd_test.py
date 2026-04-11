@@ -107,6 +107,13 @@ def _seed_edge_stats(iteration_summaries: list[dict]) -> dict[str, object]:
     }
 
 
+PRICING = {
+    "claude-opus-4-6": (5.0, 25.0),
+    "claude-sonnet-4-6": (3.0, 15.0),
+    "claude-haiku-4-5-20251001": (0.80, 4.0),
+}
+
+
 def _run_vr_seed(
     seed: int,
     oracle: MediumOracleHD,
@@ -115,6 +122,7 @@ def _run_vr_seed(
     file_prefix: str = "hd_vr",
     calibration_interval: int = 20,
     max_tokens: int = 16000,
+    model: str = "claude-opus-4-6",
 ) -> dict | None:
     """Run one VR seed, save to disk, return summary dict. None on failure."""
     from synthoracle.agents.vr_tools import run_vr_tools
@@ -122,13 +130,15 @@ def _run_vr_seed(
     out_npz = RESULTS_DIR / f"{file_prefix}_seed{seed}.npz"
     out_log = RESULTS_DIR / f"{file_prefix}_seed{seed}_log.json"
 
+    pricing = PRICING.get(model, (5.0, 25.0))
+
     if out_npz.exists() and out_log.exists():
         data = np.load(out_npz)
         with open(out_log) as f:
             log = json.load(f)
         hv = float(data["hypervolumes"][-1])
-        cost = (log.get("total_input_tokens", 0) * 5.0 / 1e6
-                + log.get("total_output_tokens", 0) * 25.0 / 1e6)
+        cost = (log.get("total_input_tokens", 0) * pricing[0] / 1e6
+                + log.get("total_output_tokens", 0) * pricing[1] / 1e6)
         print(f"  Seed {seed}: already on disk, HV={hv:.4f} (cost=${cost:.2f})")
         return {
             "seed": seed,
@@ -141,13 +151,20 @@ def _run_vr_seed(
             **_seed_edge_stats(log.get("iteration_summaries", [])),
         }
 
-    print(f"\n  Running VR HD seed {seed} ({n_budget} evals, 12 inputs)...",
+    # Haiku 4.5 does not support adaptive thinking; skip thinking kwarg
+    # entirely (API returns 400 on any adaptive thinking request).
+    thinking_kwarg: dict[str, object] | None = {"type": "adaptive"}
+    if "haiku" in model.lower():
+        thinking_kwarg = None
+
+    print(f"\n  Running VR HD seed {seed} ({n_budget} evals, 12 inputs, "
+          f"{model}, thinking={'adaptive' if thinking_kwarg else 'off'})...",
           flush=True)
     try:
         r = run_vr_tools(
             oracle, n_budget=n_budget, seed=seed,
             thresholds=THRESHOLDS, reference_point=ref_point,
-            model="claude-opus-4-6", thinking={"type": "adaptive"},
+            model=model, thinking=thinking_kwarg,
             max_tokens=max_tokens, max_tool_calls_per_iteration=15,
             checkpoint_dir=str(RESULTS_DIR / f"{file_prefix}_seed{seed}_ckpt"),
             calibration_interval=calibration_interval,
@@ -175,8 +192,8 @@ def _run_vr_seed(
             "total_output_tokens": r.total_output_tokens,
         }, f, indent=2)
 
-    cost = (r.total_input_tokens * 5.0 / 1e6
-            + r.total_output_tokens * 25.0 / 1e6)
+    cost = (r.total_input_tokens * pricing[0] / 1e6
+            + r.total_output_tokens * pricing[1] / 1e6)
     print(f"  Seed {seed}: HV={r.hypervolumes[-1]:.4f} cost=${cost:.2f} "
           f"evals={r.eval_count} iters={len(r.iteration_summaries)}")
 
@@ -262,6 +279,7 @@ def run_vr_hd(
     calibration_interval: int = 20,
     tag: str = "VR HD",
     max_tokens: int = 16000,
+    model: str = "claude-opus-4-6",
 ) -> None:
     """Run VR agent on HD oracle across seeds, print aggregate stats."""
     oracle = MediumOracleHD()
@@ -276,6 +294,7 @@ def run_vr_hd(
             file_prefix=file_prefix,
             calibration_interval=calibration_interval,
             max_tokens=max_tokens,
+            model=model,
         )
         if s is not None:
             summaries.append(s)
@@ -288,11 +307,14 @@ def run_vr_hd(
 
 
 def main() -> None:
-    valid_modes = ("bo", "vr", "all", "vr-ext")
+    valid_modes = ("bo", "vr", "all", "vr-ext", "vr-sonnet", "vr-haiku")
     if len(sys.argv) < 2 or len(sys.argv) > 3 or sys.argv[1] not in valid_modes:
-        print("Usage: python run_hd_test.py [bo|vr|all|vr-ext] [seed]")
-        print("  vr-ext:        run all extended seeds (144 evals)")
+        print("Usage: python run_hd_test.py "
+              "[bo|vr|all|vr-ext|vr-sonnet|vr-haiku] [seed]")
+        print("  vr-ext:        run all extended seeds (144 evals, Opus)")
         print("  vr-ext <seed>: run a single extended seed")
+        print("  vr-sonnet:     run Sonnet HD seeds 42-44 (72 evals)")
+        print("  vr-haiku:      run Haiku HD seeds 42-44 (72 evals)")
         sys.exit(1)
 
     mode = sys.argv[1]
@@ -308,6 +330,34 @@ def main() -> None:
         print(f"  VR agent: HD oracle ({len(VR_SEEDS)} seeds, 72 evals)")
         print("=" * 60)
         run_vr_hd()
+
+    if mode == "vr-sonnet":
+        print("\n" + "=" * 60)
+        print(f"  VR agent: HD oracle Sonnet ({len(VR_SEEDS)} seeds, 72 evals)")
+        print("=" * 60)
+        run_vr_hd(
+            seeds=VR_SEEDS,
+            n_budget=N_BUDGET_VR,
+            file_prefix="hd_vr_sonnet",
+            calibration_interval=20,
+            tag="VR HD Sonnet",
+            model="claude-sonnet-4-6",
+        )
+
+    if mode == "vr-haiku":
+        print("\n" + "=" * 60)
+        print(f"  VR agent: HD oracle Haiku ({len(VR_SEEDS)} seeds, 72 evals)")
+        print("  (Phase 2.3 pilot on 1A: iteration_summaries failed;")
+        print("   expect partial rubric data — edge P/R + tool-call allocation)")
+        print("=" * 60)
+        run_vr_hd(
+            seeds=VR_SEEDS,
+            n_budget=N_BUDGET_VR,
+            file_prefix="hd_vr_haiku",
+            calibration_interval=20,
+            tag="VR HD Haiku",
+            model="claude-haiku-4-5-20251001",
+        )
 
     if mode == "vr-ext":
         if len(sys.argv) == 3:

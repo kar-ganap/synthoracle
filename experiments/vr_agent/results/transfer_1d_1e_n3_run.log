@@ -1,0 +1,232 @@
+Prior knowledge: 6068 chars from experiments/vr_agent/results/multi_seed/seed42_log.json
+Seeds to run: [42, 43, 44]
+
+============================================================
+  Condition: transfer_1d_prior
+============================================================
+  transfer_1d_prior seed 42: already on disk (HV=1.0544, cost=$4.07)
+
+  Running transfer_1d_prior seed 43 ...
+    [tool call 1] tokens=5517in+183out budget=12/72 (5s call, 6s total)
+    [tool call 4] tokens=6546in+2268out budget=12/72 (31s call, 36s total)
+    [tool call 10] tokens=12643in+3036out budget=42/72 (43s call, 79s total)
+    [tool call 15] tokens=16482in+2378out budget=42/72 (40s call, 119s total)
+  [Iteration done] evals=57/72 HV=0.3645 tools_used=15 (211s total)
+  [CALIBRATION @ eval 58] MAE=0.1661 max|err|=0.4839
+    [tool call 1] tokens=8777in+877out budget=58/72 (18s call, 1856s total)
+    [tool call 4] tokens=10752in+9764out budget=58/72 (147s call, 2004s total)
+    [tool call 7] tokens=20880in+12451out budget=58/72 (162s call, 2165s total)
+    [tool call 13] tokens=34052in+15618out budget=64/72 (226s call, 2391s total)
+    [tool call 14] tokens=50273in+3703out budget=64/72 (55s call, 2446s total)
+  [Iteration done] evals=68/72 HV=1.1889 tools_used=17 (2638s total)
+  [CALIBRATION @ eval 69] MAE=0.0873 max|err|=0.2541
+    [tool call 1] tokens=10436in+12944out budget=69/72 (196s call, 4353s total)
+    [tool call 4] tokens=23748in+1547out budget=72/72 (21s call, 4374s total)
+    [tool call 5] tokens=25898in+1491out budget=72/72 (27s call, 4401s total)
+  [Iteration done] evals=72/72 HV=1.2244 tools_used=4 (4486s total)
+  transfer_1d_prior seed 43: HV=1.2244, cost=$5.13, time=4486s
+
+  Running transfer_1d_prior seed 44 ...
+    [tool call 1] tokens=5517in+1956out budget=12/72 (24s call, 25s total)
+    [tool call 7] tokens=11020in+1789out budget=42/72 (33s call, 58s total)
+    [tool call 9] tokens=13405in+685out budget=42/72 (14s call, 72s total)
+    [tool call 12] tokens=15069in+2808out budget=42/72 (46s call, 117s total)
+    [tool call 15] tokens=18971in+2247out budget=42/72 (40s call, 157s total)
+  [Iteration done] evals=49/72 HV=0.9574 tools_used=15 (245s total)
+  [CALIBRATION @ eval 50] MAE=0.1605 max|err|=0.3865
+    [tool call 1] tokens=9040in+631out budget=50/72 (13s call, 500s total)
+    [tool call 3] tokens=10220in+4303out budget=50/72 (70s call, 570s total)
+    [tool call 5] tokens=15180in+5007out budget=50/72 (70s call, 639s total)
+    [tool call 13] tokens=21144in+4364out budget=58/72 (67s call, 706s total)
+    [tool call 14] tokens=26111in+9569out budget=58/72 (140s call, 846s total)
+    [tool call 15] tokens=35988in+2576out budget=58/72 (31s call, 877s total)
+  [Iteration done] evals=65/72 HV=1.2586 tools_used=21 (977s total)
+  [CALIBRATION @ eval 66] parse failed — stop=max_tokens, parsed_output=None, raw: 
+    [tool call 1] tokens=9734in+877out budget=66/72 (17s call, 2719s total)
+    [tool call 3] tokens=11536in+14290out budget=66/72 (197s call, 2916s total)
+    [tool call 4] tokens=26134in+2577out budget=66/72 (32s call, 2948s total)
+    [tool call 10] tokens=29434in+1752out budget=72/72 (24s call, 2972s total)
+    [tool call 11] tokens=31883in+1341out budget=72/72 (22s call, 2994s total)
+  [Iteration done] evals=72/72 HV=1.3478 tools_used=10 (3056s total)
+  transfer_1d_prior seed 44: HV=1.3478, cost=$4.95, time=3056s
+
+============================================================
+  Condition: transfer_1d_fresh
+============================================================
+  transfer_1d_fresh seed 42: already on disk (HV=1.1558, cost=$2.31)
+
+  Running transfer_1d_fresh seed 43 ...
+    [tool call 1] tokens=2798in+159out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=3803in+1664out budget=12/72 (24s call, 28s total)
+    [tool call 7] tokens=7280in+1614out budget=27/72 (22s call, 50s total)
+    [tool call 10] tokens=10689in+1656out budget=42/72 (26s call, 75s total)
+  [Iteration done] evals=42/72 HV=0.3640 tools_used=15 (128s total)
+  [CALIBRATION @ eval 43] MAE=0.1436 max|err|=0.4039
+    [tool call 1] tokens=5532in+1054out budget=43/72 (19s call, 283s total)
+    [tool call 7] tokens=7611in+2332out budget=43/72 (40s call, 323s total)
+    [tool call 9] tokens=11328in+6920out budget=58/72 (117s call, 440s total)
+    [tool call 12] tokens=19236in+4544out budget=58/72 (74s call, 514s total)
+    [tool call 13] tokens=24410in+2980out budget=63/72 (51s call, 565s total)
+    [tool call 15] tokens=28250in+1658out budget=63/72 (28s call, 593s total)
+  [Iteration done] evals=66/72 HV=1.0725 tools_used=17 (711s total)
+  [CALIBRATION @ eval 67] MAE=0.0457 max|err|=0.0841
+    [tool call 1] tokens=6920in+1388out budget=67/72 (25s call, 994s total)
+    [tool call 3] tokens=9133in+3984out budget=67/72 (56s call, 1050s total)
+    [tool call 6] tokens=13492in+1484out budget=70/72 (22s call, 1072s total)
+    [tool call 7] tokens=15485in+1139out budget=70/72 (15s call, 1087s total)
+    [tool call 9] tokens=16877in+425out budget=72/72 (7s call, 1094s total)
+    [tool call 10] tokens=17811in+1694out budget=72/72 (29s call, 1123s total)
+  [Iteration done] evals=72/72 HV=1.1142 tools_used=9 (1175s total)
+  transfer_1d_fresh seed 43: HV=1.1142, cost=$3.15, time=1175s
+
+  Running transfer_1d_fresh seed 44 ...
+    [tool call 1] tokens=2798in+160out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4007in+2254out budget=12/72 (27s call, 31s total)
+    [tool call 10] tokens=9789in+1664out budget=42/72 (28s call, 59s total)
+    [tool call 12] tokens=12049in+188out budget=42/72 (4s call, 64s total)
+    [tool call 14] tokens=13009in+2076out budget=42/72 (28s call, 92s total)
+    [tool call 15] tokens=16146in+1346out budget=57/72 (23s call, 114s total)
+  [Iteration done] evals=57/72 HV=0.5215 tools_used=18 (185s total)
+  [CALIBRATION @ eval 58] MAE=0.2955 max|err|=0.8865
+    [tool call 1] tokens=5655in+1515out budget=58/72 (29s call, 465s total)
+    [tool call 5] tokens=8452in+1911out budget=58/72 (31s call, 496s total)
+    [tool call 8] tokens=10687in+9211out budget=58/72 (136s call, 632s total)
+    [tool call 9] tokens=20550in+11226out budget=64/72 (170s call, 802s total)
+    [tool call 10] tokens=32379in+4938out budget=64/72 (64s call, 866s total)
+  [Iteration done] evals=70/72 HV=1.2766 tools_used=15 (992s total)
+  [CALIBRATION @ eval 71] MAE=0.1970 max|err|=0.3769
+    [tool call 1] tokens=6847in+4736out budget=71/72 (81s call, 1230s total)
+    [tool call 2] tokens=11687in+1006out budget=72/72 (16s call, 1247s total)
+    [tool call 3] tokens=13484in+1726out budget=72/72 (31s call, 1277s total)
+  [Iteration done] evals=72/72 HV=1.2870 tools_used=2 (1334s total)
+  transfer_1d_fresh seed 44: HV=1.2870, cost=$3.37, time=1334s
+
+============================================================
+  Condition: transfer_1e_prior
+============================================================
+  transfer_1e_prior seed 42: already on disk (HV=0.2757, cost=$4.50)
+
+  Running transfer_1e_prior seed 43 ...
+    [tool call 1] tokens=5517in+1822out budget=12/72 (23s call, 24s total)
+    [tool call 7] tokens=10929in+2202out budget=42/72 (38s call, 62s total)
+    [tool call 10] tokens=14052in+1482out budget=42/72 (24s call, 85s total)
+    [tool call 13] tokens=16516in+2405out budget=42/72 (44s call, 129s total)
+  [Iteration done] evals=42/72 HV=0.1045 tools_used=16 (214s total)
+  [CALIBRATION @ eval 43] MAE=0.0925 max|err|=0.2509
+    [tool call 1] tokens=8779in+688out budget=43/72 (15s call, 254s total)
+    [tool call 4] tokens=10700in+621out budget=43/72 (12s call, 266s total)
+    [tool call 7] tokens=12308in+3838out budget=43/72 (60s call, 326s total)
+    [tool call 9] tokens=16393in+3496out budget=43/72 (48s call, 374s total)
+  [Iteration done] evals=50/72 HV=0.2445 tools_used=15 (493s total)
+    [tool call 1] tokens=9765in+8611out budget=50/72 (134s call, 627s total)
+    [tool call 5] tokens=20070in+16000out budget=50/72 (234s call, 861s total)
+  [Iteration done] evals=50/72 HV=0.2445 tools_used=4 (1004s total)
+  [NO PROGRESS] iteration added 0 evals (streak=1/3)
+    [tool call 1] tokens=10383in+622out budget=50/72 (13s call, 1017s total)
+    [tool call 4] tokens=12316in+6674out budget=50/72 (97s call, 1114s total)
+    [tool call 7] tokens=19972in+15998out budget=50/72 (206s call, 1320s total)
+  [Iteration done] evals=50/72 HV=0.2445 tools_used=6 (1404s total)
+  [NO PROGRESS] iteration added 0 evals (streak=2/3)
+    [tool call 1] tokens=11218in+651out budget=50/72 (12s call, 1416s total)
+    [tool call 3] tokens=12888in+12204out budget=50/72 (166s call, 1583s total)
+    [tool call 13] tokens=26285in+621out budget=60/72 (9s call, 1592s total)
+    [tool call 14] tokens=28543in+11791out budget=60/72 (164s call, 1756s total)
+  [Iteration done] evals=68/72 HV=0.2623 tools_used=21 (1866s total)
+  [CALIBRATION @ eval 69] MAE=0.0894 max|err|=0.1938
+    [tool call 1] tokens=11585in+1273out budget=69/72 (23s call, 2052s total)
+    [tool call 3] tokens=15569in+8943out budget=69/72 (138s call, 2190s total)
+    [tool call 5] tokens=25171in+5918out budget=69/72 (80s call, 2270s total)
+    [tool call 8] tokens=31456in+1031out budget=72/72 (14s call, 2284s total)
+    [tool call 9] tokens=35158in+1270out budget=72/72 (25s call, 2309s total)
+  [Iteration done] evals=72/72 HV=0.2640 tools_used=8 (2395s total)
+  transfer_1e_prior seed 43: HV=0.2640, cost=$6.73, time=2395s
+
+  Running transfer_1e_prior seed 44 ...
+    [tool call 1] tokens=5517in+195out budget=12/72 (5s call, 5s total)
+    [tool call 4] tokens=6761in+3335out budget=12/72 (45s call, 51s total)
+    [tool call 10] tokens=13718in+2615out budget=42/72 (43s call, 93s total)
+    [tool call 13] tokens=17253in+1125out budget=42/72 (17s call, 111s total)
+  [Iteration done] evals=42/72 HV=0.0929 tools_used=18 (187s total)
+  [CALIBRATION @ eval 43] MAE=0.0591 max|err|=0.1344
+    [tool call 1] tokens=8459in+602out budget=43/72 (14s call, 391s total)
+    [tool call 4] tokens=10863in+1170out budget=43/72 (21s call, 412s total)
+    [tool call 8] tokens=12926in+4306out budget=43/72 (74s call, 486s total)
+    [tool call 11] tokens=18214in+6758out budget=43/72 (103s call, 589s total)
+    [tool call 12] tokens=25708in+4481out budget=52/72 (65s call, 654s total)
+    [tool call 13] tokens=31174in+11156out budget=52/72 (153s call, 808s total)
+    [tool call 14] tokens=42435in+376out budget=53/72 (8s call, 815s total)
+    [tool call 15] tokens=42916in+435out budget=54/72 (7s call, 823s total)
+  [Iteration done] evals=55/72 HV=0.2407 tools_used=15 (903s total)
+  [CALIBRATION @ eval 56] parse failed — stop=max_tokens, parsed_output=None, raw: 
+    [tool call 1] tokens=9796in+5939out budget=56/72 (94s call, 2697s total)
+    [tool call 5] tokens=17478in+16000out budget=56/72 (215s call, 2912s total)
+  [Iteration done] evals=56/72 HV=0.2407 tools_used=4 (2984s total)
+    [tool call 1] tokens=10144in+1253out budget=56/72 (21s call, 3005s total)
+    [tool call 3] tokens=12986in+16000out budget=56/72 (224s call, 3229s total)
+  [Iteration done] evals=56/72 HV=0.2407 tools_used=2 (3301s total)
+  [NO PROGRESS] iteration added 0 evals (streak=1/3)
+    [tool call 1] tokens=10884in+8939out budget=56/72 (134s call, 3434s total)
+    [tool call 3] tokens=21412in+11467out budget=56/72 (158s call, 3592s total)
+    [tool call 11] tokens=33836in+10200out budget=64/72 (164s call, 3756s total)
+    [tool call 12] tokens=46055in+11265out budget=64/72 (152s call, 3908s total)
+    [tool call 14] tokens=57979in+7461out budget=64/72 (109s call, 4017s total)
+  [Iteration done] evals=72/72 HV=0.2747 tools_used=21 (4168s total)
+  transfer_1e_prior seed 44: HV=0.2747, cost=$8.14, time=4168s
+
+============================================================
+  Condition: transfer_1e_fresh
+============================================================
+  transfer_1e_fresh seed 42: already on disk (HV=0.2752, cost=$5.47)
+
+  Running transfer_1e_fresh seed 43 ...
+    [tool call 1] tokens=2798in+158out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=3901in+2501out budget=12/72 (31s call, 35s total)
+    [tool call 10] tokens=9900in+1489out budget=42/72 (23s call, 58s total)
+    [tool call 13] tokens=12310in+1720out budget=42/72 (27s call, 85s total)
+  [Iteration done] evals=42/72 HV=0.1045 tools_used=16 (131s total)
+  [CALIBRATION @ eval 43] MAE=0.0587 max|err|=0.1709
+    [tool call 1] tokens=5019in+613out budget=43/72 (13s call, 268s total)
+    [tool call 4] tokens=6557in+1817out budget=43/72 (33s call, 300s total)
+    [tool call 6] tokens=9845in+5854out budget=61/72 (92s call, 392s total)
+    [tool call 9] tokens=16770in+3995out budget=61/72 (61s call, 453s total)
+    [tool call 15] tokens=21486in+4113out budget=67/72 (60s call, 513s total)
+  [Iteration done] evals=72/72 HV=0.2545 tools_used=19 (613s total)
+  transfer_1e_fresh seed 43: HV=0.2545, cost=$1.64, time=613s
+
+  Running transfer_1e_fresh seed 44 ...
+    [tool call 1] tokens=2798in+159out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4006in+1587out budget=12/72 (21s call, 25s total)
+    [tool call 7] tokens=7358in+1605out budget=27/72 (23s call, 48s total)
+    [tool call 10] tokens=10764in+1812out budget=42/72 (29s call, 77s total)
+    [tool call 13] tokens=13496in+1152out budget=42/72 (17s call, 94s total)
+  [Iteration done] evals=42/72 HV=0.0929 tools_used=17 (155s total)
+  [CALIBRATION @ eval 43] MAE=0.0744 max|err|=0.1244
+    [tool call 1] tokens=4981in+2193out budget=43/72 (40s call, 389s total)
+    [tool call 4] tokens=8641in+5201out budget=52/72 (79s call, 469s total)
+    [tool call 6] tokens=14595in+6662out budget=57/72 (105s call, 574s total)
+    [tool call 9] tokens=22606in+2946out budget=57/72 (45s call, 619s total)
+    [tool call 15] tokens=26273in+4899out budget=63/72 (73s call, 693s total)
+  [Iteration done] evals=63/72 HV=0.2440 tools_used=15 (767s total)
+  [CALIBRATION @ eval 64] MAE=0.0854 max|err|=0.1535
+    [tool call 1] tokens=6394in+799out budget=64/72 (16s call, 979s total)
+    [tool call 3] tokens=8782in+14416out budget=64/72 (202s call, 1181s total)
+    [tool call 5] tokens=24817in+15564out budget=64/72 (805s call, 1987s total)
+    [tool call 9] tokens=40866in+8409out budget=68/72 (100s call, 2087s total)
+    [tool call 10] tokens=50918in+6109out budget=68/72 (74s call, 2161s total)
+    [tool call 14] tokens=57514in+583out budget=72/72 (9s call, 2170s total)
+    [tool call 15] tokens=60116in+1325out budget=72/72 (29s call, 2199s total)
+  [Iteration done] evals=72/72 HV=0.2491 tools_used=14 (2252s total)
+  transfer_1e_fresh seed 44: HV=0.2491, cost=$5.16, time=2252s
+
+============================================================
+  Multi-seed transfer aggregate
+============================================================
+  condition                n    HV mean     HV std   cost total
+  transfer_1d_prior        3     1.2089     0.1203 $      10.08
+  transfer_1d_fresh        3     1.1856     0.0737 $       6.52
+  transfer_1e_prior        3     0.2715     0.0053 $      14.87
+  transfer_1e_fresh        3     0.2596     0.0112 $       6.80
+
+  Prior penalty (n=3 mean):
+    1D: prior 1.2089 vs fresh 1.1856 → penalty -2.0%
+    1E: prior 0.2715 vs fresh 0.2596 → penalty -4.6%

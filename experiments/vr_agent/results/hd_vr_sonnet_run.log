@@ -1,0 +1,137 @@
+
+============================================================
+  VR agent: HD oracle Sonnet (3 seeds, 72 evals)
+============================================================
+
+  Running VR HD seed 42 (72 evals, 12 inputs, claude-sonnet-4-6)...
+    [tool call 1] tokens=3070in+151out budget=24/72 (4s call, 4s total)
+    [tool call 4] tokens=5035in+2275out budget=24/72 (36s call, 40s total)
+    [tool call 7] tokens=8269in+2888out budget=24/72 (43s call, 83s total)
+    [tool call 11] tokens=13608in+2880out budget=44/72 (44s call, 126s total)
+    [tool call 15] tokens=18821in+8584out budget=62/72 (116s call, 242s total)
+  [Iteration done] evals=62/72 HV=0.0909 tools_used=16 (317s total)
+  [CALIBRATION @ eval 63] MAE=0.0784 max|err|=0.2082
+    [tool call 1] tokens=7188in+16000out budget=63/72 (196s call, 677s total)
+  [Iteration done] evals=63/72 HV=0.0909 tools_used=0 (717s total)
+    [tool call 1] tokens=6687in+16000out budget=63/72 (181s call, 898s total)
+  [Iteration done] evals=63/72 HV=0.0909 tools_used=0 (964s total)
+  [NO PROGRESS] iteration added 0 evals (streak=1/3)
+    [tool call 1] tokens=27131in+8468out budget=63/72 (115s call, 1079s total)
+    [tool call 5] tokens=37358in+12651out budget=63/72 (145s call, 1224s total)
+    [tool call 14] tokens=51084in+4114out budget=72/72 (66s call, 1290s total)
+  [Iteration done] evals=72/72 HV=0.2350 tools_used=15 (1390s total)
+  Seed 42: HV=0.2350 cost=$2.52 evals=72 iters=4
+
+  Running VR HD seed 43 (72 evals, 12 inputs, claude-sonnet-4-6)...
+    [tool call 1] tokens=3070in+147out budget=24/72 (3s call, 3s total)
+    [tool call 4] tokens=5028in+1805out budget=24/72 (26s call, 29s total)
+    [tool call 6] tokens=7615in+1903out budget=24/72 (31s call, 60s total)
+    [tool call 8] tokens=9885in+631out budget=24/72 (9s call, 69s total)
+    [tool call 10] tokens=11298in+4466out budget=24/72 (66s call, 135s total)
+    [tool call 13] tokens=17567in+1599out budget=39/72 (20s call, 155s total)
+  [Iteration done] evals=54/72 HV=0.1360 tools_used=15 (247s total)
+  [CALIBRATION @ eval 55] MAE=0.0393 max|err|=0.0706
+    [tool call 1] tokens=6177in+15156out budget=55/72 (183s call, 688s total)
+    [tool call 8] tokens=23810in+14152out budget=59/72 (198s call, 885s total)
+    [tool call 14] tokens=39157in+10760out budget=64/72 (121s call, 1006s total)
+  [Iteration done] evals=72/72 HV=0.2637 tools_used=22 (1098s total)
+  Seed 43: HV=0.2637 cost=$1.92 evals=72 iters=2
+
+  Running VR HD seed 44 (72 evals, 12 inputs, claude-sonnet-4-6)...
+    [tool call 1] tokens=3070in+155out budget=24/72 (3s call, 3s total)
+    [tool call 4] tokens=5033in+2243out budget=24/72 (29s call, 32s total)
+    [tool call 8] tokens=7657in+2009out budget=24/72 (26s call, 57s total)
+    [tool call 11] tokens=10625in+2754out budget=24/72 (37s call, 94s total)
+    [tool call 14] tokens=15210in+3667out budget=39/72 (51s call, 145s total)
+  [Iteration done] evals=54/72 HV=0.0935 tools_used=16 (207s total)
+  [CALIBRATION @ eval 55] MAE=0.0430 max|err|=0.0754
+    [tool call 1] tokens=5559in+2648out budget=55/72 (42s call, 288s total)
+    [tool call 3] tokens=9590in+1371out budget=55/72 (23s call, 311s total)
+    [tool call 5] tokens=11693in+13718out budget=55/72 (166s call, 477s total)
+    [tool call 10] tokens=26014in+11522out budget=60/72 (145s call, 622s total)
+    [tool call 15] tokens=38139in+9513out budget=65/72 (130s call, 752s total)
+  [Iteration done] evals=72/72 HV=0.2637 tools_used=21 (894s total)
+  Seed 44: HV=0.2637 cost=$1.63 evals=72 iters=2
+
+============================================================
+  VR HD Sonnet aggregate (3 seeds)
+============================================================
+  Final HV: 0.2541 +/- 0.0135 (min=0.2350, max=0.2637)
+  Total cost: $6.07 (mean $2.02/seed)
+
+  Per-seed summary:
+   seed       HV  evals iters  oat_real  oat_noise  real_edges  noise_edges
+     42   0.2350     72     4         6          2          27           24
+     43   0.2637     72     2         6          0          26           24
+     44   0.2637     72     2         4          2          21            7
+
+  Screening efficiency (across seeds):
+    OAT total: 20 (real 16, noise 4)
+    Noise sweep fraction: 20.0%
+
+  Edge confidence (final iteration, across seeds):
+    Real edges (mean):  24.7
+    Noise edges (mean): 18.33
+    seed 42 noise edges:
+      X7->Y1: 0.05
+      X9->Y1: 0.05
+      X11->Y1: 0.05
+      X12->Y1: 0.05
+      X7->Y2: 0.05
+      X9->Y2: 0.05
+      X11->Y2: 0.05
+      X12->Y2: 0.05
+      X7->Y3: 0.05
+      X9->Y3: 0.05
+      X11->Y3: 0.05
+      X12->Y3: 0.05
+      X7->Y4: 0.05
+      X9->Y4: 0.05
+      X11->Y4: 0.05
+      X12->Y4: 0.05
+      X8->Y1: 0.02
+      X8->Y2: 0.02
+      X8->Y3: 0.02
+      X8->Y4: 0.02
+      X10->Y1: 0.01
+      X10->Y2: 0.01
+      X10->Y3: 0.01
+      X10->Y4: 0.01
+    seed 43 noise edges:
+      X7->Y1: 0.02
+      X8->Y1: 0.02
+      X9->Y1: 0.02
+      X10->Y1: 0.02
+      X11->Y1: 0.02
+      X12->Y1: 0.02
+      X7->Y2: 0.02
+      X8->Y2: 0.02
+      X9->Y2: 0.02
+      X10->Y2: 0.02
+      X11->Y2: 0.02
+      X12->Y2: 0.02
+      X7->Y3: 0.02
+      X8->Y3: 0.02
+      X9->Y3: 0.02
+      X10->Y3: 0.02
+      X11->Y3: 0.02
+      X12->Y3: 0.02
+      X7->Y4: 0.02
+      X8->Y4: 0.02
+      X9->Y4: 0.02
+      X10->Y4: 0.02
+      X11->Y4: 0.02
+      X12->Y4: 0.02
+    seed 44 noise edges:
+      X9->Y2: 0.22
+      X9->Y3: 0.18
+      X7->Y1: 0.05
+      X8->Y1: 0.05
+      X11->Y1: 0.05
+      X12->Y1: 0.05
+      X10->Y1: 0.05
+
+  Comparison vs BO HD (3 seeds):
+    VR: 0.2541 +/- 0.0135
+    BO: 0.2658 +/- 0.0018
+    VR/BO: 95.6%

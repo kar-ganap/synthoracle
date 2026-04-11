@@ -1,0 +1,3692 @@
+{
+  "tool_calls": [
+    {
+      "name": "correlation_matrix",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "correlations": {
+          "X1": {
+            "Y1": 0.2626,
+            "Y2": -0.1607,
+            "Y3": 0.7252,
+            "Y4": 0.0926
+          },
+          "X2": {
+            "Y1": 0.4313,
+            "Y2": 0.2593,
+            "Y3": 0.0869,
+            "Y4": 0.6402
+          },
+          "X3": {
+            "Y1": 0.0841,
+            "Y2": -0.5352,
+            "Y3": 0.4599,
+            "Y4": 0.2128
+          },
+          "X4": {
+            "Y1": 0.2734,
+            "Y2": -0.3892,
+            "Y3": -0.0533,
+            "Y4": 0.5488
+          },
+          "X5": {
+            "Y1": 0.5474,
+            "Y2": 0.1191,
+            "Y3": 0.0989,
+            "Y4": -0.1757
+          },
+          "X6": {
+            "Y1": 0.1947,
+            "Y2": 0.6462,
+            "Y3": -0.1192,
+            "Y4": -0.0302
+          },
+          "X7": {
+            "Y1": 0.1008,
+            "Y2": -0.0147,
+            "Y3": 0.2731,
+            "Y4": -0.1945
+          },
+          "X8": {
+            "Y1": -0.3219,
+            "Y2": -0.0665,
+            "Y3": -0.1651,
+            "Y4": -0.4904
+          },
+          "X9": {
+            "Y1": 0.2437,
+            "Y2": 0.4423,
+            "Y3": -0.2844,
+            "Y4": -0.0417
+          },
+          "X10": {
+            "Y1": -0.1608,
+            "Y2": 0.3197,
+            "Y3": -0.6187,
+            "Y4": -0.2335
+          },
+          "X11": {
+            "Y1": 0.0648,
+            "Y2": 0.174,
+            "Y3": 0.1206,
+            "Y4": 0.1148
+          },
+          "X12": {
+            "Y1": -0.0847,
+            "Y2": -0.1917,
+            "Y3": 0.1112,
+            "Y4": 0.4429
+          }
+        }
+      }
+    },
+    {
+      "name": "sensitivity_report",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "sensitivities": {
+          "X1": {
+            "Y1": 0.8863,
+            "Y2": 0.3853,
+            "Y3": 1.0035,
+            "Y4": 0.206
+          },
+          "X2": {
+            "Y1": 0.9291,
+            "Y2": 0.4039,
+            "Y3": 1.0519,
+            "Y4": 0.216
+          },
+          "X3": {
+            "Y1": 0.9248,
+            "Y2": 0.402,
+            "Y3": 1.0471,
+            "Y4": 0.215
+          },
+          "X4": {
+            "Y1": 0.8422,
+            "Y2": 0.3661,
+            "Y3": 0.9535,
+            "Y4": 0.1958
+          },
+          "X5": {
+            "Y1": 0.8695,
+            "Y2": 0.3779,
+            "Y3": 0.9844,
+            "Y4": 0.2021
+          },
+          "X6": {
+            "Y1": 0.8423,
+            "Y2": 0.3661,
+            "Y3": 0.9536,
+            "Y4": 0.1958
+          },
+          "X7": {
+            "Y1": 0.916,
+            "Y2": 0.3982,
+            "Y3": 1.0371,
+            "Y4": 0.2129
+          },
+          "X8": {
+            "Y1": 0.8628,
+            "Y2": 0.3751,
+            "Y3": 0.9768,
+            "Y4": 0.2005
+          },
+          "X9": {
+            "Y1": 1.0031,
+            "Y2": 0.436,
+            "Y3": 1.1357,
+            "Y4": 0.2332
+          },
+          "X10": {
+            "Y1": 1.1014,
+            "Y2": 0.4788,
+            "Y3": 1.247,
+            "Y4": 0.256
+          },
+          "X11": {
+            "Y1": 0.8437,
+            "Y2": 0.3667,
+            "Y3": 0.9552,
+            "Y4": 0.1961
+          },
+          "X12": {
+            "Y1": 0.9832,
+            "Y2": 0.4274,
+            "Y3": 1.1132,
+            "Y4": 0.2285
+          }
+        }
+      }
+    },
+    {
+      "name": "current_pareto_front",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "pareto_front": [
+          {
+            "X1": 0.701563,
+            "X2": 0.523987,
+            "X3": 0.608712,
+            "X4": 0.788499,
+            "X5": 0.671246,
+            "X6": 0.598221,
+            "X7": 0.603286,
+            "X8": 0.373555,
+            "X9": 0.127736,
+            "X10": 0.493046,
+            "X11": 0.293126,
+            "X12": 0.467676,
+            "Y1": 0.38621,
+            "Y2": 0.283766,
+            "Y3": 0.757234,
+            "Y4": 0.136237
+          },
+          {
+            "X1": 0.52614,
+            "X2": 0.340278,
+            "X3": 0.398412,
+            "X4": 0.568605,
+            "X5": 0.49502,
+            "X6": 0.119451,
+            "X7": 0.843663,
+            "X8": 0.906545,
+            "X9": 0.226224,
+            "X10": 0.598633,
+            "X11": 0.197718,
+            "X12": 0.705016,
+            "Y1": 0.006923,
+            "Y2": 0.220412,
+            "Y3": 0.560772,
+            "Y4": 0.090315
+          },
+          {
+            "X1": 0.846486,
+            "X2": 0.817135,
+            "X3": 0.309377,
+            "X4": 0.577693,
+            "X5": 0.645414,
+            "X6": 0.880965,
+            "X7": 0.642796,
+            "X8": 0.471314,
+            "X9": 0.436766,
+            "X10": 0.483294,
+            "X11": 0.686738,
+            "X12": 0.880742,
+            "Y1": 0.443846,
+            "Y2": 0.413367,
+            "Y3": 0.551049,
+            "Y4": 0.13701
+          },
+          {
+            "X1": 0.386192,
+            "X2": 0.554074,
+            "X3": 0.887504,
+            "X4": 0.866018,
+            "X5": 0.139128,
+            "X6": 0.263349,
+            "X7": 0.31307,
+            "X8": 0.324449,
+            "X9": 0.614109,
+            "X10": 0.474636,
+            "X11": 0.144329,
+            "X12": 0.436253,
+            "Y1": 0.149835,
+            "Y2": 0.242623,
+            "Y3": 0.677665,
+            "Y4": 0.17083
+          }
+        ],
+        "n_pareto": 4,
+        "hypervolume": 0.080708
+      }
+    },
+    {
+      "name": "local_gradients",
+      "input": {
+        "point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ]
+      },
+      "cost": 0,
+      "result": {
+        "gradients": {
+          "X1": {
+            "Y1": 0.175858,
+            "Y2": -0.09241,
+            "Y3": 0.510876,
+            "Y4": 0.027507
+          },
+          "X2": {
+            "Y1": 0.383075,
+            "Y2": 0.090539,
+            "Y3": 0.0,
+            "Y4": 0.200581
+          },
+          "X3": {
+            "Y1": 0.246641,
+            "Y2": -0.209644,
+            "Y3": 0.610975,
+            "Y4": 0.0
+          },
+          "X4": {
+            "Y1": 0.44108,
+            "Y2": -0.087599,
+            "Y3": 0.0,
+            "Y4": 0.193262
+          },
+          "X5": {
+            "Y1": 0.105779,
+            "Y2": -0.002296,
+            "Y3": 0.0,
+            "Y4": 0.0
+          },
+          "X6": {
+            "Y1": 0.331005,
+            "Y2": 0.130007,
+            "Y3": 0.0,
+            "Y4": -0.073209
+          },
+          "X7": {
+            "Y1": 0.0,
+            "Y2": 0.0,
+            "Y3": 0.0,
+            "Y4": 0.0
+          },
+          "X8": {
+            "Y1": 0.0,
+            "Y2": 0.0,
+            "Y3": 0.0,
+            "Y4": 0.0
+          },
+          "X9": {
+            "Y1": 0.0,
+            "Y2": 0.0,
+            "Y3": 0.0,
+            "Y4": 0.0
+          },
+          "X10": {
+            "Y1": 0.0,
+            "Y2": 0.0,
+            "Y3": 0.0,
+            "Y4": 0.0
+          },
+          "X11": {
+            "Y1": 0.0,
+            "Y2": 0.0,
+            "Y3": 0.0,
+            "Y4": 0.0
+          },
+          "X12": {
+            "Y1": 0.0,
+            "Y2": 0.0,
+            "Y3": 0.0,
+            "Y4": 0.0
+          }
+        },
+        "point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ]
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6",
+          "X7",
+          "X8",
+          "X9",
+          "X10",
+          "X11",
+          "X12"
+        ],
+        "output": "Y1"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": 0.21446,
+          "X2": 0.371736,
+          "X3": 0.181423,
+          "X4": 0.323004,
+          "X5": 0.377042,
+          "X6": 0.023506,
+          "X7": 0.120883,
+          "X8": -0.130705,
+          "X9": 0.071122,
+          "X10": -0.030833,
+          "X11": -0.142169,
+          "X12": -0.086299,
+          "intercept": -0.594368
+        },
+        "r_squared": 0.859553,
+        "output": "Y1"
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6",
+          "X7",
+          "X8",
+          "X9",
+          "X10",
+          "X11",
+          "X12"
+        ],
+        "output": "Y3"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": 0.591327,
+          "X2": 0.151323,
+          "X3": 0.528475,
+          "X4": 0.138128,
+          "X5": 0.099619,
+          "X6": -0.071014,
+          "X7": 0.133532,
+          "X8": -0.039725,
+          "X9": -0.120475,
+          "X10": 0.015107,
+          "X11": 0.047886,
+          "X12": -0.069797,
+          "intercept": -0.201983
+        },
+        "r_squared": 0.915746,
+        "output": "Y3"
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X1",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "increase",
+            "magnitude": 0.15
+          },
+          "Y2": {
+            "direction": "decrease",
+            "magnitude": 0.08
+          },
+          "Y3": {
+            "direction": "increase",
+            "magnitude": 0.45
+          },
+          "Y4": {
+            "direction": "flat",
+            "magnitude": 0.05
+          }
+        },
+        "predicted_trend": "X1 is a strong driver of Y3 (gradient 0.51, correlation 0.73). Expect Y3 to increase ~0.45 over full range. Y1 moderate increase, Y2 slight decrease."
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X1": 0.1,
+            "Y1": 0.054264,
+            "Y2": 0.379565,
+            "Y3": 0.14943,
+            "Y4": 0.04802
+          },
+          {
+            "X1": 0.325,
+            "Y1": 0.184122,
+            "Y2": 0.342294,
+            "Y3": 0.452068,
+            "Y4": 0.089103
+          },
+          {
+            "X1": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X1": 0.775,
+            "Y1": 0.270968,
+            "Y2": 0.299916,
+            "Y3": 0.729416,
+            "Y4": 0.10456
+          },
+          {
+            "X1": 1.0,
+            "Y1": 0.291262,
+            "Y2": 0.285168,
+            "Y3": 0.73962,
+            "Y4": 0.10574
+          }
+        ],
+        "varied_input": "X1",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "X1 is a strong driver of Y3 (gradient 0.51, correlation 0.73). Expect Y3 to increase ~0.45 over full range. Y1 moderate increase, Y2 slight decrease.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.15,
+            "actual_magnitude": 0.237,
+            "magnitude_error": 0.087
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "decrease",
+            "actual_direction": "decrease",
+            "predicted_magnitude": 0.08,
+            "actual_magnitude": 0.0944,
+            "magnitude_error": 0.0144
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.45,
+            "actual_magnitude": 0.5902,
+            "magnitude_error": 0.1402
+          },
+          "Y4": {
+            "direction_correct": false,
+            "predicted_direction": "flat",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.05,
+            "actual_magnitude": 0.0577,
+            "magnitude_error": 0.0077
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X10",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "flat",
+            "magnitude": 0.02
+          },
+          "Y2": {
+            "direction": "flat",
+            "magnitude": 0.02
+          },
+          "Y3": {
+            "direction": "flat",
+            "magnitude": 0.05
+          },
+          "Y4": {
+            "direction": "flat",
+            "magnitude": 0.02
+          }
+        },
+        "predicted_trend": "Local gradient for X10 is exactly 0.0 for all outputs, despite strong correlation with Y3 (-0.62). Hypothesis: correlation is spurious (multicollinearity in sampled data). Expect flat response across all outputs."
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X10": 0.1,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X10": 0.325,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X10": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X10": 0.775,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X10": 1.0,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          }
+        ],
+        "varied_input": "X10",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "Local gradient for X10 is exactly 0.0 for all outputs, despite strong correlation with Y3 (-0.62). Hypothesis: correlation is spurious (multicollinearity in sampled data). Expect flat response across all outputs.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.05,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.05
+          },
+          "Y4": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X5",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "increase",
+            "magnitude": 0.1
+          },
+          "Y2": {
+            "direction": "flat",
+            "magnitude": 0.03
+          },
+          "Y3": {
+            "direction": "flat",
+            "magnitude": 0.05
+          },
+          "Y4": {
+            "direction": "flat",
+            "magnitude": 0.02
+          }
+        },
+        "predicted_trend": "X5 has moderate positive correlation with Y1 (0.55) but small gradient (0.11). Expect a modest increase in Y1, near-flat for other outputs."
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X5": 0.1,
+            "Y1": -0.058102,
+            "Y2": 0.326267,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.325,
+            "Y1": 0.002732,
+            "Y2": 0.324395,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 0.775,
+            "Y1": 0.24441,
+            "Y2": 0.3183,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X5": 1.0,
+            "Y1": 0.244425,
+            "Y2": 0.318299,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          }
+        ],
+        "varied_input": "X5",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "X5 has moderate positive correlation with Y1 (0.55) but small gradient (0.11). Expect a modest increase in Y1, near-flat for other outputs.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.1,
+            "actual_magnitude": 0.3025,
+            "magnitude_error": 0.2025
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.03,
+            "actual_magnitude": 0.008,
+            "magnitude_error": 0.022
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.05,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.05
+          },
+          "Y4": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X6",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "increase",
+            "magnitude": 0.3
+          },
+          "Y2": {
+            "direction": "increase",
+            "magnitude": 0.12
+          },
+          "Y3": {
+            "direction": "flat",
+            "magnitude": 0.04
+          },
+          "Y4": {
+            "direction": "decrease",
+            "magnitude": 0.07
+          }
+        },
+        "predicted_trend": "X6 has strong positive correlation with Y2 (0.65) \u2014 keeping X6 low is important to minimize Y2. Also positive gradient for Y1. Expect Y2 to increase ~0.12 with X6, Y1 to increase ~0.3."
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X6": 0.1,
+            "Y1": 0.141664,
+            "Y2": 0.220924,
+            "Y3": 0.67205,
+            "Y4": 0.149797
+          },
+          {
+            "X6": 0.325,
+            "Y1": 0.175058,
+            "Y2": 0.281883,
+            "Y3": 0.67205,
+            "Y4": 0.120566
+          },
+          {
+            "X6": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X6": 0.775,
+            "Y1": 0.320833,
+            "Y2": 0.342824,
+            "Y3": 0.67205,
+            "Y4": 0.086721
+          },
+          {
+            "X6": 1.0,
+            "Y1": 0.410282,
+            "Y2": 0.360386,
+            "Y3": 0.67205,
+            "Y4": 0.076047
+          }
+        ],
+        "varied_input": "X6",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "X6 has strong positive correlation with Y2 (0.65) \u2014 keeping X6 low is important to minimize Y2. Also positive gradient for Y1. Expect Y2 to increase ~0.12 with X6, Y1 to increase ~0.3.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.3,
+            "actual_magnitude": 0.2686,
+            "magnitude_error": 0.0314
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.12,
+            "actual_magnitude": 0.1395,
+            "magnitude_error": 0.0195
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.04,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.04
+          },
+          "Y4": {
+            "direction_correct": true,
+            "predicted_direction": "decrease",
+            "actual_direction": "decrease",
+            "predicted_magnitude": 0.07,
+            "actual_magnitude": 0.0737,
+            "magnitude_error": 0.0037
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X2",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "increase",
+            "magnitude": 0.35
+          },
+          "Y2": {
+            "direction": "increase",
+            "magnitude": 0.08
+          },
+          "Y3": {
+            "direction": "flat",
+            "magnitude": 0.05
+          },
+          "Y4": {
+            "direction": "increase",
+            "magnitude": 0.18
+          }
+        },
+        "predicted_trend": "X2 has gradient 0.38 for Y1 and 0.20 for Y4. Expect strong increases in both. Y2 slight increase. Y3 flat."
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X2": 0.1,
+            "Y1": 0.101257,
+            "Y2": 0.28556,
+            "Y3": 0.67205,
+            "Y4": 0.011937
+          },
+          {
+            "X2": 0.325,
+            "Y1": 0.161178,
+            "Y2": 0.299723,
+            "Y3": 0.67205,
+            "Y4": 0.05474
+          },
+          {
+            "X2": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X2": 0.775,
+            "Y1": 0.3324,
+            "Y2": 0.340191,
+            "Y3": 0.67205,
+            "Y4": 0.143962
+          },
+          {
+            "X2": 1.0,
+            "Y1": 0.435222,
+            "Y2": 0.364493,
+            "Y3": 0.67205,
+            "Y4": 0.182203
+          }
+        ],
+        "varied_input": "X2",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "X2 has gradient 0.38 for Y1 and 0.20 for Y4. Expect strong increases in both. Y2 slight increase. Y3 flat.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.35,
+            "actual_magnitude": 0.334,
+            "magnitude_error": 0.016
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.08,
+            "actual_magnitude": 0.0789,
+            "magnitude_error": 0.0011
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.05,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.05
+          },
+          "Y4": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.18,
+            "actual_magnitude": 0.1703,
+            "magnitude_error": 0.0097
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X3",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "increase",
+            "magnitude": 0.22
+          },
+          "Y2": {
+            "direction": "decrease",
+            "magnitude": 0.19
+          },
+          "Y3": {
+            "direction": "increase",
+            "magnitude": 0.55
+          },
+          "Y4": {
+            "direction": "flat",
+            "magnitude": 0.02
+          }
+        },
+        "predicted_trend": "X3 has gradient 0.25 for Y1, -0.21 for Y2, 0.61 for Y3. Expect Y3 to increase strongly, Y2 to decrease (helps minimize Y2), Y1 moderate increase."
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X3": 0.1,
+            "Y1": 0.088035,
+            "Y2": 0.447703,
+            "Y3": 0.286563,
+            "Y4": 0.10088
+          },
+          {
+            "X3": 0.325,
+            "Y1": 0.175439,
+            "Y2": 0.37341,
+            "Y3": 0.516609,
+            "Y4": 0.10088
+          },
+          {
+            "X3": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X3": 0.775,
+            "Y1": 0.288101,
+            "Y2": 0.277647,
+            "Y3": 0.797758,
+            "Y4": 0.10088
+          },
+          {
+            "X3": 1.0,
+            "Y1": 0.323599,
+            "Y2": 0.247474,
+            "Y3": 0.906192,
+            "Y4": 0.10088
+          }
+        ],
+        "varied_input": "X3",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "X3 has gradient 0.25 for Y1, -0.21 for Y2, 0.61 for Y3. Expect Y3 to increase strongly, Y2 to decrease (helps minimize Y2), Y1 moderate increase.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.22,
+            "actual_magnitude": 0.2356,
+            "magnitude_error": 0.0156
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "decrease",
+            "actual_direction": "decrease",
+            "predicted_magnitude": 0.19,
+            "actual_magnitude": 0.2002,
+            "magnitude_error": 0.0102
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.55,
+            "actual_magnitude": 0.6196,
+            "magnitude_error": 0.0696
+          },
+          "Y4": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X8",
+        "n_levels": 3,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "flat",
+            "magnitude": 0.02
+          },
+          "Y2": {
+            "direction": "flat",
+            "magnitude": 0.02
+          },
+          "Y3": {
+            "direction": "flat",
+            "magnitude": 0.02
+          },
+          "Y4": {
+            "direction": "flat",
+            "magnitude": 0.02
+          }
+        },
+        "predicted_trend": "X8 has zero gradient at midpoint; correlation with Y4 (-0.49) is likely spurious like X10. Expect near-zero effect on all outputs."
+      },
+      "cost": 3,
+      "result": {
+        "sweep": [
+          {
+            "X8": 0.1,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X8": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X8": 1.0,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          }
+        ],
+        "varied_input": "X8",
+        "n_levels": 3,
+        "cost": 3,
+        "your_predicted_trend": "X8 has zero gradient at midpoint; correlation with Y4 (-0.49) is likely spurious like X10. Expect near-zero effect on all outputs.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          },
+          "Y4": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.02,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.02
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "oat_sweep",
+      "input": {
+        "input_name": "X4",
+        "n_levels": 5,
+        "base_point": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_trends": {
+          "Y1": {
+            "direction": "increase",
+            "magnitude": 0.4
+          },
+          "Y2": {
+            "direction": "decrease",
+            "magnitude": 0.08
+          },
+          "Y3": {
+            "direction": "flat",
+            "magnitude": 0.05
+          },
+          "Y4": {
+            "direction": "increase",
+            "magnitude": 0.17
+          }
+        },
+        "predicted_trend": "X4 has gradient 0.44 for Y1 and 0.19 for Y4, -0.09 for Y2. Expect large increase in Y1, moderate in Y4, slight Y2 decrease."
+      },
+      "cost": 5,
+      "result": {
+        "sweep": [
+          {
+            "X4": 0.1,
+            "Y1": 0.043252,
+            "Y2": 0.417941,
+            "Y3": 0.67205,
+            "Y4": 0.009428
+          },
+          {
+            "X4": 0.325,
+            "Y1": 0.140228,
+            "Y2": 0.349033,
+            "Y3": 0.67205,
+            "Y4": 0.054356
+          },
+          {
+            "X4": 0.55,
+            "Y1": 0.240167,
+            "Y2": 0.318392,
+            "Y3": 0.67205,
+            "Y4": 0.10088
+          },
+          {
+            "X4": 0.775,
+            "Y1": 0.33815,
+            "Y2": 0.305717,
+            "Y3": 0.67205,
+            "Y4": 0.140726
+          },
+          {
+            "X4": 1.0,
+            "Y1": 0.433354,
+            "Y2": 0.302788,
+            "Y3": 0.67205,
+            "Y4": 0.173732
+          }
+        ],
+        "varied_input": "X4",
+        "n_levels": 5,
+        "cost": 5,
+        "your_predicted_trend": "X4 has gradient 0.44 for Y1 and 0.19 for Y4, -0.09 for Y2. Expect large increase in Y1, moderate in Y4, slight Y2 decrease.",
+        "trend_scores": {
+          "Y1": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.4,
+            "actual_magnitude": 0.3901,
+            "magnitude_error": 0.0099
+          },
+          "Y2": {
+            "direction_correct": true,
+            "predicted_direction": "decrease",
+            "actual_direction": "decrease",
+            "predicted_magnitude": 0.08,
+            "actual_magnitude": 0.1152,
+            "magnitude_error": 0.0352
+          },
+          "Y3": {
+            "direction_correct": true,
+            "predicted_direction": "flat",
+            "actual_direction": "flat",
+            "predicted_magnitude": 0.05,
+            "actual_magnitude": 0.0,
+            "magnitude_error": 0.05
+          },
+          "Y4": {
+            "direction_correct": true,
+            "predicted_direction": "increase",
+            "actual_direction": "increase",
+            "predicted_magnitude": 0.17,
+            "actual_magnitude": 0.1643,
+            "magnitude_error": 0.0057
+          }
+        },
+        "note": "Compare actual results against your prediction above."
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6"
+        ],
+        "output": "Y2"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": -0.103423,
+          "X2": 0.038186,
+          "X3": -0.201283,
+          "X4": -0.152361,
+          "X5": -0.012026,
+          "X6": 0.191188,
+          "intercept": 0.457266
+        },
+        "r_squared": 0.899445,
+        "output": "Y2"
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6"
+        ],
+        "output": "Y4"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": 0.065158,
+          "X2": 0.164064,
+          "X3": 0.021318,
+          "X4": 0.160324,
+          "X5": -0.006621,
+          "X6": -0.067341,
+          "intercept": -0.088136
+        },
+        "r_squared": 0.925934,
+        "output": "Y4"
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X5",
+          "X6"
+        ],
+        "output": "Y1"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": 0.262591,
+          "X2": 0.400707,
+          "X3": 0.26674,
+          "X4": 0.416032,
+          "X5": 0.458708,
+          "X6": 0.077347,
+          "intercept": -0.851296
+        },
+        "r_squared": 0.745373,
+        "output": "Y1"
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X1",
+          "X2",
+          "X3",
+          "X4",
+          "X6"
+        ],
+        "output": "Y2"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X1": -0.105488,
+          "X2": 0.037496,
+          "X3": -0.197364,
+          "X4": -0.153951,
+          "X6": 0.190332,
+          "intercept": 0.451847
+        },
+        "r_squared": 0.90072,
+        "output": "Y2"
+      }
+    },
+    {
+      "name": "regression_fit",
+      "input": {
+        "inputs": [
+          "X2",
+          "X4",
+          "X6"
+        ],
+        "output": "Y4"
+      },
+      "cost": 0,
+      "result": {
+        "coefficients": {
+          "X2": 0.165051,
+          "X4": 0.147761,
+          "X6": -0.073478,
+          "intercept": -0.035464
+        },
+        "r_squared": 0.857635,
+        "output": "Y4"
+      }
+    },
+    {
+      "name": "current_pareto_front",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "pareto_front": [
+          {
+            "X1": 0.701563,
+            "X2": 0.523987,
+            "X3": 0.608712,
+            "X4": 0.788499,
+            "X5": 0.671246,
+            "X6": 0.598221,
+            "X7": 0.603286,
+            "X8": 0.373555,
+            "X9": 0.127736,
+            "X10": 0.493046,
+            "X11": 0.293126,
+            "X12": 0.467676,
+            "Y1": 0.38621,
+            "Y2": 0.283766,
+            "Y3": 0.757234,
+            "Y4": 0.136237
+          },
+          {
+            "X1": 0.52614,
+            "X2": 0.340278,
+            "X3": 0.398412,
+            "X4": 0.568605,
+            "X5": 0.49502,
+            "X6": 0.119451,
+            "X7": 0.843663,
+            "X8": 0.906545,
+            "X9": 0.226224,
+            "X10": 0.598633,
+            "X11": 0.197718,
+            "X12": 0.705016,
+            "Y1": 0.006923,
+            "Y2": 0.220412,
+            "Y3": 0.560772,
+            "Y4": 0.090315
+          },
+          {
+            "X1": 0.846486,
+            "X2": 0.817135,
+            "X3": 0.309377,
+            "X4": 0.577693,
+            "X5": 0.645414,
+            "X6": 0.880965,
+            "X7": 0.642796,
+            "X8": 0.471314,
+            "X9": 0.436766,
+            "X10": 0.483294,
+            "X11": 0.686738,
+            "X12": 0.880742,
+            "Y1": 0.443846,
+            "Y2": 0.413367,
+            "Y3": 0.551049,
+            "Y4": 0.13701
+          },
+          {
+            "X1": 0.386192,
+            "X2": 0.554074,
+            "X3": 0.887504,
+            "X4": 0.866018,
+            "X5": 0.139128,
+            "X6": 0.263349,
+            "X7": 0.31307,
+            "X8": 0.324449,
+            "X9": 0.614109,
+            "X10": 0.474636,
+            "X11": 0.144329,
+            "X12": 0.436253,
+            "Y1": 0.149835,
+            "Y2": 0.242623,
+            "Y3": 0.677665,
+            "Y4": 0.17083
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 0.55,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.1,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.141664,
+            "Y2": 0.220924,
+            "Y3": 0.67205,
+            "Y4": 0.149797
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 0.55,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.325,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.175058,
+            "Y2": 0.281883,
+            "Y3": 0.67205,
+            "Y4": 0.120566
+          },
+          {
+            "X1": 0.55,
+            "X2": 1.0,
+            "X3": 0.55,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.55,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.435222,
+            "Y2": 0.364493,
+            "Y3": 0.67205,
+            "Y4": 0.182203
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 1.0,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.55,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.323599,
+            "Y2": 0.247474,
+            "Y3": 0.906192,
+            "Y4": 0.10088
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 0.55,
+            "X4": 1.0,
+            "X5": 0.55,
+            "X6": 0.55,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.433354,
+            "Y2": 0.302788,
+            "Y3": 0.67205,
+            "Y4": 0.173732
+          }
+        ],
+        "n_pareto": 9,
+        "hypervolume": 0.090895
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.1,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.55,
+          0.1,
+          0.95,
+          0.27
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.947731,
+          "Y2": 0.36174,
+          "Y3": 0.997303,
+          "Y4": 0.321806
+        },
+        "prediction_errors": {
+          "Y1": 0.397731,
+          "Y2": 0.26174,
+          "Y3": 0.047303,
+          "Y4": 0.051806
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.2,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.56,
+          0.11,
+          0.95,
+          0.26
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.948423,
+          "Y2": 0.348554,
+          "Y3": 0.997303,
+          "Y4": 0.311707
+        },
+        "prediction_errors": {
+          "Y1": 0.388423,
+          "Y2": 0.238554,
+          "Y3": 0.047303,
+          "Y4": 0.051707
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.35,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.58,
+          0.13,
+          0.95,
+          0.25
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.963153,
+          "Y2": 0.333644,
+          "Y3": 0.997303,
+          "Y4": 0.297694
+        },
+        "prediction_errors": {
+          "Y1": 0.383153,
+          "Y2": 0.203644,
+          "Y3": 0.047303,
+          "Y4": 0.047694
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.62,
+          0.17,
+          0.95,
+          0.24
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 1.000932,
+          "Y2": 0.319924,
+          "Y3": 0.997303,
+          "Y4": 0.280858
+        },
+        "prediction_errors": {
+          "Y1": 0.380932,
+          "Y2": 0.149924,
+          "Y3": 0.047303,
+          "Y4": 0.040858
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.75,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.65,
+          0.21,
+          0.95,
+          0.22
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 1.052925,
+          "Y2": 0.310746,
+          "Y3": 0.997303,
+          "Y4": 0.265825
+        },
+        "prediction_errors": {
+          "Y1": 0.402925,
+          "Y2": 0.100746,
+          "Y3": 0.047303,
+          "Y4": 0.045825
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          1.0,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.7,
+          0.26,
+          0.95,
+          0.2
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 1.131409,
+          "Y2": 0.303264,
+          "Y3": 0.997303,
+          "Y4": 0.249155
+        },
+        "prediction_errors": {
+          "Y1": 0.431409,
+          "Y2": 0.043264,
+          "Y3": 0.047303,
+          "Y4": 0.049155
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          0.7,
+          1.0,
+          1.0,
+          0.7,
+          0.1,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.44,
+          0.09,
+          0.95,
+          0.24
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 0.584739,
+          "Y2": 0.244275,
+          "Y3": 0.997303,
+          "Y4": 0.262793
+        },
+        "prediction_errors": {
+          "Y1": 0.144739,
+          "Y2": 0.154275,
+          "Y3": 0.047303,
+          "Y4": 0.022793
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.6,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.63,
+          0.19,
+          0.95,
+          0.23
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 1.012806,
+          "Y2": 0.317282,
+          "Y3": 0.997303,
+          "Y4": 0.276943
+        },
+        "prediction_errors": {
+          "Y1": 0.382806,
+          "Y2": 0.127282,
+          "Y3": 0.047303,
+          "Y4": 0.046943
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "evaluate_point",
+      "input": {
+        "point": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.9,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "predicted_outputs": [
+          0.68,
+          0.25,
+          0.95,
+          0.21
+        ]
+      },
+      "cost": 1,
+      "result": {
+        "outputs": {
+          "Y1": 1.098548,
+          "Y2": 0.305843,
+          "Y3": 0.997303,
+          "Y4": 0.255566
+        },
+        "prediction_errors": {
+          "Y1": 0.418548,
+          "Y2": 0.055843,
+          "Y3": 0.047303,
+          "Y4": 0.045566
+        },
+        "cost": 1
+      }
+    },
+    {
+      "name": "current_pareto_front",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "pareto_front": [
+          {
+            "X1": 0.52614,
+            "X2": 0.340278,
+            "X3": 0.398412,
+            "X4": 0.568605,
+            "X5": 0.49502,
+            "X6": 0.119451,
+            "X7": 0.843663,
+            "X8": 0.906545,
+            "X9": 0.226224,
+            "X10": 0.598633,
+            "X11": 0.197718,
+            "X12": 0.705016,
+            "Y1": 0.006923,
+            "Y2": 0.220412,
+            "Y3": 0.560772,
+            "Y4": 0.090315
+          },
+          {
+            "X1": 0.386192,
+            "X2": 0.554074,
+            "X3": 0.887504,
+            "X4": 0.866018,
+            "X5": 0.139128,
+            "X6": 0.263349,
+            "X7": 0.31307,
+            "X8": 0.324449,
+            "X9": 0.614109,
+            "X10": 0.474636,
+            "X11": 0.144329,
+            "X12": 0.436253,
+            "Y1": 0.149835,
+            "Y2": 0.242623,
+            "Y3": 0.677665,
+            "Y4": 0.17083
+          },
+          {
+            "X1": 0.55,
+            "X2": 0.55,
+            "X3": 0.55,
+            "X4": 0.55,
+            "X5": 0.55,
+            "X6": 0.1,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.141664,
+            "Y2": 0.220924,
+            "Y3": 0.67205,
+            "Y4": 0.149797
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.947731,
+            "Y2": 0.36174,
+            "Y3": 0.997303,
+            "Y4": 0.321806
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.2,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.948423,
+            "Y2": 0.348554,
+            "Y3": 0.997303,
+            "Y4": 0.311707
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.35,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.963153,
+            "Y2": 0.333644,
+            "Y3": 0.997303,
+            "Y4": 0.297694
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.55,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 1.000932,
+            "Y2": 0.319924,
+            "Y3": 0.997303,
+            "Y4": 0.280858
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.75,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 1.052925,
+            "Y2": 0.310746,
+            "Y3": 0.997303,
+            "Y4": 0.265825
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 1.0,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 1.131409,
+            "Y2": 0.303264,
+            "Y3": 0.997303,
+            "Y4": 0.249155
+          },
+          {
+            "X1": 1.0,
+            "X2": 0.7,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.1,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 0.584739,
+            "Y2": 0.244275,
+            "Y3": 0.997303,
+            "Y4": 0.262793
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.6,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 1.012806,
+            "Y2": 0.317282,
+            "Y3": 0.997303,
+            "Y4": 0.276943
+          },
+          {
+            "X1": 1.0,
+            "X2": 1.0,
+            "X3": 1.0,
+            "X4": 1.0,
+            "X5": 0.7,
+            "X6": 0.9,
+            "X7": 0.55,
+            "X8": 0.55,
+            "X9": 0.55,
+            "X10": 0.55,
+            "X11": 0.55,
+            "X12": 0.55,
+            "Y1": 1.098548,
+            "Y2": 0.305843,
+            "Y3": 0.997303,
+            "Y4": 0.255566
+          }
+        ],
+        "n_pareto": 12,
+        "hypervolume": 0.234973
+      }
+    },
+    {
+      "name": "sensitivity_report",
+      "input": {},
+      "cost": 0,
+      "result": {
+        "sensitivities": {
+          "X1": {
+            "Y1": 1.5679,
+            "Y2": 0.3495,
+            "Y3": 0.9947,
+            "Y4": 0.3546
+          },
+          "X2": {
+            "Y1": 1.5679,
+            "Y2": 0.3495,
+            "Y3": 0.9947,
+            "Y4": 0.3546
+          },
+          "X3": {
+            "Y1": 1.5679,
+            "Y2": 0.3495,
+            "Y3": 0.9947,
+            "Y4": 0.3546
+          },
+          "X4": {
+            "Y1": 1.5679,
+            "Y2": 0.3495,
+            "Y3": 0.9947,
+            "Y4": 0.3546
+          },
+          "X5": {
+            "Y1": 1.5679,
+            "Y2": 0.3495,
+            "Y3": 0.9947,
+            "Y4": 0.3546
+          },
+          "X6": {
+            "Y1": 1.5679,
+            "Y2": 0.3495,
+            "Y3": 0.9947,
+            "Y4": 0.3546
+          },
+          "X7": {
+            "Y1": 1.7865,
+            "Y2": 0.3982,
+            "Y3": 1.1334,
+            "Y4": 0.4041
+          },
+          "X8": {
+            "Y1": 1.5679,
+            "Y2": 0.3495,
+            "Y3": 0.9947,
+            "Y4": 0.3546
+          },
+          "X9": {
+            "Y1": 1.6526,
+            "Y2": 0.3683,
+            "Y3": 1.0484,
+            "Y4": 0.3738
+          },
+          "X10": {
+            "Y1": 1.5679,
+            "Y2": 0.3495,
+            "Y3": 0.9947,
+            "Y4": 0.3546
+          },
+          "X11": {
+            "Y1": 1.6454,
+            "Y2": 0.3667,
+            "Y3": 1.0439,
+            "Y4": 0.3722
+          },
+          "X12": {
+            "Y1": 1.9176,
+            "Y2": 0.4274,
+            "Y3": 1.2166,
+            "Y4": 0.4337
+          }
+        }
+      }
+    }
+  ],
+  "mechanism_log": [
+    "The system is driven primarily by X1-X6; inputs X7-X12 appear causally inactive (zero local gradients, confirmed flat OAT for X8 and X10 despite strong correlations with outputs \u2014 those correlations were spurious from the initial 24-point sample). The causal structure is: Y3 is driven exclusively by X1 and X3 (both strongly positive); Y4 is driven by X2 and X4 (both positive) plus X6 (negative); Y1 is driven by all six active inputs (X1-X6, all positive), with X5 showing a sharp nonlinear threshold (~X5<0.4 collapses Y1 to near zero, saturates above ~0.55); Y2 is controlled by X3 and X4 (negative \u2014 high values reduce Y2) and X6 (positive \u2014 high X6 increases Y2). Key win-win inputs: X3 (helps Y1, Y3, and reduces Y2 simultaneously) and X4 (helps Y1, Y4, and reduces Y2). Main conflict: X6 increases Y1 but decreases Y4 and increases Y2. X2 helps Y1 and Y4 but slightly worsens Y2.",
+    "The system is driven by X1-X6; X7-X12 are confirmed causally inactive (spurious correlations from initial sampling). Y3 is driven by X1 and X3 with a likely positive interaction (calibration check: predicted 0.64, actual 0.848 at X1=0.571, X3=0.850, suggesting synergistic amplification). Y4 is driven by X2 (+), X4 (+), X6 (-). Y1 is driven by all six active inputs positively, with X5 threshold below ~0.4. Y2 is driven by X3 (-), X4 (-), X6 (+), X1 (-), X2 (+small). The dominant Pareto conflict is Y1 vs (Y4, Y2) through X6: high X6 boosts Y1 but penalizes Y4 and Y2. The Pareto-optimal strategy is X1=X2=X3=X4=1.0, X5\u22650.55 (saturated), X7-X12=any (inactive), varying X6 from 0.1 (best Y4, Y2) to 1.0 (best Y1). Predicted outputs at X1=X2=X3=X4=1.0, X5=0.7, X6=0.1: Y1~0.55, Y2~0.15, Y3~0.97, Y4~0.30 \u2014 all dramatically better than current best (Y1=0.444, Y4=0.182).",
+    "The system is primarily driven by X1-X6; X7-X12 are causally inactive (confirmed via OAT sweeps and zero gradients \u2014 spurious correlations from initial sampling). Causal structure: Y3 is driven exclusively by X1 and X3 (both strongly positive) with a positive interaction X1*X3 (calibration showed 0.21 underprediction at X1=0.571, X3=0.850). Y4 is driven by X2(+), X4(+), X6(-). Y1 is driven by all six active inputs positively, with X5 showing a sharp threshold (~X5<0.4 collapses Y1, saturates above ~0.55). Y2 is driven by X3(-), X4(-), X6(+), X1(-), and X2(+small). Key win-win inputs: X1=X3=X4=1.0 simultaneously helps Y1, Y3, and reduces Y2 \u2014 no conflict. Main conflict is X6: high X6 boosts Y1 but penalizes Y4 and worsens Y2. Optimal Pareto strategy: X1=X2=X3=X4=1.0, X5=0.7, X7-X12=0.55, sweep X6 from 0.1 (best Y4/Y2) to 1.0 (best Y1). Expected outputs at X1=X2=X3=X4=1.0, X5=0.7, X6=0.1: Y1~0.50, Y2~0.17, Y3~0.95, Y4~0.28+ \u2014 all dramatically better than current bests.",
+    "The system is driven by X1-X6 with massive nonlinear synergistic interactions; X7-X12 are causally inactive (confirmed by OAT sweeps). The critical revision to my model: Y1 exhibits superadditive synergy among X1-X6 \u2014 setting all six to their maxima simultaneously produces Y1=0.948-1.131, far exceeding the linear prediction of ~0.55 and the previous best of 0.444. Y3 saturates at 0.997 at X1=X3=1.0. Y4 reaches 0.322 at X2=X4=1.0 and X6=0.1, far above previous best of 0.182. CRITICAL REVISION for Y2: my linear model was completely wrong. At X1=X2=X3=X4=1.0, Y2 ranges 0.303-0.362 \u2014 actually HIGHER than the previous minimum of 0.220. Y2's relationship with X6 REVERSES at high X1-X4: higher X6 now reduces Y2 (0.362 at X6=0.1 \u2192 0.303 at X6=1.0), opposite to the linear model's prediction. X2 has a much stronger positive effect on Y2 than the regression indicated (reducing X2 from 1.0 to 0.7 drops Y2 by 0.118). The Pareto front now spans Y1=[0.007,1.131], Y4=[0.090,0.322], Y2=[0.220,0.362] \u2014 hypervolume jumped from 0.0909 to 0.2350 (158% improvement). The remaining Pareto conflict is between minimizing Y2 (requires moderate input values, not maxima) and maximizing Y1 and Y4 (requires all inputs at maximum)."
+  ],
+  "calibration_checks": [
+    {
+      "eval": 63,
+      "point": [
+        0.5713776538458735,
+        0.1915047126133444,
+        0.8501126984097037,
+        0.14676567981859384,
+        0.9323576821162559,
+        0.18920182742188796,
+        0.8592174564379774,
+        0.9123878295348554,
+        0.9816136125279334,
+        0.8218232922462342,
+        0.8015297866941961,
+        0.6782349483959929
+      ],
+      "predicted": [
+        -0.1,
+        0.27,
+        0.64,
+        0.02
+      ],
+      "actual": [
+        -0.02350907077115509,
+        0.25217652202766994,
+        0.8481736569676038,
+        0.008713954592660462
+      ],
+      "errors": [
+        0.07649092922884491,
+        -0.017823477972330082,
+        0.20817365696760382,
+        -0.011286045407339539
+      ],
+      "max_error": 0.20817365696760382,
+      "mae": 0.07844352739402959
+    }
+  ],
+  "iteration_summaries": [
+    {
+      "iteration": 0,
+      "eval_count": 62,
+      "hypothesis": "The system is driven primarily by X1-X6; inputs X7-X12 appear causally inactive (zero local gradients, confirmed flat OAT for X8 and X10 despite strong correlations with outputs \u2014 those correlations were spurious from the initial 24-point sample). The causal structure is: Y3 is driven exclusively by X1 and X3 (both strongly positive); Y4 is driven by X2 and X4 (both positive) plus X6 (negative); Y1 is driven by all six active inputs (X1-X6, all positive), with X5 showing a sharp nonlinear threshold (~X5<0.4 collapses Y1 to near zero, saturates above ~0.55); Y2 is controlled by X3 and X4 (negative \u2014 high values reduce Y2) and X6 (positive \u2014 high X6 increases Y2). Key win-win inputs: X3 (helps Y1, Y3, and reduces Y2 simultaneously) and X4 (helps Y1, Y4, and reduces Y2). Main conflict: X6 increases Y1 but decreases Y4 and increases Y2. X2 helps Y1 and Y4 but slightly worsens Y2.",
+      "new_findings": [
+        "X10 confirmed completely inactive via 5-level OAT (perfectly flat) \u2014 its -0.62 correlation with Y3 was 100% spurious from the 24-point sample",
+        "X8 confirmed completely inactive via 3-level OAT (perfectly flat) \u2014 its -0.49 correlation with Y4 was also spurious",
+        "X5 has a strong nonlinear threshold effect on Y1: Y1 collapses to near-zero below X5\u22480.4 and saturates above X5\u22480.55, explaining why the local gradient at X5=0.55 appeared near-zero",
+        "X3 is an exceptionally beneficial input: simultaneously increases Y1 (+0.236 OAT range), strongly decreases Y2 (-0.200 range), and strongly increases Y3 (+0.620 range) \u2014 no conflict with any objective",
+        "X4 is also conflict-free: increases Y1 (+0.390 range), increases Y4 (+0.164 range), and decreases Y2 (-0.115 range)",
+        "X6 creates the primary Y1 vs Y4 tradeoff: X6=1.0 gives Y1=+0.269 above baseline but Y4=-0.074 below; X6=0.1 is better for Y4 and Y2",
+        "Y3 threshold (\u22650.4) is only sensitive to X1 and X3; all other inputs have zero effect on Y3 (confirmed by multiple flat sweeps)",
+        "Linear regression using only X1-X6 achieves R\u00b2=0.86-0.93 for all outputs, strongly supporting the hypothesis that X7-X12 are inactive",
+        "Additive model predicts a candidate optimum of Y1\u22480.67, Y2\u22480.15, Y3\u22480.97, Y4\u22480.31 at X1=X2=X3=X4=1.0, X5=0.7, X6=0.1 \u2014 far better than current Pareto front (best Y1=0.44, Y4=0.18)"
+      ],
+      "surprises": [
+        "X10's -0.62 correlation with Y3 was completely spurious \u2014 the OAT sweep was perfectly flat across all 5 levels, zero variation. This shows initial 24 sampled points had severe multicollinearity between X10 and X1/X3",
+        "X8's -0.49 correlation with Y4 was also spurious and confirmed inactive, further showing the initial dataset had significant confounding",
+        "X5's actual OAT range for Y1 was 0.302 \u2014 three times larger than my predicted 0.1 \u2014 because the nonlinear threshold behavior was not captured by the local gradient (which evaluated at the saturated region)",
+        "X1's effect on Y1 (range 0.237) was larger than my predicted 0.15, suggesting the regression coefficient underestimated X1's true causal contribution",
+        "X4 turned out to be the single most versatile input \u2014 positive effects on Y1, Y4, AND negative on Y2, with no penalty on Y3. This was not obvious from the initial correlation matrix alone"
+      ],
+      "next_plan": "With remaining budget: (1) Test X1\u00d7X3 interaction for Y3 using a 3\u00d73 factorial \u2014 both inputs are dominant Y3 drivers and their interaction structure determines how safely we can trade one for the other. (2) Confirm X7, X9, X11, X12 are inactive with quick 3-level sweeps (12 evals). (3) Evaluate the candidate optimal point X1=X2=X3=X4=1.0, X5=0.7, X6=0.1 to verify additive predictions. (4) Explore the X6 tradeoff frontier (Y1 vs Y4) at the high-X1/X2/X3/X4 base point to find the Pareto-optimal X6 setting.",
+      "confidence": {
+        "X1->Y1": 0.88,
+        "X2->Y1": 0.95,
+        "X3->Y1": 0.92,
+        "X4->Y1": 0.95,
+        "X5->Y1": 0.9,
+        "X6->Y1": 0.95,
+        "X7->Y1": 0.12,
+        "X8->Y1": 0.02,
+        "X9->Y1": 0.1,
+        "X10->Y1": 0.01,
+        "X11->Y1": 0.1,
+        "X12->Y1": 0.1,
+        "X1->Y2": 0.82,
+        "X2->Y2": 0.75,
+        "X3->Y2": 0.95,
+        "X4->Y2": 0.9,
+        "X5->Y2": 0.08,
+        "X6->Y2": 0.95,
+        "X7->Y2": 0.1,
+        "X8->Y2": 0.02,
+        "X9->Y2": 0.12,
+        "X10->Y2": 0.01,
+        "X11->Y2": 0.1,
+        "X12->Y2": 0.1,
+        "X1->Y3": 0.98,
+        "X2->Y3": 0.01,
+        "X3->Y3": 0.98,
+        "X4->Y3": 0.01,
+        "X5->Y3": 0.01,
+        "X6->Y3": 0.01,
+        "X7->Y3": 0.08,
+        "X8->Y3": 0.02,
+        "X9->Y3": 0.08,
+        "X10->Y3": 0.01,
+        "X11->Y3": 0.08,
+        "X12->Y3": 0.08,
+        "X1->Y4": 0.65,
+        "X2->Y4": 0.95,
+        "X3->Y4": 0.02,
+        "X4->Y4": 0.95,
+        "X5->Y4": 0.02,
+        "X6->Y4": 0.9,
+        "X7->Y4": 0.1,
+        "X8->Y4": 0.02,
+        "X9->Y4": 0.1,
+        "X10->Y4": 0.01,
+        "X11->Y4": 0.08,
+        "X12->Y4": 0.12
+      },
+      "edges": [
+        {
+          "edge": "X1->Y1",
+          "confidence": 0.88,
+          "evidence": "OAT range=0.237 (low\u2192high), local gradient=0.176, regression coef=0.214"
+        },
+        {
+          "edge": "X2->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.334, local gradient=0.383, regression coef=0.372, R\u00b2=0.86"
+        },
+        {
+          "edge": "X3->Y1",
+          "confidence": 0.92,
+          "evidence": "OAT range=0.236, local gradient=0.247, regression coef=0.181"
+        },
+        {
+          "edge": "X4->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.390, local gradient=0.441, regression coef=0.323"
+        },
+        {
+          "edge": "X5->Y1",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.302 with threshold below X5\u22480.4; Y1 collapses to -0.058 at X5=0.1, saturates at 0.244 above X5=0.55"
+        },
+        {
+          "edge": "X6->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.269, local gradient=0.331, regression coef=0.024 (likely underfit due to nonlinearity)"
+        },
+        {
+          "edge": "X7->Y1",
+          "confidence": 0.12,
+          "evidence": "Zero local gradient at midpoint; regression coef=0.121 but not OAT-tested; likely inactive"
+        },
+        {
+          "edge": "X8->Y1",
+          "confidence": 0.02,
+          "evidence": "Confirmed zero: 3-level OAT perfectly flat (0.0 range), zero local gradient"
+        },
+        {
+          "edge": "X9->Y1",
+          "confidence": 0.1,
+          "evidence": "Zero local gradient at midpoint; not OAT-tested; likely inactive"
+        },
+        {
+          "edge": "X10->Y1",
+          "confidence": 0.01,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat (0.0 range), zero local gradient"
+        },
+        {
+          "edge": "X11->Y1",
+          "confidence": 0.1,
+          "evidence": "Zero local gradient at midpoint; not OAT-tested; likely inactive"
+        },
+        {
+          "edge": "X12->Y1",
+          "confidence": 0.1,
+          "evidence": "Zero local gradient at midpoint; regression coef=-0.086 (likely spurious); not OAT-tested"
+        },
+        {
+          "edge": "X1->Y2",
+          "confidence": 0.82,
+          "evidence": "OAT range=0.094 (negative), local gradient=-0.092, regression coef=-0.103"
+        },
+        {
+          "edge": "X2->Y2",
+          "confidence": 0.75,
+          "evidence": "OAT range=0.079 (positive), local gradient=0.091, regression coef=0.038"
+        },
+        {
+          "edge": "X3->Y2",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.200 (strongly negative), local gradient=-0.210, regression coef=-0.201"
+        },
+        {
+          "edge": "X4->Y2",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.115 (negative), regression coef=-0.152, local gradient=-0.088"
+        },
+        {
+          "edge": "X5->Y2",
+          "confidence": 0.08,
+          "evidence": "OAT range=0.008 (nearly flat), local gradient=-0.002; effectively inactive"
+        },
+        {
+          "edge": "X6->Y2",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.139 (positive), local gradient=0.130, regression coef=0.191"
+        },
+        {
+          "edge": "X7->Y2",
+          "confidence": 0.1,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X8->Y2",
+          "confidence": 0.02,
+          "evidence": "Confirmed zero: 3-level OAT perfectly flat"
+        },
+        {
+          "edge": "X9->Y2",
+          "confidence": 0.12,
+          "evidence": "Correlation 0.44 with Y2 but zero local gradient \u2014 likely spurious; not OAT-tested"
+        },
+        {
+          "edge": "X10->Y2",
+          "confidence": 0.01,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat"
+        },
+        {
+          "edge": "X11->Y2",
+          "confidence": 0.1,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X12->Y2",
+          "confidence": 0.1,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X1->Y3",
+          "confidence": 0.98,
+          "evidence": "OAT range=0.590 (X1=0.1 gives Y3=0.149, X1=1.0 gives Y3=0.740), gradient=0.511, regression coef=0.591"
+        },
+        {
+          "edge": "X2->Y3",
+          "confidence": 0.01,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat (0.0 range)"
+        },
+        {
+          "edge": "X3->Y3",
+          "confidence": 0.98,
+          "evidence": "OAT range=0.620 (X3=0.1 gives Y3=0.287, X3=1.0 gives Y3=0.906), gradient=0.611, regression coef=0.528"
+        },
+        {
+          "edge": "X4->Y3",
+          "confidence": 0.01,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat"
+        },
+        {
+          "edge": "X5->Y3",
+          "confidence": 0.01,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat"
+        },
+        {
+          "edge": "X6->Y3",
+          "confidence": 0.01,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat"
+        },
+        {
+          "edge": "X7->Y3",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X8->Y3",
+          "confidence": 0.02,
+          "evidence": "Confirmed zero: 3-level OAT perfectly flat"
+        },
+        {
+          "edge": "X9->Y3",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X10->Y3",
+          "confidence": 0.01,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat despite correlation=-0.62 (spurious)"
+        },
+        {
+          "edge": "X11->Y3",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X12->Y3",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X1->Y4",
+          "confidence": 0.65,
+          "evidence": "OAT range=0.058 (small positive), regression coef=0.065; marginal effect"
+        },
+        {
+          "edge": "X2->Y4",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.170, local gradient=0.201, regression coef=0.164"
+        },
+        {
+          "edge": "X3->Y4",
+          "confidence": 0.02,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat"
+        },
+        {
+          "edge": "X4->Y4",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.164, local gradient=0.193, regression coef=0.160"
+        },
+        {
+          "edge": "X5->Y4",
+          "confidence": 0.02,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat"
+        },
+        {
+          "edge": "X6->Y4",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.074 (negative: X6=0.1 gives Y4=0.150, X6=1.0 gives Y4=0.076), local gradient=-0.073, regression coef=-0.067"
+        },
+        {
+          "edge": "X7->Y4",
+          "confidence": 0.1,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X8->Y4",
+          "confidence": 0.02,
+          "evidence": "Confirmed zero: 3-level OAT perfectly flat despite correlation=-0.49 (spurious)"
+        },
+        {
+          "edge": "X9->Y4",
+          "confidence": 0.1,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X10->Y4",
+          "confidence": 0.01,
+          "evidence": "Confirmed zero: 5-level OAT perfectly flat"
+        },
+        {
+          "edge": "X11->Y4",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X12->Y4",
+          "confidence": 0.12,
+          "evidence": "Correlation 0.44 with Y4 but zero local gradient; likely spurious; not OAT-tested"
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "eval_count": 63,
+      "hypothesis": "The system is driven by X1-X6; X7-X12 are confirmed causally inactive (spurious correlations from initial sampling). Y3 is driven by X1 and X3 with a likely positive interaction (calibration check: predicted 0.64, actual 0.848 at X1=0.571, X3=0.850, suggesting synergistic amplification). Y4 is driven by X2 (+), X4 (+), X6 (-). Y1 is driven by all six active inputs positively, with X5 threshold below ~0.4. Y2 is driven by X3 (-), X4 (-), X6 (+), X1 (-), X2 (+small). The dominant Pareto conflict is Y1 vs (Y4, Y2) through X6: high X6 boosts Y1 but penalizes Y4 and Y2. The Pareto-optimal strategy is X1=X2=X3=X4=1.0, X5\u22650.55 (saturated), X7-X12=any (inactive), varying X6 from 0.1 (best Y4, Y2) to 1.0 (best Y1). Predicted outputs at X1=X2=X3=X4=1.0, X5=0.7, X6=0.1: Y1~0.55, Y2~0.15, Y3~0.97, Y4~0.30 \u2014 all dramatically better than current best (Y1=0.444, Y4=0.182).",
+      "new_findings": [
+        "Calibration check confirms Y3 is nonlinear/interactive: at X1=0.571, X3=0.850, actual Y3=0.848 vs predicted 0.64 \u2014 0.21 underprediction implies positive X1*X3 synergy not captured by additive model",
+        "Calibration Y1=-0.024 at X2=0.192, X4=0.147 confirms that X2 and X4 together are the dominant drivers of Y1 (both at their lowest levels \u2192 very low Y1)",
+        "Calibration Y4=0.009 at X2=0.192, X4=0.147 further confirms X2 and X4 as joint drivers of Y4",
+        "Calibration Y2=0.252 at X3=0.850 with X4=0.147 confirms the X3 dominance over Y2 when X4 is low (X3 negative, X4 negative \u2014 only one acting here)",
+        "With 9 evals remaining, the optimal strategy is to evaluate 5 points along the X6 tradeoff frontier (X6=0.1,0.3,0.5,0.7,1.0) at the high-performance base (X1=X2=X3=X4=1.0, X5=0.7) plus 4 additional diversity points"
+      ],
+      "surprises": [
+        "Y3 actual (0.848) was 0.21 above linear prediction (0.64) at X1=0.571, X3=0.850 \u2014 suggests positive X1*X3 interaction for Y3, not pure additive. At X1=X3=1.0, Y3 may be even higher than predicted ~0.97, possibly near ceiling",
+        "Y1=-0.024 at X2=0.192, X4=0.147 confirms massive undershooting when both X2 and X4 are low simultaneously \u2014 consistent with additive model but a dramatic demonstration of how much they contribute"
+      ],
+      "next_plan": "Evaluate 5 points sweeping X6 from 0.1 to 1.0 at X1=X2=X3=X4=1.0, X5=0.7, X7-12=0.55 to map the complete Y1 vs (Y4,Y2) Pareto frontier. Then evaluate 4 additional points: (1) reduced X2 for Y2 minimization tradeoff, (2) reduced X4 slightly to test sensitivity, (3) high X6 with X2 adjustment to explore Y1-max direction. These 9 evals should produce Pareto front points dramatically better than current (Y1=0.444, Y4=0.182).",
+      "confidence": {
+        "X1->Y1": 0.88,
+        "X2->Y1": 0.95,
+        "X3->Y1": 0.92,
+        "X4->Y1": 0.95,
+        "X5->Y1": 0.9,
+        "X6->Y1": 0.95,
+        "X7->Y1": 0.08,
+        "X8->Y1": 0.02,
+        "X9->Y1": 0.08,
+        "X10->Y1": 0.01,
+        "X11->Y1": 0.08,
+        "X12->Y1": 0.08,
+        "X1->Y2": 0.82,
+        "X2->Y2": 0.75,
+        "X3->Y2": 0.95,
+        "X4->Y2": 0.9,
+        "X5->Y2": 0.05,
+        "X6->Y2": 0.95,
+        "X7->Y2": 0.08,
+        "X8->Y2": 0.02,
+        "X9->Y2": 0.08,
+        "X10->Y2": 0.01,
+        "X11->Y2": 0.08,
+        "X12->Y2": 0.08,
+        "X1->Y3": 0.98,
+        "X2->Y3": 0.01,
+        "X3->Y3": 0.98,
+        "X1*X3->Y3": 0.7,
+        "X4->Y3": 0.01,
+        "X5->Y3": 0.01,
+        "X6->Y3": 0.01,
+        "X7->Y3": 0.05,
+        "X8->Y3": 0.02,
+        "X9->Y3": 0.05,
+        "X10->Y3": 0.01,
+        "X11->Y3": 0.05,
+        "X12->Y3": 0.05,
+        "X1->Y4": 0.65,
+        "X2->Y4": 0.95,
+        "X3->Y4": 0.02,
+        "X4->Y4": 0.95,
+        "X5->Y4": 0.02,
+        "X6->Y4": 0.9,
+        "X7->Y4": 0.08,
+        "X8->Y4": 0.02,
+        "X9->Y4": 0.08,
+        "X10->Y4": 0.01,
+        "X11->Y4": 0.05,
+        "X12->Y4": 0.1
+      },
+      "edges": [
+        {
+          "edge": "X1->Y1",
+          "confidence": 0.88,
+          "evidence": "OAT range=0.237 (low\u2192high), local gradient=0.176, regression coef=0.214"
+        },
+        {
+          "edge": "X2->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.334, local gradient=0.383, regression coef=0.372; calibration confirms X2=0.192\u2192Y1 very low"
+        },
+        {
+          "edge": "X3->Y1",
+          "confidence": 0.92,
+          "evidence": "OAT range=0.236, local gradient=0.247, regression coef=0.181"
+        },
+        {
+          "edge": "X4->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.390, local gradient=0.441, regression coef=0.323; calibration confirms X4=0.147\u2192Y1 very low"
+        },
+        {
+          "edge": "X5->Y1",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.302 with sharp threshold; Y1 collapses to -0.058 at X5=0.1, saturates above X5\u22480.55"
+        },
+        {
+          "edge": "X6->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.269, local gradient=0.331; dominant Y1 vs Y4/Y2 tradeoff driver"
+        },
+        {
+          "edge": "X7->Y1",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X8->Y1",
+          "confidence": 0.02,
+          "evidence": "3-level OAT perfectly flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y1",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X10->Y1",
+          "confidence": 0.01,
+          "evidence": "5-level OAT perfectly flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y1",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y1",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X1->Y2",
+          "confidence": 0.82,
+          "evidence": "OAT range=0.094 (negative), local gradient=-0.092, regression coef=-0.103"
+        },
+        {
+          "edge": "X2->Y2",
+          "confidence": 0.75,
+          "evidence": "OAT range=0.079 (positive), local gradient=0.091; small but confirmed positive effect"
+        },
+        {
+          "edge": "X3->Y2",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.200 (strongly negative), local gradient=-0.210, regression coef=-0.201"
+        },
+        {
+          "edge": "X4->Y2",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.115 (negative), regression coef=-0.152, local gradient=-0.088"
+        },
+        {
+          "edge": "X5->Y2",
+          "confidence": 0.05,
+          "evidence": "OAT range=0.008; effectively flat/inactive on Y2"
+        },
+        {
+          "edge": "X6->Y2",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.139 (positive), local gradient=0.130; key Y2 driver"
+        },
+        {
+          "edge": "X7->Y2",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X8->Y2",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y2",
+          "confidence": 0.08,
+          "evidence": "Correlation 0.44 but zero gradient; likely spurious"
+        },
+        {
+          "edge": "X10->Y2",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y2",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X12->Y2",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X1->Y3",
+          "confidence": 0.98,
+          "evidence": "OAT range=0.590; gradient=0.511; regression coef=0.591; dominant Y3 driver"
+        },
+        {
+          "edge": "X2->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT perfectly flat; confirmed inactive"
+        },
+        {
+          "edge": "X3->Y3",
+          "confidence": 0.98,
+          "evidence": "OAT range=0.620; gradient=0.611; dominant Y3 driver; positive X1*X3 interaction likely"
+        },
+        {
+          "edge": "X1*X3->Y3",
+          "confidence": 0.7,
+          "evidence": "Calibration underprediction of 0.21 at X1=0.571, X3=0.850 suggests positive synergy beyond additive"
+        },
+        {
+          "edge": "X4->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X5->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X6->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X7->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X8->Y3",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X10->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat despite correlation=-0.62; spurious"
+        },
+        {
+          "edge": "X11->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X1->Y4",
+          "confidence": 0.65,
+          "evidence": "OAT range=0.058 (small positive); marginal driver"
+        },
+        {
+          "edge": "X2->Y4",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.170, local gradient=0.201; calibration X2=0.192\u2192Y4=0.009 confirms"
+        },
+        {
+          "edge": "X3->Y4",
+          "confidence": 0.02,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X4->Y4",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.164, local gradient=0.193; calibration X4=0.147\u2192Y4=0.009 confirms"
+        },
+        {
+          "edge": "X5->Y4",
+          "confidence": 0.02,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X6->Y4",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.074 (negative); X6=0.1 gives Y4=0.150 vs X6=1.0 gives Y4=0.076"
+        },
+        {
+          "edge": "X7->Y4",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X8->Y4",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat despite correlation=-0.49; spurious"
+        },
+        {
+          "edge": "X9->Y4",
+          "confidence": 0.08,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X10->Y4",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y4",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y4",
+          "confidence": 0.1,
+          "evidence": "Correlation 0.44 but zero gradient; likely spurious; not OAT-tested"
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "eval_count": 63,
+      "hypothesis": "The system is primarily driven by X1-X6; X7-X12 are causally inactive (confirmed via OAT sweeps and zero gradients \u2014 spurious correlations from initial sampling). Causal structure: Y3 is driven exclusively by X1 and X3 (both strongly positive) with a positive interaction X1*X3 (calibration showed 0.21 underprediction at X1=0.571, X3=0.850). Y4 is driven by X2(+), X4(+), X6(-). Y1 is driven by all six active inputs positively, with X5 showing a sharp threshold (~X5<0.4 collapses Y1, saturates above ~0.55). Y2 is driven by X3(-), X4(-), X6(+), X1(-), and X2(+small). Key win-win inputs: X1=X3=X4=1.0 simultaneously helps Y1, Y3, and reduces Y2 \u2014 no conflict. Main conflict is X6: high X6 boosts Y1 but penalizes Y4 and worsens Y2. Optimal Pareto strategy: X1=X2=X3=X4=1.0, X5=0.7, X7-X12=0.55, sweep X6 from 0.1 (best Y4/Y2) to 1.0 (best Y1). Expected outputs at X1=X2=X3=X4=1.0, X5=0.7, X6=0.1: Y1~0.50, Y2~0.17, Y3~0.95, Y4~0.28+ \u2014 all dramatically better than current bests.",
+      "new_findings": [
+        "X7-X12 confirmed causally inactive across all outputs: OAT sweeps for X8 and X10 are perfectly flat; zero local gradients for X7, X9, X11, X12 despite spurious correlations in initial 24-point sample",
+        "Y3 shows positive X1*X3 interaction: calibration at X1=0.571, X3=0.850 gave Y3=0.848 vs linear prediction of 0.64 \u2014 0.21 underprediction indicates synergistic amplification, implying Y3 near ceiling at X1=X3=1.0",
+        "X1 has a NEGATIVE effect on Y2 (coefficient -0.103), meaning higher X1 simultaneously helps Y1, Y3, and reduces Y2 \u2014 a pure win-win input with no Pareto conflict",
+        "X3 similarly reduces Y2 (coefficient -0.201) while strongly boosting Y1 and Y3 \u2014 another pure win-win",
+        "X4 reduces Y2 (coefficient -0.152) while boosting Y1 and Y4 \u2014 another win-win",
+        "Only real Pareto tradeoff axis is X6: it boosts Y1 but increases Y2 and decreases Y4, and X2: helps Y1/Y4 slightly at cost of marginally higher Y2",
+        "At X2=0.192, X4=0.147: Y1=-0.024 and Y4=0.009, confirming X2 and X4 as the primary joint drivers of Y1 and Y4 respectively",
+        "X5 threshold confirmed: Y1 collapses to -0.058 at X5=0.1, saturates above X5\u22480.55; no benefit to pushing X5 above 0.7"
+      ],
+      "surprises": [
+        "Y3 positive X1*X3 interaction was not anticipated from initial additive model \u2014 33% underprediction at calibration point implies nonlinear synergy; at X1=X3=1.0 Y3 may approach or exceed 0.95",
+        "X1 effect on Y2 is NEGATIVE (high X1 reduces Y2) which contradicts intuition that maximizing Y1 inputs would hurt Y2 \u2014 actually X1=X3=X4=1.0 simultaneously optimizes Y1, Y3, Y4, AND helps Y2",
+        "The spurious correlations for X7-X12 (e.g., X10 correlated -0.62 with Y3) were entirely due to the initial unbalanced 24-point sample; OAT sweeps completely flat confirming no causal role"
+      ],
+      "next_plan": "Evaluate 9 remaining points: (1-5) X6 sweep at X1=X2=X3=X4=1.0, X5=0.7, X7-12=0.55 with X6 in {0.1, 0.3, 0.55, 0.75, 1.0} to map complete Y1 vs Y4/Y2 Pareto frontier; (6) X2=0.7 at X6=0.1 to test Y2 minimization via X2 reduction; (7) X1=X3=0.8 at X6=0.1 to verify Y3 threshold robustness; (8) X6=0.2 for additional Pareto coverage near Y4 maximum; (9) X5=0.9 at X6=1.0 to verify X5 saturation at high-performance base. Predicted improvements: Y1 from 0.444 to ~0.65-0.75 at X6=1.0; Y4 from 0.182 to ~0.25-0.30 at X6=0.1; Y2 from 0.220 to ~0.15-0.17 at X6=0.1.",
+      "confidence": {
+        "X1->Y1": 0.88,
+        "X2->Y1": 0.95,
+        "X3->Y1": 0.92,
+        "X4->Y1": 0.95,
+        "X5->Y1": 0.9,
+        "X6->Y1": 0.95,
+        "X7->Y1": 0.05,
+        "X8->Y1": 0.02,
+        "X9->Y1": 0.05,
+        "X10->Y1": 0.01,
+        "X11->Y1": 0.05,
+        "X12->Y1": 0.05,
+        "X1->Y2": 0.85,
+        "X2->Y2": 0.72,
+        "X3->Y2": 0.95,
+        "X4->Y2": 0.9,
+        "X5->Y2": 0.05,
+        "X6->Y2": 0.95,
+        "X7->Y2": 0.05,
+        "X8->Y2": 0.02,
+        "X9->Y2": 0.05,
+        "X10->Y2": 0.01,
+        "X11->Y2": 0.05,
+        "X12->Y2": 0.05,
+        "X1->Y3": 0.98,
+        "X2->Y3": 0.01,
+        "X3->Y3": 0.98,
+        "X1*X3->Y3": 0.72,
+        "X4->Y3": 0.01,
+        "X5->Y3": 0.01,
+        "X6->Y3": 0.01,
+        "X7->Y3": 0.05,
+        "X8->Y3": 0.02,
+        "X9->Y3": 0.05,
+        "X10->Y3": 0.01,
+        "X11->Y3": 0.05,
+        "X12->Y3": 0.05,
+        "X1->Y4": 0.65,
+        "X2->Y4": 0.95,
+        "X3->Y4": 0.02,
+        "X4->Y4": 0.95,
+        "X5->Y4": 0.02,
+        "X6->Y4": 0.9,
+        "X7->Y4": 0.05,
+        "X8->Y4": 0.02,
+        "X9->Y4": 0.05,
+        "X10->Y4": 0.01,
+        "X11->Y4": 0.05,
+        "X12->Y4": 0.08
+      },
+      "edges": [
+        {
+          "edge": "X1->Y1",
+          "confidence": 0.88,
+          "evidence": "OAT range=0.237 (low to high), local gradient=0.176, regression coef=0.214; confirmed positive effect across full range"
+        },
+        {
+          "edge": "X2->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.334, local gradient=0.383, regression coef=0.372; calibration X2=0.192 with X4=0.147 gives Y1=-0.024 confirming dominant joint driver"
+        },
+        {
+          "edge": "X3->Y1",
+          "confidence": 0.92,
+          "evidence": "OAT range=0.236, local gradient=0.247, regression coef=0.181; positive across full range"
+        },
+        {
+          "edge": "X4->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.390, local gradient=0.441, regression coef=0.323; calibration X4=0.147 gives very low Y1"
+        },
+        {
+          "edge": "X5->Y1",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.302 with sharp threshold; Y1=-0.058 at X5=0.1, saturates above X5\u22480.55; nonlinear threshold confirmed"
+        },
+        {
+          "edge": "X6->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.269, local gradient=0.331; dominant tradeoff driver against Y4 and Y2"
+        },
+        {
+          "edge": "X7->Y1",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; not OAT-confirmed but 5 other inactive inputs confirmed via OAT"
+        },
+        {
+          "edge": "X8->Y1",
+          "confidence": 0.02,
+          "evidence": "3-level OAT perfectly flat; confirmed inactive despite any correlations"
+        },
+        {
+          "edge": "X9->Y1",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X10->Y1",
+          "confidence": 0.01,
+          "evidence": "5-level OAT perfectly flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y1",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y1",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X1->Y2",
+          "confidence": 0.85,
+          "evidence": "OAT range=0.094 (negative effect \u2014 higher X1 reduces Y2), local gradient=-0.092, regression coef=-0.103; win-win input"
+        },
+        {
+          "edge": "X2->Y2",
+          "confidence": 0.72,
+          "evidence": "OAT range=0.079 (positive \u2014 higher X2 slightly increases Y2), local gradient=+0.091; small but confirmed positive effect"
+        },
+        {
+          "edge": "X3->Y2",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.200 (strongly negative \u2014 higher X3 reduces Y2), local gradient=-0.210, regression coef=-0.201; dominant Y2 driver"
+        },
+        {
+          "edge": "X4->Y2",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.115 (negative), regression coef=-0.152, local gradient=-0.088; win-win with Y1 and Y4"
+        },
+        {
+          "edge": "X5->Y2",
+          "confidence": 0.05,
+          "evidence": "OAT range\u22480.008; effectively flat/inactive on Y2"
+        },
+        {
+          "edge": "X6->Y2",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.139 (positive \u2014 higher X6 increases Y2), local gradient=0.130; key Y2 driver in conflict with Y1 optimization"
+        },
+        {
+          "edge": "X7->Y2",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; not OAT-tested but pattern of X7-X12 inactivity strongly suggests inactive"
+        },
+        {
+          "edge": "X8->Y2",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y2",
+          "confidence": 0.05,
+          "evidence": "Correlation 0.44 in initial sample but zero gradient; spurious"
+        },
+        {
+          "edge": "X10->Y2",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y2",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X12->Y2",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; not OAT-tested"
+        },
+        {
+          "edge": "X1->Y3",
+          "confidence": 0.98,
+          "evidence": "OAT range=0.590, gradient=0.511, regression coef=0.591; dominant Y3 driver; positive X1*X3 interaction likely"
+        },
+        {
+          "edge": "X2->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT perfectly flat; confirmed inactive"
+        },
+        {
+          "edge": "X3->Y3",
+          "confidence": 0.98,
+          "evidence": "OAT range=0.620, gradient=0.611; dominant Y3 driver; positive X1*X3 interaction confirmed"
+        },
+        {
+          "edge": "X1*X3->Y3",
+          "confidence": 0.72,
+          "evidence": "Calibration underprediction of 0.21 at X1=0.571, X3=0.850 (actual 0.848 vs linear prediction 0.64); implies positive synergistic amplification"
+        },
+        {
+          "edge": "X4->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X5->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X6->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X7->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X8->Y3",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X10->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat despite correlation=-0.62 in initial sample; spurious"
+        },
+        {
+          "edge": "X11->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X1->Y4",
+          "confidence": 0.65,
+          "evidence": "OAT range=0.058 (small positive); marginal contribution; possibly indirect"
+        },
+        {
+          "edge": "X2->Y4",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.170, local gradient=0.201; calibration X2=0.192 gives Y4=0.009 confirming dominant driver"
+        },
+        {
+          "edge": "X3->Y4",
+          "confidence": 0.02,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X4->Y4",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.164, local gradient=0.193; calibration X4=0.147 gives Y4=0.009 confirming dominant driver"
+        },
+        {
+          "edge": "X5->Y4",
+          "confidence": 0.02,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X6->Y4",
+          "confidence": 0.9,
+          "evidence": "OAT range=0.074 (negative \u2014 high X6 reduces Y4); X6=0.1 gives Y4=0.150 vs X6=1.0 gives Y4=0.076"
+        },
+        {
+          "edge": "X7->Y4",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X8->Y4",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat despite correlation=-0.49; spurious"
+        },
+        {
+          "edge": "X9->Y4",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X10->Y4",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y4",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y4",
+          "confidence": 0.08,
+          "evidence": "Correlation 0.44 in initial sample but zero local gradient; likely spurious; not OAT-tested"
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "eval_count": 72,
+      "hypothesis": "The system is driven by X1-X6 with massive nonlinear synergistic interactions; X7-X12 are causally inactive (confirmed by OAT sweeps). The critical revision to my model: Y1 exhibits superadditive synergy among X1-X6 \u2014 setting all six to their maxima simultaneously produces Y1=0.948-1.131, far exceeding the linear prediction of ~0.55 and the previous best of 0.444. Y3 saturates at 0.997 at X1=X3=1.0. Y4 reaches 0.322 at X2=X4=1.0 and X6=0.1, far above previous best of 0.182. CRITICAL REVISION for Y2: my linear model was completely wrong. At X1=X2=X3=X4=1.0, Y2 ranges 0.303-0.362 \u2014 actually HIGHER than the previous minimum of 0.220. Y2's relationship with X6 REVERSES at high X1-X4: higher X6 now reduces Y2 (0.362 at X6=0.1 \u2192 0.303 at X6=1.0), opposite to the linear model's prediction. X2 has a much stronger positive effect on Y2 than the regression indicated (reducing X2 from 1.0 to 0.7 drops Y2 by 0.118). The Pareto front now spans Y1=[0.007,1.131], Y4=[0.090,0.322], Y2=[0.220,0.362] \u2014 hypervolume jumped from 0.0909 to 0.2350 (158% improvement). The remaining Pareto conflict is between minimizing Y2 (requires moderate input values, not maxima) and maximizing Y1 and Y4 (requires all inputs at maximum).",
+      "new_findings": [
+        "Y1 exhibits massive nonlinear synergy: at X1=X2=X3=X4=1.0, X5=0.7, X6=1.0 \u2192 Y1=1.131, exceeding the previous maximum of 0.444 by 155%. Linear model underpredicted by ~0.40 throughout, confirming superadditive interaction among active inputs not captured by additive regression",
+        "Y4 reached 0.322 at X2=X4=1.0, X6=0.1 \u2014 77% improvement over previous best 0.182. Y4 model (R\u00b2=0.858) was accurate to within 0.05",
+        "Y3 saturated at 0.997 across ALL 9 new evaluations \u2014 X1=X3=1.0 pushes Y3 to near-ceiling, confirming strong positive X1*X3 interaction",
+        "Y2 DOES NOT decrease when X1=X3=X4 go to 1.0 \u2014 contrary to linear regression (R\u00b2=0.901). At X1=X2=X3=X4=1.0 Y2 is 0.303-0.362, higher than previous best 0.220. The OAT-based linear model captured individual effects that do not generalize to the fully-maxed regime",
+        "X6 effect on Y2 reverses sign at high X1-X4: previously appeared positive (OAT range 0.139), but at X1=X2=X3=X4=1.0 higher X6 gives LOWER Y2 (0.362\u21920.303), implying X6*Xi interaction on Y2",
+        "X2 has much stronger positive effect on Y2 than regression indicated: reducing X2 from 1.0 to 0.7 drops Y2 by 0.118 (implied coefficient 0.39/unit vs regression estimate of 0.037)",
+        "Hypervolume improved dramatically from 0.0909 to 0.2350 \u2014 a 158% increase driven entirely by the 9 new evaluations at the globally optimal high-input configuration",
+        "Pareto front expanded from 9 to 12 points; 9 new points all dominate previous front in Y1 and Y4 dimensions, but the Y2-minimum point (0.220) remains from previous data"
+      ],
+      "surprises": [
+        "Y1=1.131 at X6=1.0 far exceeds the previous maximum of 0.444 \u2014 my linear model underestimated by 0.43. The system has profound superadditive synergy among X1-X6 that only manifests when all inputs are simultaneously at their maxima. Previous OAT sweeps (one-at-a-time) could not detect this joint effect",
+        "Y2 was predicted to drop to ~0.05-0.10 at X1=X2=X3=X4=1.0 (based on regression with negative X1, X3, X4 coefficients), but actual Y2 was 0.303-0.362. The regression overgeneralized from moderate-input OAT behavior to the extreme regime. Y2 appears to be positively correlated with Y1 in the high-performance region \u2014 when all drivers of Y1 are maxed, Y2 is also elevated",
+        "X6 effect on Y2 reversed sign: previously measured as strongly positive (X6 increases Y2), but at X1=X2=X3=X4=1.0 the relationship is negative (X6 decreases Y2 from 0.362 to 0.303). This nonlinear interaction was completely missed by the additive model",
+        "X2 effect on Y2 was 10x larger than regression predicted (0.39 vs 0.037/unit at the high-input operating point). Reducing X2 to 0.7 gave Y2=0.244 \u2014 the best Y2 among new Pareto points but still above the historical minimum of 0.220"
+      ],
+      "next_plan": "Budget exhausted. Final Pareto front achieved: Y1 max=1.131 (155% above previous best), Y4 max=0.322 (77% above previous best), Y3=0.997 (near ceiling), Y2 min among new points=0.244 (above historical minimum 0.220). If budget were available, priority would be: (1) reduce X2 further (e.g., X2=0.3-0.5) at X1=X3=X4=1.0 to find Y2 minimum while preserving Y1/Y4 gains; (2) test X1=X3=1.0 with X4=0.7-0.8 to explore Y2 reduction; (3) investigate what configuration achieved the historical Y2=0.220 minimum and whether it can be improved with higher Y1 and Y4 simultaneously.",
+      "confidence": {
+        "X1->Y1": 0.95,
+        "X2->Y1": 0.97,
+        "X3->Y1": 0.95,
+        "X4->Y1": 0.97,
+        "X5->Y1": 0.92,
+        "X6->Y1": 0.95,
+        "X1*X2*X3*X4->Y1": 0.9,
+        "X7->Y1": 0.05,
+        "X8->Y1": 0.02,
+        "X9->Y1": 0.05,
+        "X10->Y1": 0.01,
+        "X11->Y1": 0.05,
+        "X12->Y1": 0.05,
+        "X1->Y2": 0.55,
+        "X2->Y2": 0.85,
+        "X3->Y2": 0.6,
+        "X4->Y2": 0.6,
+        "X5->Y2": 0.05,
+        "X6->Y2": 0.85,
+        "X6*X1->Y2": 0.75,
+        "X7->Y2": 0.05,
+        "X8->Y2": 0.02,
+        "X9->Y2": 0.05,
+        "X10->Y2": 0.01,
+        "X11->Y2": 0.05,
+        "X12->Y2": 0.05,
+        "X1->Y3": 0.98,
+        "X3->Y3": 0.98,
+        "X1*X3->Y3": 0.88,
+        "X2->Y3": 0.01,
+        "X4->Y3": 0.01,
+        "X5->Y3": 0.01,
+        "X6->Y3": 0.01,
+        "X7->Y3": 0.05,
+        "X8->Y3": 0.02,
+        "X9->Y3": 0.05,
+        "X10->Y3": 0.01,
+        "X11->Y3": 0.05,
+        "X12->Y3": 0.05,
+        "X1->Y4": 0.65,
+        "X2->Y4": 0.97,
+        "X3->Y4": 0.02,
+        "X4->Y4": 0.97,
+        "X5->Y4": 0.02,
+        "X6->Y4": 0.92,
+        "X7->Y4": 0.05,
+        "X8->Y4": 0.02,
+        "X9->Y4": 0.05,
+        "X10->Y4": 0.01,
+        "X11->Y4": 0.05,
+        "X12->Y4": 0.05
+      },
+      "edges": [
+        {
+          "edge": "X1->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.237; regression coef=0.263; superadditive synergy confirmed at X1=1.0: contributes ~0.26 linearly but much more in full combination"
+        },
+        {
+          "edge": "X2->Y1",
+          "confidence": 0.97,
+          "evidence": "OAT range=0.334; regression coef=0.401; X2=0.7 vs X2=1.0 reduces Y1 from 0.948 to 0.585 (\u0394=0.363), consistent with large additive contribution in synergistic context"
+        },
+        {
+          "edge": "X3->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.236; regression coef=0.267; confirmed via synergy \u2014 at X3=1.0 with others=1.0, Y1 is dramatically above OAT prediction"
+        },
+        {
+          "edge": "X4->Y1",
+          "confidence": 0.97,
+          "evidence": "OAT range=0.390; regression coef=0.416; dominant individual driver, part of synergistic superadditive cluster"
+        },
+        {
+          "edge": "X5->Y1",
+          "confidence": 0.92,
+          "evidence": "OAT range=0.302; threshold at X5~0.4; regression coef=0.459 (linear approximation to threshold); saturates above X5~0.55"
+        },
+        {
+          "edge": "X6->Y1",
+          "confidence": 0.95,
+          "evidence": "OAT range=0.269; X6 sweep at X1=X2=X3=X4=1.0 confirms: Y1 increases from 0.948 (X6=0.1) to 1.131 (X6=1.0), range=0.183 in this regime"
+        },
+        {
+          "edge": "X1*X2*X3*X4->Y1",
+          "confidence": 0.9,
+          "evidence": "Linear model predicted Y1~0.55 at full optima; actual is 0.948-1.131. Superadditive synergy of ~0.40 above linear sum not explained by individual OAT effects"
+        },
+        {
+          "edge": "X7->Y1",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; OAT confirmed flat; sensitivity report shows inflated value due to spurious correlation in combined dataset"
+        },
+        {
+          "edge": "X8->Y1",
+          "confidence": 0.02,
+          "evidence": "3-level OAT perfectly flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y1",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X10->Y1",
+          "confidence": 0.01,
+          "evidence": "5-level OAT perfectly flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y1",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y1",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; sensitivity report artifact from combined dataset"
+        },
+        {
+          "edge": "X1->Y2",
+          "confidence": 0.55,
+          "evidence": "OAT showed range=0.094 (negative); regression coef=-0.105; but at X1=1.0 full combination Y2=0.362, much higher than model predicted \u2014 OAT effect may not generalize to synergistic regime"
+        },
+        {
+          "edge": "X2->Y2",
+          "confidence": 0.85,
+          "evidence": "Strong positive effect confirmed: X2=1.0\u2192Y2=0.362 vs X2=0.7\u2192Y2=0.244 at same base, \u0394=0.118 per 0.3 change; actual coefficient ~0.39/unit, 10x larger than regression estimate of 0.037"
+        },
+        {
+          "edge": "X3->Y2",
+          "confidence": 0.6,
+          "evidence": "OAT range=0.200 (negative) and regression coef=-0.197; but at X3=1.0 in full combination Y2 is elevated not reduced; individual OAT effect may be overwhelmed by synergistic interactions in the fully-maxed regime"
+        },
+        {
+          "edge": "X4->Y2",
+          "confidence": 0.6,
+          "evidence": "OAT range=0.115 (negative); regression coef=-0.154; same caveat as X3 \u2014 may not hold in fully-maxed regime where synergistic interactions dominate"
+        },
+        {
+          "edge": "X5->Y2",
+          "confidence": 0.05,
+          "evidence": "OAT flat; effectively inactive on Y2"
+        },
+        {
+          "edge": "X6->Y2",
+          "confidence": 0.85,
+          "evidence": "Effect reverses with operating regime: OAT (moderate X1-X4) shows positive effect (+0.139 range); but at X1=X2=X3=X4=1.0 X6 sweep shows NEGATIVE effect: Y2 drops from 0.362 (X6=0.1) to 0.303 (X6=1.0). Nonlinear X6*(X1,X2,X3,X4) interaction confirmed"
+        },
+        {
+          "edge": "X6*X1->Y2",
+          "confidence": 0.75,
+          "evidence": "Y2 vs X6 slope reverses sign between moderate and maximal X1,X2,X3,X4 configurations \u2014 strong evidence of interaction"
+        },
+        {
+          "edge": "X7->Y2",
+          "confidence": 0.05,
+          "evidence": "Not OAT-tested; assumed inactive consistent with other inactive inputs"
+        },
+        {
+          "edge": "X8->Y2",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y2",
+          "confidence": 0.05,
+          "evidence": "Correlation but zero gradient; spurious"
+        },
+        {
+          "edge": "X10->Y2",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y2",
+          "confidence": 0.05,
+          "evidence": "Zero gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y2",
+          "confidence": 0.05,
+          "evidence": "Zero gradient; likely inactive"
+        },
+        {
+          "edge": "X1->Y3",
+          "confidence": 0.98,
+          "evidence": "OAT range=0.590; gradient=0.511; at X1=1.0 Y3=0.997 (near ceiling); confirmed dominant driver with X1*X3 interaction"
+        },
+        {
+          "edge": "X3->Y3",
+          "confidence": 0.98,
+          "evidence": "OAT range=0.620; gradient=0.611; at X3=1.0 Y3=0.997 across all 9 new evaluations; confirmed dominant driver"
+        },
+        {
+          "edge": "X1*X3->Y3",
+          "confidence": 0.88,
+          "evidence": "At X1=X3=1.0: Y3=0.997 (ceiling); calibration at X1=0.571, X3=0.850 gave Y3=0.848 (linear prediction was 0.64); and all 9 new evaluations give identical Y3=0.997 regardless of X2,X4,X5,X6 values \u2014 synergy fully saturated"
+        },
+        {
+          "edge": "X2->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X4->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X5->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X6->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; Y3=0.997 unchanged across X6=0.1 to X6=1.0 sweep"
+        },
+        {
+          "edge": "X7->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive; sensitivity report artifact"
+        },
+        {
+          "edge": "X8->Y3",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y3",
+          "confidence": 0.05,
+          "evidence": "Correlation spurious; zero gradient"
+        },
+        {
+          "edge": "X10->Y3",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat despite correlation=-0.62; spurious"
+        },
+        {
+          "edge": "X11->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y3",
+          "confidence": 0.05,
+          "evidence": "Zero gradient; likely inactive"
+        },
+        {
+          "edge": "X1->Y4",
+          "confidence": 0.65,
+          "evidence": "OAT range=0.058 (small positive); marginal but present; at X1=1.0 with X2=X4=1.0, Y4=0.322"
+        },
+        {
+          "edge": "X2->Y4",
+          "confidence": 0.97,
+          "evidence": "OAT range=0.170; regression coef=0.165; at X2=1.0 vs X2=0.7 with others fixed: Y4=0.322 vs Y4=0.263, \u0394=0.059 per 0.3 change \u2248 0.197/unit, consistent with model"
+        },
+        {
+          "edge": "X3->Y4",
+          "confidence": 0.02,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X4->Y4",
+          "confidence": 0.97,
+          "evidence": "OAT range=0.164; regression coef=0.148; calibration confirmed at X4=0.147\u2192Y4=0.009; at X4=1.0 Y4 dramatically improved"
+        },
+        {
+          "edge": "X5->Y4",
+          "confidence": 0.02,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X6->Y4",
+          "confidence": 0.92,
+          "evidence": "X6 sweep at X1=X2=X3=X4=1.0: Y4 drops from 0.322 (X6=0.1) to 0.249 (X6=1.0), range=0.073; regression coef=-0.073; consistent negative effect confirmed"
+        },
+        {
+          "edge": "X7->Y4",
+          "confidence": 0.05,
+          "evidence": "Zero local gradient; likely inactive"
+        },
+        {
+          "edge": "X8->Y4",
+          "confidence": 0.02,
+          "evidence": "3-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X9->Y4",
+          "confidence": 0.05,
+          "evidence": "Zero gradient; likely inactive"
+        },
+        {
+          "edge": "X10->Y4",
+          "confidence": 0.01,
+          "evidence": "5-level OAT flat; confirmed inactive"
+        },
+        {
+          "edge": "X11->Y4",
+          "confidence": 0.05,
+          "evidence": "Zero gradient; likely inactive"
+        },
+        {
+          "edge": "X12->Y4",
+          "confidence": 0.05,
+          "evidence": "Zero gradient; likely inactive"
+        }
+      ]
+    }
+  ],
+  "eval_count": 72,
+  "total_llm_calls": 15,
+  "total_input_tokens": 308757,
+  "total_output_tokens": 106363
+}

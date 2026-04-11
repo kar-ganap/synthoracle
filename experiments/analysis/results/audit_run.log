@@ -1,0 +1,59 @@
+======================================================================
+  Cross-Oracle Audit
+======================================================================
+
+======================================================================
+  Auditing 1A
+======================================================================
+  Computing Sobol first-order for 1A ...
+  → condition multi_seed_72 (n=10 seeds)
+  → condition extended_144 (n=4 seeds)
+
+======================================================================
+  Auditing 1B
+======================================================================
+  Computing Sobol first-order for 1B ...
+  → condition transfer_72 (n=1 seeds)
+  → condition fresh_72 (n=1 seeds)
+
+======================================================================
+  Auditing 1C
+======================================================================
+  Computing Sobol first-order for 1C ...
+  → condition transfer_72 (n=1 seeds)
+  → condition fresh_72 (n=1 seeds)
+
+======================================================================
+  Auditing 1D
+======================================================================
+  Computing Sobol first-order for 1D ...
+  → condition prior_72 (n=1 seeds)
+  → condition fresh_72 (n=1 seeds)
+  → condition prior_144 (n=1 seeds)
+
+======================================================================
+  Auditing 1E
+======================================================================
+  Computing Sobol first-order for 1E ...
+  → condition prior_72 (n=1 seeds)
+  → condition fresh_72 (n=1 seeds)
+  → condition sonnet_prior_72 (n=1 seeds)
+
+======================================================================
+  Auditing HD
+======================================================================
+  Computing Sobol first-order for HD ...
+  → condition base_72 (n=3 seeds)
+  → condition extended_144 (n=3 seeds)
+
+======================================================================
+  Summary
+======================================================================
+  1A : d= 6, k= 7, k/d=1.17, d_eff= 6, interactions=0.16, suff=0.961, conditions=2
+  1B : d= 6, k= 7, k/d=1.17, d_eff= 6, interactions=0.18, suff=0.799, conditions=2
+  1C : d= 6, k= 8, k/d=1.33, d_eff= 6, interactions=0.14, suff=0.961, conditions=2
+  1D : d= 6, k= 7, k/d=1.17, d_eff= 6, interactions=0.10, suff=0.748, conditions=3
+  1E : d= 6, k= 7, k/d=1.17, d_eff= 6, interactions=0.13, suff=0.960, conditions=3
+  HD : d=12, k= 7, k/d=0.58, d_eff= 6, interactions=0.17, suff=0.961, conditions=2
+
+  Saved to /Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/experiments/analysis/results/audit_data.json

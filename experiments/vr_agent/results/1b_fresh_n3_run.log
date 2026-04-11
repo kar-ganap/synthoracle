@@ -1,0 +1,65 @@
+============================================================
+  1B fresh multi-seed (n=3) for Rule 8 parity with 1D
+============================================================
+Oracle: MediumOracle(variant='1B')
+Seeds: [42, 43, 44]
+Budget: 72 evals per seed
+  seed 42: already on disk (HV=0.2358, cost=$0.00)
+
+  Running 1B fresh seed 43 (72 evals, no prior)...
+    [tool call 1] tokens=2798in+159out budget=12/72 (4s call, 5s total)
+    [tool call 4] tokens=4105in+1687out budget=12/72 (24s call, 29s total)
+    [tool call 7] tokens=7582in+1563out budget=27/72 (22s call, 51s total)
+    [tool call 10] tokens=10921in+3164out budget=42/72 (40s call, 90s total)
+    [tool call 13] tokens=15004in+1252out budget=42/72 (20s call, 111s total)
+  [Iteration done] evals=42/72 HV=0.1047 tools_used=16 (168s total)
+  [CALIBRATION @ eval 43] MAE=0.0725 max|err|=0.1574
+    [tool call 1] tokens=5158in+1377out budget=43/72 (23s call, 345s total)
+    [tool call 4] tokens=8320in+5740out budget=61/72 (92s call, 437s total)
+    [tool call 6] tokens=15086in+6424out budget=61/72 (98s call, 535s total)
+    [tool call 8] tokens=21922in+6510out budget=61/72 (93s call, 628s total)
+  [Iteration done] evals=69/72 HV=0.2307 tools_used=15 (740s total)
+  [CALIBRATION @ eval 70] MAE=0.0345 max|err|=0.0841
+    [tool call 1] tokens=7249in+1833out budget=70/72 (31s call, 2384s total)
+    [tool call 4] tokens=10827in+6928out budget=70/72 (103s call, 2487s total)
+    [tool call 7] tokens=18529in+15394out budget=70/72 (215s call, 2702s total)
+    [tool call 9] tokens=34580in+5419out budget=70/72 (70s call, 2772s total)
+    [tool call 11] tokens=40248in+640out budget=72/72 (10s call, 2782s total)
+    [tool call 13] tokens=42466in+1062out budget=72/72 (23s call, 2805s total)
+  [Iteration done] evals=72/72 HV=0.2334 tools_used=12 (2877s total)
+  seed 43: HV=0.2334, cost=$4.45, time=2877s
+
+  Running 1B fresh seed 44 (72 evals, no prior)...
+    [tool call 1] tokens=2798in+159out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4105in+1929out budget=12/72 (26s call, 30s total)
+    [tool call 8] tokens=8424in+1672out budget=32/72 (25s call, 55s total)
+    [tool call 10] tokens=11281in+1534out budget=42/72 (24s call, 80s total)
+    [tool call 13] tokens=13730in+1831out budget=42/72 (32s call, 112s total)
+    [tool call 15] tokens=17027in+2410out budget=60/72 (35s call, 147s total)
+  [Iteration done] evals=60/72 HV=0.1845 tools_used=18 (210s total)
+  [CALIBRATION @ eval 61] MAE=0.1546 max|err|=0.3890
+    [tool call 1] tokens=5502in+1877out budget=61/72 (31s call, 305s total)
+    [tool call 3] tokens=9262in+3603out budget=61/72 (55s call, 360s total)
+    [tool call 6] tokens=13850in+6621out budget=61/72 (110s call, 470s total)
+    [tool call 8] tokens=21128in+3215out budget=61/72 (48s call, 518s total)
+    [tool call 11] tokens=24707in+16000out budget=61/72 (233s call, 750s total)
+  [Iteration done] evals=61/72 HV=0.1845 tools_used=10 (830s total)
+  [CALIBRATION @ eval 62] MAE=0.1290 max|err|=0.2701
+    [tool call 1] tokens=6630in+3576out budget=62/72 (59s call, 978s total)
+    [tool call 4] tokens=12194in+10013out budget=62/72 (152s call, 1130s total)
+    [tool call 5] tokens=23010in+9418out budget=71/72 (141s call, 1271s total)
+    [tool call 7] tokens=34500in+4760out budget=71/72 (77s call, 1348s total)
+    [tool call 8] tokens=39365in+781out budget=72/72 (12s call, 1360s total)
+    [tool call 9] tokens=41607in+1310out budget=72/72 (27s call, 1387s total)
+  [Iteration done] evals=72/72 HV=0.2471 tools_used=8 (1468s total)
+  seed 44: HV=0.2471, cost=$4.31, time=1468s
+
+============================================================
+  1B fresh aggregate (n=3)
+============================================================
+  HV mean: 0.2387
+  HV std:  0.0060
+  HV range: [0.2334, 0.2471]
+  New spend: $8.76
+
+  vs BO 1B (n=1): BO=0.2597, VR/BO = 0.919

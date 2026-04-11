@@ -33,6 +33,7 @@ from synthoracle.oracles.medium import MediumOracle
 from synthoracle.oracles.medium_1c import MediumOracle1C
 from synthoracle.oracles.medium_1d import MediumOracle1D
 from synthoracle.oracles.medium_1e import MediumOracle1E
+from synthoracle.oracles.medium_hd import MediumOracleHD
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -51,13 +52,18 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------------------
 
 ORACLE_CONFIGS: list[
-    tuple[str, MediumOracle | MediumOracle1C | MediumOracle1D | MediumOracle1E, dict[str, float]]
+    tuple[
+        str,
+        MediumOracle | MediumOracle1C | MediumOracle1D | MediumOracle1E | MediumOracleHD,
+        dict[str, float],
+    ]
 ] = [
     ("1A", MediumOracle(variant="1A"), {"Y3": 0.4}),
     ("1B", MediumOracle(variant="1B"), {"Y3": 0.4}),
     ("1C", MediumOracle1C(), {"Y3": 0.4}),
     ("1D", MediumOracle1D(), {"Y3": 0.4}),
     ("1E", MediumOracle1E(), {"Y3": 0.4}),
+    ("HD", MediumOracleHD(), {"Y3": 0.4}),
 ]
 
 # ---------------------------------------------------------------------------
