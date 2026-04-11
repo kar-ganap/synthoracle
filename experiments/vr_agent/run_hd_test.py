@@ -300,12 +300,14 @@ def run_vr_hd(
 
 
 def main() -> None:
-    valid_modes = ("bo", "vr", "all", "vr-ext", "vr-sonnet")
+    valid_modes = ("bo", "vr", "all", "vr-ext", "vr-sonnet", "vr-haiku")
     if len(sys.argv) < 2 or len(sys.argv) > 3 or sys.argv[1] not in valid_modes:
-        print("Usage: python run_hd_test.py [bo|vr|all|vr-ext|vr-sonnet] [seed]")
+        print("Usage: python run_hd_test.py "
+              "[bo|vr|all|vr-ext|vr-sonnet|vr-haiku] [seed]")
         print("  vr-ext:        run all extended seeds (144 evals, Opus)")
         print("  vr-ext <seed>: run a single extended seed")
         print("  vr-sonnet:     run Sonnet HD seeds 42-44 (72 evals)")
+        print("  vr-haiku:      run Haiku HD seeds 42-44 (72 evals)")
         sys.exit(1)
 
     mode = sys.argv[1]
@@ -333,6 +335,21 @@ def main() -> None:
             calibration_interval=20,
             tag="VR HD Sonnet",
             model="claude-sonnet-4-6",
+        )
+
+    if mode == "vr-haiku":
+        print("\n" + "=" * 60)
+        print(f"  VR agent: HD oracle Haiku ({len(VR_SEEDS)} seeds, 72 evals)")
+        print("  (Phase 2.3 pilot on 1A: iteration_summaries failed;")
+        print("   expect partial rubric data — edge P/R + tool-call allocation)")
+        print("=" * 60)
+        run_vr_hd(
+            seeds=VR_SEEDS,
+            n_budget=N_BUDGET_VR,
+            file_prefix="hd_vr_haiku",
+            calibration_interval=20,
+            tag="VR HD Haiku",
+            model="claude-haiku-4-5-20251001",
         )
 
     if mode == "vr-ext":

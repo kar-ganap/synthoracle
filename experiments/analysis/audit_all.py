@@ -261,6 +261,15 @@ ORACLE_CONDITIONS: dict[str, list[ConditionDef]] = {
             "hd_vr_sonnet_seed{seed}.npz",
             notes="3-seed Sonnet (model generality)",
         ),
+        _condition(
+            "haiku_72",
+            72,
+            "haiku",
+            [42, 43, 44],
+            "hd_vr_haiku_seed{seed}_log.json",
+            "hd_vr_haiku_seed{seed}.npz",
+            notes="3-seed Haiku (capability floor test; expect partial data)",
+        ),
     ],
 }
 
