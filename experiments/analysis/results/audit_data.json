@@ -2095,29 +2095,29 @@
         "notes": "3-seed Opus, 12 inputs (6 noise)",
         "optimization": {
           "n_seeds_vr": 3,
-          "n_seeds_bo": 3,
+          "n_seeds_bo": 1,
           "vr_final_hv_mean": 0.25686460917948417,
           "vr_final_hv_std": 0.011041440117723225,
           "vr_final_hv_min": 0.24147377981134988,
           "vr_final_hv_max": 0.2668429777243713,
           "vr_final_hv_frac_ref_mean": 1.009548563861018,
           "vr_final_hv_frac_ref_std": 0.043395896575289,
-          "bo_final_hv_mean": 0.2657877256116474,
-          "bo_final_hv_std": 0.0017538410824404292,
-          "bo_final_hv_frac_ref_mean": 1.0446188657139313,
-          "vr_over_bo": 0.9664276579679187,
+          "bo_final_hv_mean": 0.27320391880794814,
+          "bo_final_hv_std": 0.0,
+          "bo_final_hv_frac_ref_mean": 1.073766544775509,
+          "vr_over_bo": 0.9401937215990307,
           "sample_efficiency_vr": {
             "50pct": 38.666666666666664,
             "75pct": 58.0,
             "90pct": 61.666666666666664
           },
           "sample_efficiency_bo": {
-            "50pct": 11.0,
-            "75pct": 26.666666666666668,
-            "90pct": 30.0
+            "50pct": 10.0,
+            "75pct": 26.0,
+            "90pct": 28.0
           },
           "crossover_eval": null,
-          "seeds_crossing_bo": 1
+          "seeds_crossing_bo": 0
         },
         "edge_pr": {
           "n_seeds": 3,
@@ -2129,17 +2129,17 @@
           "hardest_missed_edge": "X5->Y2",
           "missed_counts": {
             "X5->Y2": 3,
-            "X4->Y4": 2,
             "X4->Y2": 2,
-            "X3->Y1": 1,
+            "X4->Y4": 2,
             "X2->Y2": 1,
-            "X3->Y2": 1,
-            "X2->Y4": 1,
             "X1->Y4": 1,
-            "X1->Y2": 1,
+            "X2->Y4": 1,
+            "X3->Y2": 1,
+            "X3->Y1": 1,
             "X6->Y4": 1,
-            "X6->Y1": 1,
             "X6->Y2": 1,
+            "X1->Y2": 1,
+            "X6->Y1": 1,
             "X5->Y1": 1
           },
           "edges_by_difficulty_in_gt": {
@@ -2248,29 +2248,29 @@
         "notes": "3-seed Opus, 144 budget",
         "optimization": {
           "n_seeds_vr": 3,
-          "n_seeds_bo": 3,
+          "n_seeds_bo": 1,
           "vr_final_hv_mean": 0.2681290388707977,
           "vr_final_hv_std": 0.001488906139201335,
           "vr_final_hv_min": 0.26621216379094775,
           "vr_final_hv_max": 0.26984209862296854,
           "vr_final_hv_frac_ref_mean": 1.0538208707930827,
           "vr_final_hv_frac_ref_std": 0.0058518106459121986,
-          "bo_final_hv_mean": 0.2657877256116474,
-          "bo_final_hv_std": 0.0017538410824404292,
-          "bo_final_hv_frac_ref_mean": 1.0446188657139313,
-          "vr_over_bo": 1.008808959306764,
+          "bo_final_hv_mean": 0.27320391880794814,
+          "bo_final_hv_std": 0.0,
+          "bo_final_hv_frac_ref_mean": 1.073766544775509,
+          "vr_over_bo": 0.9814245712166454,
           "sample_efficiency_vr": {
             "50pct": 66.33333333333333,
             "75pct": 92.33333333333333,
             "90pct": 96.33333333333333
           },
           "sample_efficiency_bo": {
-            "50pct": 11.0,
-            "75pct": 26.666666666666668,
-            "90pct": 30.0
+            "50pct": 10.0,
+            "75pct": 26.0,
+            "90pct": 28.0
           },
-          "crossover_eval": 134,
-          "seeds_crossing_bo": 3
+          "crossover_eval": null,
+          "seeds_crossing_bo": 0
         },
         "edge_pr": {
           "n_seeds": 3,
@@ -2389,26 +2389,26 @@
         "notes": "3-seed Sonnet (model generality)",
         "optimization": {
           "n_seeds_vr": 3,
-          "n_seeds_bo": 3,
+          "n_seeds_bo": 1,
           "vr_final_hv_mean": 0.2541227092723825,
           "vr_final_hv_std": 0.013540818146027056,
           "vr_final_hv_min": 0.23497310062498813,
           "vr_final_hv_max": 0.2636982780522064,
           "vr_final_hv_frac_ref_mean": 0.9987721430753465,
           "vr_final_hv_frac_ref_std": 0.05321913967242109,
-          "bo_final_hv_mean": 0.2657877256116474,
-          "bo_final_hv_std": 0.0017538410824404292,
-          "bo_final_hv_frac_ref_mean": 1.0446188657139313,
-          "vr_over_bo": 0.9561115310632927,
+          "bo_final_hv_mean": 0.27320391880794814,
+          "bo_final_hv_std": 0.0,
+          "bo_final_hv_frac_ref_mean": 1.073766544775509,
+          "vr_over_bo": 0.9301576287089096,
           "sample_efficiency_vr": {
             "50pct": 45.666666666666664,
             "75pct": 59.333333333333336,
             "90pct": 63.333333333333336
           },
           "sample_efficiency_bo": {
-            "50pct": 11.0,
-            "75pct": 26.666666666666668,
-            "90pct": 30.0
+            "50pct": 10.0,
+            "75pct": 26.0,
+            "90pct": 28.0
           },
           "crossover_eval": null,
           "seeds_crossing_bo": 0
@@ -2426,10 +2426,10 @@
             "X1->Y4": 1,
             "X2->Y2": 1,
             "X6->Y4": 1,
-            "X6->Y1": 1,
             "X6->Y2": 1,
+            "X2->Y1": 1,
             "X2->Y4": 1,
-            "X2->Y1": 1
+            "X6->Y1": 1
           },
           "edges_by_difficulty_in_gt": {
             "EASY": 18,
@@ -2537,26 +2537,26 @@
         "notes": "3-seed Haiku (capability floor test; expect partial data)",
         "optimization": {
           "n_seeds_vr": 3,
-          "n_seeds_bo": 3,
+          "n_seeds_bo": 1,
           "vr_final_hv_mean": 0.11605490054464403,
           "vr_final_hv_std": 0.033999048827311515,
           "vr_final_hv_min": 0.08413576521843653,
           "vr_final_hv_max": 0.16315575240996572,
           "vr_final_hv_frac_ref_mean": 0.4561276796680502,
           "vr_final_hv_frac_ref_std": 0.13362561322050126,
-          "bo_final_hv_mean": 0.2657877256116474,
-          "bo_final_hv_std": 0.0017538410824404292,
-          "bo_final_hv_frac_ref_mean": 1.0446188657139313,
-          "vr_over_bo": 0.43664507184284457,
+          "bo_final_hv_mean": 0.27320391880794814,
+          "bo_final_hv_std": 0.0,
+          "bo_final_hv_frac_ref_mean": 1.073766544775509,
+          "vr_over_bo": 0.42479222498351554,
           "sample_efficiency_vr": {
             "50pct": 17.0,
             "75pct": null,
             "90pct": null
           },
           "sample_efficiency_bo": {
-            "50pct": 11.0,
-            "75pct": 26.666666666666668,
-            "90pct": 30.0
+            "50pct": 10.0,
+            "75pct": 26.0,
+            "90pct": 28.0
           },
           "crossover_eval": null,
           "seeds_crossing_bo": 0
