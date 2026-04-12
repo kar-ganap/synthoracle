@@ -28,7 +28,7 @@ from synthoracle.oracles.medium import MediumOracle
 RESULTS_DIR = Path("experiments/vr_agent/results")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-SEEDS = [42, 43, 44]
+SEEDS = [42, 43, 44, 45, 46]
 N_BUDGET = 72
 MODEL = "claude-opus-4-6"
 THINKING: dict[str, object] = {"type": "adaptive"}
