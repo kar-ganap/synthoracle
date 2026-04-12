@@ -3502,6 +3502,280 @@
         "y4_better": true
       }
     ],
+    "test5_data": [
+      {
+        "condition": "1D/prior_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.6666666666666666,
+        "ep_surprise_first_iter": 0.75,
+        "ep_surprise_last_iter": 0.75,
+        "ep_surprise_drops": null,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.75
+          }
+        ]
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 43,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 0.8181818181818182,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.8181818181818182
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 44,
+        "oat_surprise_rate_iter0": 0.7142857142857143,
+        "ep_surprise_first_iter": 0.0,
+        "ep_surprise_last_iter": 0.2,
+        "ep_surprise_drops": false,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.0
+          },
+          {
+            "iter": 2,
+            "rate": 0.2
+          }
+        ]
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.6666666666666666,
+        "ep_surprise_first_iter": 0.6666666666666666,
+        "ep_surprise_last_iter": 0.6666666666666666,
+        "ep_surprise_drops": null,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.6666666666666666
+          }
+        ]
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 43,
+        "oat_surprise_rate_iter0": 0.5,
+        "ep_surprise_first_iter": 0.75,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.75
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 44,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 1.0,
+        "ep_surprise_last_iter": 1.0,
+        "ep_surprise_drops": null,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 1.0
+          }
+        ]
+      },
+      {
+        "condition": "1D/prior_144",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.5,
+        "ep_surprise_first_iter": 0.5,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.5
+          },
+          {
+            "iter": 3,
+            "rate": 0.1111111111111111
+          },
+          {
+            "iter": 4,
+            "rate": 0.0
+          },
+          {
+            "iter": 5,
+            "rate": 0.0
+          },
+          {
+            "iter": 10,
+            "rate": 0.0
+          },
+          {
+            "iter": 12,
+            "rate": 0.0
+          },
+          {
+            "iter": 13,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.6666666666666666,
+        "ep_surprise_first_iter": 0.6,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.6
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 43,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 0.625,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.625
+          },
+          {
+            "iter": 4,
+            "rate": 0.05555555555555555
+          },
+          {
+            "iter": 5,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 44,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 0.0,
+        "ep_surprise_last_iter": 0.35714285714285715,
+        "ep_surprise_drops": false,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.0
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          },
+          {
+            "iter": 4,
+            "rate": 0.35714285714285715
+          }
+        ]
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 1.0,
+        "ep_surprise_first_iter": 0.5333333333333333,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.5333333333333333
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 43,
+        "oat_surprise_rate_iter0": 0.6666666666666666,
+        "ep_surprise_first_iter": 0.7272727272727273,
+        "ep_surprise_last_iter": 0.7272727272727273,
+        "ep_surprise_drops": null,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.7272727272727273
+          }
+        ]
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 44,
+        "oat_surprise_rate_iter0": 1.0,
+        "ep_surprise_first_iter": 0.14285714285714285,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.14285714285714285
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/sonnet_prior_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 1.0,
+        "ep_surprise_last_iter": 0.7,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 1.0
+          },
+          {
+            "iter": 4,
+            "rate": 0.5625
+          },
+          {
+            "iter": 5,
+            "rate": 0.0
+          },
+          {
+            "iter": 8,
+            "rate": 0.7
+          }
+        ]
+      }
+    ],
     "verdicts": [
       {
         "claim": "VR learns from feedback (evaluate_point MAE \u2193, primary signal)",
@@ -3532,6 +3806,16 @@
         "claim": "Exploitation targets are better than random (LHS) on maximize objectives",
         "verdict": "PASS",
         "evidence": "14/14 seeds (100%) have exploitation targets with higher mean Y1 or Y4 than LHS. 14/14 are better on BOTH."
+      },
+      {
+        "claim": "Exploration (OAT) is more surprising than exploitation (evaluate_point)",
+        "verdict": "PASS",
+        "evidence": "OAT surprise rate (iter 0) = 75% vs evaluate_point surprise rate (first exploit iter) = 58%. Agent encounters more surprises when probing new territory than when using its model, consistent with the model providing useful guidance."
+      },
+      {
+        "claim": "Exploitation surprise rate decreases over iterations (model improves during exploitation)",
+        "verdict": "PASS",
+        "evidence": "8/10 seeds (80%) show exploitation surprise decreasing."
       }
     ]
   },

@@ -1127,6 +1127,171 @@ def section_a_learning_trajectories(
                 "evidence": f"{n_clicks_first}/{n_total} seeds ({frac:.0%}) — mixed signal.",
             })
 
+    # Test 5: Surprise rate by tool type (exploration vs exploitation)
+    doc.heading(4, "Test 5: Is the agent surprised when exploring and accurate when exploiting?")
+    doc.append(
+        "If VR's articulation-prediction-reconciliation loop works, we expect: "
+        "(a) exploration tool calls (OAT sweeps) should have HIGH surprise rate "
+        "(probing new territory), (b) exploitation tool calls (evaluate_point) "
+        "should have LOW surprise rate that DECREASES over iterations (model "
+        "improving). 'Surprise' for evaluate_point = max|prediction_error| > 0.05. "
+        "'Surprise' for OAT = any output with direction_correct == False."
+    )
+    doc.append("")
+
+    test5_data: list[dict[str, Any]] = []
+
+    doc.append("| Condition | Seed | OAT surprise rate (iter 0) | eval_point surprise rate (iter 1) | eval_point surprise rate (last iter) | Exploit surprise drops? |")
+    doc.append("|---|---|---|---|---|---|")
+
+    SURPRISE_THRESH = 0.05
+
+    for oracle_label, conditions in all_runs.items():
+        for cond_label, runs in conditions.items():
+            for run in runs:
+                if run.n_iterations < 2:
+                    continue
+
+                try:
+                    log_name = _run_log_name(oracle_label, run.condition_label, run.seed)
+                    log_path = ROOT / "experiments" / "vr_agent" / "results" / log_name
+                    with open(log_path) as f:
+                        log_data = json.load(f)
+                except Exception:
+                    continue
+
+                tc_groups = group_tool_calls_by_iteration(log_data, run.n_initial)
+                if len(tc_groups) < 2:
+                    continue
+
+                # OAT surprise rate in iter 0
+                oat_total_0 = 0
+                oat_surprised_0 = 0
+                for tc in tc_groups[0]:
+                    if tc.get("name") != "oat_sweep":
+                        continue
+                    result = tc.get("result", {})
+                    if not isinstance(result, dict):
+                        continue
+                    scores = result.get("trend_scores", {}) or {}
+                    has_wrong = False
+                    n_outputs_scored = 0
+                    for _o, s in scores.items():
+                        if isinstance(s, dict) and "direction_correct" in s:
+                            n_outputs_scored += 1
+                            if not s["direction_correct"]:
+                                has_wrong = True
+                    if n_outputs_scored > 0:
+                        oat_total_0 += 1
+                        if has_wrong:
+                            oat_surprised_0 += 1
+
+                oat_surprise_rate_0 = (
+                    oat_surprised_0 / oat_total_0 if oat_total_0 > 0 else None
+                )
+
+                # eval_point surprise rate per iteration (iter 1+)
+                ep_surprise_per_iter: list[tuple[int, float | None]] = []
+                for iter_idx, grp in enumerate(tc_groups):
+                    if iter_idx == 0:
+                        continue  # skip exploration iteration
+                    ep_total = 0
+                    ep_surprised = 0
+                    for tc in grp:
+                        if tc.get("name") != "evaluate_point":
+                            continue
+                        result = tc.get("result", {})
+                        if not isinstance(result, dict):
+                            continue
+                        pred_errors = result.get("prediction_errors", {})
+                        if pred_errors:
+                            try:
+                                max_err = max(abs(float(v)) for v in pred_errors.values())
+                                ep_total += 1
+                                if max_err > SURPRISE_THRESH:
+                                    ep_surprised += 1
+                            except (TypeError, ValueError):
+                                pass
+                    if ep_total > 0:
+                        ep_surprise_per_iter.append(
+                            (iter_idx, ep_surprised / ep_total)
+                        )
+
+                # Extract first and last exploitation surprise rates
+                ep_first = ep_surprise_per_iter[0][1] if ep_surprise_per_iter else None
+                ep_last = ep_surprise_per_iter[-1][1] if ep_surprise_per_iter else None
+
+                drops = None
+                if ep_first is not None and ep_last is not None:
+                    if len(ep_surprise_per_iter) >= 2:
+                        drops = ep_last < ep_first
+
+                cond_key = f"{oracle_label}/{cond_label}"
+                doc.append(
+                    f"| {cond_key} | {run.seed} | "
+                    f"{f'{oat_surprise_rate_0:.0%}' if oat_surprise_rate_0 is not None else 'n/a'} | "
+                    f"{f'{ep_first:.0%}' if ep_first is not None else 'n/a'} | "
+                    f"{f'{ep_last:.0%}' if ep_last is not None else 'n/a'} | "
+                    f"{'YES' if drops is True else 'no' if drops is False else 'n/a (≤1 iter with data)'} |"
+                )
+                test5_data.append({
+                    "condition": cond_key, "seed": run.seed,
+                    "oat_surprise_rate_iter0": oat_surprise_rate_0,
+                    "ep_surprise_first_iter": ep_first,
+                    "ep_surprise_last_iter": ep_last,
+                    "ep_surprise_drops": drops,
+                    "ep_surprise_trajectory": [
+                        {"iter": i, "rate": r} for i, r in ep_surprise_per_iter
+                    ],
+                })
+
+    doc.append("")
+
+    # Test 5 summary
+    if test5_data:
+        # OAT surprise rate in iter 0
+        oat_rates = [d["oat_surprise_rate_iter0"] for d in test5_data
+                     if d["oat_surprise_rate_iter0"] is not None]
+        if oat_rates:
+            doc.append(
+                f"**OAT surprise rate in iter 0 (exploration):** "
+                f"mean = {float(np.mean(oat_rates)):.0%}, "
+                f"range [{min(oat_rates):.0%}, {max(oat_rates):.0%}] "
+                f"across {len(oat_rates)} seeds. "
+                f"{'HIGH as expected — agent is discovering new information.' if np.mean(oat_rates) > 0.2 else 'Lower than expected.'}"
+            )
+        doc.append("")
+
+        # Exploitation surprise trajectory
+        n_drops = sum(1 for d in test5_data if d["ep_surprise_drops"] is True)
+        n_not_drops = sum(1 for d in test5_data if d["ep_surprise_drops"] is False)
+        n_testable = n_drops + n_not_drops
+        if n_testable > 0:
+            doc.append(
+                f"**Exploitation surprise rate drops over iterations:** "
+                f"{n_drops}/{n_testable} seeds ({n_drops/n_testable:.0%}) show "
+                f"evaluate_point surprise rate lower in last exploitation iter "
+                f"than first. "
+                f"{'PASS — agent becomes less surprised as it exploits.' if n_drops/n_testable >= 0.6 else 'MIXED or FAIL.'}"
+            )
+        else:
+            doc.append("**Exploitation surprise trajectory:** insufficient data (need ≥2 iters with evaluate_point calls).")
+
+        # Compare: is exploration MORE surprising than exploitation?
+        oat_mean = float(np.mean(oat_rates)) if oat_rates else None
+        ep_firsts = [d["ep_surprise_first_iter"] for d in test5_data
+                     if d["ep_surprise_first_iter"] is not None]
+        ep_first_mean = float(np.mean(ep_firsts)) if ep_firsts else None
+        if oat_mean is not None and ep_first_mean is not None:
+            doc.append("")
+            doc.append(
+                f"**Exploration vs exploitation surprise:** OAT surprise rate "
+                f"(iter 0) = {oat_mean:.0%}. evaluate_point surprise rate "
+                f"(first exploitation iter) = {ep_first_mean:.0%}. "
+                f"{'Exploration IS more surprising than exploitation, as expected.' if oat_mean > ep_first_mean else 'Exploration is NOT more surprising — unexpected.'}"
+            )
+    doc.append("")
+
     # Add Test 3 verdict
     if test3_data:
         pos_sig = sum(1 for d in test3_data if d["rho"] > 0.3 and d["p"] < 0.1)
@@ -1170,6 +1335,55 @@ def section_a_learning_trajectories(
                 "evidence": f"{n_either_better}/{total_t4} seeds ({frac_t4:.0%}) are better on at least one objective. {n_both_better}/{total_t4} on both.",
             })
 
+    # Add Test 5 verdict
+    if test5_data:
+        oat_rates = [d["oat_surprise_rate_iter0"] for d in test5_data
+                     if d["oat_surprise_rate_iter0"] is not None]
+        ep_firsts = [d["ep_surprise_first_iter"] for d in test5_data
+                     if d["ep_surprise_first_iter"] is not None]
+        n_drops = sum(1 for d in test5_data if d["ep_surprise_drops"] is True)
+        n_testable = sum(1 for d in test5_data if d["ep_surprise_drops"] is not None)
+
+        oat_mean = float(np.mean(oat_rates)) if oat_rates else 0
+        ep_first_mean = float(np.mean(ep_firsts)) if ep_firsts else 0
+
+        # Verdict: exploration more surprising than exploitation?
+        if oat_rates and ep_firsts and oat_mean > ep_first_mean:
+            verdicts.append({
+                "claim": "Exploration (OAT) is more surprising than exploitation (evaluate_point)",
+                "verdict": "PASS",
+                "evidence": (
+                    f"OAT surprise rate (iter 0) = {oat_mean:.0%} vs "
+                    f"evaluate_point surprise rate (first exploit iter) = {ep_first_mean:.0%}. "
+                    f"Agent encounters more surprises when probing new territory than when "
+                    f"using its model, consistent with the model providing useful guidance."
+                ),
+            })
+        elif oat_rates and ep_firsts:
+            verdicts.append({
+                "claim": "Exploration (OAT) is more surprising than exploitation (evaluate_point)",
+                "verdict": "FALSIFIED",
+                "evidence": (
+                    f"OAT surprise = {oat_mean:.0%}, evaluate_point surprise = {ep_first_mean:.0%}. "
+                    f"Exploitation is AS or MORE surprising than exploration."
+                ),
+            })
+
+        # Verdict: exploitation surprise drops over iterations?
+        if n_testable > 0:
+            frac = n_drops / n_testable
+            if frac >= 0.6:
+                v_label = "PASS"
+            elif frac <= 0.3:
+                v_label = "FALSIFIED"
+            else:
+                v_label = "QUALIFIED"
+            verdicts.append({
+                "claim": "Exploitation surprise rate decreases over iterations (model improves during exploitation)",
+                "verdict": v_label,
+                "evidence": f"{n_drops}/{n_testable} seeds ({frac:.0%}) show exploitation surprise decreasing.",
+            })
+
     for v in verdicts:
         doc.append(f"- **{v['claim']}**: **{v['verdict']}** — {v['evidence']}")
     doc.append("")
@@ -1180,6 +1394,7 @@ def section_a_learning_trajectories(
         "temporal_coupling": temporal_coupling_data,
         "test3_data": test3_data,
         "test4_data": test4_data,
+        "test5_data": test5_data,
         "verdicts": verdicts,
     })
 

@@ -187,12 +187,41 @@ Compare the mean output values of iter 1+ evaluate_point targets to the mean out
 
 ### A.5 Falsification verdicts (updated with A.4)
 
+#### Test 5: Is the agent surprised when exploring and accurate when exploiting?
+
+If VR's articulation-prediction-reconciliation loop works, we expect: (a) exploration tool calls (OAT sweeps) should have HIGH surprise rate (probing new territory), (b) exploitation tool calls (evaluate_point) should have LOW surprise rate that DECREASES over iterations (model improving). 'Surprise' for evaluate_point = max|prediction_error| > 0.05. 'Surprise' for OAT = any output with direction_correct == False.
+
+| Condition | Seed | OAT surprise rate (iter 0) | eval_point surprise rate (iter 1) | eval_point surprise rate (last iter) | Exploit surprise drops? |
+|---|---|---|---|---|---|
+| 1D/prior_72 | 42 | 67% | 75% | 75% | n/a (≤1 iter with data) |
+| 1D/prior_72 | 43 | 83% | 82% | 0% | YES |
+| 1D/prior_72 | 44 | 71% | 0% | 20% | no |
+| 1D/fresh_72 | 42 | 67% | 67% | 67% | n/a (≤1 iter with data) |
+| 1D/fresh_72 | 43 | 50% | 75% | 0% | YES |
+| 1D/fresh_72 | 44 | 83% | 100% | 100% | n/a (≤1 iter with data) |
+| 1D/prior_144 | 42 | 50% | 50% | 0% | YES |
+| 1E/prior_72 | 42 | 67% | 60% | 0% | YES |
+| 1E/prior_72 | 43 | 83% | 62% | 0% | YES |
+| 1E/prior_72 | 44 | 83% | 0% | 36% | no |
+| 1E/fresh_72 | 42 | 100% | 53% | 0% | YES |
+| 1E/fresh_72 | 43 | 67% | 73% | 73% | n/a (≤1 iter with data) |
+| 1E/fresh_72 | 44 | 100% | 14% | 0% | YES |
+| 1E/sonnet_prior_72 | 42 | 83% | 100% | 70% | YES |
+
+**OAT surprise rate in iter 0 (exploration):** mean = 75%, range [50%, 100%] across 14 seeds. HIGH as expected — agent is discovering new information.
+
+**Exploitation surprise rate drops over iterations:** 8/10 seeds (80%) show evaluate_point surprise rate lower in last exploitation iter than first. PASS — agent becomes less surprised as it exploits.
+
+**Exploration vs exploitation surprise:** OAT surprise rate (iter 0) = 75%. evaluate_point surprise rate (first exploitation iter) = 58%. Exploration IS more surprising than exploitation, as expected.
+
 - **VR learns from feedback (evaluate_point MAE ↓, primary signal)**: **PASS** — 21/24 seeds (88%) show evaluate_point MAE lower in last iteration with data than first. Additionally, 17/24 seeds show a >50% MAE reduction (first iter to last iter).
 - **OAT direction accuracy improves over iterations (secondary; OATs are front-loaded)**: **PASS** — 10/13 seeds (77%) show OAT direction accuracy higher in last non-None iter than first. Note: many seeds only have 1 iteration with OAT sweeps, so this metric is noisier than eval_point MAE.
 - **Surprise rate decreases over iterations**: **PASS** — 36/40 seeds (90%) show surprise count lower in last iteration than first
 - **Prediction improvement precedes HV breakthroughs (learning → exploitation coupling)**: **FALSIFIED** — Only 0/18 seeds (0%) show coupling — breakthroughs happen independent of prediction improvement.
 - **OAT-discovered input importance guides exploitation targets (model → exploitation causal link)**: **FALSIFIED** — Only 1/14 seeds (7%) show the expected correlation.
 - **Exploitation targets are better than random (LHS) on maximize objectives**: **PASS** — 14/14 seeds (100%) have exploitation targets with higher mean Y1 or Y4 than LHS. 14/14 are better on BOTH.
+- **Exploration (OAT) is more surprising than exploitation (evaluate_point)**: **PASS** — OAT surprise rate (iter 0) = 75% vs evaluate_point surprise rate (first exploit iter) = 58%. Agent encounters more surprises when probing new territory than when using its model, consistent with the model providing useful guidance.
+- **Exploitation surprise rate decreases over iterations (model improves during exploitation)**: **PASS** — 8/10 seeds (80%) show exploitation surprise decreasing.
 
 ## Section B — Cross-seed dynamics correlations
 
