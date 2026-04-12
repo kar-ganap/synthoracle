@@ -137,6 +137,52 @@ For extended-budget runs, identify (a) the iteration where eval_point MAE first 
 | HD/extended_144 | 44 | 2 | 1 | NO — breakthrough first |
 | HD/sonnet_72 | 42 | n/a | 3 | n/a — MAE never dropped 50% |
 
+#### Test 3: Does the articulated model guide exploitation targets?
+
+If the rough model from iter 0 OAT sweeps guides iter 1+ exploitation, then inputs identified as high-effect by OAT should be varied MORE in evaluate_point targets. Compute per-input: (a) OAT importance = max `actual_magnitude` across outputs from iter 0 sweeps, (b) exploitation emphasis = range of that input across iter 1+ evaluate_point X targets. Spearman correlation between (a) and (b) should be positive if model guides exploitation.
+
+| Condition | Seed | Spearman ρ (OAT importance vs exploit emphasis) | p-value | n inputs | Interpretation |
+|---|---|---|---|---|---|
+| 1D/prior_72 | 42 | +0.754 | 0.084 | 6 | model guides exploitation |
+| 1D/prior_72 | 43 | -0.123 | 0.816 | 6 | inverse — exploits LOW-effect inputs? |
+| 1D/prior_72 | 44 | -0.123 | 0.816 | 6 | inverse — exploits LOW-effect inputs? |
+| 1D/fresh_72 | 42 | -0.030 | 0.954 | 6 | no clear connection |
+| 1D/fresh_72 | 43 | +0.541 | 0.268 | 6 | no clear connection |
+| 1D/fresh_72 | 44 | -0.123 | 0.816 | 6 | inverse — exploits LOW-effect inputs? |
+| 1D/prior_144 | 42 | -0.123 | 0.816 | 6 | inverse — exploits LOW-effect inputs? |
+| 1E/prior_72 | 42 | -0.370 | 0.470 | 6 | inverse — exploits LOW-effect inputs? |
+| 1E/prior_72 | 43 | -0.293 | 0.573 | 6 | inverse — exploits LOW-effect inputs? |
+| 1E/prior_72 | 44 | -0.370 | 0.470 | 6 | inverse — exploits LOW-effect inputs? |
+| 1E/fresh_72 | 42 | -0.370 | 0.470 | 6 | inverse — exploits LOW-effect inputs? |
+| 1E/fresh_72 | 43 | -0.293 | 0.573 | 6 | inverse — exploits LOW-effect inputs? |
+| 1E/fresh_72 | 44 | -0.213 | 0.686 | 6 | inverse — exploits LOW-effect inputs? |
+| 1E/sonnet_prior_72 | 42 | -0.293 | 0.573 | 6 | inverse — exploits LOW-effect inputs? |
+
+**Summary:** 1/14 seeds show significant positive correlation (ρ > 0.3, p < 0.1) between OAT-discovered importance and exploitation emphasis. 11/14 show inverse pattern.
+
+#### Test 4: Are exploitation targets better than random (LHS)?
+
+Compare the mean output values of iter 1+ evaluate_point targets to the mean output values of initial LHS points, on the maximize objectives (Y1 and Y4). If evaluate_point targets are systematically better, the agent is directing exploitation to promising regions (regardless of whether it's model-guided or just following gradients).
+
+| Condition | Seed | LHS mean(Y1) | Exploit mean(Y1) | LHS mean(Y4) | Exploit mean(Y4) | Y1 better? | Y4 better? |
+|---|---|---|---|---|---|---|---|
+| 1D/prior_72 | 42 | 0.781 | 1.379 | 0.237 | 0.496 | YES | YES |
+| 1D/prior_72 | 43 | 0.653 | 1.852 | 0.178 | 0.521 | YES | YES |
+| 1D/prior_72 | 44 | 0.797 | 1.744 | 0.238 | 0.533 | YES | YES |
+| 1D/fresh_72 | 42 | 0.781 | 1.753 | 0.237 | 0.509 | YES | YES |
+| 1D/fresh_72 | 43 | 0.653 | 1.599 | 0.178 | 0.541 | YES | YES |
+| 1D/fresh_72 | 44 | 0.797 | 1.741 | 0.238 | 0.526 | YES | YES |
+| 1D/prior_144 | 42 | 0.781 | 1.879 | 0.237 | 0.540 | YES | YES |
+| 1E/prior_72 | 42 | 0.146 | 0.595 | 0.093 | 0.230 | YES | YES |
+| 1E/prior_72 | 43 | 0.060 | 0.608 | 0.067 | 0.213 | YES | YES |
+| 1E/prior_72 | 44 | 0.179 | 0.673 | 0.102 | 0.229 | YES | YES |
+| 1E/fresh_72 | 42 | 0.146 | 0.487 | 0.093 | 0.205 | YES | YES |
+| 1E/fresh_72 | 43 | 0.060 | 0.465 | 0.067 | 0.196 | YES | YES |
+| 1E/fresh_72 | 44 | 0.179 | 0.504 | 0.102 | 0.227 | YES | YES |
+| 1E/sonnet_prior_72 | 42 | 0.146 | 0.660 | 0.093 | 0.224 | YES | YES |
+
+**Summary:** 14/14 seeds have exploitation targets with higher mean Y1 than LHS. 14/14 for Y4. (Both are maximize objectives — higher = better.)
+
 **Summary:** 0/18 seeds show prediction improvement preceding or coinciding with the HV breakthrough. 18/18 show the breakthrough happening before prediction clicks.
 
 ### A.5 Falsification verdicts (updated with A.4)
@@ -145,6 +191,8 @@ For extended-budget runs, identify (a) the iteration where eval_point MAE first 
 - **OAT direction accuracy improves over iterations (secondary; OATs are front-loaded)**: **PASS** — 10/13 seeds (77%) show OAT direction accuracy higher in last non-None iter than first. Note: many seeds only have 1 iteration with OAT sweeps, so this metric is noisier than eval_point MAE.
 - **Surprise rate decreases over iterations**: **PASS** — 36/40 seeds (90%) show surprise count lower in last iteration than first
 - **Prediction improvement precedes HV breakthroughs (learning → exploitation coupling)**: **FALSIFIED** — Only 0/18 seeds (0%) show coupling — breakthroughs happen independent of prediction improvement.
+- **OAT-discovered input importance guides exploitation targets (model → exploitation causal link)**: **FALSIFIED** — Only 1/14 seeds (7%) show the expected correlation.
+- **Exploitation targets are better than random (LHS) on maximize objectives**: **PASS** — 14/14 seeds (100%) have exploitation targets with higher mean Y1 or Y4 than LHS. 14/14 are better on BOTH.
 
 ## Section B — Cross-seed dynamics correlations
 

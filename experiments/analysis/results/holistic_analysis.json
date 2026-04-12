@@ -3036,6 +3036,472 @@
         "coupling": "n/a \u2014 MAE never dropped 50%"
       }
     ],
+    "test3_data": [
+      {
+        "condition": "1D/prior_72",
+        "seed": 42,
+        "rho": 0.753702346348183,
+        "p": 0.0835232813732598,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.6,
+          0.09999999999999998,
+          0.19999999999999996,
+          0.09999999999999998,
+          0.9,
+          0.0
+        ],
+        "n_eval_points": 4
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 43,
+        "rho": -0.12344267996967354,
+        "p": 0.8157764957024014,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.44999999999999996,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 13
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 44,
+        "rho": -0.12344267996967354,
+        "p": 0.8157764957024014,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.9873,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.41999999999999993,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 21
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 42,
+        "rho": -0.030358837035945815,
+        "p": 0.9544757346935633,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.15000000000000002,
+          0.0,
+          0.9,
+          0.19999999999999998
+        ],
+        "n_eval_points": 3
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 43,
+        "rho": 0.5408987230262506,
+        "p": 0.26777767151474974,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.55,
+          0.0,
+          0.9,
+          0.0
+        ],
+        "n_eval_points": 8
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 44,
+        "rho": -0.12344267996967354,
+        "p": 0.8157764957024014,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.04999999999999993,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 7
+      },
+      {
+        "condition": "1D/prior_144",
+        "seed": 42,
+        "rho": -0.12344267996967354,
+        "p": 0.8157764957024014,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.44999999999999996,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 89
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 42,
+        "rho": -0.37032803990902063,
+        "p": 0.46990186287308766,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.44999999999999996
+        ],
+        "n_eval_points": 19
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 43,
+        "rho": -0.2927700218845599,
+        "p": 0.5733922538253555,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 28
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 44,
+        "rho": -0.37032803990902063,
+        "p": 0.46990186287308766,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.7,
+          0.0,
+          0.9,
+          0.7
+        ],
+        "n_eval_points": 19
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 42,
+        "rho": -0.37032803990902063,
+        "p": 0.46990186287308766,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.5
+        ],
+        "n_eval_points": 19
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 43,
+        "rho": -0.2927700218845599,
+        "p": 0.5733922538253555,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 11
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 44,
+        "rho": -0.21251185925162072,
+        "p": 0.6860308660088958,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.1,
+          0.44999999999999996
+        ],
+        "n_eval_points": 14
+      },
+      {
+        "condition": "1E/sonnet_prior_72",
+        "seed": 42,
+        "rho": -0.2927700218845599,
+        "p": 0.5733922538253555,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 28
+      }
+    ],
+    "test4_data": [
+      {
+        "condition": "1D/prior_72",
+        "seed": 42,
+        "lhs_y1": 0.7806105603487943,
+        "exploit_y1": 1.3788542499999998,
+        "lhs_y4": 0.23734310423369784,
+        "exploit_y4": 0.495505,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 43,
+        "lhs_y1": 0.6534723492447345,
+        "exploit_y1": 1.8521682307692304,
+        "lhs_y4": 0.17834434235730692,
+        "exploit_y4": 0.5207258461538461,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 44,
+        "lhs_y1": 0.7973236341214084,
+        "exploit_y1": 1.743518238095238,
+        "lhs_y4": 0.2379706112343811,
+        "exploit_y4": 0.5330635714285714,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 42,
+        "lhs_y1": 0.7806105603487943,
+        "exploit_y1": 1.75308,
+        "lhs_y4": 0.23734310423369784,
+        "exploit_y4": 0.5093226666666667,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 43,
+        "lhs_y1": 0.6534723492447345,
+        "exploit_y1": 1.599056625,
+        "lhs_y4": 0.17834434235730692,
+        "exploit_y4": 0.5405625000000001,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 44,
+        "lhs_y1": 0.7973236341214084,
+        "exploit_y1": 1.7405667142857142,
+        "lhs_y4": 0.2379706112343811,
+        "exploit_y4": 0.5261717142857143,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/prior_144",
+        "seed": 42,
+        "lhs_y1": 0.7806105603487943,
+        "exploit_y1": 1.8785988539325844,
+        "lhs_y4": 0.23734310423369784,
+        "exploit_y4": 0.5402389438202247,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 42,
+        "lhs_y1": 0.14621986476276408,
+        "exploit_y1": 0.5949778421052632,
+        "lhs_y4": 0.09338313752288203,
+        "exploit_y4": 0.22995505263157892,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 43,
+        "lhs_y1": 0.06048514148595441,
+        "exploit_y1": 0.6076493214285714,
+        "lhs_y4": 0.06673072986827132,
+        "exploit_y4": 0.21320310714285712,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 44,
+        "lhs_y1": 0.17851053909442563,
+        "exploit_y1": 0.6734517368421052,
+        "lhs_y4": 0.10249745604243266,
+        "exploit_y4": 0.22883505263157894,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 42,
+        "lhs_y1": 0.14621986476276408,
+        "exploit_y1": 0.4874147368421053,
+        "lhs_y4": 0.09338313752288203,
+        "exploit_y4": 0.2054191578947368,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 43,
+        "lhs_y1": 0.06048514148595441,
+        "exploit_y1": 0.4654953636363636,
+        "lhs_y4": 0.06673072986827132,
+        "exploit_y4": 0.1962468181818182,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 44,
+        "lhs_y1": 0.17851053909442563,
+        "exploit_y1": 0.504209,
+        "lhs_y4": 0.10249745604243266,
+        "exploit_y4": 0.22729807142857145,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/sonnet_prior_72",
+        "seed": 42,
+        "lhs_y1": 0.14621986476276408,
+        "exploit_y1": 0.6599438928571429,
+        "lhs_y4": 0.09338313752288203,
+        "exploit_y4": 0.22429957142857143,
+        "y1_better": true,
+        "y4_better": true
+      }
+    ],
     "verdicts": [
       {
         "claim": "VR learns from feedback (evaluate_point MAE \u2193, primary signal)",
@@ -3056,6 +3522,16 @@
         "claim": "Prediction improvement precedes HV breakthroughs (learning \u2192 exploitation coupling)",
         "verdict": "FALSIFIED",
         "evidence": "Only 0/18 seeds (0%) show coupling \u2014 breakthroughs happen independent of prediction improvement."
+      },
+      {
+        "claim": "OAT-discovered input importance guides exploitation targets (model \u2192 exploitation causal link)",
+        "verdict": "FALSIFIED",
+        "evidence": "Only 1/14 seeds (7%) show the expected correlation."
+      },
+      {
+        "claim": "Exploitation targets are better than random (LHS) on maximize objectives",
+        "verdict": "PASS",
+        "evidence": "14/14 seeds (100%) have exploitation targets with higher mean Y1 or Y4 than LHS. 14/14 are better on BOTH."
       }
     ]
   },

@@ -860,6 +860,230 @@ def section_a_learning_trajectories(
 
     doc.append("")
 
+    # Test 3: Does OAT-discovered input importance guide evaluate_point targeting?
+    doc.heading(4, "Test 3: Does the articulated model guide exploitation targets?")
+    doc.append(
+        "If the rough model from iter 0 OAT sweeps guides iter 1+ exploitation, "
+        "then inputs identified as high-effect by OAT should be varied MORE in "
+        "evaluate_point targets. Compute per-input: (a) OAT importance = max "
+        "`actual_magnitude` across outputs from iter 0 sweeps, (b) exploitation "
+        "emphasis = range of that input across iter 1+ evaluate_point X targets. "
+        "Spearman correlation between (a) and (b) should be positive if model "
+        "guides exploitation."
+    )
+    doc.append("")
+
+    test3_data: list[dict[str, Any]] = []
+    doc.append("| Condition | Seed | Spearman ρ (OAT importance vs exploit emphasis) | p-value | n inputs | Interpretation |")
+    doc.append("|---|---|---|---|---|---|")
+
+    for oracle_label, conditions in all_runs.items():
+        for cond_label, runs in conditions.items():
+            for run in runs:
+                if run.n_iterations < 2:
+                    continue
+
+                # Load raw tool calls
+                try:
+                    log_name = _run_log_name(oracle_label, run.condition_label, run.seed)
+                    log_path = ROOT / "experiments" / "vr_agent" / "results" / log_name
+                    with open(log_path) as f:
+                        log = json.load(f)
+                except Exception:
+                    continue
+
+                tool_calls = log.get("tool_calls", []) or []
+                n_init = run.n_initial
+                oracle = get_oracle(oracle_label)
+                n_inputs = oracle.n_inputs
+                input_names = list(oracle.input_names)
+
+                # Group tool calls by iteration
+                tc_groups = group_tool_calls_by_iteration(log, n_init)
+                if len(tc_groups) < 2:
+                    continue
+
+                # (a) OAT importance from iter 0: per-input max actual_magnitude
+                oat_importance = np.zeros(n_inputs)
+                for tc in tc_groups[0]:
+                    if tc.get("name") != "oat_sweep":
+                        continue
+                    iname = tc.get("input", {}).get("input_name")
+                    if iname not in input_names:
+                        continue
+                    idx = input_names.index(iname)
+                    result = tc.get("result", {})
+                    if not isinstance(result, dict):
+                        continue
+                    scores = result.get("trend_scores", {}) or {}
+                    for _oname, s in scores.items():
+                        if isinstance(s, dict) and "actual_magnitude" in s:
+                            try:
+                                mag = float(s["actual_magnitude"])
+                                oat_importance[idx] = max(oat_importance[idx], mag)
+                            except (TypeError, ValueError):
+                                pass
+
+                if oat_importance.sum() < 1e-10:
+                    continue  # no OAT data in iter 0
+
+                # (b) Exploitation emphasis from iter 1+: per-input range across
+                #     evaluate_point targets
+                eval_points_x: list[list[float]] = []
+                for grp in tc_groups[1:]:
+                    for tc in grp:
+                        if tc.get("name") != "evaluate_point":
+                            continue
+                        pt = tc.get("input", {}).get("point", [])
+                        if len(pt) == n_inputs:
+                            eval_points_x.append([float(v) for v in pt])
+
+                if len(eval_points_x) < 2:
+                    continue  # need at least 2 evaluate_points for range
+
+                eval_arr = np.array(eval_points_x)
+                exploit_emphasis = eval_arr.max(axis=0) - eval_arr.min(axis=0)
+
+                # Spearman correlation
+                from scipy.stats import spearmanr
+                rho, p_val = spearmanr(oat_importance, exploit_emphasis)
+
+                cond_key = f"{oracle_label}/{cond_label}"
+                if p_val < 0.1 and rho > 0.3:
+                    interp = "model guides exploitation"
+                elif rho < -0.1:
+                    interp = "inverse — exploits LOW-effect inputs?"
+                else:
+                    interp = "no clear connection"
+
+                doc.append(
+                    f"| {cond_key} | {run.seed} | {rho:+.3f} | {p_val:.3f} | "
+                    f"{n_inputs} | {interp} |"
+                )
+                test3_data.append({
+                    "condition": cond_key, "seed": run.seed,
+                    "rho": float(rho), "p": float(p_val),
+                    "oat_importance": oat_importance.tolist(),
+                    "exploit_emphasis": exploit_emphasis.tolist(),
+                    "n_eval_points": len(eval_points_x),
+                })
+
+    doc.append("")
+
+    # Test 3 summary
+    if test3_data:
+        pos_sig = sum(1 for d in test3_data if d["rho"] > 0.3 and d["p"] < 0.1)
+        neg = sum(1 for d in test3_data if d["rho"] < -0.1)
+        total = len(test3_data)
+        doc.append(
+            f"**Summary:** {pos_sig}/{total} seeds show significant positive "
+            f"correlation (ρ > 0.3, p < 0.1) between OAT-discovered importance "
+            f"and exploitation emphasis. {neg}/{total} show inverse pattern."
+        )
+    doc.append("")
+
+    # Test 4: Are evaluate_point targets better than LHS on optimization objectives?
+    doc.heading(4, "Test 4: Are exploitation targets better than random (LHS)?")
+    doc.append(
+        "Compare the mean output values of iter 1+ evaluate_point targets "
+        "to the mean output values of initial LHS points, on the maximize "
+        "objectives (Y1 and Y4). If evaluate_point targets are systematically "
+        "better, the agent is directing exploitation to promising regions "
+        "(regardless of whether it's model-guided or just following gradients)."
+    )
+    doc.append("")
+
+    test4_data: list[dict[str, Any]] = []
+    doc.append("| Condition | Seed | LHS mean(Y1) | Exploit mean(Y1) | LHS mean(Y4) | Exploit mean(Y4) | Y1 better? | Y4 better? |")
+    doc.append("|---|---|---|---|---|---|---|---|")
+
+    for oracle_label, conditions in all_runs.items():
+        for cond_label, runs in conditions.items():
+            for run in runs:
+                if run.n_iterations < 2:
+                    continue
+
+                oracle = get_oracle(oracle_label)
+                n_init = run.n_initial
+
+                # Load raw data
+                try:
+                    log_name = _run_log_name(oracle_label, run.condition_label, run.seed)
+                    log_path = ROOT / "experiments" / "vr_agent" / "results" / log_name
+                    with open(log_path) as f:
+                        log_data = json.load(f)
+                    npz_name = log_name.replace("_log.json", ".npz")
+                    npz_path = ROOT / "experiments" / "vr_agent" / "results" / npz_name
+                    npz_data = dict(np.load(npz_path))
+                except Exception:
+                    continue
+
+                Y_all = npz_data.get("Y")
+                if Y_all is None or len(Y_all) < n_init + 2:
+                    continue
+
+                # LHS Y values (first n_initial rows)
+                Y_lhs = Y_all[:n_init]
+
+                # Evaluate_point Y values (from tool calls in iter 1+)
+                tc_groups = group_tool_calls_by_iteration(log_data, n_init)
+                if len(tc_groups) < 2:
+                    continue
+
+                eval_ys: list[list[float]] = []
+                for grp in tc_groups[1:]:
+                    for tc in grp:
+                        if tc.get("name") != "evaluate_point":
+                            continue
+                        result = tc.get("result", {})
+                        if not isinstance(result, dict):
+                            continue
+                        outputs = result.get("outputs", {})
+                        if outputs and len(outputs) == oracle.n_outputs:
+                            eval_ys.append([float(outputs.get(o, 0))
+                                           for o in oracle.output_names])
+
+                if len(eval_ys) < 2:
+                    continue
+
+                eval_Y = np.array(eval_ys)
+
+                # Compare Y1 (maximize, index 0) and Y4 (maximize, index 3)
+                lhs_y1 = float(np.mean(Y_lhs[:, 0]))
+                lhs_y4 = float(np.mean(Y_lhs[:, 3]))
+                exp_y1 = float(np.mean(eval_Y[:, 0]))
+                exp_y4 = float(np.mean(eval_Y[:, 3]))
+
+                y1_better = "YES" if exp_y1 > lhs_y1 else "no"
+                y4_better = "YES" if exp_y4 > lhs_y4 else "no"
+
+                cond_key = f"{oracle_label}/{cond_label}"
+                doc.append(
+                    f"| {cond_key} | {run.seed} | {lhs_y1:.3f} | {exp_y1:.3f} | "
+                    f"{lhs_y4:.3f} | {exp_y4:.3f} | {y1_better} | {y4_better} |"
+                )
+                test4_data.append({
+                    "condition": cond_key, "seed": run.seed,
+                    "lhs_y1": lhs_y1, "exploit_y1": exp_y1,
+                    "lhs_y4": lhs_y4, "exploit_y4": exp_y4,
+                    "y1_better": exp_y1 > lhs_y1,
+                    "y4_better": exp_y4 > lhs_y4,
+                })
+
+    doc.append("")
+
+    # Test 4 summary
+    if test4_data:
+        n_y1_better = sum(1 for d in test4_data if d["y1_better"])
+        n_y4_better = sum(1 for d in test4_data if d["y4_better"])
+        total = len(test4_data)
+        doc.append(
+            f"**Summary:** {n_y1_better}/{total} seeds have exploitation targets "
+            f"with higher mean Y1 than LHS. {n_y4_better}/{total} for Y4. "
+            f"(Both are maximize objectives — higher = better.)"
+        )
+    doc.append("")
+
     # Summary of temporal coupling
     n_clicks_first = sum(1 for d in temporal_coupling_data
                          if "clicks first" in d["coupling"])
@@ -903,6 +1127,49 @@ def section_a_learning_trajectories(
                 "evidence": f"{n_clicks_first}/{n_total} seeds ({frac:.0%}) — mixed signal.",
             })
 
+    # Add Test 3 verdict
+    if test3_data:
+        pos_sig = sum(1 for d in test3_data if d["rho"] > 0.3 and d["p"] < 0.1)
+        total_t3 = len(test3_data)
+        frac_t3 = pos_sig / total_t3 if total_t3 > 0 else 0
+        if frac_t3 >= 0.5:
+            verdicts.append({
+                "claim": "OAT-discovered input importance guides exploitation targets (model → exploitation causal link)",
+                "verdict": "PASS",
+                "evidence": f"{pos_sig}/{total_t3} seeds ({frac_t3:.0%}) show significant positive Spearman ρ (> 0.3, p < 0.1) between OAT importance and exploitation emphasis.",
+            })
+        elif frac_t3 <= 0.1:
+            verdicts.append({
+                "claim": "OAT-discovered input importance guides exploitation targets (model → exploitation causal link)",
+                "verdict": "FALSIFIED",
+                "evidence": f"Only {pos_sig}/{total_t3} seeds ({frac_t3:.0%}) show the expected correlation.",
+            })
+        else:
+            verdicts.append({
+                "claim": "OAT-discovered input importance guides exploitation targets (model → exploitation causal link)",
+                "verdict": "QUALIFIED",
+                "evidence": f"{pos_sig}/{total_t3} seeds ({frac_t3:.0%}) show the expected correlation — mixed.",
+            })
+
+    # Add Test 4 verdict
+    if test4_data:
+        n_both_better = sum(1 for d in test4_data if d["y1_better"] and d["y4_better"])
+        n_either_better = sum(1 for d in test4_data if d["y1_better"] or d["y4_better"])
+        total_t4 = len(test4_data)
+        frac_t4 = n_either_better / total_t4 if total_t4 > 0 else 0
+        if frac_t4 >= 0.7:
+            verdicts.append({
+                "claim": "Exploitation targets are better than random (LHS) on maximize objectives",
+                "verdict": "PASS",
+                "evidence": f"{n_either_better}/{total_t4} seeds ({frac_t4:.0%}) have exploitation targets with higher mean Y1 or Y4 than LHS. {n_both_better}/{total_t4} are better on BOTH.",
+            })
+        else:
+            verdicts.append({
+                "claim": "Exploitation targets are better than random (LHS) on maximize objectives",
+                "verdict": "QUALIFIED",
+                "evidence": f"{n_either_better}/{total_t4} seeds ({frac_t4:.0%}) are better on at least one objective. {n_both_better}/{total_t4} on both.",
+            })
+
     for v in verdicts:
         doc.append(f"- **{v['claim']}**: **{v['verdict']}** — {v['evidence']}")
     doc.append("")
@@ -911,6 +1178,8 @@ def section_a_learning_trajectories(
         "trajectories": section_data,
         "hv_gain_data": hv_gain_data,
         "temporal_coupling": temporal_coupling_data,
+        "test3_data": test3_data,
+        "test4_data": test4_data,
         "verdicts": verdicts,
     })
 
