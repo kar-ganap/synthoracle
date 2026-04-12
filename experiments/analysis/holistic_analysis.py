@@ -881,13 +881,237 @@ def _section_a_verdicts(section_data: dict[str, Any]) -> list[dict[str, str]]:
 
 
 # ---------------------------------------------------------------------------
+# Section B: cross-seed dynamics correlations
+# ---------------------------------------------------------------------------
+
+
+def section_b_cross_seed_correlations(
+    all_runs: dict[str, dict[str, list[RunMetrics]]],
+    doc: FindingsDoc,
+) -> None:
+    """Section B: do within-run dynamics predict final outcomes?
+
+    For each condition with n>=3, compute per-seed metrics and test whether
+    late-iteration prediction accuracy, calibration learning, or surprise
+    decrease rate correlate with final HV.
+    """
+    from scipy import stats as scipy_stats
+
+    doc.section("B", "Cross-seed dynamics correlations")
+    doc.append(
+        "**Question:** Do per-seed dynamics metrics correlate with per-seed "
+        "final HV within the same condition? If calibration learning predicts "
+        "better HV, that's evidence the confidence-tracking mechanism works. "
+        "If final recall correlates with final HV, that's evidence discovery "
+        "helps exploitation (or at least that they track together)."
+    )
+    doc.append("")
+    doc.append(
+        "**Caveat:** With n=3 per condition, correlations are extremely noisy. "
+        "n=10 (1A multi_seed) is the only condition with real statistical power. "
+        "For n=3 conditions, individual r values should be treated as directional "
+        "only. We pool across conditions where possible for more robust signals."
+    )
+    doc.append("")
+
+    section_data: dict[str, Any] = {}
+
+    # Collect per-seed metrics for all conditions with n>=3
+    all_rows: list[dict[str, Any]] = []  # pooled across conditions for aggregate analysis
+
+    doc.heading(3, "B.1 Per-condition summary")
+    doc.append(
+        "| Condition | n | r(HV, late_eval_MAE) | r(HV, final_recall) | "
+        "r(HV, surprise_decrease) | r(HV, n_iters) |"
+    )
+    doc.append("|---|---|---|---|---|---|")
+
+    for oracle_label, conditions in all_runs.items():
+        for cond_label, runs in conditions.items():
+            if len(runs) < 3:
+                continue
+            cond_key = f"{oracle_label}/{cond_label}"
+            gt_n = len(ground_truth_io_pairs(oracle_label))
+
+            seed_metrics: list[dict[str, Any]] = []
+            for run in runs:
+                iters = run.iterations
+                if not iters:
+                    continue
+
+                # Late-iter eval_point MAE (last non-None)
+                ep_vals = [it.eval_point_mae for it in iters if it.eval_point_mae is not None]
+                late_ep_mae = ep_vals[-1] if ep_vals else None
+
+                # Final recall at high confidence
+                last_iter = iters[-1]
+                final_recall = last_iter.recall_at_high_conf
+
+                # Surprise decrease: (last surp - first surp)
+                surp_first = iters[0].n_surprises
+                surp_last = iters[-1].n_surprises
+                surp_decrease = surp_first - surp_last  # positive = fewer surprises at end
+
+                row = {
+                    "seed": run.seed,
+                    "final_hv": run.final_hv,
+                    "late_ep_mae": late_ep_mae,
+                    "final_recall": final_recall,
+                    "surp_decrease": surp_decrease,
+                    "n_iters": run.n_iterations,
+                    "condition": cond_key,
+                    "oracle": oracle_label,
+                }
+                seed_metrics.append(row)
+                all_rows.append(row)
+
+            section_data[cond_key] = seed_metrics
+
+            # Compute correlations where we have enough non-None values
+            def _corr(metric_key: str) -> str:
+                vals = [(m["final_hv"], m[metric_key]) for m in seed_metrics
+                        if m[metric_key] is not None]
+                if len(vals) < 3:
+                    return "n/a"
+                x = [v[0] for v in vals]
+                y = [v[1] for v in vals]
+                if np.std(x) < 1e-12 or np.std(y) < 1e-12:
+                    return "const"
+                r, p = scipy_stats.pearsonr(x, y)
+                return f"{r:+.2f} (p={p:.2f})"
+
+            doc.append(
+                f"| {cond_key} | {len(seed_metrics)} | "
+                f"{_corr('late_ep_mae')} | {_corr('final_recall')} | "
+                f"{_corr('surp_decrease')} | {_corr('n_iters')} |"
+            )
+
+    doc.append("")
+
+    # Pooled analysis across ALL n>=3 conditions
+    doc.heading(3, "B.2 Pooled cross-condition analysis")
+    doc.append(
+        "Pool all seeds from n>=3 conditions. **Warning:** pooling across "
+        "conditions mixes different oracles and budgets, so correlation "
+        "structure may be driven by between-condition differences rather "
+        "than within-condition variation. Report for completeness but "
+        "interpret cautiously."
+    )
+    doc.append("")
+
+    if len(all_rows) >= 5:
+        from scipy.stats import pearsonr, spearmanr
+
+        def _pooled_corr(key: str, label: str) -> str:
+            """Compute pooled Pearson + Spearman for a metric vs final_hv."""
+            pairs = [(r["final_hv"], r[key]) for r in all_rows
+                     if r[key] is not None and not (isinstance(r[key], float) and math.isnan(r[key]))]
+            if len(pairs) < 5:
+                return f"  {label}: insufficient data (n={len(pairs)})"
+            x = [p[0] for p in pairs]
+            y = [p[1] for p in pairs]
+            if np.std(x) < 1e-12 or np.std(y) < 1e-12:
+                return f"  {label}: constant values"
+            r_p, p_p = pearsonr(x, y)
+            r_s, p_s = spearmanr(x, y)
+            return (
+                f"  {label} (n={len(pairs)}): "
+                f"Pearson r={r_p:+.3f} (p={p_p:.3f}), "
+                f"Spearman ρ={r_s:+.3f} (p={p_s:.3f})"
+            )
+
+        doc.append("```")
+        doc.append(_pooled_corr("late_ep_mae", "final_hv vs late_eval_MAE"))
+        doc.append(_pooled_corr("final_recall", "final_hv vs final_recall"))
+        doc.append(_pooled_corr("surp_decrease", "final_hv vs surprise_decrease"))
+        doc.append(_pooled_corr("n_iters", "final_hv vs n_iterations"))
+        doc.append("```")
+        doc.append("")
+
+        doc.append(
+            "**Expected signs:** HV vs late_eval_MAE should be **negative** (better "
+            "predictions → higher HV). HV vs final_recall should be **positive** "
+            "(more discovered edges → better HV). HV vs surprise_decrease should be "
+            "**positive** (more learning → higher HV). HV vs n_iters is ambiguous "
+            "(more iters could mean more learning OR more failed attempts)."
+        )
+        doc.append("")
+
+    # B.3 Verdicts
+    doc.heading(3, "B.3 Falsification verdicts")
+
+    verdicts = []
+
+    # Check the most important correlation: HV vs late_eval_MAE
+    ep_pairs = [(r["final_hv"], r["late_ep_mae"]) for r in all_rows
+                if r["late_ep_mae"] is not None]
+    if len(ep_pairs) >= 5:
+        from scipy.stats import pearsonr
+        x = [p[0] for p in ep_pairs]
+        y = [p[1] for p in ep_pairs]
+        r, p = pearsonr(x, y)
+        if r < -0.2 and p < 0.1:
+            verdicts.append({
+                "claim": "Better prediction accuracy predicts higher HV",
+                "verdict": "PASS",
+                "evidence": f"Pooled Pearson r={r:.3f}, p={p:.3f}, n={len(ep_pairs)}. "
+                           "Negative correlation as expected (lower MAE → higher HV).",
+            })
+        elif abs(r) < 0.2:
+            verdicts.append({
+                "claim": "Better prediction accuracy predicts higher HV",
+                "verdict": "INCONCLUSIVE",
+                "evidence": f"Pooled Pearson r={r:.3f}, p={p:.3f}, n={len(ep_pairs)}. "
+                           "Weak or near-zero correlation — may be driven by within-condition noise "
+                           "or between-condition mixing.",
+            })
+        else:
+            verdicts.append({
+                "claim": "Better prediction accuracy predicts higher HV",
+                "verdict": "QUALIFIED",
+                "evidence": f"Pooled Pearson r={r:.3f}, p={p:.3f}, n={len(ep_pairs)}.",
+            })
+
+    # Check recall vs HV
+    recall_pairs = [(r["final_hv"], r["final_recall"]) for r in all_rows
+                    if r["final_recall"] is not None]
+    if len(recall_pairs) >= 5:
+        from scipy.stats import pearsonr
+        x = [p[0] for p in recall_pairs]
+        y = [p[1] for p in recall_pairs]
+        r, p = pearsonr(x, y)
+        if r > 0.2 and p < 0.1:
+            v = "PASS"
+        elif abs(r) < 0.2:
+            v = "INCONCLUSIVE"
+        else:
+            v = "QUALIFIED"
+        verdicts.append({
+            "claim": "Discovery (final recall) predicts exploitation (final HV)",
+            "verdict": v,
+            "evidence": f"Pooled Pearson r={r:.3f}, p={p:.3f}, n={len(recall_pairs)}.",
+        })
+
+    for vd in verdicts:
+        doc.append(f"- **{vd['claim']}**: **{vd['verdict']}** — {vd['evidence']}")
+    doc.append("")
+
+    doc.save_json("section_b", {
+        "per_condition": section_data,
+        "pooled_n": len(all_rows),
+        "verdicts": verdicts,
+    })
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
 
 SECTIONS: dict[str, Callable[[dict, FindingsDoc], None]] = {
     "A": section_a_learning_trajectories,
-    # B-I to be added incrementally
+    "B": section_b_cross_seed_correlations,
+    # C-I to be added incrementally
 }
 
 

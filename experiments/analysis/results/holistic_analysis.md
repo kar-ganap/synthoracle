@@ -57,3 +57,43 @@ _Generated 40 per-seed trajectory plots._
 - **OAT direction accuracy improves over iterations (secondary; OATs are front-loaded)**: **PASS** — 10/13 seeds (77%) show OAT direction accuracy higher in last non-None iter than first. Note: many seeds only have 1 iteration with OAT sweeps, so this metric is noisier than eval_point MAE.
 - **Surprise rate decreases over iterations**: **PASS** — 36/40 seeds (90%) show surprise count lower in last iteration than first
 
+## Section B — Cross-seed dynamics correlations
+
+**Question:** Do per-seed dynamics metrics correlate with per-seed final HV within the same condition? If calibration learning predicts better HV, that's evidence the confidence-tracking mechanism works. If final recall correlates with final HV, that's evidence discovery helps exploitation (or at least that they track together).
+
+**Caveat:** With n=3 per condition, correlations are extremely noisy. n=10 (1A multi_seed) is the only condition with real statistical power. For n=3 conditions, individual r values should be treated as directional only. We pool across conditions where possible for more robust signals.
+
+### B.1 Per-condition summary
+
+| Condition | n | r(HV, late_eval_MAE) | r(HV, final_recall) | r(HV, surprise_decrease) | r(HV, n_iters) |
+|---|---|---|---|---|---|
+| 1A/multi_seed_72 | 10 | -0.27 (p=0.48) | +0.09 (p=0.80) | -0.39 (p=0.26) | +0.26 (p=0.46) |
+| 1A/extended_144 | 4 | -0.51 (p=0.49) | -0.58 (p=0.42) | +0.62 (p=0.38) | -0.27 (p=0.73) |
+| 1B/fresh_72 | 2 | n/a | n/a | n/a | n/a |
+| 1D/prior_72 | 3 | -0.96 (p=0.17) | const | -0.72 (p=0.49) | const |
+| 1D/fresh_72 | 3 | +1.00 (p=0.06) | +0.69 (p=0.52) | -0.23 (p=0.85) | +0.29 (p=0.81) |
+| 1E/prior_72 | 3 | +0.34 (p=0.78) | const | -0.92 (p=0.26) | -0.80 (p=0.40) |
+| 1E/fresh_72 | 3 | -0.29 (p=0.81) | const | const | +0.32 (p=0.79) |
+| HD/base_72 | 3 | +0.41 (p=0.73) | -0.35 (p=0.77) | +0.64 (p=0.56) | -0.35 (p=0.77) |
+| HD/extended_144 | 3 | +0.17 (p=0.89) | -0.10 (p=0.94) | +0.41 (p=0.73) | -0.15 (p=0.91) |
+| HD/sonnet_72 | 3 | -0.99 (p=0.08) | const | -0.94 (p=0.21) | -1.00 (p=0.00) |
+| HD/haiku_72 | 3 | n/a | +0.32 (p=0.80) | -0.66 (p=0.54) | -0.66 (p=0.54) |
+
+### B.2 Pooled cross-condition analysis
+
+Pool all seeds from n>=3 conditions. **Warning:** pooling across conditions mixes different oracles and budgets, so correlation structure may be driven by between-condition differences rather than within-condition variation. Report for completeness but interpret cautiously.
+
+```
+  final_hv vs late_eval_MAE (n=36): Pearson r=-0.038 (p=0.826), Spearman ρ=-0.413 (p=0.012)
+  final_hv vs final_recall (n=40): Pearson r=+0.375 (p=0.017), Spearman ρ=+0.445 (p=0.004)
+  final_hv vs surprise_decrease (n=40): Pearson r=+0.152 (p=0.350), Spearman ρ=+0.387 (p=0.014)
+  final_hv vs n_iterations (n=40): Pearson r=-0.085 (p=0.603), Spearman ρ=+0.415 (p=0.008)
+```
+
+**Expected signs:** HV vs late_eval_MAE should be **negative** (better predictions → higher HV). HV vs final_recall should be **positive** (more discovered edges → better HV). HV vs surprise_decrease should be **positive** (more learning → higher HV). HV vs n_iters is ambiguous (more iters could mean more learning OR more failed attempts).
+
+### B.3 Falsification verdicts
+
+- **Better prediction accuracy predicts higher HV**: **INCONCLUSIVE** — Pooled Pearson r=-0.038, p=0.826, n=36. Weak or near-zero correlation — may be driven by within-condition noise or between-condition mixing.
+- **Discovery (final recall) predicts exploitation (final HV)**: **PASS** — Pooled Pearson r=0.375, p=0.017, n=40.
+
