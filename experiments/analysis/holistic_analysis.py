@@ -692,24 +692,56 @@ def section_a_learning_trajectories(
 def _plot_run_learning_trajectory(
     run: RunMetrics, oracle_label: str, cond_label: str,
 ) -> Path | None:
-    """Save a 4-panel plot of the run's per-iteration metrics."""
+    """Save a 4-panel plot of the run's per-iteration metrics.
+
+    Design choices for honest visualization:
+    - X-axis forced to integer ticks (iterations are discrete events)
+    - Y-axis forced to integer ticks for surprise count
+    - Markers at every iteration; line segments ONLY between consecutive
+      non-None values (gaps are visible when an iteration has no OAT/eval_point)
+    - X-axis padded to show full iteration range even if data is sparse
+    """
+    from matplotlib.ticker import MaxNLocator
+
     iters = run.iterations
     if len(iters) < 2:
         return None
 
     iter_idx = [it.iteration for it in iters]
+    n_iters = max(iter_idx) + 1 if iter_idx else 1
 
     fig, axes = plt.subplots(2, 2, figsize=(10, 6))
 
-    def _plot_safe(ax, x, y, title, ylabel, ylim=None):
+    def _plot_safe(ax, x, y, title, ylabel, ylim=None, integer_y=False):
         y_clean = [v if v is not None else np.nan for v in y]
-        ax.plot(x, y_clean, "o-", linewidth=2, markersize=6)
-        ax.set_title(title)
+        # Plot markers at all iterations (including NaN → they won't render)
+        ax.plot(x, y_clean, "o", markersize=6, color="#1f77b4", zorder=3)
+        # Draw line segments only between consecutive non-NaN points
+        for i in range(len(x) - 1):
+            if not (np.isnan(y_clean[i]) or np.isnan(y_clean[i + 1])):
+                ax.plot(
+                    [x[i], x[i + 1]], [y_clean[i], y_clean[i + 1]],
+                    "-", linewidth=1.5, color="#1f77b4", zorder=2,
+                )
+        ax.set_title(title, fontsize=9)
         ax.set_xlabel("Iteration")
         ax.set_ylabel(ylabel)
+        # Force integer ticks on x-axis and pad range
+        ax.set_xlim(-0.5, n_iters - 0.5)
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        if integer_y:
+            ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         if ylim:
             ax.set_ylim(ylim)
         ax.grid(True, alpha=0.3)
+
+        # Annotate how many data points are non-NaN
+        n_valid = sum(1 for v in y_clean if not np.isnan(v))
+        ax.text(
+            0.98, 0.02, f"n={n_valid}/{len(y_clean)}",
+            transform=ax.transAxes, fontsize=7, ha="right", va="bottom",
+            color="gray",
+        )
 
     _plot_safe(
         axes[0, 0], iter_idx,
@@ -731,6 +763,7 @@ def _plot_run_learning_trajectory(
         axes[1, 1], iter_idx,
         [float(it.n_surprises) for it in iters],
         "surprise count", "count",
+        integer_y=True,
     )
 
     fig.suptitle(
