@@ -676,15 +676,241 @@ def section_a_learning_trajectories(
     doc.append(f"_Generated {plot_count} per-seed trajectory plots._")
     doc.append("")
 
+    # A.4: Does improved prediction connect to better exploitation?
+    doc.heading(3, "A.4 Does the learning loop connect to exploitation?")
+    doc.append(
+        "The key confound: predictions improve (eval_point MAE drops) but "
+        "Section B showed within-condition prediction accuracy doesn't correlate "
+        "with final HV. Is the learning loop disconnected from exploitation, "
+        "or does it help in a way Section B couldn't detect?"
+    )
+    doc.append("")
+
+    # Test 1: HV gain rate per iteration
+    doc.heading(4, "Test 1: HV gain rate per iteration")
+    doc.append(
+        "If improved predictions feed into better exploitation, HV gain per eval "
+        "should be **higher in later iterations** (where the model is better). "
+        "Computed as (HV_end − HV_start) / n_evals for each iteration."
+    )
+    doc.append("")
+    doc.append(
+        "Note: diminishing returns near the Pareto front can also cause declining "
+        "HV gain rate, so a decreasing rate is ambiguous. An INCREASING rate is "
+        "strong evidence of exploitation improving."
+    )
+    doc.append("")
+
+    # Collect HV gain rate per iteration for extended-budget runs
+    hv_gain_data: dict[str, list[dict]] = {}
+
+    for oracle_label, conditions in all_runs.items():
+        for cond_label, runs in conditions.items():
+            if not runs:
+                continue
+            cond_key = f"{oracle_label}/{cond_label}"
+            seed_gains: list[dict] = []
+
+            for run in runs:
+                if run.n_iterations < 3:
+                    continue  # need at least 3 iterations for a meaningful trajectory
+                iters = run.iterations
+                hv_traj = run.hv_trajectory
+                n_init = run.n_initial
+
+                gains_per_iter: list[dict] = []
+                prev_eval = 0
+                for it in iters:
+                    eval_end = it.eval_count
+                    n_evals_this_iter = eval_end - prev_eval
+                    if n_evals_this_iter <= 0:
+                        prev_eval = eval_end
+                        continue
+                    # HV at start and end of this iteration
+                    hv_start = hv_traj[prev_eval - 1] if prev_eval > 0 else 0.0
+                    hv_end = hv_traj[min(eval_end - 1, len(hv_traj) - 1)]
+                    hv_gain = hv_end - hv_start
+                    hv_gain_per_eval = hv_gain / n_evals_this_iter
+
+                    gains_per_iter.append({
+                        "iteration": it.iteration,
+                        "eval_start": prev_eval,
+                        "eval_end": eval_end,
+                        "n_evals": n_evals_this_iter,
+                        "hv_gain": round(hv_gain, 6),
+                        "hv_gain_per_eval": round(hv_gain_per_eval, 6),
+                    })
+                    prev_eval = eval_end
+
+                if gains_per_iter:
+                    seed_gains.append({
+                        "seed": run.seed,
+                        "gains": gains_per_iter,
+                    })
+
+            if seed_gains:
+                hv_gain_data[cond_key] = seed_gains
+
+    # Report: for conditions with data, show whether gain rate increases or decreases
+    doc.append("| Condition | Seed | Iter 0 gain/eval | Last iter gain/eval | Trend | Notes |")
+    doc.append("|---|---|---|---|---|---|")
+
+    for cond_key, seed_gains in hv_gain_data.items():
+        for sg in seed_gains:
+            gains = sg["gains"]
+            if len(gains) < 2:
+                continue
+            first_gpe = gains[0]["hv_gain_per_eval"]
+            last_gpe = gains[-1]["hv_gain_per_eval"]
+            # Find the max gain/eval and which iteration it's in
+            max_gpe = max(g["hv_gain_per_eval"] for g in gains)
+            max_iter = next(g["iteration"] for g in gains
+                           if g["hv_gain_per_eval"] == max_gpe)
+            n_iters = len(gains)
+            if last_gpe > first_gpe * 1.5:
+                trend = "↑ INCREASING"
+            elif last_gpe < first_gpe * 0.5:
+                trend = "↓ decreasing"
+            else:
+                trend = "→ flat"
+            doc.append(
+                f"| {cond_key} | {sg['seed']} | {first_gpe:.5f} | "
+                f"{last_gpe:.5f} | {trend} | max at iter {max_iter} "
+                f"({max_gpe:.5f}), {n_iters} iters |"
+            )
+    doc.append("")
+
+    # Test 2: Temporal coupling of prediction improvement and HV jumps
+    doc.heading(4, "Test 2: Does prediction improvement precede HV breakthroughs?")
+    doc.append(
+        "For extended-budget runs, identify (a) the iteration where eval_point MAE "
+        "first drops below 50% of its initial value ('prediction clicks'), and "
+        "(b) the iteration with the largest single-iteration HV gain ('exploitation "
+        "breakthrough'). If (a) precedes or coincides with (b), the learning loop "
+        "connects to exploitation."
+    )
+    doc.append("")
+
+    doc.append(
+        "| Condition | Seed | Pred clicks (iter) | HV breakthrough (iter) | "
+        "Clicks before breakthrough? |"
+    )
+    doc.append("|---|---|---|---|---|")
+
+    temporal_coupling_data: list[dict] = []
+
+    for cond_key, seed_gains in hv_gain_data.items():
+        for sg in seed_gains:
+            seed = sg["seed"]
+            gains = sg["gains"]
+
+            # Find the run metrics for this seed
+            oracle_label = cond_key.split("/")[0]
+            cond_label = cond_key.split("/")[1]
+            run = None
+            for r in all_runs.get(oracle_label, {}).get(cond_label, []):
+                if r.seed == seed:
+                    run = r
+                    break
+            if run is None or run.n_iterations < 3:
+                continue
+
+            # (a) Prediction clicks: first iteration where eval_point MAE < 50% of first
+            ep_maes = [(it.iteration, it.eval_point_mae) for it in run.iterations
+                       if it.eval_point_mae is not None]
+            pred_clicks_iter = None
+            if len(ep_maes) >= 2:
+                first_mae = ep_maes[0][1]
+                for it_idx, mae in ep_maes[1:]:
+                    if mae < first_mae * 0.5:
+                        pred_clicks_iter = it_idx
+                        break
+
+            # (b) HV breakthrough: iteration with largest HV gain
+            if gains:
+                best_gain = max(gains, key=lambda g: g["hv_gain"])
+                hv_breakthrough_iter = best_gain["iteration"]
+            else:
+                hv_breakthrough_iter = None
+
+            # Compare
+            if pred_clicks_iter is not None and hv_breakthrough_iter is not None:
+                if pred_clicks_iter <= hv_breakthrough_iter:
+                    coupling = "YES — clicks first"
+                else:
+                    coupling = "NO — breakthrough first"
+            elif pred_clicks_iter is None:
+                coupling = "n/a — MAE never dropped 50%"
+            else:
+                coupling = "n/a"
+
+            doc.append(
+                f"| {cond_key} | {seed} | "
+                f"{pred_clicks_iter if pred_clicks_iter is not None else 'n/a'} | "
+                f"{hv_breakthrough_iter if hv_breakthrough_iter is not None else 'n/a'} | "
+                f"{coupling} |"
+            )
+            temporal_coupling_data.append({
+                "condition": cond_key,
+                "seed": seed,
+                "pred_clicks_iter": pred_clicks_iter,
+                "hv_breakthrough_iter": hv_breakthrough_iter,
+                "coupling": coupling,
+            })
+
+    doc.append("")
+
+    # Summary of temporal coupling
+    n_clicks_first = sum(1 for d in temporal_coupling_data
+                         if "clicks first" in d["coupling"])
+    n_breakthrough_first = sum(1 for d in temporal_coupling_data
+                               if "breakthrough first" in d["coupling"])
+    n_total = n_clicks_first + n_breakthrough_first
+    if n_total > 0:
+        doc.append(
+            f"**Summary:** {n_clicks_first}/{n_total} seeds show prediction "
+            f"improvement preceding or coinciding with the HV breakthrough. "
+            f"{n_breakthrough_first}/{n_total} show the breakthrough happening "
+            f"before prediction clicks."
+        )
+    else:
+        doc.append("**Summary:** insufficient data for temporal coupling analysis.")
+    doc.append("")
+
     # Falsification verdicts
-    doc.heading(3, "A.3 Falsification verdicts")
+    doc.heading(3, "A.5 Falsification verdicts (updated with A.4)")
     verdicts = _section_a_verdicts(section_data)
+
+    # Add A.4 verdicts
+    if n_total > 0:
+        frac = n_clicks_first / n_total
+        if frac >= 0.6:
+            verdicts.append({
+                "claim": "Prediction improvement precedes HV breakthroughs (learning → exploitation coupling)",
+                "verdict": "PASS",
+                "evidence": f"{n_clicks_first}/{n_total} seeds ({frac:.0%}) show prediction clicks before or at HV breakthrough.",
+            })
+        elif frac <= 0.3:
+            verdicts.append({
+                "claim": "Prediction improvement precedes HV breakthroughs (learning → exploitation coupling)",
+                "verdict": "FALSIFIED",
+                "evidence": f"Only {n_clicks_first}/{n_total} seeds ({frac:.0%}) show coupling — breakthroughs happen independent of prediction improvement.",
+            })
+        else:
+            verdicts.append({
+                "claim": "Prediction improvement precedes HV breakthroughs (learning → exploitation coupling)",
+                "verdict": "QUALIFIED",
+                "evidence": f"{n_clicks_first}/{n_total} seeds ({frac:.0%}) — mixed signal.",
+            })
+
     for v in verdicts:
         doc.append(f"- **{v['claim']}**: **{v['verdict']}** — {v['evidence']}")
     doc.append("")
 
     doc.save_json("section_a", {
         "trajectories": section_data,
+        "hv_gain_data": hv_gain_data,
+        "temporal_coupling": temporal_coupling_data,
         "verdicts": verdicts,
     })
 

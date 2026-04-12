@@ -51,11 +51,100 @@ Per-condition summary. Note: agents typically **front-load OAT sweeps in iterati
 
 _Generated 40 per-seed trajectory plots._
 
-### A.3 Falsification verdicts
+### A.4 Does the learning loop connect to exploitation?
+
+The key confound: predictions improve (eval_point MAE drops) but Section B showed within-condition prediction accuracy doesn't correlate with final HV. Is the learning loop disconnected from exploitation, or does it help in a way Section B couldn't detect?
+
+#### Test 1: HV gain rate per iteration
+
+If improved predictions feed into better exploitation, HV gain per eval should be **higher in later iterations** (where the model is better). Computed as (HV_end − HV_start) / n_evals for each iteration.
+
+Note: diminishing returns near the Pareto front can also cause declining HV gain rate, so a decreasing rate is ambiguous. An INCREASING rate is strong evidence of exploitation improving.
+
+| Condition | Seed | Iter 0 gain/eval | Last iter gain/eval | Trend | Notes |
+|---|---|---|---|---|---|
+| 1A/multi_seed_72 | 42 | 0.00250 | 0.00640 | ↑ INCREASING | max at iter 2 (0.00640), 3 iters |
+| 1A/multi_seed_72 | 43 | 0.00250 | 0.01851 | ↑ INCREASING | max at iter 2 (0.01851), 3 iters |
+| 1A/multi_seed_72 | 44 | 0.00322 | 0.01026 | ↑ INCREASING | max at iter 2 (0.01026), 3 iters |
+| 1A/multi_seed_72 | 45 | 0.00239 | 0.01356 | ↑ INCREASING | max at iter 2 (0.01356), 3 iters |
+| 1A/multi_seed_72 | 46 | 0.00370 | 0.00546 | → flat | max at iter 2 (0.00546), 3 iters |
+| 1A/multi_seed_72 | 48 | 0.00222 | 0.03259 | ↑ INCREASING | max at iter 2 (0.03259), 3 iters |
+| 1A/multi_seed_72 | 49 | 0.00239 | 0.01467 | ↑ INCREASING | max at iter 2 (0.01467), 3 iters |
+| 1A/multi_seed_72 | 50 | 0.00269 | 0.01570 | ↑ INCREASING | max at iter 2 (0.01570), 3 iters |
+| 1A/multi_seed_72 | 51 | 0.00250 | 0.00964 | ↑ INCREASING | max at iter 2 (0.00964), 3 iters |
+| 1A/extended_144 | 42 | 0.00250 | 0.00012 | ↓ decreasing | max at iter 1 (0.00438), 6 iters |
+| 1A/extended_144 | 43 | 0.00250 | 0.00020 | ↓ decreasing | max at iter 1 (0.00499), 6 iters |
+| 1A/extended_144 | 44 | 0.00322 | 0.00010 | ↓ decreasing | max at iter 1 (0.00363), 8 iters |
+| 1A/extended_144 | 45 | 0.00239 | 0.00002 | ↓ decreasing | max at iter 1 (0.01039), 6 iters |
+| 1B/fresh_72 | 43 | 0.00249 | 0.00089 | ↓ decreasing | max at iter 1 (0.00467), 3 iters |
+| 1B/fresh_72 | 44 | 0.00308 | 0.00569 | ↑ INCREASING | max at iter 2 (0.00569), 3 iters |
+| 1D/prior_72 | 42 | 0.00938 | 0.02627 | ↑ INCREASING | max at iter 2 (0.02627), 3 iters |
+| 1D/prior_72 | 43 | 0.00639 | 0.00887 | → flat | max at iter 1 (0.07495), 3 iters |
+| 1D/prior_72 | 44 | 0.01954 | 0.01274 | → flat | max at iter 0 (0.01954), 3 iters |
+| 1D/fresh_72 | 43 | 0.00867 | 0.00694 | → flat | max at iter 1 (0.02952), 3 iters |
+| 1D/fresh_72 | 44 | 0.00915 | 0.00517 | → flat | max at iter 1 (0.05809), 3 iters |
+| 1D/prior_144 | 42 | 0.00898 | 0.00019 | ↓ decreasing | max at iter 1 (0.04030), 8 iters |
+| 1E/prior_72 | 42 | 0.00290 | 0.00064 | ↓ decreasing | max at iter 1 (0.00828), 3 iters |
+| 1E/prior_72 | 43 | 0.00249 | 0.00041 | ↓ decreasing | max at iter 1 (0.01750), 4 iters |
+| 1E/prior_72 | 44 | 0.00221 | 0.00213 | → flat | max at iter 1 (0.01137), 4 iters |
+| 1E/fresh_72 | 42 | 0.00290 | 0.00051 | ↓ decreasing | max at iter 1 (0.00830), 3 iters |
+| 1E/fresh_72 | 44 | 0.00221 | 0.00057 | ↓ decreasing | max at iter 1 (0.00719), 3 iters |
+| 1E/sonnet_prior_72 | 42 | 0.00345 | 0.00011 | ↓ decreasing | max at iter 4 (0.00809), 5 iters |
+| HD/base_72 | 43 | 0.00317 | 0.00255 | → flat | max at iter 1 (0.00385), 3 iters |
+| HD/base_72 | 44 | 0.00198 | 0.00074 | ↓ decreasing | max at iter 1 (0.01248), 3 iters |
+| HD/extended_144 | 42 | 0.00108 | 0.00029 | ↓ decreasing | max at iter 1 (0.00585), 5 iters |
+| HD/extended_144 | 43 | 0.00187 | 0.00006 | ↓ decreasing | max at iter 1 (0.00413), 4 iters |
+| HD/extended_144 | 44 | 0.00165 | 0.00023 | ↓ decreasing | max at iter 1 (0.00460), 7 iters |
+| HD/sonnet_72 | 42 | 0.00147 | 0.01601 | ↑ INCREASING | max at iter 3 (0.01601), 3 iters |
+
+#### Test 2: Does prediction improvement precede HV breakthroughs?
+
+For extended-budget runs, identify (a) the iteration where eval_point MAE first drops below 50% of its initial value ('prediction clicks'), and (b) the iteration with the largest single-iteration HV gain ('exploitation breakthrough'). If (a) precedes or coincides with (b), the learning loop connects to exploitation.
+
+| Condition | Seed | Pred clicks (iter) | HV breakthrough (iter) | Clicks before breakthrough? |
+|---|---|---|---|---|
+| 1A/multi_seed_72 | 42 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/multi_seed_72 | 43 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/multi_seed_72 | 44 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/multi_seed_72 | 45 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/multi_seed_72 | 46 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/multi_seed_72 | 48 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/multi_seed_72 | 49 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/multi_seed_72 | 50 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/multi_seed_72 | 51 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1A/extended_144 | 42 | 5 | 1 | NO — breakthrough first |
+| 1A/extended_144 | 43 | 3 | 1 | NO — breakthrough first |
+| 1A/extended_144 | 44 | 2 | 0 | NO — breakthrough first |
+| 1A/extended_144 | 45 | n/a | 1 | n/a — MAE never dropped 50% |
+| 1B/fresh_72 | 43 | 2 | 1 | NO — breakthrough first |
+| 1B/fresh_72 | 44 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1D/prior_72 | 42 | n/a | 1 | n/a — MAE never dropped 50% |
+| 1D/prior_72 | 43 | 2 | 1 | NO — breakthrough first |
+| 1D/prior_72 | 44 | n/a | 0 | n/a — MAE never dropped 50% |
+| 1D/fresh_72 | 43 | 2 | 1 | NO — breakthrough first |
+| 1D/fresh_72 | 44 | n/a | 1 | n/a — MAE never dropped 50% |
+| 1D/prior_144 | 42 | 3 | 1 | NO — breakthrough first |
+| 1E/prior_72 | 42 | 2 | 0 | NO — breakthrough first |
+| 1E/prior_72 | 43 | 4 | 1 | NO — breakthrough first |
+| 1E/prior_72 | 44 | 2 | 1 | NO — breakthrough first |
+| 1E/fresh_72 | 42 | 2 | 0 | NO — breakthrough first |
+| 1E/fresh_72 | 44 | 2 | 1 | NO — breakthrough first |
+| 1E/sonnet_prior_72 | 42 | 4 | 0 | NO — breakthrough first |
+| HD/base_72 | 43 | 2 | 0 | NO — breakthrough first |
+| HD/base_72 | 44 | 2 | 1 | NO — breakthrough first |
+| HD/extended_144 | 42 | 2 | 1 | NO — breakthrough first |
+| HD/extended_144 | 43 | 2 | 0 | NO — breakthrough first |
+| HD/extended_144 | 44 | 2 | 1 | NO — breakthrough first |
+| HD/sonnet_72 | 42 | n/a | 3 | n/a — MAE never dropped 50% |
+
+**Summary:** 0/18 seeds show prediction improvement preceding or coinciding with the HV breakthrough. 18/18 show the breakthrough happening before prediction clicks.
+
+### A.5 Falsification verdicts (updated with A.4)
 
 - **VR learns from feedback (evaluate_point MAE ↓, primary signal)**: **PASS** — 21/24 seeds (88%) show evaluate_point MAE lower in last iteration with data than first. Additionally, 17/24 seeds show a >50% MAE reduction (first iter to last iter).
 - **OAT direction accuracy improves over iterations (secondary; OATs are front-loaded)**: **PASS** — 10/13 seeds (77%) show OAT direction accuracy higher in last non-None iter than first. Note: many seeds only have 1 iteration with OAT sweeps, so this metric is noisier than eval_point MAE.
 - **Surprise rate decreases over iterations**: **PASS** — 36/40 seeds (90%) show surprise count lower in last iteration than first
+- **Prediction improvement precedes HV breakthroughs (learning → exploitation coupling)**: **FALSIFIED** — Only 0/18 seeds (0%) show coupling — breakthroughs happen independent of prediction improvement.
 
 ## Section B — Cross-seed dynamics correlations
 

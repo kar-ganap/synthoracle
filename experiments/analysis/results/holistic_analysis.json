@@ -1580,6 +1580,1462 @@
         }
       ]
     },
+    "hv_gain_data": {
+      "1A/multi_seed_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.104851,
+              "hv_gain_per_eval": 0.002496
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.060729,
+              "hv_gain_per_eval": 0.002169
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.012804,
+              "hv_gain_per_eval": 0.006402
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.105022,
+              "hv_gain_per_eval": 0.002501
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.061369,
+              "hv_gain_per_eval": 0.002192
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.037027,
+              "hv_gain_per_eval": 0.018514
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.135111,
+              "hv_gain_per_eval": 0.003217
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.027925,
+              "hv_gain_per_eval": 0.000997
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.020523,
+              "hv_gain_per_eval": 0.010262
+            }
+          ]
+        },
+        {
+          "seed": 45,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.100388,
+              "hv_gain_per_eval": 0.00239
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 68,
+              "n_evals": 26,
+              "hv_gain": 0.060232,
+              "hv_gain_per_eval": 0.002317
+            },
+            {
+              "iteration": 2,
+              "eval_start": 68,
+              "eval_end": 72,
+              "n_evals": 4,
+              "hv_gain": 0.054233,
+              "hv_gain_per_eval": 0.013558
+            }
+          ]
+        },
+        {
+          "seed": 46,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.155615,
+              "hv_gain_per_eval": 0.003705
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.012706,
+              "hv_gain_per_eval": 0.000454
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.010928,
+              "hv_gain_per_eval": 0.005464
+            }
+          ]
+        },
+        {
+          "seed": 48,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.093304,
+              "hv_gain_per_eval": 0.002222
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.004957,
+              "hv_gain_per_eval": 0.000177
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.065175,
+              "hv_gain_per_eval": 0.032588
+            }
+          ]
+        },
+        {
+          "seed": 49,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.100523,
+              "hv_gain_per_eval": 0.002393
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 66,
+              "n_evals": 24,
+              "hv_gain": 0.060256,
+              "hv_gain_per_eval": 0.002511
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.088033,
+              "hv_gain_per_eval": 0.014672
+            }
+          ]
+        },
+        {
+          "seed": 50,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.113208,
+              "hv_gain_per_eval": 0.002695
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.015291,
+              "hv_gain_per_eval": 0.000546
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.031392,
+              "hv_gain_per_eval": 0.015696
+            }
+          ]
+        },
+        {
+          "seed": 51,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.10512,
+              "hv_gain_per_eval": 0.002503
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 66,
+              "n_evals": 24,
+              "hv_gain": 0.060939,
+              "hv_gain_per_eval": 0.002539
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.057848,
+              "hv_gain_per_eval": 0.009641
+            }
+          ]
+        }
+      ],
+      "1A/extended_144": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.104851,
+              "hv_gain_per_eval": 0.002496
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 80,
+              "n_evals": 38,
+              "hv_gain": 0.166247,
+              "hv_gain_per_eval": 0.004375
+            },
+            {
+              "iteration": 2,
+              "eval_start": 80,
+              "eval_end": 97,
+              "n_evals": 17,
+              "hv_gain": 0.000217,
+              "hv_gain_per_eval": 1.3e-05
+            },
+            {
+              "iteration": 4,
+              "eval_start": 97,
+              "eval_end": 107,
+              "n_evals": 10,
+              "hv_gain": 0.002405,
+              "hv_gain_per_eval": 0.000241
+            },
+            {
+              "iteration": 5,
+              "eval_start": 107,
+              "eval_end": 122,
+              "n_evals": 15,
+              "hv_gain": 0.002939,
+              "hv_gain_per_eval": 0.000196
+            },
+            {
+              "iteration": 7,
+              "eval_start": 122,
+              "eval_end": 144,
+              "n_evals": 22,
+              "hv_gain": 0.002712,
+              "hv_gain_per_eval": 0.000123
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.105022,
+              "hv_gain_per_eval": 0.002501
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 74,
+              "n_evals": 32,
+              "hv_gain": 0.159738,
+              "hv_gain_per_eval": 0.004992
+            },
+            {
+              "iteration": 2,
+              "eval_start": 74,
+              "eval_end": 92,
+              "n_evals": 18,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 3,
+              "eval_start": 92,
+              "eval_end": 114,
+              "n_evals": 22,
+              "hv_gain": 0.007569,
+              "hv_gain_per_eval": 0.000344
+            },
+            {
+              "iteration": 5,
+              "eval_start": 114,
+              "eval_end": 134,
+              "n_evals": 20,
+              "hv_gain": 0.005044,
+              "hv_gain_per_eval": 0.000252
+            },
+            {
+              "iteration": 6,
+              "eval_start": 134,
+              "eval_end": 144,
+              "n_evals": 10,
+              "hv_gain": 0.002029,
+              "hv_gain_per_eval": 0.000203
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.135111,
+              "hv_gain_per_eval": 0.003217
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 68,
+              "n_evals": 26,
+              "hv_gain": 0.094279,
+              "hv_gain_per_eval": 0.003626
+            },
+            {
+              "iteration": 2,
+              "eval_start": 68,
+              "eval_end": 95,
+              "n_evals": 27,
+              "hv_gain": 0.013739,
+              "hv_gain_per_eval": 0.000509
+            },
+            {
+              "iteration": 3,
+              "eval_start": 95,
+              "eval_end": 101,
+              "n_evals": 6,
+              "hv_gain": 0.004884,
+              "hv_gain_per_eval": 0.000814
+            },
+            {
+              "iteration": 4,
+              "eval_start": 101,
+              "eval_end": 113,
+              "n_evals": 12,
+              "hv_gain": 0.008528,
+              "hv_gain_per_eval": 0.000711
+            },
+            {
+              "iteration": 5,
+              "eval_start": 113,
+              "eval_end": 119,
+              "n_evals": 6,
+              "hv_gain": 0.016424,
+              "hv_gain_per_eval": 0.002737
+            },
+            {
+              "iteration": 6,
+              "eval_start": 119,
+              "eval_end": 129,
+              "n_evals": 10,
+              "hv_gain": 0.002442,
+              "hv_gain_per_eval": 0.000244
+            },
+            {
+              "iteration": 9,
+              "eval_start": 129,
+              "eval_end": 144,
+              "n_evals": 15,
+              "hv_gain": 0.001494,
+              "hv_gain_per_eval": 0.0001
+            }
+          ]
+        },
+        {
+          "seed": 45,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.100388,
+              "hv_gain_per_eval": 0.00239
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 58,
+              "n_evals": 16,
+              "hv_gain": 0.166166,
+              "hv_gain_per_eval": 0.010385
+            },
+            {
+              "iteration": 2,
+              "eval_start": 58,
+              "eval_end": 75,
+              "n_evals": 17,
+              "hv_gain": 0.005579,
+              "hv_gain_per_eval": 0.000328
+            },
+            {
+              "iteration": 3,
+              "eval_start": 75,
+              "eval_end": 105,
+              "n_evals": 30,
+              "hv_gain": 0.003217,
+              "hv_gain_per_eval": 0.000107
+            },
+            {
+              "iteration": 4,
+              "eval_start": 105,
+              "eval_end": 116,
+              "n_evals": 11,
+              "hv_gain": 0.000293,
+              "hv_gain_per_eval": 2.7e-05
+            },
+            {
+              "iteration": 6,
+              "eval_start": 116,
+              "eval_end": 144,
+              "n_evals": 28,
+              "hv_gain": 0.000636,
+              "hv_gain_per_eval": 2.3e-05
+            }
+          ]
+        }
+      ],
+      "1B/fresh_72": [
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.104679,
+              "hv_gain_per_eval": 0.002492
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 69,
+              "n_evals": 27,
+              "hv_gain": 0.126007,
+              "hv_gain_per_eval": 0.004667
+            },
+            {
+              "iteration": 2,
+              "eval_start": 69,
+              "eval_end": 72,
+              "n_evals": 3,
+              "hv_gain": 0.002672,
+              "hv_gain_per_eval": 0.000891
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 60,
+              "n_evals": 60,
+              "hv_gain": 0.184508,
+              "hv_gain_per_eval": 0.003075
+            },
+            {
+              "iteration": 1,
+              "eval_start": 60,
+              "eval_end": 61,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 2,
+              "eval_start": 61,
+              "eval_end": 72,
+              "n_evals": 11,
+              "hv_gain": 0.062586,
+              "hv_gain_per_eval": 0.00569
+            }
+          ]
+        }
+      ],
+      "1D/prior_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.39403,
+              "hv_gain_per_eval": 0.009382
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.607839,
+              "hv_gain_per_eval": 0.021709
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.052541,
+              "hv_gain_per_eval": 0.026271
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 57,
+              "n_evals": 57,
+              "hv_gain": 0.36448,
+              "hv_gain_per_eval": 0.006394
+            },
+            {
+              "iteration": 1,
+              "eval_start": 57,
+              "eval_end": 68,
+              "n_evals": 11,
+              "hv_gain": 0.824457,
+              "hv_gain_per_eval": 0.074951
+            },
+            {
+              "iteration": 2,
+              "eval_start": 68,
+              "eval_end": 72,
+              "n_evals": 4,
+              "hv_gain": 0.03549,
+              "hv_gain_per_eval": 0.008872
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 49,
+              "n_evals": 49,
+              "hv_gain": 0.957399,
+              "hv_gain_per_eval": 0.019539
+            },
+            {
+              "iteration": 1,
+              "eval_start": 49,
+              "eval_end": 65,
+              "n_evals": 16,
+              "hv_gain": 0.301154,
+              "hv_gain_per_eval": 0.018822
+            },
+            {
+              "iteration": 2,
+              "eval_start": 65,
+              "eval_end": 72,
+              "n_evals": 7,
+              "hv_gain": 0.089217,
+              "hv_gain_per_eval": 0.012745
+            }
+          ]
+        }
+      ],
+      "1D/fresh_72": [
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.364011,
+              "hv_gain_per_eval": 0.008667
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 66,
+              "n_evals": 24,
+              "hv_gain": 0.708535,
+              "hv_gain_per_eval": 0.029522
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.04162,
+              "hv_gain_per_eval": 0.006937
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 57,
+              "n_evals": 57,
+              "hv_gain": 0.521462,
+              "hv_gain_per_eval": 0.009148
+            },
+            {
+              "iteration": 1,
+              "eval_start": 57,
+              "eval_end": 70,
+              "n_evals": 13,
+              "hv_gain": 0.755186,
+              "hv_gain_per_eval": 0.058091
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.010342,
+              "hv_gain_per_eval": 0.005171
+            }
+          ]
+        }
+      ],
+      "1D/prior_144": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.37716,
+              "hv_gain_per_eval": 0.00898
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 61,
+              "n_evals": 19,
+              "hv_gain": 0.765663,
+              "hv_gain_per_eval": 0.040298
+            },
+            {
+              "iteration": 3,
+              "eval_start": 61,
+              "eval_end": 75,
+              "n_evals": 14,
+              "hv_gain": 0.025682,
+              "hv_gain_per_eval": 0.001834
+            },
+            {
+              "iteration": 4,
+              "eval_start": 75,
+              "eval_end": 85,
+              "n_evals": 10,
+              "hv_gain": 0.131315,
+              "hv_gain_per_eval": 0.013131
+            },
+            {
+              "iteration": 5,
+              "eval_start": 85,
+              "eval_end": 88,
+              "n_evals": 3,
+              "hv_gain": 0.001873,
+              "hv_gain_per_eval": 0.000624
+            },
+            {
+              "iteration": 10,
+              "eval_start": 88,
+              "eval_end": 106,
+              "n_evals": 18,
+              "hv_gain": 0.003404,
+              "hv_gain_per_eval": 0.000189
+            },
+            {
+              "iteration": 12,
+              "eval_start": 106,
+              "eval_end": 142,
+              "n_evals": 36,
+              "hv_gain": 0.00171,
+              "hv_gain_per_eval": 4.7e-05
+            },
+            {
+              "iteration": 13,
+              "eval_start": 142,
+              "eval_end": 144,
+              "n_evals": 2,
+              "hv_gain": 0.000374,
+              "hv_gain_per_eval": 0.000187
+            }
+          ]
+        }
+      ],
+      "1E/prior_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 51,
+              "n_evals": 51,
+              "hv_gain": 0.147652,
+              "hv_gain_per_eval": 0.002895
+            },
+            {
+              "iteration": 1,
+              "eval_start": 51,
+              "eval_end": 66,
+              "n_evals": 15,
+              "hv_gain": 0.124249,
+              "hv_gain_per_eval": 0.008283
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.003846,
+              "hv_gain_per_eval": 0.000641
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.104508,
+              "hv_gain_per_eval": 0.002488
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 50,
+              "n_evals": 8,
+              "hv_gain": 0.139976,
+              "hv_gain_per_eval": 0.017497
+            },
+            {
+              "iteration": 4,
+              "eval_start": 50,
+              "eval_end": 68,
+              "n_evals": 18,
+              "hv_gain": 0.017849,
+              "hv_gain_per_eval": 0.000992
+            },
+            {
+              "iteration": 5,
+              "eval_start": 68,
+              "eval_end": 72,
+              "n_evals": 4,
+              "hv_gain": 0.00164,
+              "hv_gain_per_eval": 0.00041
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.092938,
+              "hv_gain_per_eval": 0.002213
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 55,
+              "n_evals": 13,
+              "hv_gain": 0.147742,
+              "hv_gain_per_eval": 0.011365
+            },
+            {
+              "iteration": 2,
+              "eval_start": 55,
+              "eval_end": 56,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 4,
+              "eval_start": 56,
+              "eval_end": 72,
+              "n_evals": 16,
+              "hv_gain": 0.034052,
+              "hv_gain_per_eval": 0.002128
+            }
+          ]
+        }
+      ],
+      "1E/fresh_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 51,
+              "n_evals": 51,
+              "hv_gain": 0.147652,
+              "hv_gain_per_eval": 0.002895
+            },
+            {
+              "iteration": 1,
+              "eval_start": 51,
+              "eval_end": 66,
+              "n_evals": 15,
+              "hv_gain": 0.124464,
+              "hv_gain_per_eval": 0.008298
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.003038,
+              "hv_gain_per_eval": 0.000506
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.092938,
+              "hv_gain_per_eval": 0.002213
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 63,
+              "n_evals": 21,
+              "hv_gain": 0.151025,
+              "hv_gain_per_eval": 0.007192
+            },
+            {
+              "iteration": 2,
+              "eval_start": 63,
+              "eval_end": 72,
+              "n_evals": 9,
+              "hv_gain": 0.005104,
+              "hv_gain_per_eval": 0.000567
+            }
+          ]
+        }
+      ],
+      "1E/sonnet_prior_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.144869,
+              "hv_gain_per_eval": 0.003449
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 43,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 4,
+              "eval_start": 43,
+              "eval_end": 59,
+              "n_evals": 16,
+              "hv_gain": 0.129404,
+              "hv_gain_per_eval": 0.008088
+            },
+            {
+              "iteration": 5,
+              "eval_start": 59,
+              "eval_end": 60,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 8,
+              "eval_start": 60,
+              "eval_end": 72,
+              "n_evals": 12,
+              "hv_gain": 0.001356,
+              "hv_gain_per_eval": 0.000113
+            }
+          ]
+        }
+      ],
+      "HD/base_72": [
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 43,
+              "n_evals": 43,
+              "hv_gain": 0.136235,
+              "hv_gain_per_eval": 0.003168
+            },
+            {
+              "iteration": 1,
+              "eval_start": 43,
+              "eval_end": 67,
+              "n_evals": 24,
+              "hv_gain": 0.092485,
+              "hv_gain_per_eval": 0.003854
+            },
+            {
+              "iteration": 2,
+              "eval_start": 67,
+              "eval_end": 72,
+              "n_evals": 5,
+              "hv_gain": 0.012754,
+              "hv_gain_per_eval": 0.002551
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 49,
+              "n_evals": 49,
+              "hv_gain": 0.097201,
+              "hv_gain_per_eval": 0.001984
+            },
+            {
+              "iteration": 1,
+              "eval_start": 49,
+              "eval_end": 62,
+              "n_evals": 13,
+              "hv_gain": 0.162217,
+              "hv_gain_per_eval": 0.012478
+            },
+            {
+              "iteration": 2,
+              "eval_start": 62,
+              "eval_end": 72,
+              "n_evals": 10,
+              "hv_gain": 0.007425,
+              "hv_gain_per_eval": 0.000742
+            }
+          ]
+        }
+      ],
+      "HD/extended_144": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 84,
+              "n_evals": 84,
+              "hv_gain": 0.090895,
+              "hv_gain_per_eval": 0.001082
+            },
+            {
+              "iteration": 1,
+              "eval_start": 84,
+              "eval_end": 108,
+              "n_evals": 24,
+              "hv_gain": 0.140342,
+              "hv_gain_per_eval": 0.005848
+            },
+            {
+              "iteration": 2,
+              "eval_start": 108,
+              "eval_end": 137,
+              "n_evals": 29,
+              "hv_gain": 0.033229,
+              "hv_gain_per_eval": 0.001146
+            },
+            {
+              "iteration": 3,
+              "eval_start": 137,
+              "eval_end": 138,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 4,
+              "eval_start": 138,
+              "eval_end": 144,
+              "n_evals": 6,
+              "hv_gain": 0.001746,
+              "hv_gain_per_eval": 0.000291
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 73,
+              "n_evals": 73,
+              "hv_gain": 0.136235,
+              "hv_gain_per_eval": 0.001866
+            },
+            {
+              "iteration": 1,
+              "eval_start": 73,
+              "eval_end": 103,
+              "n_evals": 30,
+              "hv_gain": 0.124003,
+              "hv_gain_per_eval": 0.004133
+            },
+            {
+              "iteration": 2,
+              "eval_start": 103,
+              "eval_end": 124,
+              "n_evals": 21,
+              "hv_gain": 0.008446,
+              "hv_gain_per_eval": 0.000402
+            },
+            {
+              "iteration": 3,
+              "eval_start": 124,
+              "eval_end": 144,
+              "n_evals": 20,
+              "hv_gain": 0.001158,
+              "hv_gain_per_eval": 5.8e-05
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 59,
+              "n_evals": 59,
+              "hv_gain": 0.097201,
+              "hv_gain_per_eval": 0.001647
+            },
+            {
+              "iteration": 1,
+              "eval_start": 59,
+              "eval_end": 89,
+              "n_evals": 30,
+              "hv_gain": 0.137859,
+              "hv_gain_per_eval": 0.004595
+            },
+            {
+              "iteration": 2,
+              "eval_start": 89,
+              "eval_end": 108,
+              "n_evals": 19,
+              "hv_gain": 0.015939,
+              "hv_gain_per_eval": 0.000839
+            },
+            {
+              "iteration": 3,
+              "eval_start": 108,
+              "eval_end": 119,
+              "n_evals": 11,
+              "hv_gain": 0.009616,
+              "hv_gain_per_eval": 0.000874
+            },
+            {
+              "iteration": 4,
+              "eval_start": 119,
+              "eval_end": 128,
+              "n_evals": 9,
+              "hv_gain": 0.004271,
+              "hv_gain_per_eval": 0.000475
+            },
+            {
+              "iteration": 5,
+              "eval_start": 128,
+              "eval_end": 129,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 7,
+              "eval_start": 129,
+              "eval_end": 144,
+              "n_evals": 15,
+              "hv_gain": 0.003448,
+              "hv_gain_per_eval": 0.00023
+            }
+          ]
+        }
+      ],
+      "HD/sonnet_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 62,
+              "n_evals": 62,
+              "hv_gain": 0.090895,
+              "hv_gain_per_eval": 0.001466
+            },
+            {
+              "iteration": 1,
+              "eval_start": 62,
+              "eval_end": 63,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 3,
+              "eval_start": 63,
+              "eval_end": 72,
+              "n_evals": 9,
+              "hv_gain": 0.144078,
+              "hv_gain_per_eval": 0.016009
+            }
+          ]
+        }
+      ]
+    },
+    "temporal_coupling": [
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 42,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 43,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 44,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 45,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 46,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 48,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 49,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 50,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 51,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/extended_144",
+        "seed": 42,
+        "pred_clicks_iter": 5,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1A/extended_144",
+        "seed": 43,
+        "pred_clicks_iter": 3,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1A/extended_144",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1A/extended_144",
+        "seed": 45,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 1,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1B/fresh_72",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1B/fresh_72",
+        "seed": 44,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 42,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 1,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 44,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 44,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 1,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1D/prior_144",
+        "seed": 42,
+        "pred_clicks_iter": 3,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 42,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 43,
+        "pred_clicks_iter": 4,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 42,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/sonnet_prior_72",
+        "seed": 42,
+        "pred_clicks_iter": 4,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/base_72",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/base_72",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/extended_144",
+        "seed": 42,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/extended_144",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/extended_144",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/sonnet_72",
+        "seed": 42,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 3,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      }
+    ],
     "verdicts": [
       {
         "claim": "VR learns from feedback (evaluate_point MAE \u2193, primary signal)",
@@ -1595,6 +3051,11 @@
         "claim": "Surprise rate decreases over iterations",
         "verdict": "PASS",
         "evidence": "36/40 seeds (90%) show surprise count lower in last iteration than first"
+      },
+      {
+        "claim": "Prediction improvement precedes HV breakthroughs (learning \u2192 exploitation coupling)",
+        "verdict": "FALSIFIED",
+        "evidence": "Only 0/18 seeds (0%) show coupling \u2014 breakthroughs happen independent of prediction improvement."
       }
     ]
   },
