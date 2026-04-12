@@ -97,3 +97,128 @@ Pool all seeds from n>=3 conditions. **Warning:** pooling across conditions mixe
 - **Better prediction accuracy predicts higher HV**: **INCONCLUSIVE** — Pooled Pearson r=-0.038, p=0.826, n=36. Weak or near-zero correlation — may be driven by within-condition noise or between-condition mixing.
 - **Discovery (final recall) predicts exploitation (final HV)**: **PASS** — Pooled Pearson r=0.375, p=0.017, n=40.
 
+## Section C — Prior vs fresh: systematic, not just seed 42
+
+**Question:** Is the 'prior helps' effect (1D +2%, 1E +5% at n=3) due to (a) selective leverage of correct causal claims in the prior, (b) behavioral priming that changes tool-call allocation, or (c) something else? The seed 42 spot-check (Section A of the phase 2.7 analysis) showed prior → 12 local_gradients vs fresh → 3. Is this consistent across seeds 43 and 44?
+
+### C.1D — 1D prior vs fresh (n=3 each)
+
+#### C.1D.1 Tool call type distribution
+
+Per-seed tool call counts for prior vs fresh. The seed 42 finding was: 1D prior had 12 `local_gradients` vs fresh's 3. Is this consistent?
+
+| Tool type | P s42 | P s43 | P s44 | F s42 | F s43 | F s44 | P mean | F mean |
+|---|---|---|---|---|---|---|---|---|
+| **correlation_matrix** | 2 | 1 | 1 | 2 | 2 | 2 | **1.3** | **2.0** |
+| current_pareto_front | 4 | 4 | 5 | 3 | 6 | 5 | 4.3 | 4.7 |
+| **evaluate_point** | 4 | 13 | 21 | 3 | 8 | 7 | **12.7** | **6.0** |
+| **interaction_test** | 2 | 1 | 0 | 2 | 2 | 1 | **1.0** | **1.7** |
+| **local_gradients** | 12 | 3 | 9 | 3 | 4 | 2 | **8.0** | **3.0** |
+| oat_sweep | 6 | 6 | 7 | 8 | 7 | 7 | 6.3 | 7.3 |
+| **regression_fit** | 4 | 7 | 0 | 3 | 8 | 8 | **3.7** | **6.3** |
+| **sensitivity_report** | 2 | 1 | 3 | 2 | 4 | 3 | **2.0** | **3.0** |
+
+#### C.1D.2 First OAT sweep targets (input ordering)
+
+The order in which the agent probes inputs via OAT sweeps reveals its exploration strategy. Does prior change which inputs are probed first?
+
+- **prior seed 42**: X1 → X2 → X3 → X4 → X5 → X6
+- **prior seed 43**: X1 → X2 → X3 → X4 → X5 → X6
+- **prior seed 44**: X1 → X2 → X3 → X4 → X5 → X6 → X3
+- **fresh seed 42**: X5 → X3 → X4 → X6 → X1 → X2 → X5 → X6
+- **fresh seed 43**: X6 → X3 → X2 → X4 → X5 → X1 → X5
+- **fresh seed 44**: X1 → X2 → X3 → X4 → X5 → X6 → X5
+
+#### C.1D.3 Hypothesis text at iteration 0 (prior references)
+
+Does the prior-equipped agent's initial hypothesis explicitly reference the prior? Searching for keywords: 'prior', 'related system', 'previous', 'from the'.
+
+- **prior seed 42**: mentions: ['prior']. Snippet: "The system has 6 inputs all positively driving Y1. Y2 is reduced by X1-X4 (beneficial) but increased by X5 and X6 (harmful trade-off with Y1). Y3 depe..."
+- **prior seed 43**: no prior keywords. Snippet: "The system has a mostly additive structure for Y1, Y2, and Y4, with the critical exception of Y3 which depends ONLY on X1 and X3 with a strong nonline..."
+- **prior seed 44**: mentions: ['prior', 'from the']. Snippet: "The system has modular structure with key differences from the prior. Y1 is driven by ALL 6 inputs positively (with X6 sign-dependent on regime), domi..."
+- **fresh seed 42**: no prior keywords. Snippet: "The system has a mostly additive structure with one key interaction. ALL six inputs increase Y1 (with varying strengths). Y2 is decreased by X1,X2,X3,..."
+- **fresh seed 43**: no prior keywords. Snippet: "The system has a largely additive structure with the following causal relationships:  **Y1** (maximize): Driven by ALL 6 inputs with positive, approxi..."
+- **fresh seed 44**: no prior keywords. Snippet: "Y1 is driven by all 6 inputs additively (all positive), with X5 and X1 having the strongest effects. Y2 is driven by all 6 inputs additively: X4, X3, ..."
+
+#### C.1D.4 Edge confidence initialization: GT-aligned vs variant-specific
+
+Does the prior-equipped agent start with higher confidence on edges that are correct (shared with 1A GT) and lower confidence on edges that are wrong (1A-specific, not in this variant's GT)? This is the direct test of 'screen-first selectively leverages correct priors.'
+
+Edge classification for 1D:
+- Shared with 1A (prior should help): 18
+- Wrong from 1A (prior should dismiss): 0
+- Missing from 1A (prior doesn't know): 1
+
+| Condition | Seed | Mean conf (shared) | Mean conf (wrong from 1A) | Mean conf (missing from 1A) |
+|---|---|---|---|---|
+| prior | 42 | 0.91 (n=18) | — | 0.90 (n=1) |
+| prior | 43 | 0.91 (n=18) | — | 0.90 (n=1) |
+| prior | 44 | 0.90 (n=18) | — | 0.90 (n=1) |
+| fresh | 42 | 0.89 (n=18) | — | 0.85 (n=1) |
+| fresh | 43 | 0.84 (n=18) | — | 0.85 (n=1) |
+| fresh | 44 | 0.85 (n=18) | — | 0.82 (n=1) |
+
+### C.1E — 1E prior vs fresh (n=3 each)
+
+#### C.1E.1 Tool call type distribution
+
+Per-seed tool call counts for prior vs fresh. The seed 42 finding was: 1D prior had 12 `local_gradients` vs fresh's 3. Is this consistent?
+
+| Tool type | P s42 | P s43 | P s44 | F s42 | F s43 | F s44 | P mean | F mean |
+|---|---|---|---|---|---|---|---|---|
+| correlation_matrix | 2 | 3 | 3 | 2 | 3 | 2 | 2.7 | 2.3 |
+| current_pareto_front | 4 | 7 | 7 | 5 | 2 | 8 | 6.0 | 5.0 |
+| **evaluate_point** | 19 | 28 | 19 | 19 | 11 | 14 | **22.0** | **14.7** |
+| **interaction_test** | 1 | 0 | 1 | 1 | 2 | 1 | **0.7** | **1.3** |
+| **local_gradients** | 6 | 19 | 10 | 5 | 2 | 4 | **11.7** | **3.7** |
+| oat_sweep | 6 | 6 | 6 | 6 | 6 | 7 | 6.0 | 6.3 |
+| regression_fit | 0 | 2 | 8 | 0 | 6 | 6 | 3.3 | 4.0 |
+| **sensitivity_report** | 2 | 5 | 6 | 2 | 3 | 4 | **4.3** | **3.0** |
+
+#### C.1E.2 First OAT sweep targets (input ordering)
+
+The order in which the agent probes inputs via OAT sweeps reveals its exploration strategy. Does prior change which inputs are probed first?
+
+- **prior seed 42**: X1 → X2 → X3 → X4 → X5 → X6
+- **prior seed 43**: X1 → X2 → X3 → X4 → X5 → X6
+- **prior seed 44**: X1 → X2 → X3 → X4 → X5 → X6
+- **fresh seed 42**: X3 → X6 → X4 → X2 → X1 → X5
+- **fresh seed 43**: X3 → X4 → X6 → X1 → X2 → X5
+- **fresh seed 44**: X3 → X4 → X6 → X1 → X2 → X5 → X3
+
+#### C.1E.3 Hypothesis text at iteration 0 (prior references)
+
+Does the prior-equipped agent's initial hypothesis explicitly reference the prior? Searching for keywords: 'prior', 'related system', 'previous', 'from the'.
+
+- **prior seed 42**: mentions: ['prior', 'from the']. Snippet: "This system has modular structure distinct from the prior. Y3 is driven ONLY by X1 and X4 with strong synergistic interaction (std=0.100); Y3=0.997 wh..."
+- **prior seed 43**: mentions: ['prior', 'from the']. Snippet: "This system shows significant structural differences from the prior. Y3 is driven by X1 and X4 (NOT X3) with synergistic interaction (X4 effect 5× str..."
+- **prior seed 44**: mentions: ['prior', 'from the']. Snippet: "The system has modular structure different from the prior. Y3 is driven ONLY by X1(+) and X4(+), with X1 saturating above ~0.775 and X4 being the stro..."
+- **fresh seed 42**: mentions: ['causal model']. Snippet: "The system has a structured causal model with key features: (1) Y3 depends ONLY on X1 and X4, with a nonlinear saturating relationship and moderate X1..."
+- **fresh seed 43**: no prior keywords. Snippet: "The system has a clean causal structure: Y1 is driven positively by ALL 6 inputs (X6 and X3 strongest). Y2 is driven negatively by X4, X2, X1 and posi..."
+- **fresh seed 44**: no prior keywords. Snippet: "The system has a clear causal structure: Y1 is driven positively by ALL six inputs (X6 strongest). Y2 is driven by all inputs with mixed signs (X4 dec..."
+
+#### C.1E.4 Edge confidence initialization: GT-aligned vs variant-specific
+
+Does the prior-equipped agent start with higher confidence on edges that are correct (shared with 1A GT) and lower confidence on edges that are wrong (1A-specific, not in this variant's GT)? This is the direct test of 'screen-first selectively leverages correct priors.'
+
+Edge classification for 1E:
+- Shared with 1A (prior should help): 16
+- Wrong from 1A (prior should dismiss): 2
+- Missing from 1A (prior doesn't know): 3
+
+| Condition | Seed | Mean conf (shared) | Mean conf (wrong from 1A) | Mean conf (missing from 1A) |
+|---|---|---|---|---|
+| prior | 42 | 0.87 (n=16) | 0.02 (n=2) | 0.92 (n=3) |
+| prior | 43 | 0.85 (n=16) | 0.02 (n=2) | 0.88 (n=3) |
+| prior | 44 | 0.88 (n=16) | 0.02 (n=2) | 0.93 (n=3) |
+| fresh | 42 | 0.90 (n=16) | — | 0.93 (n=3) |
+| fresh | 43 | 0.80 (n=16) | — | 0.86 (n=3) |
+| fresh | 44 | 0.77 (n=16) | — | 0.79 (n=3) |
+
+### C.3 Falsification verdicts
+
+- **Prior primes toward local_gradients on 1D**: **QUALIFIED** — 1D prior uses 8.0 local_gradients vs fresh 3.0 — directionally higher but not consistent across seeds ([12, 3, 9] vs [3, 4, 2])
+- **Prior primes toward local_gradients on 1E**: **PASS** — 1E prior uses 11.7 local_gradients vs fresh 3.7 — consistently higher across all seeds ([6, 19, 10] vs [5, 2, 4])
+- **Screen-first selectively leverages correct priors (edge confidence initialization)**: **SEE TABLE C.{1D,1E}.4** — Inspect the edge confidence initialization tables above. If prior-run shared-edge confidence > fresh-run shared-edge confidence at iteration 0, the selective-leverage claim has support. If they're similar, the prior isn't being used for edge-specific initialization.
+- **1D prior-fresh bimodality is real (not just seed 42 outlier)**: **QUALIFIED** — Paired diffs (prior − fresh): ['-0.1014', '+0.1103', '+0.0608']. Signs: ['−', '+', '+']. Mixed signs confirm bimodality.
+

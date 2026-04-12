@@ -1104,6 +1104,412 @@ def section_b_cross_seed_correlations(
 
 
 # ---------------------------------------------------------------------------
+# Section C: prior vs fresh — systematic, not just seed 42
+# ---------------------------------------------------------------------------
+
+
+def section_c_prior_vs_fresh(
+    all_runs: dict[str, dict[str, list[RunMetrics]]],
+    doc: FindingsDoc,
+) -> None:
+    """Section C: is the 'prior helps' effect selective-leverage, behavioral priming, or noise?
+
+    Systematically compares prior vs fresh on 1D and 1E (n=3 each) across:
+    1. Tool call type distributions (all seeds, not just seed 42)
+    2. Which inputs the agent probes first (OAT ordering)
+    3. Hypothesis text at iteration 0 (does prior appear?)
+    4. Edge confidence at iteration 0 for GT-aligned vs variant-specific edges
+    """
+    doc.section("C", "Prior vs fresh: systematic, not just seed 42")
+    doc.append(
+        "**Question:** Is the 'prior helps' effect (1D +2%, 1E +5% at n=3) "
+        "due to (a) selective leverage of correct causal claims in the prior, "
+        "(b) behavioral priming that changes tool-call allocation, or "
+        "(c) something else? The seed 42 spot-check (Section A of the phase 2.7 "
+        "analysis) showed prior → 12 local_gradients vs fresh → 3. Is this "
+        "consistent across seeds 43 and 44?"
+    )
+    doc.append("")
+
+    section_data: dict[str, Any] = {}
+
+    # Process each transfer oracle
+    for oracle_label in ["1D", "1E"]:
+        prior_runs = all_runs.get(oracle_label, {}).get("prior_72", [])
+        fresh_runs = all_runs.get(oracle_label, {}).get("fresh_72", [])
+
+        if not prior_runs or not fresh_runs:
+            doc.append(f"_{oracle_label}: missing prior or fresh runs._")
+            doc.append("")
+            continue
+
+        gt_pairs = ground_truth_io_pairs(oracle_label)
+        gt_1a_pairs = ground_truth_io_pairs("1A")
+
+        oracle_data: dict[str, Any] = {
+            "prior_seeds": [], "fresh_seeds": [],
+            "gt_pairs": sorted(f"{s}->{t}" for s, t in gt_pairs),
+            "gt_1a_pairs": sorted(f"{s}->{t}" for s, t in gt_1a_pairs),
+        }
+
+        doc.heading(3, f"C.{oracle_label} — {oracle_label} prior vs fresh (n=3 each)")
+
+        # C.X.1: Tool call type distribution per seed
+        doc.heading(4, f"C.{oracle_label}.1 Tool call type distribution")
+        doc.append(
+            "Per-seed tool call counts for prior vs fresh. The seed 42 finding was: "
+            "1D prior had 12 `local_gradients` vs fresh's 3. Is this consistent?"
+        )
+        doc.append("")
+
+        # Collect all tool types across both conditions
+        all_tool_types: set[str] = set()
+        for run in prior_runs + fresh_runs:
+            all_tool_types.update(run.tool_call_counts_total.keys())
+        tool_types_sorted = sorted(all_tool_types)
+
+        # Table header
+        header = f"| Tool type | " + " | ".join(
+            f"P s{r.seed}" for r in sorted(prior_runs, key=lambda x: x.seed)
+        ) + " | " + " | ".join(
+            f"F s{r.seed}" for r in sorted(fresh_runs, key=lambda x: x.seed)
+        ) + " | P mean | F mean |"
+        sep = "|---" * (len(prior_runs) + len(fresh_runs) + 3) + "|"
+        doc.append(header)
+        doc.append(sep)
+
+        prior_sorted = sorted(prior_runs, key=lambda x: x.seed)
+        fresh_sorted = sorted(fresh_runs, key=lambda x: x.seed)
+
+        tc_comparison: dict[str, dict[str, list[int]]] = {}
+        for tt in tool_types_sorted:
+            p_vals = [r.tool_call_counts_total.get(tt, 0) for r in prior_sorted]
+            f_vals = [r.tool_call_counts_total.get(tt, 0) for r in fresh_sorted]
+            tc_comparison[tt] = {"prior": p_vals, "fresh": f_vals}
+            p_cells = " | ".join(str(v) for v in p_vals)
+            f_cells = " | ".join(str(v) for v in f_vals)
+            p_mean = float(np.mean(p_vals))
+            f_mean = float(np.mean(f_vals))
+            # Bold if means differ by >50% of the larger
+            max_mean = max(p_mean, f_mean, 1)
+            if abs(p_mean - f_mean) / max_mean > 0.3 and max_mean > 1:
+                doc.append(f"| **{tt}** | {p_cells} | {f_cells} | "
+                          f"**{p_mean:.1f}** | **{f_mean:.1f}** |")
+            else:
+                doc.append(f"| {tt} | {p_cells} | {f_cells} | "
+                          f"{p_mean:.1f} | {f_mean:.1f} |")
+
+        doc.append("")
+        oracle_data["tool_call_comparison"] = tc_comparison
+
+        # C.X.2: First OAT targets
+        doc.heading(4, f"C.{oracle_label}.2 First OAT sweep targets (input ordering)")
+        doc.append(
+            "The order in which the agent probes inputs via OAT sweeps reveals "
+            "its exploration strategy. Does prior change which inputs are probed "
+            "first?"
+        )
+        doc.append("")
+
+        def _load_log_only(oracle_lbl: str, cond_lbl: str, seed: int) -> dict:
+            """Load just the JSON log file (no npz needed)."""
+            log_name = _run_log_name(oracle_lbl, cond_lbl, seed)
+            log_path = ROOT / "experiments" / "vr_agent" / "results" / log_name
+            with open(log_path) as f:
+                return json.load(f)
+
+        def _first_n_oat_targets(run: RunMetrics, n: int = 8) -> list[str]:
+            """Extract first N OAT sweep input targets from the tool call sequence."""
+            log = _load_log_only(oracle_label, run.condition_label, run.seed)
+            targets = []
+            for tc in log.get("tool_calls", []):
+                if tc.get("name") == "oat_sweep":
+                    targets.append(tc.get("input", {}).get("input_name", "?"))
+                    if len(targets) >= n:
+                        break
+            return targets
+
+        for condition_name, runs in [("prior", prior_sorted), ("fresh", fresh_sorted)]:
+            for run in runs:
+                try:
+                    targets = _first_n_oat_targets(run, n=8)
+                    doc.append(f"- **{condition_name} seed {run.seed}**: {' → '.join(targets)}")
+                except Exception as e:
+                    doc.append(f"- **{condition_name} seed {run.seed}**: (load error: {e})")
+        doc.append("")
+
+        # C.X.3: Hypothesis text at iteration 0
+        doc.heading(4, f"C.{oracle_label}.3 Hypothesis text at iteration 0 (prior references)")
+        doc.append(
+            "Does the prior-equipped agent's initial hypothesis explicitly reference "
+            "the prior? Searching for keywords: 'prior', 'related system', 'previous', "
+            "'from the'."
+        )
+        doc.append("")
+
+        prior_keywords = ["prior", "related system", "previous study", "from the",
+                          "earlier", "causal model"]
+        for condition_name, runs in [("prior", prior_sorted), ("fresh", fresh_sorted)]:
+            for run in runs:
+                if not run.iterations:
+                    doc.append(f"- **{condition_name} seed {run.seed}**: no iteration summaries")
+                    continue
+                hyp0 = run.iterations[0]
+                # We need the raw hypothesis text — it's in iteration_summaries
+                try:
+                    log = _load_log_only(oracle_label, run.condition_label, run.seed)
+                    iters = log.get("iteration_summaries", []) or []
+                    if iters:
+                        hyp_text = str(iters[0].get("hypothesis", ""))
+                        hyp_lower = hyp_text.lower()
+                        matches = [kw for kw in prior_keywords if kw in hyp_lower]
+                        mention = f"mentions: {matches}" if matches else "no prior keywords"
+                        snippet = hyp_text[:150].replace("\n", " ")
+                        doc.append(f"- **{condition_name} seed {run.seed}**: "
+                                  f"{mention}. Snippet: \"{snippet}...\"")
+                    else:
+                        doc.append(f"- **{condition_name} seed {run.seed}**: no iterations")
+                except Exception as e:
+                    doc.append(f"- **{condition_name} seed {run.seed}**: error: {e}")
+        doc.append("")
+
+        # C.X.4: Edge confidence at iteration 0 — GT-aligned vs variant-specific
+        doc.heading(4, f"C.{oracle_label}.4 Edge confidence initialization: GT-aligned vs variant-specific")
+        doc.append(
+            "Does the prior-equipped agent start with higher confidence on edges "
+            "that are correct (shared with 1A GT) and lower confidence on edges "
+            "that are wrong (1A-specific, not in this variant's GT)? This is the "
+            "direct test of 'screen-first selectively leverages correct priors.'"
+        )
+        doc.append("")
+
+        # Classify edges
+        shared_edges = gt_pairs & gt_1a_pairs  # present in both 1A and variant
+        wrong_from_1a = gt_1a_pairs - gt_pairs  # in 1A but not variant → prior should dismiss
+        missing_from_1a = gt_pairs - gt_1a_pairs  # in variant but not 1A → prior doesn't know
+
+        doc.append(f"Edge classification for {oracle_label}:")
+        doc.append(f"- Shared with 1A (prior should help): {len(shared_edges)}")
+        doc.append(f"- Wrong from 1A (prior should dismiss): {len(wrong_from_1a)}")
+        doc.append(f"- Missing from 1A (prior doesn't know): {len(missing_from_1a)}")
+        doc.append("")
+
+        doc.append("| Condition | Seed | Mean conf (shared) | Mean conf (wrong from 1A) | "
+                   "Mean conf (missing from 1A) |")
+        doc.append("|---|---|---|---|---|")
+
+        for condition_name, runs in [("prior", prior_sorted), ("fresh", fresh_sorted)]:
+            for run in runs:
+                if not run.iterations:
+                    doc.append(f"| {condition_name} | {run.seed} | n/a | n/a | n/a |")
+                    continue
+                try:
+                    log = _load_log_only(oracle_label, run.condition_label, run.seed)
+                    iters = log.get("iteration_summaries", []) or []
+                    if not iters:
+                        doc.append(f"| {condition_name} | {run.seed} | n/a | n/a | n/a |")
+                        continue
+
+                    conf = iters[0].get("confidence", {}) or {}
+                    # Parse edge strings and classify
+                    shared_confs: list[float] = []
+                    wrong_confs: list[float] = []
+                    missing_confs: list[float] = []
+                    for edge_str, c in conf.items():
+                        if not isinstance(c, (int, float)):
+                            continue
+                        parsed = _parse_edge_str(str(edge_str))
+                        if parsed is None:
+                            continue
+                        if parsed in shared_edges:
+                            shared_confs.append(float(c))
+                        elif parsed in wrong_from_1a:
+                            wrong_confs.append(float(c))
+                        elif parsed in missing_from_1a:
+                            missing_confs.append(float(c))
+
+                    def _fmt(vals: list[float]) -> str:
+                        if not vals:
+                            return "—"
+                        return f"{float(np.mean(vals)):.2f} (n={len(vals)})"
+
+                    doc.append(
+                        f"| {condition_name} | {run.seed} | "
+                        f"{_fmt(shared_confs)} | {_fmt(wrong_confs)} | "
+                        f"{_fmt(missing_confs)} |"
+                    )
+                except Exception as e:
+                    doc.append(f"| {condition_name} | {run.seed} | error | error | error |")
+        doc.append("")
+
+        # Save plots: grouped bar chart of tool-call allocation
+        _plot_prior_fresh_tool_allocation(
+            oracle_label, prior_sorted, fresh_sorted, tool_types_sorted,
+        )
+
+        section_data[oracle_label] = oracle_data
+
+    # C.3: Verdicts
+    doc.heading(3, "C.3 Falsification verdicts")
+    verdicts = _section_c_verdicts(all_runs, section_data)
+    for v in verdicts:
+        doc.append(f"- **{v['claim']}**: **{v['verdict']}** — {v['evidence']}")
+    doc.append("")
+
+    doc.save_json("section_c", section_data)
+
+
+def _run_log_name(oracle_label: str, condition_label: str, seed: int) -> str:
+    """Reconstruct log file name from condition info."""
+    # Match the naming conventions in ORACLE_CONDITIONS
+    prefix_map = {
+        ("1D", "prior_72"): "transfer_1d_prior",
+        ("1D", "fresh_72"): "transfer_1d_fresh",
+        ("1D", "prior_144"): "transfer_1d_prior_144",
+        ("1E", "prior_72"): "transfer_1e_prior",
+        ("1E", "fresh_72"): "transfer_1e_fresh",
+        ("1E", "sonnet_prior_72"): "transfer_1e_sonnet_prior",
+    }
+    prefix = prefix_map.get((oracle_label, condition_label))
+    if prefix:
+        return f"{prefix}_seed{seed}_log.json"
+    # Fallback: try common patterns
+    return f"{condition_label}_seed{seed}_log.json"
+
+
+def _plot_prior_fresh_tool_allocation(
+    oracle_label: str,
+    prior_runs: list[RunMetrics],
+    fresh_runs: list[RunMetrics],
+    tool_types: list[str],
+) -> None:
+    """Grouped bar chart: prior vs fresh tool-call counts, per seed."""
+    from matplotlib.ticker import MaxNLocator
+
+    # Only show tool types with at least 1 call in some run
+    active_types = [tt for tt in tool_types
+                    if any(r.tool_call_counts_total.get(tt, 0) > 0
+                           for r in prior_runs + fresh_runs)]
+    if not active_types:
+        return
+
+    n_types = len(active_types)
+    n_seeds = max(len(prior_runs), len(fresh_runs))
+    seeds_union = sorted({r.seed for r in prior_runs + fresh_runs})
+
+    fig, axes = plt.subplots(1, len(seeds_union), figsize=(5 * len(seeds_union), 5),
+                             sharey=True)
+    if len(seeds_union) == 1:
+        axes = [axes]
+
+    for ax, seed in zip(axes, seeds_union):
+        p_run = next((r for r in prior_runs if r.seed == seed), None)
+        f_run = next((r for r in fresh_runs if r.seed == seed), None)
+
+        x = np.arange(n_types)
+        width = 0.35
+        p_vals = [p_run.tool_call_counts_total.get(tt, 0) if p_run else 0
+                  for tt in active_types]
+        f_vals = [f_run.tool_call_counts_total.get(tt, 0) if f_run else 0
+                  for tt in active_types]
+
+        ax.bar(x - width / 2, p_vals, width, label="prior", color="#d62728", alpha=0.7)
+        ax.bar(x + width / 2, f_vals, width, label="fresh", color="#1f77b4", alpha=0.7)
+        ax.set_xticks(x)
+        ax.set_xticklabels(active_types, rotation=45, ha="right", fontsize=7)
+        ax.set_title(f"seed {seed}", fontsize=9)
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+        ax.legend(fontsize=7)
+        ax.grid(True, alpha=0.2, axis="y")
+
+    fig.suptitle(f"{oracle_label} prior vs fresh: tool-call allocation per seed",
+                 fontsize=10)
+    plt.tight_layout()
+    out_path = PLOTS_DIR / f"C_{oracle_label}_tool_allocation.png"
+    plt.savefig(out_path, dpi=100, bbox_inches="tight")
+    plt.close(fig)
+
+
+def _section_c_verdicts(
+    all_runs: dict[str, dict[str, list[RunMetrics]]],
+    section_data: dict[str, Any],
+) -> list[dict[str, str]]:
+    """Compute falsification verdicts for Section C claims."""
+    verdicts = []
+
+    # Test 1: "Prior primes toward local gradient refinement" (seed 42 pattern)
+    for oracle_label in ["1D", "1E"]:
+        tc_data = section_data.get(oracle_label, {}).get("tool_call_comparison", {})
+        lg_data = tc_data.get("local_gradients", {})
+        if lg_data:
+            p_vals = lg_data.get("prior", [])
+            f_vals = lg_data.get("fresh", [])
+            if p_vals and f_vals:
+                p_mean = float(np.mean(p_vals))
+                f_mean = float(np.mean(f_vals))
+                all_prior_higher = all(p > f for p, f in zip(p_vals, f_vals))
+                if p_mean > f_mean * 1.5 and all_prior_higher:
+                    v = "PASS"
+                    ev = (
+                        f"{oracle_label} prior uses {p_mean:.1f} local_gradients "
+                        f"vs fresh {f_mean:.1f} — consistently higher across all "
+                        f"seeds ({p_vals} vs {f_vals})"
+                    )
+                elif p_mean > f_mean:
+                    v = "QUALIFIED"
+                    ev = (
+                        f"{oracle_label} prior uses {p_mean:.1f} local_gradients "
+                        f"vs fresh {f_mean:.1f} — directionally higher but not "
+                        f"consistent across seeds ({p_vals} vs {f_vals})"
+                    )
+                else:
+                    v = "FALSIFIED"
+                    ev = (
+                        f"{oracle_label} prior uses {p_mean:.1f} local_gradients "
+                        f"vs fresh {f_mean:.1f} — seed 42 pattern does NOT generalize"
+                    )
+                verdicts.append({
+                    "claim": f"Prior primes toward local_gradients on {oracle_label}",
+                    "verdict": v,
+                    "evidence": ev,
+                })
+
+    # Test 2: "Screen-first selectively leverages correct priors"
+    # Check if prior starts with higher confidence on shared edges than fresh does
+    # (We'd need the actual confidence data from the iteration summaries which
+    #  is in the table output — extract from the data we collected)
+    verdicts.append({
+        "claim": "Screen-first selectively leverages correct priors (edge confidence initialization)",
+        "verdict": "SEE TABLE C.{1D,1E}.4",
+        "evidence": "Inspect the edge confidence initialization tables above. "
+                    "If prior-run shared-edge confidence > fresh-run shared-edge "
+                    "confidence at iteration 0, the selective-leverage claim has "
+                    "support. If they're similar, the prior isn't being used for "
+                    "edge-specific initialization.",
+    })
+
+    # Test 3: "Bimodal variance on 1D is real"
+    d_prior = all_runs.get("1D", {}).get("prior_72", [])
+    d_fresh = all_runs.get("1D", {}).get("fresh_72", [])
+    if len(d_prior) == 3 and len(d_fresh) == 3:
+        d_prior_sorted = sorted(d_prior, key=lambda r: r.seed)
+        d_fresh_sorted = sorted(d_fresh, key=lambda r: r.seed)
+        diffs = [p.final_hv - f.final_hv
+                 for p, f in zip(d_prior_sorted, d_fresh_sorted)]
+        signs = [("+" if d > 0 else "−") for d in diffs]
+        verdicts.append({
+            "claim": "1D prior-fresh bimodality is real (not just seed 42 outlier)",
+            "verdict": "QUALIFIED" if len(set(signs)) > 1 else "FALSIFIED",
+            "evidence": (
+                f"Paired diffs (prior − fresh): {[f'{d:+.4f}' for d in diffs]}. "
+                f"Signs: {signs}. {'Mixed signs confirm bimodality' if len(set(signs)) > 1 else 'All same sign — not bimodal'}."
+            ),
+        })
+
+    return verdicts
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -1111,7 +1517,8 @@ def section_b_cross_seed_correlations(
 SECTIONS: dict[str, Callable[[dict, FindingsDoc], None]] = {
     "A": section_a_learning_trajectories,
     "B": section_b_cross_seed_correlations,
-    # C-I to be added incrementally
+    "C": section_c_prior_vs_fresh,
+    # D-I to be added incrementally
 }
 
 
