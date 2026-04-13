@@ -1,0 +1,79 @@
+============================================================
+  Ablation: 1D fresh without forced iteration summary
+  Oracle: 1D (Structural Shift), Budget: 72, Model: Opus
+============================================================
+
+  Running 1D ablation seed 42 (no summary)...
+    [tool call 1] tokens=2798in+160out budget=12/72 (4s call, 5s total)
+    [tool call 4] tokens=4211in+3093out budget=12/72 (40s call, 45s total)
+    [tool call 10] tokens=10899in+2884out budget=42/72 (38s call, 82s total)
+    [tool call 13] tokens=14696in+406out budget=42/72 (6s call, 89s total)
+  [Iteration done] evals=42/72 HV=0.3772 tools_used=16 (89s total)
+  [CALIBRATION @ eval 43] MAE=0.2475 max|err|=0.5281
+    [tool call 1] tokens=3220in+238out budget=43/72 (6s call, 108s total)
+    [tool call 4] tokens=4789in+1323out budget=43/72 (20s call, 128s total)
+    [tool call 10] tokens=7237in+2449out budget=43/72 (43s call, 171s total)
+    [tool call 13] tokens=10665in+4323out budget=43/72 (64s call, 236s total)
+  [Iteration done] evals=43/72 HV=0.3772 tools_used=15 (236s total)
+    [tool call 1] tokens=3238in+171out budget=43/72 (4s call, 240s total)
+    [tool call 4] tokens=4740in+1084out budget=43/72 (20s call, 260s total)
+    [tool call 7] tokens=6809in+4009out budget=43/72 (63s call, 323s total)
+    [tool call 9] tokens=12292in+2396out budget=61/72 (39s call, 363s total)
+    [tool call 11] tokens=15272in+2717out budget=61/72 (44s call, 407s total)
+    [tool call 14] tokens=18868in+3230out budget=68/72 (50s call, 457s total)
+  [Iteration done] evals=68/72 HV=1.0266 tools_used=15 (457s total)
+  [CALIBRATION @ eval 69] MAE=0.1157 max|err|=0.2502
+    [tool call 1] tokens=3507in+336out budget=69/72 (7s call, 482s total)
+    [tool call 4] tokens=4960in+1109out budget=69/72 (16s call, 497s total)
+    [tool call 6] tokens=6726in+4605out budget=69/72 (64s call, 562s total)
+    [tool call 9] tokens=12105in+13903out budget=69/72 (187s call, 749s total)
+    [tool call 12] tokens=26375in+1401out budget=72/72 (19s call, 768s total)
+    [tool call 13] tokens=28285in+1099out budget=72/72 (19s call, 787s total)
+  [Iteration done] evals=72/72 HV=1.1151 tools_used=12 (787s total)
+  Seed 42: HV=1.1151, cost=$2.33, evals=72, time=787s
+
+  Running 1D ablation seed 43 (no summary)...
+    [tool call 1] tokens=2798in+159out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=3803in+2457out budget=12/72 (31s call, 35s total)
+    [tool call 10] tokens=9856in+1942out budget=42/72 (31s call, 65s total)
+    [tool call 13] tokens=12712in+1200out budget=42/72 (24s call, 89s total)
+    [tool call 14] tokens=14964in+1141out budget=57/72 (19s call, 108s total)
+  [Iteration done] evals=57/72 HV=0.3740 tools_used=17 (108s total)
+  [CALIBRATION @ eval 58] MAE=0.2861 max|err|=0.4839
+    [tool call 1] tokens=3254in+354out budget=58/72 (8s call, 129s total)
+    [tool call 5] tokens=4968in+2717out budget=58/72 (42s call, 171s total)
+    [tool call 9] tokens=8166in+5647out budget=58/72 (91s call, 262s total)
+    [tool call 10] tokens=14524in+3186out budget=67/72 (54s call, 316s total)
+    [tool call 12] tokens=18367in+6303out budget=67/72 (96s call, 412s total)
+  [Iteration done] evals=72/72 HV=1.1106 tools_used=16 (412s total)
+  Seed 43: HV=1.1106, cost=$1.12, evals=72, time=412s
+
+  Running 1D ablation seed 44 (no summary)...
+    [tool call 1] tokens=2798in+152out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=3999in+2433out budget=12/72 (32s call, 36s total)
+    [tool call 8] tokens=8780in+2423out budget=32/72 (34s call, 70s total)
+    [tool call 10] tokens=12459in+1676out budget=42/72 (26s call, 97s total)
+    [tool call 13] tokens=15053in+1064out budget=42/72 (21s call, 117s total)
+    [tool call 14] tokens=17196in+2340out budget=57/72 (42s call, 159s total)
+  [Iteration done] evals=57/72 HV=0.4860 tools_used=16 (159s total)
+  [CALIBRATION @ eval 58] MAE=0.2405 max|err|=0.5565
+    [tool call 1] tokens=3217in+357out budget=58/72 (8s call, 180s total)
+    [tool call 4] tokens=4703in+1053out budget=58/72 (16s call, 196s total)
+    [tool call 7] tokens=6741in+4139out budget=58/72 (69s call, 265s total)
+    [tool call 8] tokens=11591in+1767out budget=65/72 (29s call, 294s total)
+    [tool call 10] tokens=13810in+3815out budget=65/72 (56s call, 350s total)
+    [tool call 13] tokens=17992in+3314out budget=68/72 (48s call, 398s total)
+  [Iteration done] evals=72/72 HV=1.1394 tools_used=16 (398s total)
+  Seed 44: HV=1.1394, cost=$1.23, evals=72, time=398s
+
+============================================================
+  1D ablation aggregate (n=3)
+============================================================
+  HV: 1.1217 ± 0.0127
+
+  Comparison:
+  1D fresh VR with summary (n=3): 1.1856
+  1D ablation no summary (n=3):  1.1217
+  Difference: -0.0639 (-5.4%)
+  BO 1D (n=2): 1.3049
+  Ablation / BO: 86.0%
