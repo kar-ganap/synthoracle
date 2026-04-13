@@ -886,6 +886,7 @@ def run_vr_tools(
     max_tool_calls_per_iteration: int = 15,
     checkpoint_dir: str | None = None,
     skip_iteration_summary: bool = False,
+    summary_in_context: bool = True,
     prior_knowledge: str | None = None,
     calibration_interval: int = 20,
 ) -> VRToolsResult:
@@ -1399,6 +1400,23 @@ immediately — do not average with the prior or give it partial credit."""
                         )
 
             remaining = n_budget - eval_count
+
+            # When summary_in_context=False: the agent still PRODUCES
+            # the summary (cognitive work) but it's NOT embedded in the
+            # condensed context. This tests whether the ACT of articulation
+            # helps vs the PERSISTENCE of articulation in context.
+            if summary_in_context:
+                causal_model_section = (
+                    f"## Your Causal Model\n"
+                    f"{summary_text or mechanism_log[-1]}\n\n"
+                )
+            else:
+                causal_model_section = (
+                    f"## Status Note\n"
+                    f"Continue optimizing based on your tool results and "
+                    f"observations so far.\n\n"
+                )
+
             condensed_content = (
                 f"[Context condensed after iteration "
                 f"{len(iteration_summaries)}]\n\n"
@@ -1408,8 +1426,7 @@ immediately — do not average with the prior or give it partial credit."""
                 f"Pareto front: {len(Y_all)} points observed.\n\n"
                 f"## Output Ranges\n{output_ranges}\n"
                 f"Best values: {', '.join(best_lines)}\n\n"
-                f"## Your Causal Model\n"
-                f"{summary_text or mechanism_log[-1]}\n\n"
+                + causal_model_section
             )
             if recent_evals:
                 condensed_content += (
