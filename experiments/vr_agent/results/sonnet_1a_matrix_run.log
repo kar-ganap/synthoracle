@@ -1,0 +1,136 @@
+============================================================
+  Sonnet 1A: with summary + without summary (n=3 each)
+  Completes the 2×2 matrix (model × summary)
+============================================================
+
+============================================================
+  Condition: sonnet_1a_with_summary (skip_summary=False)
+============================================================
+
+  Running sonnet_1a_with_summary seed 42...
+    [tool call 1] tokens=2798in+1632out budget=12/72 (15s call, 15s total)
+    [tool call 7] tokens=7882in+2011out budget=42/72 (27s call, 42s total)
+    [tool call 9] tokens=10489in+2222out budget=42/72 (33s call, 75s total)
+    [tool call 11] tokens=13163in+1361out budget=42/72 (19s call, 94s total)
+    [tool call 14] tokens=14890in+1813out budget=42/72 (28s call, 122s total)
+  [Iteration done] evals=65/72 HV=0.1007 tools_used=15 (208s total)
+  [CALIBRATION @ eval 66] MAE=0.0605 max|err|=0.1774
+    [tool call 1] tokens=5796in+11824out budget=66/72 (142s call, 1738s total)
+    [tool call 3] tokens=18958in+2864out budget=66/72 (35s call, 1773s total)
+    [tool call 9] tokens=22543in+3761out budget=72/72 (49s call, 1821s total)
+    [tool call 10] tokens=27007in+1668out budget=72/72 (27s call, 1849s total)
+  [Iteration done] evals=72/72 HV=0.2436 tools_used=9 (1929s total)
+  sonnet_1a_with_summary seed 42: HV=0.2436, cost=$1.37, evals=72, time=1929s
+
+  Running sonnet_1a_with_summary seed 43...
+    [tool call 1] tokens=2798in+1840out budget=12/72 (16s call, 16s total)
+    [tool call 7] tokens=8143in+3611out budget=42/72 (43s call, 59s total)
+    [tool call 9] tokens=12352in+1948out budget=42/72 (26s call, 84s total)
+    [tool call 11] tokens=15354in+2930out budget=42/72 (38s call, 122s total)
+    [tool call 13] tokens=18531in+2121out budget=42/72 (30s call, 152s total)
+  [Iteration done] evals=42/72 HV=0.1050 tools_used=12 (204s total)
+  [CALIBRATION @ eval 43] MAE=0.0353 max|err|=0.1019
+    [tool call 1] tokens=5865in+8821out budget=43/72 (109s call, 1772s total)
+    [tool call 3] tokens=16284in+13415out budget=61/72 (155s call, 1927s total)
+    [tool call 9] tokens=30594in+4762out budget=66/72 (72s call, 1999s total)
+    [tool call 11] tokens=36782in+10504out budget=66/72 (118s call, 2117s total)
+  [Iteration done] evals=71/72 HV=0.2669 tools_used=15 (2298s total)
+  [CALIBRATION @ eval 72] parse failed — stop=max_tokens, parsed_output=None, raw: 
+    [tool call 1] tokens=8254in+145out budget=72/72 (4s call, 3882s total)
+    [tool call 3] tokens=10077in+113out budget=72/72 (3s call, 3885s total)
+    [tool call 5] tokens=10611in+155out budget=72/72 (2s call, 3887s total)
+    [tool call 7] tokens=10973in+3761out budget=72/72 (61s call, 3948s total)
+  [Iteration done] evals=72/72 HV=0.2669 tools_used=6 (4007s total)
+  sonnet_1a_with_summary seed 43: HV=0.2669, cost=$2.76, evals=72, time=4007s
+
+  Running sonnet_1a_with_summary seed 44...
+    [tool call 1] tokens=2798in+1425out budget=12/72 (12s call, 12s total)
+    [tool call 7] tokens=7584in+1170out budget=42/72 (18s call, 30s total)
+    [tool call 9] tokens=9347in+1564out budget=42/72 (18s call, 48s total)
+    [tool call 12] tokens=12182in+1627out budget=42/72 (22s call, 70s total)
+    [tool call 15] tokens=14173in+2998out budget=42/72 (42s call, 113s total)
+  [Iteration done] evals=58/72 HV=0.1544 tools_used=16 (188s total)
+  [CALIBRATION @ eval 59] MAE=0.1405 max|err|=0.3979
+    [tool call 1] tokens=5734in+13108out budget=59/72 (204s call, 460s total)
+    [tool call 3] tokens=20180in+6623out budget=59/72 (84s call, 544s total)
+    [tool call 9] tokens=27524in+4990out budget=65/72 (70s call, 614s total)
+  [Iteration done] evals=72/72 HV=0.2462 tools_used=15 (750s total)
+  sonnet_1a_with_summary seed 44: HV=0.2462, cost=$1.25, evals=72, time=750s
+
+============================================================
+  Condition: sonnet_1a_no_summary (skip_summary=True)
+============================================================
+
+  Running sonnet_1a_no_summary seed 42...
+    [tool call 1] tokens=2798in+1704out budget=12/72 (17s call, 17s total)
+    [tool call 7] tokens=7963in+1962out budget=42/72 (25s call, 42s total)
+    [tool call 9] tokens=10523in+957out budget=42/72 (13s call, 56s total)
+    [tool call 11] tokens=11932in+1305out budget=42/72 (21s call, 77s total)
+    [tool call 14] tokens=13601in+1892out budget=42/72 (25s call, 102s total)
+  [Iteration done] evals=66/72 HV=0.1056 tools_used=15 (102s total)
+  [CALIBRATION @ eval 67] MAE=0.1055 max|err|=0.2880
+    [tool call 1] tokens=3235in+384out budget=67/72 (9s call, 128s total)
+    [tool call 3] tokens=4951in+4431out budget=67/72 (62s call, 189s total)
+    [tool call 5] tokens=9839in+3825out budget=67/72 (55s call, 244s total)
+    [tool call 8] tokens=14031in+2027out budget=70/72 (31s call, 275s total)
+    [tool call 10] tokens=16307in+553out budget=72/72 (9s call, 284s total)
+    [tool call 11] tokens=17657in+1224out budget=72/72 (16s call, 301s total)
+  [Iteration done] evals=72/72 HV=0.1393 tools_used=10 (301s total)
+  sonnet_1a_no_summary seed 42: HV=0.1393, cost=$0.66, evals=72, time=301s
+
+  Running sonnet_1a_no_summary seed 43...
+    [tool call 1] tokens=2798in+1428out budget=12/72 (12s call, 12s total)
+    [tool call 7] tokens=7587in+2145out budget=42/72 (30s call, 42s total)
+    [tool call 9] tokens=10330in+695out budget=42/72 (11s call, 53s total)
+    [tool call 11] tokens=12179in+2488out budget=51/72 (38s call, 91s total)
+    [tool call 15] tokens=15078in+1570out budget=51/72 (25s call, 116s total)
+  [Iteration done] evals=67/72 HV=0.1067 tools_used=15 (116s total)
+  [CALIBRATION @ eval 68] MAE=0.0953 max|err|=0.1419
+    [tool call 1] tokens=3274in+1994out budget=68/72 (30s call, 162s total)
+    [tool call 4] tokens=6435in+4468out budget=68/72 (55s call, 217s total)
+    [tool call 6] tokens=11152in+1321out budget=70/72 (17s call, 234s total)
+    [tool call 8] tokens=12722in+1675out budget=72/72 (19s call, 252s total)
+  [Iteration done] evals=72/72 HV=0.1904 tools_used=7 (252s total)
+  sonnet_1a_no_summary seed 43: HV=0.1904, cost=$0.53, evals=72, time=252s
+
+  Running sonnet_1a_no_summary seed 44...
+    [tool call 1] tokens=2798in+1696out budget=12/72 (15s call, 15s total)
+    [tool call 7] tokens=7897in+2193out budget=42/72 (31s call, 46s total)
+    [tool call 9] tokens=10683in+2659out budget=42/72 (42s call, 88s total)
+    [tool call 11] tokens=13794in+2352out budget=42/72 (37s call, 125s total)
+    [tool call 13] tokens=17535in+4152out budget=58/72 (63s call, 188s total)
+  [Iteration done] evals=58/72 HV=0.1436 tools_used=15 (188s total)
+  [CALIBRATION @ eval 59] MAE=0.3130 max|err|=0.7279
+    [tool call 1] tokens=3219in+544out budget=59/72 (8s call, 212s total)
+    [tool call 3] tokens=5259in+1149out budget=59/72 (16s call, 228s total)
+    [tool call 5] tokens=6655in+400out budget=59/72 (5s call, 234s total)
+    [tool call 7] tokens=7302in+5719out budget=59/72 (78s call, 311s total)
+    [tool call 9] tokens=13650in+3711out budget=59/72 (53s call, 365s total)
+    [tool call 12] tokens=17728in+5592out budget=62/72 (67s call, 432s total)
+    [tool call 13] tokens=23628in+3997out budget=62/72 (55s call, 486s total)
+    [tool call 14] tokens=28510in+3260out budget=62/72 (45s call, 531s total)
+  [Iteration done] evals=65/72 HV=0.2241 tools_used=16 (531s total)
+  [CALIBRATION @ eval 66] MAE=0.0877 max|err|=0.1394
+    [tool call 1] tokens=3878in+6246out budget=66/72 (91s call, 644s total)
+    [tool call 4] tokens=11654in+9597out budget=66/72 (128s call, 771s total)
+    [tool call 10] tokens=21972in+1150out budget=72/72 (17s call, 789s total)
+    [tool call 11] tokens=24477in+1657out budget=72/72 (25s call, 814s total)
+  [Iteration done] evals=72/72 HV=0.2398 tools_used=10 (814s total)
+  sonnet_1a_no_summary seed 44: HV=0.2398, cost=$1.54, evals=72, time=814s
+
+============================================================
+  Sonnet 1A 2-condition comparison
+============================================================
+  sonnet_1a_with_summary (n=3): 0.2522 ± 0.0104
+  sonnet_1a_no_summary (n=3): 0.1898 ± 0.0410
+
+  Summary effect on Sonnet 1A: -0.0624 (-24.7%)
+  → Summary HELPS Sonnet on 1A
+
+  Full 2×2 matrix:
+                               With summary      No summary     Effect
+                    Opus 1A           0.193           0.259       -35%
+                  Sonnet 1A           0.252           0.190       -25%
+
+                    Opus HD           0.257           0.222       +16%
+                  Sonnet HD           0.254           0.188       +35%

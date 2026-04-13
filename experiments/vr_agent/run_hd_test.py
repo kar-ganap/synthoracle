@@ -123,6 +123,7 @@ def _run_vr_seed(
     calibration_interval: int = 20,
     max_tokens: int = 16000,
     model: str = "claude-opus-4-6",
+    skip_iteration_summary: bool = False,
 ) -> dict | None:
     """Run one VR seed, save to disk, return summary dict. None on failure."""
     from synthoracle.agents.vr_tools import run_vr_tools
@@ -168,6 +169,7 @@ def _run_vr_seed(
             max_tokens=max_tokens, max_tool_calls_per_iteration=15,
             checkpoint_dir=str(RESULTS_DIR / f"{file_prefix}_seed{seed}_ckpt"),
             calibration_interval=calibration_interval,
+            skip_iteration_summary=skip_iteration_summary,
         )
     except Exception:
         print(f"  Seed {seed} FAILED:")
@@ -280,6 +282,7 @@ def run_vr_hd(
     tag: str = "VR HD",
     max_tokens: int = 16000,
     model: str = "claude-opus-4-6",
+    skip_iteration_summary: bool = False,
 ) -> None:
     """Run VR agent on HD oracle across seeds, print aggregate stats."""
     oracle = MediumOracleHD()
@@ -295,6 +298,7 @@ def run_vr_hd(
             calibration_interval=calibration_interval,
             max_tokens=max_tokens,
             model=model,
+            skip_iteration_summary=skip_iteration_summary,
         )
         if s is not None:
             summaries.append(s)
@@ -307,14 +311,15 @@ def run_vr_hd(
 
 
 def main() -> None:
-    valid_modes = ("bo", "vr", "all", "vr-ext", "vr-sonnet", "vr-haiku")
+    valid_modes = ("bo", "vr", "all", "vr-ext", "vr-sonnet", "vr-haiku", "vr-ablation", "vr-sonnet-ablation")
     if len(sys.argv) < 2 or len(sys.argv) > 3 or sys.argv[1] not in valid_modes:
         print("Usage: python run_hd_test.py "
-              "[bo|vr|all|vr-ext|vr-sonnet|vr-haiku] [seed]")
+              "[bo|vr|all|vr-ext|vr-sonnet|vr-haiku|vr-ablation] [seed]")
         print("  vr-ext:        run all extended seeds (144 evals, Opus)")
         print("  vr-ext <seed>: run a single extended seed")
         print("  vr-sonnet:     run Sonnet HD seeds 42-44 (72 evals)")
         print("  vr-haiku:      run Haiku HD seeds 42-44 (72 evals)")
+        print("  vr-ablation:   run HD without forced summary (ablation, 72 evals)")
         sys.exit(1)
 
     mode = sys.argv[1]
@@ -382,6 +387,35 @@ def main() -> None:
             calibration_interval=20,
             tag="VR HD ext",
             max_tokens=24000,
+        )
+
+    if mode == "vr-ablation":
+        print("\n" + "=" * 60)
+        print(f"  ABLATION: HD oracle without forced summary ({len(VR_SEEDS)} seeds, 72 evals)")
+        print("  Tests whether the 1A penalty (35%) generalizes to HD")
+        print("=" * 60)
+        run_vr_hd(
+            seeds=VR_SEEDS,
+            n_budget=N_BUDGET_VR,
+            file_prefix="hd_ablation_no_summary",
+            calibration_interval=20,
+            tag="HD Ablation (no summary)",
+            skip_iteration_summary=True,
+        )
+
+    if mode == "vr-sonnet-ablation":
+        print("\n" + "=" * 60)
+        print(f"  ABLATION: HD Sonnet without forced summary ({len(VR_SEEDS)} seeds)")
+        print("  Compare to Sonnet HD with summary (0.254) — model generality test")
+        print("=" * 60)
+        run_vr_hd(
+            seeds=VR_SEEDS,
+            n_budget=N_BUDGET_VR,
+            file_prefix="hd_sonnet_ablation_no_summary",
+            calibration_interval=20,
+            tag="HD Sonnet Ablation (no summary)",
+            model="claude-sonnet-4-6",
+            skip_iteration_summary=True,
         )
 
 

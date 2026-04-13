@@ -1,0 +1,72 @@
+
+============================================================
+  ABLATION: HD Sonnet without forced summary (3 seeds)
+  Compare to Sonnet HD with summary (0.254) — model generality test
+============================================================
+
+  Running VR HD seed 42 (72 evals, 12 inputs, claude-sonnet-4-6, thinking=adaptive)...
+    [tool call 1] tokens=3070in+154out budget=24/72 (4s call, 4s total)
+    [tool call 4] tokens=5038in+3048out budget=24/72 (36s call, 40s total)
+    [tool call 10] tokens=10793in+2417out budget=44/72 (34s call, 74s total)
+    [tool call 15] tokens=15331in+3703out budget=59/72 (62s call, 136s total)
+  [Iteration done] evals=59/72 HV=0.0909 tools_used=16 (136s total)
+  [CALIBRATION @ eval 60] MAE=0.1527 max|err|=0.2282
+    [tool call 1] tokens=3571in+523out budget=60/72 (9s call, 162s total)
+    [tool call 4] tokens=6647in+1041out budget=60/72 (17s call, 178s total)
+    [tool call 6] tokens=8897in+15116out budget=60/72 (207s call, 386s total)
+    [tool call 12] tokens=24734in+5299out budget=66/72 (69s call, 455s total)
+    [tool call 14] tokens=32211in+5447out budget=66/72 (67s call, 522s total)
+  [Iteration done] evals=72/72 HV=0.2292 tools_used=19 (522s total)
+  Seed 42: HV=0.2292 cost=$0.90 evals=72 iters=0
+
+  Running VR HD seed 43 (72 evals, 12 inputs, claude-sonnet-4-6, thinking=adaptive)...
+    [tool call 1] tokens=3070in+160out budget=24/72 (3s call, 3s total)
+    [tool call 4] tokens=5041in+3093out budget=24/72 (45s call, 48s total)
+    [tool call 8] tokens=10477in+5185out budget=44/72 (72s call, 120s total)
+    [tool call 11] tokens=17569in+7543out budget=63/72 (106s call, 227s total)
+    [tool call 13] tokens=26272in+5284out budget=63/72 (67s call, 293s total)
+    [tool call 14] tokens=31591in+461out budget=63/72 (6s call, 300s total)
+    [tool call 15] tokens=32773in+4144out budget=72/72 (54s call, 354s total)
+  [Iteration done] evals=72/72 HV=0.1431 tools_used=17 (354s total)
+  Seed 43: HV=0.1431 cost=$0.77 evals=72 iters=0
+
+  Running VR HD seed 44 (72 evals, 12 inputs, claude-sonnet-4-6, thinking=adaptive)...
+    [tool call 1] tokens=3070in+174out budget=24/72 (5s call, 5s total)
+    [tool call 4] tokens=5052in+3062out budget=24/72 (42s call, 46s total)
+    [tool call 8] tokens=10427in+2413out budget=44/72 (40s call, 86s total)
+    [tool call 11] tokens=14596in+3957out budget=59/72 (62s call, 148s total)
+    [tool call 14] tokens=19786in+3329out budget=69/72 (52s call, 200s total)
+  [Iteration done] evals=69/72 HV=0.0972 tools_used=16 (200s total)
+  [CALIBRATION @ eval 70] MAE=0.1717 max|err|=0.2754
+    [tool call 1] tokens=3702in+886out budget=70/72 (16s call, 230s total)
+    [tool call 3] tokens=6420in+2520out budget=70/72 (34s call, 264s total)
+    [tool call 5] tokens=9673in+3816out budget=70/72 (56s call, 320s total)
+    [tool call 6] tokens=13594in+1122out budget=71/72 (20s call, 339s total)
+    [tool call 7] tokens=14821in+864out budget=72/72 (15s call, 355s total)
+  [Iteration done] evals=72/72 HV=0.1907 tools_used=6 (355s total)
+  Seed 44: HV=0.1907 cost=$0.65 evals=72 iters=0
+
+============================================================
+  HD Sonnet Ablation (no summary) aggregate (3 seeds)
+============================================================
+  Final HV: 0.1877 +/- 0.0352 (min=0.1431, max=0.2292)
+  Total cost: $2.32 (mean $0.77/seed)
+
+  Per-seed summary:
+   seed       HV  evals iters  oat_real  oat_noise  real_edges  noise_edges
+     42   0.2292     72     0         6          1           0            0
+     43   0.1431     72     0         6          0           0            0
+     44   0.1907     72     0         6          3           0            0
+
+  Screening efficiency (across seeds):
+    OAT total: 22 (real 18, noise 4)
+    Noise sweep fraction: 18.2%
+
+  Edge confidence (final iteration, across seeds):
+    Real edges (mean):  0.0
+    Noise edges (mean): 0.00
+
+  Comparison vs BO HD (3 seeds):
+    VR: 0.1877 +/- 0.0352
+    BO: 0.2658 +/- 0.0018
+    VR/BO: 70.6%

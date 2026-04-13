@@ -1,0 +1,80 @@
+
+============================================================
+  ABLATION: HD oracle without forced summary (3 seeds, 72 evals)
+  Tests whether the 1A penalty (35%) generalizes to HD
+============================================================
+
+  Running VR HD seed 42 (72 evals, 12 inputs, claude-opus-4-6, thinking=adaptive)...
+    [tool call 1] tokens=3070in+153out budget=24/72 (4s call, 4s total)
+    [tool call 4] tokens=5036in+1998out budget=24/72 (28s call, 32s total)
+    [tool call 9] tokens=8347in+1062out budget=24/72 (20s call, 53s total)
+    [tool call 11] tokens=10607in+4770out budget=24/72 (66s call, 119s total)
+  [Iteration done] evals=54/72 HV=0.0909 tools_used=16 (119s total)
+  [CALIBRATION @ eval 55] MAE=0.1452 max|err|=0.2482
+    [tool call 1] tokens=3988in+553out budget=55/72 (12s call, 145s total)
+    [tool call 4] tokens=7097in+2146out budget=55/72 (32s call, 176s total)
+    [tool call 7] tokens=11040in+9562out budget=55/72 (137s call, 313s total)
+    [tool call 8] tokens=21357in+3088out budget=64/72 (42s call, 355s total)
+    [tool call 12] tokens=24930in+2171out budget=68/72 (35s call, 390s total)
+    [tool call 13] tokens=28176in+4493out budget=68/72 (66s call, 456s total)
+    [tool call 15] tokens=33866in+4210out budget=68/72 (57s call, 513s total)
+  [Iteration done] evals=72/72 HV=0.2428 tools_used=18 (513s total)
+  Seed 42: HV=0.2428 cost=$1.67 evals=72 iters=0
+
+  Running VR HD seed 43 (72 evals, 12 inputs, claude-opus-4-6, thinking=adaptive)...
+    [tool call 1] tokens=3070in+150out budget=24/72 (4s call, 4s total)
+    [tool call 4] tokens=5030in+809out budget=24/72 (14s call, 18s total)
+    [tool call 6] tokens=7036in+995out budget=24/72 (16s call, 33s total)
+    [tool call 8] tokens=9230in+1910out budget=24/72 (27s call, 60s total)
+    [tool call 11] tokens=12918in+1400out budget=39/72 (18s call, 79s total)
+    [tool call 14] tokens=16080in+1479out budget=54/72 (24s call, 103s total)
+  [Iteration done] evals=72/72 HV=0.1684 tools_used=15 (103s total)
+  Seed 43: HV=0.1684 cost=$0.44 evals=72 iters=0
+
+  Running VR HD seed 44 (72 evals, 12 inputs, claude-opus-4-6, thinking=adaptive)...
+    [tool call 1] tokens=3070in+151out budget=24/72 (4s call, 4s total)
+    [tool call 4] tokens=5028in+1082out budget=24/72 (15s call, 19s total)
+    [tool call 9] tokens=7423in+1470out budget=24/72 (27s call, 47s total)
+    [tool call 11] tokens=10094in+2467out budget=24/72 (38s call, 85s total)
+    [tool call 14] tokens=14332in+1656out budget=37/72 (28s call, 113s total)
+  [Iteration done] evals=51/72 HV=0.0899 tools_used=15 (113s total)
+  [CALIBRATION @ eval 52] MAE=0.1217 max|err|=0.2476
+    [tool call 1] tokens=3815in+386out budget=52/72 (8s call, 141s total)
+    [tool call 5] tokens=6891in+3628out budget=52/72 (51s call, 192s total)
+    [tool call 8] tokens=12308in+1922out budget=52/72 (32s call, 224s total)
+    [tool call 12] tokens=14651in+6165out budget=52/72 (75s call, 300s total)
+  [Iteration done] evals=60/72 HV=0.2184 tools_used=19 (300s total)
+    [tool call 1] tokens=4868in+147out budget=60/72 (4s call, 304s total)
+    [tool call 3] tokens=6379in+2661out budget=60/72 (39s call, 343s total)
+    [tool call 6] tokens=10831in+12824out budget=60/72 (211s call, 554s total)
+    [tool call 7] tokens=24565in+1168out budget=70/72 (21s call, 575s total)
+    [tool call 8] tokens=27400in+3788out budget=70/72 (60s call, 634s total)
+    [tool call 10] tokens=31437in+1312out budget=72/72 (20s call, 654s total)
+    [tool call 11] tokens=34712in+2024out budget=72/72 (37s call, 692s total)
+  [Iteration done] evals=72/72 HV=0.2553 tools_used=10 (692s total)
+  Seed 44: HV=0.2553 cost=$2.19 evals=72 iters=0
+
+============================================================
+  HD Ablation (no summary) aggregate (3 seeds)
+============================================================
+  Final HV: 0.2222 +/- 0.0383 (min=0.1684, max=0.2553)
+  Total cost: $4.30 (mean $1.43/seed)
+
+  Per-seed summary:
+   seed       HV  evals iters  oat_real  oat_noise  real_edges  noise_edges
+     42   0.2428     72     0         6          0           0            0
+     43   0.1684     72     0         6          0           0            0
+     44   0.2553     72     0         4          1           0            0
+
+  Screening efficiency (across seeds):
+    OAT total: 17 (real 16, noise 1)
+    Noise sweep fraction: 5.9%
+
+  Edge confidence (final iteration, across seeds):
+    Real edges (mean):  0.0
+    Noise edges (mean): 0.00
+
+  Comparison vs BO HD (3 seeds):
+    VR: 0.2222 +/- 0.0383
+    BO: 0.2658 +/- 0.0018
+    VR/BO: 83.6%
