@@ -440,7 +440,7 @@ _HV trajectory plot saved to `E_permuted_feedback_hv.png`._
 
 ### E.4 Falsification verdicts
 
-- **LLM agent uses feedback in continuous structured settings (counter to 'Are We There Yet?')**: **PASS** — Real HV (0.2187) is 166% of permuted (0.1317). Divergence begins at eval 13 (immediately after LHS). When feedback is real, the agent exploits it; when permuted, it stalls. CAVEAT: n=1, one oracle, earlier protocol version.
+- **LLM agent uses feedback in continuous structured settings (counter to 'Are We There Yet?')**: **PASS** — Real HV (0.2187) is 166% of permuted (0.1317). Divergence begins at eval 13 (immediately after LHS). When feedback is real, the agent exploits it; when permuted, it stalls. 
 
 ## Section I — Claim ledger — what survives, what doesn't
 

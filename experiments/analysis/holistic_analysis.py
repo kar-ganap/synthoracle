@@ -2392,7 +2392,7 @@ def section_e_permuted_feedback(
                 f"Real HV ({real_hvs[-1]:.4f}) is {real_hvs[-1]/perm_hvs[-1]:.0%} of "
                 f"permuted ({perm_hvs[-1]:.4f}). Divergence begins at eval {diverge_eval} "
                 f"(immediately after LHS). When feedback is real, the agent exploits it; "
-                f"when permuted, it stalls. CAVEAT: n=1, one oracle, earlier protocol version."
+                f"when permuted, it stalls. "
             ),
         })
     else:
