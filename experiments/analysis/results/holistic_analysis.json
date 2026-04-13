@@ -1,0 +1,4685 @@
+{
+  "section_a": {
+    "trajectories": {
+      "1A/multi_seed_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.1783842481455423,
+          "per_iter_oat_dir_acc": [
+            0.7083333333333334,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.094125,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.024571250000000003,
+            null
+          ],
+          "per_iter_surprise_count": [
+            5,
+            5,
+            3
+          ],
+          "per_iter_eval_count": [
+            42,
+            70,
+            72
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.20341767487147405,
+          "per_iter_oat_dir_acc": [
+            0.7916666666666666,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.10918333333333334,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.044979250000000005,
+            null
+          ],
+          "per_iter_surprise_count": [
+            4,
+            4,
+            3
+          ],
+          "per_iter_eval_count": [
+            42,
+            70,
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.18355900041738818,
+          "per_iter_oat_dir_acc": [
+            0.5,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.17112499999999997,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.04401125,
+            null
+          ],
+          "per_iter_surprise_count": [
+            6,
+            4,
+            2
+          ],
+          "per_iter_eval_count": [
+            42,
+            70,
+            72
+          ]
+        },
+        {
+          "seed": 45,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.21485312512045177,
+          "per_iter_oat_dir_acc": [
+            0.8333333333333334,
+            0.75,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.271725,
+            0.0011250000000000001,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.06580858333333334,
+            0.05461075
+          ],
+          "per_iter_surprise_count": [
+            4,
+            4,
+            5
+          ],
+          "per_iter_eval_count": [
+            42,
+            68,
+            72
+          ]
+        },
+        {
+          "seed": 46,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.17924898874909884,
+          "per_iter_oat_dir_acc": [
+            0.8333333333333334,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.09543333333333333,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.0259425,
+            null
+          ],
+          "per_iter_surprise_count": [
+            4,
+            3,
+            2
+          ],
+          "per_iter_eval_count": [
+            42,
+            70,
+            72
+          ]
+        },
+        {
+          "seed": 47,
+          "model": "opus",
+          "n_iterations": 2,
+          "final_hv": 0.17068497941854868,
+          "per_iter_oat_dir_acc": [
+            0.75,
+            0.75
+          ],
+          "per_iter_oat_mag_mae": [
+            0.2713916666666667,
+            0.15515
+          ],
+          "per_iter_eval_mae": [
+            null,
+            null
+          ],
+          "per_iter_surprise_count": [
+            5,
+            5
+          ],
+          "per_iter_eval_count": [
+            42,
+            72
+          ]
+        },
+        {
+          "seed": 48,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.1634362057833439,
+          "per_iter_oat_dir_acc": [
+            0.5833333333333334,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.114475,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.074742,
+            null
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4,
+            3
+          ],
+          "per_iter_eval_count": [
+            42,
+            70,
+            72
+          ]
+        },
+        {
+          "seed": 49,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.24881188746367994,
+          "per_iter_oat_dir_acc": [
+            0.7083333333333334,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.08163333333333334,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.044730500000000006,
+            0.044684625000000006
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4,
+            4
+          ],
+          "per_iter_eval_count": [
+            42,
+            66,
+            72
+          ]
+        },
+        {
+          "seed": 50,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.15989211334293207,
+          "per_iter_oat_dir_acc": [
+            0.7083333333333334,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.12175000000000001,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.04989825,
+            null
+          ],
+          "per_iter_surprise_count": [
+            5,
+            3,
+            3
+          ],
+          "per_iter_eval_count": [
+            42,
+            70,
+            72
+          ]
+        },
+        {
+          "seed": 51,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.22390630539417938,
+          "per_iter_oat_dir_acc": [
+            0.6666666666666666,
+            1.0,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.25311666666666666,
+            0.0011250000000000001,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.0136825,
+            0.013843625
+          ],
+          "per_iter_surprise_count": [
+            4,
+            4,
+            3
+          ],
+          "per_iter_eval_count": [
+            42,
+            66,
+            72
+          ]
+        }
+      ],
+      "1A/extended_144": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 8,
+          "final_hv": 0.2793702268983019,
+          "per_iter_oat_dir_acc": [
+            0.7083333333333334,
+            0.75,
+            null,
+            null,
+            1.0,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.08949166666666668,
+            0.08808749999999999,
+            null,
+            null,
+            0.0086,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.023961749999999997,
+            null,
+            null,
+            null,
+            0.005353966666666666,
+            null,
+            0.004297715909090908
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4,
+            4,
+            2,
+            1,
+            1,
+            1,
+            1
+          ],
+          "per_iter_eval_count": [
+            42,
+            80,
+            97,
+            97,
+            107,
+            122,
+            122,
+            144
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 7,
+          "final_hv": 0.2794024324834805,
+          "per_iter_oat_dir_acc": [
+            0.7083333333333334,
+            null,
+            null,
+            1.0,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.13274166666666667,
+            null,
+            null,
+            0.085425,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.04242535,
+            null,
+            0.010078770833333335,
+            null,
+            0.00161905,
+            0.002948325
+          ],
+          "per_iter_surprise_count": [
+            5,
+            5,
+            4,
+            3,
+            2,
+            2,
+            2
+          ],
+          "per_iter_eval_count": [
+            42,
+            74,
+            92,
+            114,
+            114,
+            134,
+            144
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 10,
+          "final_hv": 0.2769017324897355,
+          "per_iter_oat_dir_acc": [
+            0.5833333333333334,
+            null,
+            0.75,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.1366166666666667,
+            null,
+            0.10300000000000001,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.05952221875,
+            0.015976999999999998,
+            0.006528583333333333,
+            0.0034385208333333334,
+            0.005595375,
+            0.004373175,
+            null,
+            null,
+            0.002842683333333333
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4,
+            4,
+            1,
+            3,
+            3,
+            0,
+            3,
+            3,
+            3
+          ],
+          "per_iter_eval_count": [
+            42,
+            68,
+            95,
+            101,
+            113,
+            119,
+            129,
+            129,
+            129,
+            144
+          ]
+        },
+        {
+          "seed": 45,
+          "model": "opus",
+          "n_iterations": 7,
+          "final_hv": 0.27627832273524033,
+          "per_iter_oat_dir_acc": [
+            0.8333333333333334,
+            null,
+            null,
+            null,
+            null,
+            null,
+            1.0
+          ],
+          "per_iter_oat_mag_mae": [
+            0.18356666666666666,
+            null,
+            null,
+            null,
+            null,
+            null,
+            0.00705
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.009279964285714284,
+            0.005203062499999999,
+            0.005092416666666666,
+            0.006736568181818183,
+            null,
+            null
+          ],
+          "per_iter_surprise_count": [
+            4,
+            4,
+            3,
+            3,
+            1,
+            1,
+            1
+          ],
+          "per_iter_eval_count": [
+            42,
+            58,
+            75,
+            105,
+            116,
+            116,
+            144
+          ]
+        }
+      ],
+      "1B/transfer_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 0,
+          "final_hv": 0.23920673961752895,
+          "per_iter_oat_dir_acc": [],
+          "per_iter_oat_mag_mae": [],
+          "per_iter_eval_mae": [],
+          "per_iter_surprise_count": [],
+          "per_iter_eval_count": []
+        }
+      ],
+      "1B/fresh_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 0,
+          "final_hv": 0.23577890471243945,
+          "per_iter_oat_dir_acc": [],
+          "per_iter_oat_mag_mae": [],
+          "per_iter_eval_mae": [],
+          "per_iter_surprise_count": [],
+          "per_iter_eval_count": []
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.2333580471711768,
+          "per_iter_oat_dir_acc": [
+            0.6666666666666666,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.08730833333333334,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.02113719444444444,
+            0.0054807499999999995
+          ],
+          "per_iter_surprise_count": [
+            4,
+            4,
+            2
+          ],
+          "per_iter_eval_count": [
+            42,
+            69,
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.24709418062879307,
+          "per_iter_oat_dir_acc": [
+            0.5416666666666666,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.13775,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            null,
+            0.020549
+          ],
+          "per_iter_surprise_count": [
+            6,
+            4,
+            5
+          ],
+          "per_iter_eval_count": [
+            60,
+            61,
+            72
+          ]
+        }
+      ],
+      "1C/transfer_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 0,
+          "final_hv": 0.4609533750019529,
+          "per_iter_oat_dir_acc": [],
+          "per_iter_oat_mag_mae": [],
+          "per_iter_eval_mae": [],
+          "per_iter_surprise_count": [],
+          "per_iter_eval_count": []
+        }
+      ],
+      "1C/fresh_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 0,
+          "final_hv": 0.48740135538654367,
+          "per_iter_oat_dir_acc": [],
+          "per_iter_oat_mag_mae": [],
+          "per_iter_eval_mae": [],
+          "per_iter_surprise_count": [],
+          "per_iter_eval_count": []
+        }
+      ],
+      "1D/prior_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 1.0544104680391178,
+          "per_iter_oat_dir_acc": [
+            0.7916666666666666,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.10834166666666667,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.0388165,
+            null
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4,
+            1
+          ],
+          "per_iter_eval_count": [
+            42,
+            70,
+            72
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 1.2244277290797911,
+          "per_iter_oat_dir_acc": [
+            0.75,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.10542499999999999,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.06250702272727274,
+            0.012506875
+          ],
+          "per_iter_surprise_count": [
+            4,
+            4,
+            3
+          ],
+          "per_iter_eval_count": [
+            57,
+            68,
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 1.3477703104767786,
+          "per_iter_oat_dir_acc": [
+            0.7857142857142857,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.09072500000000001,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.0045588749999999996,
+            0.0069154
+          ],
+          "per_iter_surprise_count": [
+            5,
+            2,
+            3
+          ],
+          "per_iter_eval_count": [
+            49,
+            65,
+            72
+          ]
+        }
+      ],
+      "1D/fresh_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 2,
+          "final_hv": 1.1557633144709862,
+          "per_iter_oat_dir_acc": [
+            0.8333333333333334,
+            1.0
+          ],
+          "per_iter_oat_mag_mae": [
+            0.16863333333333333,
+            0.0456
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.014833333333333332
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4
+          ],
+          "per_iter_eval_count": [
+            60,
+            72
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 1.1141654700931563,
+          "per_iter_oat_dir_acc": [
+            0.75,
+            1.0,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.24928333333333333,
+            0.033125,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.026262874999999998,
+            0.0042978124999999995
+          ],
+          "per_iter_surprise_count": [
+            5,
+            5,
+            2
+          ],
+          "per_iter_eval_count": [
+            42,
+            66,
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 1.2869896340466709,
+          "per_iter_oat_dir_acc": [
+            0.5,
+            1.0,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.2000666666666667,
+            0.079375,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.0777822857142857,
+            null
+          ],
+          "per_iter_surprise_count": [
+            5,
+            3,
+            3
+          ],
+          "per_iter_eval_count": [
+            57,
+            70,
+            72
+          ]
+        }
+      ],
+      "1D/prior_144": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 14,
+          "final_hv": 1.307180352898993,
+          "per_iter_oat_dir_acc": [
+            0.875,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.09150833333333334,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.047533549999999994,
+            null,
+            0.007171138888888888,
+            0.0018514,
+            0.0009896666666666667,
+            null,
+            null,
+            null,
+            null,
+            0.000187375,
+            null,
+            0.00016445138888888887,
+            1.925e-05
+          ],
+          "per_iter_surprise_count": [
+            4,
+            4,
+            4,
+            2,
+            3,
+            1,
+            3,
+            1,
+            7,
+            1,
+            1,
+            2,
+            1,
+            1
+          ],
+          "per_iter_eval_count": [
+            42,
+            61,
+            61,
+            75,
+            85,
+            88,
+            88,
+            88,
+            88,
+            88,
+            106,
+            106,
+            142,
+            144
+          ]
+        }
+      ],
+      "1E/prior_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.27574682405430984,
+          "per_iter_oat_dir_acc": [
+            0.75,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.09025416666666668,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.044405933333333335,
+            0.0032865624999999996
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4,
+            3
+          ],
+          "per_iter_eval_count": [
+            51,
+            66,
+            72
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 6,
+          "final_hv": 0.26397313720082444,
+          "per_iter_oat_dir_acc": [
+            0.5416666666666666,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.11637083333333335,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.050348031249999994,
+            null,
+            null,
+            0.0064037777777777765,
+            0.0050133750000000005
+          ],
+          "per_iter_surprise_count": [
+            6,
+            4,
+            2,
+            2,
+            2,
+            2
+          ],
+          "per_iter_eval_count": [
+            42,
+            50,
+            50,
+            50,
+            68,
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 5,
+          "final_hv": 0.2747316118898012,
+          "per_iter_oat_dir_acc": [
+            0.75,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.09982916666666668,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.008374562499999998,
+            0.0034217500000000003,
+            null,
+            0.01958471428571429
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4,
+            3,
+            6,
+            4
+          ],
+          "per_iter_eval_count": [
+            42,
+            55,
+            56,
+            56,
+            72
+          ]
+        }
+      ],
+      "1E/fresh_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.2751534344938082,
+          "per_iter_oat_dir_acc": [
+            0.5833333333333334,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.1455625,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.03932915,
+            0.0029505
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4,
+            4
+          ],
+          "per_iter_eval_count": [
+            51,
+            66,
+            72
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 2,
+          "final_hv": 0.2545011234658445,
+          "per_iter_oat_dir_acc": [
+            0.8333333333333334,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.13344583333333332,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.0374895909090909
+          ],
+          "per_iter_surprise_count": [
+            4,
+            3
+          ],
+          "per_iter_eval_count": [
+            42,
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.24906722128760805,
+          "per_iter_oat_dir_acc": [
+            0.5833333333333334,
+            1.0,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.12327083333333333,
+            0.08147499999999999,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.009896857142857141,
+            0.001861892857142857
+          ],
+          "per_iter_surprise_count": [
+            5,
+            3,
+            4
+          ],
+          "per_iter_eval_count": [
+            42,
+            63,
+            72
+          ]
+        }
+      ],
+      "1E/sonnet_prior_72": [
+        {
+          "seed": 42,
+          "model": "sonnet",
+          "n_iterations": 9,
+          "final_hv": 0.27562924010422646,
+          "per_iter_oat_dir_acc": [
+            0.5416666666666666,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.12107083333333334,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.11038475,
+            null,
+            null,
+            0.045675765624999996,
+            0.01255425,
+            null,
+            null,
+            0.024843200000000003
+          ],
+          "per_iter_surprise_count": [
+            5,
+            1,
+            3,
+            6,
+            1,
+            4,
+            3,
+            3,
+            4
+          ],
+          "per_iter_eval_count": [
+            42,
+            43,
+            43,
+            43,
+            59,
+            60,
+            60,
+            60,
+            72
+          ]
+        }
+      ],
+      "HD/base_72": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 2,
+          "final_hv": 0.2622770700027313,
+          "per_iter_oat_dir_acc": [
+            0.9166666666666666,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.018966666666666666,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.029570875000000003
+          ],
+          "per_iter_surprise_count": [
+            4,
+            3
+          ],
+          "per_iter_eval_count": [
+            57,
+            72
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.24147377981134988,
+          "per_iter_oat_dir_acc": [
+            0.875,
+            0.75,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.0639875,
+            0.1292125,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.0226214,
+            0.0031703125
+          ],
+          "per_iter_surprise_count": [
+            3,
+            6,
+            2
+          ],
+          "per_iter_eval_count": [
+            43,
+            67,
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 3,
+          "final_hv": 0.2668429777243713,
+          "per_iter_oat_dir_acc": [
+            1.0,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.023594999999999998,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.08197555769230767,
+            0.005055527777777778
+          ],
+          "per_iter_surprise_count": [
+            3,
+            4,
+            1
+          ],
+          "per_iter_eval_count": [
+            49,
+            62,
+            72
+          ]
+        }
+      ],
+      "HD/extended_144": [
+        {
+          "seed": 42,
+          "model": "opus",
+          "n_iterations": 5,
+          "final_hv": 0.26621216379094775,
+          "per_iter_oat_dir_acc": [
+            0.7291666666666666,
+            null,
+            1.0,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.07979166666666668,
+            null,
+            0.025431250000000002,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.12660035,
+            0.0021439,
+            0.0010355,
+            0.0018192500000000001
+          ],
+          "per_iter_surprise_count": [
+            6,
+            5,
+            3,
+            2,
+            2
+          ],
+          "per_iter_eval_count": [
+            84,
+            108,
+            137,
+            138,
+            144
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "opus",
+          "n_iterations": 4,
+          "final_hv": 0.26984209862296854,
+          "per_iter_oat_dir_acc": [
+            0.6428571428571429,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.21446785714285715,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.0338243125,
+            0.006210119047619047,
+            0.0021634117647058825
+          ],
+          "per_iter_surprise_count": [
+            6,
+            4,
+            3,
+            1
+          ],
+          "per_iter_eval_count": [
+            73,
+            103,
+            124,
+            144
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "opus",
+          "n_iterations": 8,
+          "final_hv": 0.26833285419847674,
+          "per_iter_oat_dir_acc": [
+            0.7857142857142857,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.09767857142857142,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.027924454545454544,
+            0.004033,
+            0.0048133636363636365,
+            0.004959583333333333,
+            0.00861625,
+            null,
+            0.0061785
+          ],
+          "per_iter_surprise_count": [
+            4,
+            4,
+            4,
+            3,
+            1,
+            2,
+            1,
+            1
+          ],
+          "per_iter_eval_count": [
+            59,
+            89,
+            108,
+            119,
+            128,
+            129,
+            129,
+            144
+          ]
+        }
+      ],
+      "HD/sonnet_72": [
+        {
+          "seed": 42,
+          "model": "sonnet",
+          "n_iterations": 4,
+          "final_hv": 0.23497310062498813,
+          "per_iter_oat_dir_acc": [
+            0.96875,
+            null,
+            null,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.03504375,
+            null,
+            null,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.18964499999999998,
+            null,
+            0.14798224999999998
+          ],
+          "per_iter_surprise_count": [
+            5,
+            2,
+            3,
+            4
+          ],
+          "per_iter_eval_count": [
+            62,
+            63,
+            63,
+            72
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "sonnet",
+          "n_iterations": 2,
+          "final_hv": 0.2636982780522064,
+          "per_iter_oat_dir_acc": [
+            0.75,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.06477916666666667,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.04208972058823529
+          ],
+          "per_iter_surprise_count": [
+            4,
+            5
+          ],
+          "per_iter_eval_count": [
+            54,
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "sonnet",
+          "n_iterations": 2,
+          "final_hv": 0.2636967491399529,
+          "per_iter_oat_dir_acc": [
+            0.8333333333333334,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.08246666666666666,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            0.05595054411764706
+          ],
+          "per_iter_surprise_count": [
+            3,
+            5
+          ],
+          "per_iter_eval_count": [
+            54,
+            72
+          ]
+        }
+      ],
+      "HD/haiku_72": [
+        {
+          "seed": 42,
+          "model": "haiku",
+          "n_iterations": 2,
+          "final_hv": 0.08413576521843653,
+          "per_iter_oat_dir_acc": [
+            0.6111111111111112,
+            null
+          ],
+          "per_iter_oat_mag_mae": [
+            0.2591527777777778,
+            null
+          ],
+          "per_iter_eval_mae": [
+            null,
+            null
+          ],
+          "per_iter_surprise_count": [
+            5,
+            4
+          ],
+          "per_iter_eval_count": [
+            71,
+            72
+          ]
+        },
+        {
+          "seed": 43,
+          "model": "haiku",
+          "n_iterations": 1,
+          "final_hv": 0.16315575240996572,
+          "per_iter_oat_dir_acc": [
+            0.6666666666666666
+          ],
+          "per_iter_oat_mag_mae": [
+            0.4853625
+          ],
+          "per_iter_eval_mae": [
+            null
+          ],
+          "per_iter_surprise_count": [
+            5
+          ],
+          "per_iter_eval_count": [
+            72
+          ]
+        },
+        {
+          "seed": 44,
+          "model": "haiku",
+          "n_iterations": 1,
+          "final_hv": 0.10087318400552986,
+          "per_iter_oat_dir_acc": [
+            0.7083333333333334
+          ],
+          "per_iter_oat_mag_mae": [
+            0.1834083333333333
+          ],
+          "per_iter_eval_mae": [
+            null
+          ],
+          "per_iter_surprise_count": [
+            4
+          ],
+          "per_iter_eval_count": [
+            72
+          ]
+        }
+      ]
+    },
+    "hv_gain_data": {
+      "1A/multi_seed_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.104851,
+              "hv_gain_per_eval": 0.002496
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.060729,
+              "hv_gain_per_eval": 0.002169
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.012804,
+              "hv_gain_per_eval": 0.006402
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.105022,
+              "hv_gain_per_eval": 0.002501
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.061369,
+              "hv_gain_per_eval": 0.002192
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.037027,
+              "hv_gain_per_eval": 0.018514
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.135111,
+              "hv_gain_per_eval": 0.003217
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.027925,
+              "hv_gain_per_eval": 0.000997
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.020523,
+              "hv_gain_per_eval": 0.010262
+            }
+          ]
+        },
+        {
+          "seed": 45,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.100388,
+              "hv_gain_per_eval": 0.00239
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 68,
+              "n_evals": 26,
+              "hv_gain": 0.060232,
+              "hv_gain_per_eval": 0.002317
+            },
+            {
+              "iteration": 2,
+              "eval_start": 68,
+              "eval_end": 72,
+              "n_evals": 4,
+              "hv_gain": 0.054233,
+              "hv_gain_per_eval": 0.013558
+            }
+          ]
+        },
+        {
+          "seed": 46,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.155615,
+              "hv_gain_per_eval": 0.003705
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.012706,
+              "hv_gain_per_eval": 0.000454
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.010928,
+              "hv_gain_per_eval": 0.005464
+            }
+          ]
+        },
+        {
+          "seed": 48,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.093304,
+              "hv_gain_per_eval": 0.002222
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.004957,
+              "hv_gain_per_eval": 0.000177
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.065175,
+              "hv_gain_per_eval": 0.032588
+            }
+          ]
+        },
+        {
+          "seed": 49,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.100523,
+              "hv_gain_per_eval": 0.002393
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 66,
+              "n_evals": 24,
+              "hv_gain": 0.060256,
+              "hv_gain_per_eval": 0.002511
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.088033,
+              "hv_gain_per_eval": 0.014672
+            }
+          ]
+        },
+        {
+          "seed": 50,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.113208,
+              "hv_gain_per_eval": 0.002695
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.015291,
+              "hv_gain_per_eval": 0.000546
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.031392,
+              "hv_gain_per_eval": 0.015696
+            }
+          ]
+        },
+        {
+          "seed": 51,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.10512,
+              "hv_gain_per_eval": 0.002503
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 66,
+              "n_evals": 24,
+              "hv_gain": 0.060939,
+              "hv_gain_per_eval": 0.002539
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.057848,
+              "hv_gain_per_eval": 0.009641
+            }
+          ]
+        }
+      ],
+      "1A/extended_144": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.104851,
+              "hv_gain_per_eval": 0.002496
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 80,
+              "n_evals": 38,
+              "hv_gain": 0.166247,
+              "hv_gain_per_eval": 0.004375
+            },
+            {
+              "iteration": 2,
+              "eval_start": 80,
+              "eval_end": 97,
+              "n_evals": 17,
+              "hv_gain": 0.000217,
+              "hv_gain_per_eval": 1.3e-05
+            },
+            {
+              "iteration": 4,
+              "eval_start": 97,
+              "eval_end": 107,
+              "n_evals": 10,
+              "hv_gain": 0.002405,
+              "hv_gain_per_eval": 0.000241
+            },
+            {
+              "iteration": 5,
+              "eval_start": 107,
+              "eval_end": 122,
+              "n_evals": 15,
+              "hv_gain": 0.002939,
+              "hv_gain_per_eval": 0.000196
+            },
+            {
+              "iteration": 7,
+              "eval_start": 122,
+              "eval_end": 144,
+              "n_evals": 22,
+              "hv_gain": 0.002712,
+              "hv_gain_per_eval": 0.000123
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.105022,
+              "hv_gain_per_eval": 0.002501
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 74,
+              "n_evals": 32,
+              "hv_gain": 0.159738,
+              "hv_gain_per_eval": 0.004992
+            },
+            {
+              "iteration": 2,
+              "eval_start": 74,
+              "eval_end": 92,
+              "n_evals": 18,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 3,
+              "eval_start": 92,
+              "eval_end": 114,
+              "n_evals": 22,
+              "hv_gain": 0.007569,
+              "hv_gain_per_eval": 0.000344
+            },
+            {
+              "iteration": 5,
+              "eval_start": 114,
+              "eval_end": 134,
+              "n_evals": 20,
+              "hv_gain": 0.005044,
+              "hv_gain_per_eval": 0.000252
+            },
+            {
+              "iteration": 6,
+              "eval_start": 134,
+              "eval_end": 144,
+              "n_evals": 10,
+              "hv_gain": 0.002029,
+              "hv_gain_per_eval": 0.000203
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.135111,
+              "hv_gain_per_eval": 0.003217
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 68,
+              "n_evals": 26,
+              "hv_gain": 0.094279,
+              "hv_gain_per_eval": 0.003626
+            },
+            {
+              "iteration": 2,
+              "eval_start": 68,
+              "eval_end": 95,
+              "n_evals": 27,
+              "hv_gain": 0.013739,
+              "hv_gain_per_eval": 0.000509
+            },
+            {
+              "iteration": 3,
+              "eval_start": 95,
+              "eval_end": 101,
+              "n_evals": 6,
+              "hv_gain": 0.004884,
+              "hv_gain_per_eval": 0.000814
+            },
+            {
+              "iteration": 4,
+              "eval_start": 101,
+              "eval_end": 113,
+              "n_evals": 12,
+              "hv_gain": 0.008528,
+              "hv_gain_per_eval": 0.000711
+            },
+            {
+              "iteration": 5,
+              "eval_start": 113,
+              "eval_end": 119,
+              "n_evals": 6,
+              "hv_gain": 0.016424,
+              "hv_gain_per_eval": 0.002737
+            },
+            {
+              "iteration": 6,
+              "eval_start": 119,
+              "eval_end": 129,
+              "n_evals": 10,
+              "hv_gain": 0.002442,
+              "hv_gain_per_eval": 0.000244
+            },
+            {
+              "iteration": 9,
+              "eval_start": 129,
+              "eval_end": 144,
+              "n_evals": 15,
+              "hv_gain": 0.001494,
+              "hv_gain_per_eval": 0.0001
+            }
+          ]
+        },
+        {
+          "seed": 45,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.100388,
+              "hv_gain_per_eval": 0.00239
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 58,
+              "n_evals": 16,
+              "hv_gain": 0.166166,
+              "hv_gain_per_eval": 0.010385
+            },
+            {
+              "iteration": 2,
+              "eval_start": 58,
+              "eval_end": 75,
+              "n_evals": 17,
+              "hv_gain": 0.005579,
+              "hv_gain_per_eval": 0.000328
+            },
+            {
+              "iteration": 3,
+              "eval_start": 75,
+              "eval_end": 105,
+              "n_evals": 30,
+              "hv_gain": 0.003217,
+              "hv_gain_per_eval": 0.000107
+            },
+            {
+              "iteration": 4,
+              "eval_start": 105,
+              "eval_end": 116,
+              "n_evals": 11,
+              "hv_gain": 0.000293,
+              "hv_gain_per_eval": 2.7e-05
+            },
+            {
+              "iteration": 6,
+              "eval_start": 116,
+              "eval_end": 144,
+              "n_evals": 28,
+              "hv_gain": 0.000636,
+              "hv_gain_per_eval": 2.3e-05
+            }
+          ]
+        }
+      ],
+      "1B/fresh_72": [
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.104679,
+              "hv_gain_per_eval": 0.002492
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 69,
+              "n_evals": 27,
+              "hv_gain": 0.126007,
+              "hv_gain_per_eval": 0.004667
+            },
+            {
+              "iteration": 2,
+              "eval_start": 69,
+              "eval_end": 72,
+              "n_evals": 3,
+              "hv_gain": 0.002672,
+              "hv_gain_per_eval": 0.000891
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 60,
+              "n_evals": 60,
+              "hv_gain": 0.184508,
+              "hv_gain_per_eval": 0.003075
+            },
+            {
+              "iteration": 1,
+              "eval_start": 60,
+              "eval_end": 61,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 2,
+              "eval_start": 61,
+              "eval_end": 72,
+              "n_evals": 11,
+              "hv_gain": 0.062586,
+              "hv_gain_per_eval": 0.00569
+            }
+          ]
+        }
+      ],
+      "1D/prior_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.39403,
+              "hv_gain_per_eval": 0.009382
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 70,
+              "n_evals": 28,
+              "hv_gain": 0.607839,
+              "hv_gain_per_eval": 0.021709
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.052541,
+              "hv_gain_per_eval": 0.026271
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 57,
+              "n_evals": 57,
+              "hv_gain": 0.36448,
+              "hv_gain_per_eval": 0.006394
+            },
+            {
+              "iteration": 1,
+              "eval_start": 57,
+              "eval_end": 68,
+              "n_evals": 11,
+              "hv_gain": 0.824457,
+              "hv_gain_per_eval": 0.074951
+            },
+            {
+              "iteration": 2,
+              "eval_start": 68,
+              "eval_end": 72,
+              "n_evals": 4,
+              "hv_gain": 0.03549,
+              "hv_gain_per_eval": 0.008872
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 49,
+              "n_evals": 49,
+              "hv_gain": 0.957399,
+              "hv_gain_per_eval": 0.019539
+            },
+            {
+              "iteration": 1,
+              "eval_start": 49,
+              "eval_end": 65,
+              "n_evals": 16,
+              "hv_gain": 0.301154,
+              "hv_gain_per_eval": 0.018822
+            },
+            {
+              "iteration": 2,
+              "eval_start": 65,
+              "eval_end": 72,
+              "n_evals": 7,
+              "hv_gain": 0.089217,
+              "hv_gain_per_eval": 0.012745
+            }
+          ]
+        }
+      ],
+      "1D/fresh_72": [
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.364011,
+              "hv_gain_per_eval": 0.008667
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 66,
+              "n_evals": 24,
+              "hv_gain": 0.708535,
+              "hv_gain_per_eval": 0.029522
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.04162,
+              "hv_gain_per_eval": 0.006937
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 57,
+              "n_evals": 57,
+              "hv_gain": 0.521462,
+              "hv_gain_per_eval": 0.009148
+            },
+            {
+              "iteration": 1,
+              "eval_start": 57,
+              "eval_end": 70,
+              "n_evals": 13,
+              "hv_gain": 0.755186,
+              "hv_gain_per_eval": 0.058091
+            },
+            {
+              "iteration": 2,
+              "eval_start": 70,
+              "eval_end": 72,
+              "n_evals": 2,
+              "hv_gain": 0.010342,
+              "hv_gain_per_eval": 0.005171
+            }
+          ]
+        }
+      ],
+      "1D/prior_144": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.37716,
+              "hv_gain_per_eval": 0.00898
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 61,
+              "n_evals": 19,
+              "hv_gain": 0.765663,
+              "hv_gain_per_eval": 0.040298
+            },
+            {
+              "iteration": 3,
+              "eval_start": 61,
+              "eval_end": 75,
+              "n_evals": 14,
+              "hv_gain": 0.025682,
+              "hv_gain_per_eval": 0.001834
+            },
+            {
+              "iteration": 4,
+              "eval_start": 75,
+              "eval_end": 85,
+              "n_evals": 10,
+              "hv_gain": 0.131315,
+              "hv_gain_per_eval": 0.013131
+            },
+            {
+              "iteration": 5,
+              "eval_start": 85,
+              "eval_end": 88,
+              "n_evals": 3,
+              "hv_gain": 0.001873,
+              "hv_gain_per_eval": 0.000624
+            },
+            {
+              "iteration": 10,
+              "eval_start": 88,
+              "eval_end": 106,
+              "n_evals": 18,
+              "hv_gain": 0.003404,
+              "hv_gain_per_eval": 0.000189
+            },
+            {
+              "iteration": 12,
+              "eval_start": 106,
+              "eval_end": 142,
+              "n_evals": 36,
+              "hv_gain": 0.00171,
+              "hv_gain_per_eval": 4.7e-05
+            },
+            {
+              "iteration": 13,
+              "eval_start": 142,
+              "eval_end": 144,
+              "n_evals": 2,
+              "hv_gain": 0.000374,
+              "hv_gain_per_eval": 0.000187
+            }
+          ]
+        }
+      ],
+      "1E/prior_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 51,
+              "n_evals": 51,
+              "hv_gain": 0.147652,
+              "hv_gain_per_eval": 0.002895
+            },
+            {
+              "iteration": 1,
+              "eval_start": 51,
+              "eval_end": 66,
+              "n_evals": 15,
+              "hv_gain": 0.124249,
+              "hv_gain_per_eval": 0.008283
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.003846,
+              "hv_gain_per_eval": 0.000641
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.104508,
+              "hv_gain_per_eval": 0.002488
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 50,
+              "n_evals": 8,
+              "hv_gain": 0.139976,
+              "hv_gain_per_eval": 0.017497
+            },
+            {
+              "iteration": 4,
+              "eval_start": 50,
+              "eval_end": 68,
+              "n_evals": 18,
+              "hv_gain": 0.017849,
+              "hv_gain_per_eval": 0.000992
+            },
+            {
+              "iteration": 5,
+              "eval_start": 68,
+              "eval_end": 72,
+              "n_evals": 4,
+              "hv_gain": 0.00164,
+              "hv_gain_per_eval": 0.00041
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.092938,
+              "hv_gain_per_eval": 0.002213
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 55,
+              "n_evals": 13,
+              "hv_gain": 0.147742,
+              "hv_gain_per_eval": 0.011365
+            },
+            {
+              "iteration": 2,
+              "eval_start": 55,
+              "eval_end": 56,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 4,
+              "eval_start": 56,
+              "eval_end": 72,
+              "n_evals": 16,
+              "hv_gain": 0.034052,
+              "hv_gain_per_eval": 0.002128
+            }
+          ]
+        }
+      ],
+      "1E/fresh_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 51,
+              "n_evals": 51,
+              "hv_gain": 0.147652,
+              "hv_gain_per_eval": 0.002895
+            },
+            {
+              "iteration": 1,
+              "eval_start": 51,
+              "eval_end": 66,
+              "n_evals": 15,
+              "hv_gain": 0.124464,
+              "hv_gain_per_eval": 0.008298
+            },
+            {
+              "iteration": 2,
+              "eval_start": 66,
+              "eval_end": 72,
+              "n_evals": 6,
+              "hv_gain": 0.003038,
+              "hv_gain_per_eval": 0.000506
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.092938,
+              "hv_gain_per_eval": 0.002213
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 63,
+              "n_evals": 21,
+              "hv_gain": 0.151025,
+              "hv_gain_per_eval": 0.007192
+            },
+            {
+              "iteration": 2,
+              "eval_start": 63,
+              "eval_end": 72,
+              "n_evals": 9,
+              "hv_gain": 0.005104,
+              "hv_gain_per_eval": 0.000567
+            }
+          ]
+        }
+      ],
+      "1E/sonnet_prior_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 42,
+              "n_evals": 42,
+              "hv_gain": 0.144869,
+              "hv_gain_per_eval": 0.003449
+            },
+            {
+              "iteration": 1,
+              "eval_start": 42,
+              "eval_end": 43,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 4,
+              "eval_start": 43,
+              "eval_end": 59,
+              "n_evals": 16,
+              "hv_gain": 0.129404,
+              "hv_gain_per_eval": 0.008088
+            },
+            {
+              "iteration": 5,
+              "eval_start": 59,
+              "eval_end": 60,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 8,
+              "eval_start": 60,
+              "eval_end": 72,
+              "n_evals": 12,
+              "hv_gain": 0.001356,
+              "hv_gain_per_eval": 0.000113
+            }
+          ]
+        }
+      ],
+      "HD/base_72": [
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 43,
+              "n_evals": 43,
+              "hv_gain": 0.136235,
+              "hv_gain_per_eval": 0.003168
+            },
+            {
+              "iteration": 1,
+              "eval_start": 43,
+              "eval_end": 67,
+              "n_evals": 24,
+              "hv_gain": 0.092485,
+              "hv_gain_per_eval": 0.003854
+            },
+            {
+              "iteration": 2,
+              "eval_start": 67,
+              "eval_end": 72,
+              "n_evals": 5,
+              "hv_gain": 0.012754,
+              "hv_gain_per_eval": 0.002551
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 49,
+              "n_evals": 49,
+              "hv_gain": 0.097201,
+              "hv_gain_per_eval": 0.001984
+            },
+            {
+              "iteration": 1,
+              "eval_start": 49,
+              "eval_end": 62,
+              "n_evals": 13,
+              "hv_gain": 0.162217,
+              "hv_gain_per_eval": 0.012478
+            },
+            {
+              "iteration": 2,
+              "eval_start": 62,
+              "eval_end": 72,
+              "n_evals": 10,
+              "hv_gain": 0.007425,
+              "hv_gain_per_eval": 0.000742
+            }
+          ]
+        }
+      ],
+      "HD/extended_144": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 84,
+              "n_evals": 84,
+              "hv_gain": 0.090895,
+              "hv_gain_per_eval": 0.001082
+            },
+            {
+              "iteration": 1,
+              "eval_start": 84,
+              "eval_end": 108,
+              "n_evals": 24,
+              "hv_gain": 0.140342,
+              "hv_gain_per_eval": 0.005848
+            },
+            {
+              "iteration": 2,
+              "eval_start": 108,
+              "eval_end": 137,
+              "n_evals": 29,
+              "hv_gain": 0.033229,
+              "hv_gain_per_eval": 0.001146
+            },
+            {
+              "iteration": 3,
+              "eval_start": 137,
+              "eval_end": 138,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 4,
+              "eval_start": 138,
+              "eval_end": 144,
+              "n_evals": 6,
+              "hv_gain": 0.001746,
+              "hv_gain_per_eval": 0.000291
+            }
+          ]
+        },
+        {
+          "seed": 43,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 73,
+              "n_evals": 73,
+              "hv_gain": 0.136235,
+              "hv_gain_per_eval": 0.001866
+            },
+            {
+              "iteration": 1,
+              "eval_start": 73,
+              "eval_end": 103,
+              "n_evals": 30,
+              "hv_gain": 0.124003,
+              "hv_gain_per_eval": 0.004133
+            },
+            {
+              "iteration": 2,
+              "eval_start": 103,
+              "eval_end": 124,
+              "n_evals": 21,
+              "hv_gain": 0.008446,
+              "hv_gain_per_eval": 0.000402
+            },
+            {
+              "iteration": 3,
+              "eval_start": 124,
+              "eval_end": 144,
+              "n_evals": 20,
+              "hv_gain": 0.001158,
+              "hv_gain_per_eval": 5.8e-05
+            }
+          ]
+        },
+        {
+          "seed": 44,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 59,
+              "n_evals": 59,
+              "hv_gain": 0.097201,
+              "hv_gain_per_eval": 0.001647
+            },
+            {
+              "iteration": 1,
+              "eval_start": 59,
+              "eval_end": 89,
+              "n_evals": 30,
+              "hv_gain": 0.137859,
+              "hv_gain_per_eval": 0.004595
+            },
+            {
+              "iteration": 2,
+              "eval_start": 89,
+              "eval_end": 108,
+              "n_evals": 19,
+              "hv_gain": 0.015939,
+              "hv_gain_per_eval": 0.000839
+            },
+            {
+              "iteration": 3,
+              "eval_start": 108,
+              "eval_end": 119,
+              "n_evals": 11,
+              "hv_gain": 0.009616,
+              "hv_gain_per_eval": 0.000874
+            },
+            {
+              "iteration": 4,
+              "eval_start": 119,
+              "eval_end": 128,
+              "n_evals": 9,
+              "hv_gain": 0.004271,
+              "hv_gain_per_eval": 0.000475
+            },
+            {
+              "iteration": 5,
+              "eval_start": 128,
+              "eval_end": 129,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 7,
+              "eval_start": 129,
+              "eval_end": 144,
+              "n_evals": 15,
+              "hv_gain": 0.003448,
+              "hv_gain_per_eval": 0.00023
+            }
+          ]
+        }
+      ],
+      "HD/sonnet_72": [
+        {
+          "seed": 42,
+          "gains": [
+            {
+              "iteration": 0,
+              "eval_start": 0,
+              "eval_end": 62,
+              "n_evals": 62,
+              "hv_gain": 0.090895,
+              "hv_gain_per_eval": 0.001466
+            },
+            {
+              "iteration": 1,
+              "eval_start": 62,
+              "eval_end": 63,
+              "n_evals": 1,
+              "hv_gain": 0.0,
+              "hv_gain_per_eval": 0.0
+            },
+            {
+              "iteration": 3,
+              "eval_start": 63,
+              "eval_end": 72,
+              "n_evals": 9,
+              "hv_gain": 0.144078,
+              "hv_gain_per_eval": 0.016009
+            }
+          ]
+        }
+      ]
+    },
+    "temporal_coupling": [
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 42,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 43,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 44,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 45,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 46,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 48,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 49,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 50,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/multi_seed_72",
+        "seed": 51,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1A/extended_144",
+        "seed": 42,
+        "pred_clicks_iter": 5,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1A/extended_144",
+        "seed": 43,
+        "pred_clicks_iter": 3,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1A/extended_144",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1A/extended_144",
+        "seed": 45,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 1,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1B/fresh_72",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1B/fresh_72",
+        "seed": 44,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 42,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 1,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 44,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 0,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 44,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 1,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      },
+      {
+        "condition": "1D/prior_144",
+        "seed": 42,
+        "pred_clicks_iter": 3,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 42,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 43,
+        "pred_clicks_iter": 4,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 42,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "1E/sonnet_prior_72",
+        "seed": 42,
+        "pred_clicks_iter": 4,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/base_72",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/base_72",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/extended_144",
+        "seed": 42,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/extended_144",
+        "seed": 43,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 0,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/extended_144",
+        "seed": 44,
+        "pred_clicks_iter": 2,
+        "hv_breakthrough_iter": 1,
+        "coupling": "NO \u2014 breakthrough first"
+      },
+      {
+        "condition": "HD/sonnet_72",
+        "seed": 42,
+        "pred_clicks_iter": null,
+        "hv_breakthrough_iter": 3,
+        "coupling": "n/a \u2014 MAE never dropped 50%"
+      }
+    ],
+    "test3_data": [
+      {
+        "condition": "1D/prior_72",
+        "seed": 42,
+        "rho": 0.753702346348183,
+        "p": 0.0835232813732598,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.6,
+          0.09999999999999998,
+          0.19999999999999996,
+          0.09999999999999998,
+          0.9,
+          0.0
+        ],
+        "n_eval_points": 4
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 43,
+        "rho": -0.12344267996967354,
+        "p": 0.8157764957024014,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.44999999999999996,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 13
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 44,
+        "rho": -0.12344267996967354,
+        "p": 0.8157764957024014,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.9873,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.41999999999999993,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 21
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 42,
+        "rho": -0.030358837035945815,
+        "p": 0.9544757346935633,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.15000000000000002,
+          0.0,
+          0.9,
+          0.19999999999999998
+        ],
+        "n_eval_points": 3
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 43,
+        "rho": 0.5408987230262506,
+        "p": 0.26777767151474974,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.55,
+          0.0,
+          0.9,
+          0.0
+        ],
+        "n_eval_points": 8
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 44,
+        "rho": -0.12344267996967354,
+        "p": 0.8157764957024014,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.04999999999999993,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 7
+      },
+      {
+        "condition": "1D/prior_144",
+        "seed": 42,
+        "rho": -0.12344267996967354,
+        "p": 0.8157764957024014,
+        "oat_importance": [
+          0.7879,
+          0.4464,
+          0.8971,
+          0.4565,
+          0.6485,
+          0.3322
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.44999999999999996,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 89
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 42,
+        "rho": -0.37032803990902063,
+        "p": 0.46990186287308766,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.44999999999999996
+        ],
+        "n_eval_points": 19
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 43,
+        "rho": -0.2927700218845599,
+        "p": 0.5733922538253555,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 28
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 44,
+        "rho": -0.37032803990902063,
+        "p": 0.46990186287308766,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.7,
+          0.0,
+          0.9,
+          0.7
+        ],
+        "n_eval_points": 19
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 42,
+        "rho": -0.37032803990902063,
+        "p": 0.46990186287308766,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.5
+        ],
+        "n_eval_points": 19
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 43,
+        "rho": -0.2927700218845599,
+        "p": 0.5733922538253555,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 11
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 44,
+        "rho": -0.21251185925162072,
+        "p": 0.6860308660088958,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.1,
+          0.44999999999999996
+        ],
+        "n_eval_points": 14
+      },
+      {
+        "condition": "1E/sonnet_prior_72",
+        "seed": 42,
+        "rho": -0.2927700218845599,
+        "p": 0.5733922538253555,
+        "oat_importance": [
+          0.5902,
+          0.2289,
+          0.334,
+          0.6196,
+          0.2686,
+          0.4952
+        ],
+        "exploit_emphasis": [
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.9
+        ],
+        "n_eval_points": 28
+      }
+    ],
+    "test4_data": [
+      {
+        "condition": "1D/prior_72",
+        "seed": 42,
+        "lhs_y1": 0.7806105603487943,
+        "exploit_y1": 1.3788542499999998,
+        "lhs_y4": 0.23734310423369784,
+        "exploit_y4": 0.495505,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 43,
+        "lhs_y1": 0.6534723492447345,
+        "exploit_y1": 1.8521682307692304,
+        "lhs_y4": 0.17834434235730692,
+        "exploit_y4": 0.5207258461538461,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 44,
+        "lhs_y1": 0.7973236341214084,
+        "exploit_y1": 1.743518238095238,
+        "lhs_y4": 0.2379706112343811,
+        "exploit_y4": 0.5330635714285714,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 42,
+        "lhs_y1": 0.7806105603487943,
+        "exploit_y1": 1.75308,
+        "lhs_y4": 0.23734310423369784,
+        "exploit_y4": 0.5093226666666667,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 43,
+        "lhs_y1": 0.6534723492447345,
+        "exploit_y1": 1.599056625,
+        "lhs_y4": 0.17834434235730692,
+        "exploit_y4": 0.5405625000000001,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 44,
+        "lhs_y1": 0.7973236341214084,
+        "exploit_y1": 1.7405667142857142,
+        "lhs_y4": 0.2379706112343811,
+        "exploit_y4": 0.5261717142857143,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1D/prior_144",
+        "seed": 42,
+        "lhs_y1": 0.7806105603487943,
+        "exploit_y1": 1.8785988539325844,
+        "lhs_y4": 0.23734310423369784,
+        "exploit_y4": 0.5402389438202247,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 42,
+        "lhs_y1": 0.14621986476276408,
+        "exploit_y1": 0.5949778421052632,
+        "lhs_y4": 0.09338313752288203,
+        "exploit_y4": 0.22995505263157892,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 43,
+        "lhs_y1": 0.06048514148595441,
+        "exploit_y1": 0.6076493214285714,
+        "lhs_y4": 0.06673072986827132,
+        "exploit_y4": 0.21320310714285712,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 44,
+        "lhs_y1": 0.17851053909442563,
+        "exploit_y1": 0.6734517368421052,
+        "lhs_y4": 0.10249745604243266,
+        "exploit_y4": 0.22883505263157894,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 42,
+        "lhs_y1": 0.14621986476276408,
+        "exploit_y1": 0.4874147368421053,
+        "lhs_y4": 0.09338313752288203,
+        "exploit_y4": 0.2054191578947368,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 43,
+        "lhs_y1": 0.06048514148595441,
+        "exploit_y1": 0.4654953636363636,
+        "lhs_y4": 0.06673072986827132,
+        "exploit_y4": 0.1962468181818182,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 44,
+        "lhs_y1": 0.17851053909442563,
+        "exploit_y1": 0.504209,
+        "lhs_y4": 0.10249745604243266,
+        "exploit_y4": 0.22729807142857145,
+        "y1_better": true,
+        "y4_better": true
+      },
+      {
+        "condition": "1E/sonnet_prior_72",
+        "seed": 42,
+        "lhs_y1": 0.14621986476276408,
+        "exploit_y1": 0.6599438928571429,
+        "lhs_y4": 0.09338313752288203,
+        "exploit_y4": 0.22429957142857143,
+        "y1_better": true,
+        "y4_better": true
+      }
+    ],
+    "test5_data": [
+      {
+        "condition": "1D/prior_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.6666666666666666,
+        "ep_surprise_first_iter": 0.75,
+        "ep_surprise_last_iter": 0.75,
+        "ep_surprise_drops": null,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.75
+          }
+        ]
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 43,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 0.8181818181818182,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.8181818181818182
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1D/prior_72",
+        "seed": 44,
+        "oat_surprise_rate_iter0": 0.7142857142857143,
+        "ep_surprise_first_iter": 0.0,
+        "ep_surprise_last_iter": 0.2,
+        "ep_surprise_drops": false,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.0
+          },
+          {
+            "iter": 2,
+            "rate": 0.2
+          }
+        ]
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.6666666666666666,
+        "ep_surprise_first_iter": 0.6666666666666666,
+        "ep_surprise_last_iter": 0.6666666666666666,
+        "ep_surprise_drops": null,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.6666666666666666
+          }
+        ]
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 43,
+        "oat_surprise_rate_iter0": 0.5,
+        "ep_surprise_first_iter": 0.75,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.75
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1D/fresh_72",
+        "seed": 44,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 1.0,
+        "ep_surprise_last_iter": 1.0,
+        "ep_surprise_drops": null,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 1.0
+          }
+        ]
+      },
+      {
+        "condition": "1D/prior_144",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.5,
+        "ep_surprise_first_iter": 0.5,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.5
+          },
+          {
+            "iter": 3,
+            "rate": 0.1111111111111111
+          },
+          {
+            "iter": 4,
+            "rate": 0.0
+          },
+          {
+            "iter": 5,
+            "rate": 0.0
+          },
+          {
+            "iter": 10,
+            "rate": 0.0
+          },
+          {
+            "iter": 12,
+            "rate": 0.0
+          },
+          {
+            "iter": 13,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.6666666666666666,
+        "ep_surprise_first_iter": 0.6,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.6
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 43,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 0.625,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.625
+          },
+          {
+            "iter": 4,
+            "rate": 0.05555555555555555
+          },
+          {
+            "iter": 5,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/prior_72",
+        "seed": 44,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 0.0,
+        "ep_surprise_last_iter": 0.35714285714285715,
+        "ep_surprise_drops": false,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.0
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          },
+          {
+            "iter": 4,
+            "rate": 0.35714285714285715
+          }
+        ]
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 1.0,
+        "ep_surprise_first_iter": 0.5333333333333333,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.5333333333333333
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 43,
+        "oat_surprise_rate_iter0": 0.6666666666666666,
+        "ep_surprise_first_iter": 0.7272727272727273,
+        "ep_surprise_last_iter": 0.7272727272727273,
+        "ep_surprise_drops": null,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.7272727272727273
+          }
+        ]
+      },
+      {
+        "condition": "1E/fresh_72",
+        "seed": 44,
+        "oat_surprise_rate_iter0": 1.0,
+        "ep_surprise_first_iter": 0.14285714285714285,
+        "ep_surprise_last_iter": 0.0,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 0.14285714285714285
+          },
+          {
+            "iter": 2,
+            "rate": 0.0
+          }
+        ]
+      },
+      {
+        "condition": "1E/sonnet_prior_72",
+        "seed": 42,
+        "oat_surprise_rate_iter0": 0.8333333333333334,
+        "ep_surprise_first_iter": 1.0,
+        "ep_surprise_last_iter": 0.7,
+        "ep_surprise_drops": true,
+        "ep_surprise_trajectory": [
+          {
+            "iter": 1,
+            "rate": 1.0
+          },
+          {
+            "iter": 4,
+            "rate": 0.5625
+          },
+          {
+            "iter": 5,
+            "rate": 0.0
+          },
+          {
+            "iter": 8,
+            "rate": 0.7
+          }
+        ]
+      }
+    ],
+    "verdicts": [
+      {
+        "claim": "VR learns from feedback (evaluate_point MAE \u2193, primary signal)",
+        "verdict": "PASS",
+        "evidence": "21/24 seeds (88%) show evaluate_point MAE lower in last iteration with data than first. Additionally, 17/24 seeds show a >50% MAE reduction (first iter to last iter)."
+      },
+      {
+        "claim": "OAT direction accuracy improves over iterations (secondary; OATs are front-loaded)",
+        "verdict": "PASS",
+        "evidence": "10/13 seeds (77%) show OAT direction accuracy higher in last non-None iter than first. Note: many seeds only have 1 iteration with OAT sweeps, so this metric is noisier than eval_point MAE."
+      },
+      {
+        "claim": "Surprise rate decreases over iterations",
+        "verdict": "PASS",
+        "evidence": "36/40 seeds (90%) show surprise count lower in last iteration than first"
+      },
+      {
+        "claim": "Prediction improvement precedes HV breakthroughs (learning \u2192 exploitation coupling)",
+        "verdict": "FALSIFIED",
+        "evidence": "Only 0/18 seeds (0%) show coupling \u2014 breakthroughs happen independent of prediction improvement."
+      },
+      {
+        "claim": "OAT-discovered input importance guides exploitation targets (model \u2192 exploitation causal link)",
+        "verdict": "FALSIFIED",
+        "evidence": "Only 1/14 seeds (7%) show the expected correlation."
+      },
+      {
+        "claim": "Exploitation targets are better than random (LHS) on maximize objectives",
+        "verdict": "PASS",
+        "evidence": "14/14 seeds (100%) have exploitation targets with higher mean Y1 or Y4 than LHS. 14/14 are better on BOTH."
+      },
+      {
+        "claim": "Exploration (OAT) is more surprising than exploitation (evaluate_point)",
+        "verdict": "PASS",
+        "evidence": "OAT surprise rate (iter 0) = 75% vs evaluate_point surprise rate (first exploit iter) = 58%. Agent encounters more surprises when probing new territory than when using its model, consistent with the model providing useful guidance."
+      },
+      {
+        "claim": "Exploitation surprise rate decreases over iterations (model improves during exploitation)",
+        "verdict": "PASS",
+        "evidence": "8/10 seeds (80%) show exploitation surprise decreasing."
+      }
+    ]
+  },
+  "section_b": {
+    "per_condition": {
+      "1A/multi_seed_72": [
+        {
+          "seed": 42,
+          "final_hv": 0.1783842481455423,
+          "late_ep_mae": 0.024571250000000003,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 43,
+          "final_hv": 0.20341767487147405,
+          "late_ep_mae": 0.044979250000000005,
+          "final_recall": 0.8888888888888888,
+          "surp_decrease": 1,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.18355900041738818,
+          "late_ep_mae": 0.04401125,
+          "final_recall": 0.8888888888888888,
+          "surp_decrease": 4,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 45,
+          "final_hv": 0.21485312512045177,
+          "late_ep_mae": 0.05461075,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": -1,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 46,
+          "final_hv": 0.17924898874909884,
+          "late_ep_mae": 0.0259425,
+          "final_recall": 0.8888888888888888,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 47,
+          "final_hv": 0.17068497941854868,
+          "late_ep_mae": null,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 0,
+          "n_iters": 2,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 48,
+          "final_hv": 0.1634362057833439,
+          "late_ep_mae": 0.074742,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 49,
+          "final_hv": 0.24881188746367994,
+          "late_ep_mae": 0.044684625000000006,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 1,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 50,
+          "final_hv": 0.15989211334293207,
+          "late_ep_mae": 0.04989825,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        },
+        {
+          "seed": 51,
+          "final_hv": 0.22390630539417938,
+          "late_ep_mae": 0.013843625,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 1,
+          "n_iters": 3,
+          "condition": "1A/multi_seed_72",
+          "oracle": "1A"
+        }
+      ],
+      "1A/extended_144": [
+        {
+          "seed": 42,
+          "final_hv": 0.2793702268983019,
+          "late_ep_mae": 0.004297715909090908,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 4,
+          "n_iters": 8,
+          "condition": "1A/extended_144",
+          "oracle": "1A"
+        },
+        {
+          "seed": 43,
+          "final_hv": 0.2794024324834805,
+          "late_ep_mae": 0.002948325,
+          "final_recall": 0.8888888888888888,
+          "surp_decrease": 3,
+          "n_iters": 7,
+          "condition": "1A/extended_144",
+          "oracle": "1A"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.2769017324897355,
+          "late_ep_mae": 0.002842683333333333,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 2,
+          "n_iters": 10,
+          "condition": "1A/extended_144",
+          "oracle": "1A"
+        },
+        {
+          "seed": 45,
+          "final_hv": 0.27627832273524033,
+          "late_ep_mae": 0.006736568181818183,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 3,
+          "n_iters": 7,
+          "condition": "1A/extended_144",
+          "oracle": "1A"
+        }
+      ],
+      "1B/fresh_72": [
+        {
+          "seed": 43,
+          "final_hv": 0.2333580471711768,
+          "late_ep_mae": 0.0054807499999999995,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "1B/fresh_72",
+          "oracle": "1B"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.24709418062879307,
+          "late_ep_mae": 0.020549,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 1,
+          "n_iters": 3,
+          "condition": "1B/fresh_72",
+          "oracle": "1B"
+        }
+      ],
+      "1D/prior_72": [
+        {
+          "seed": 42,
+          "final_hv": 1.0544104680391178,
+          "late_ep_mae": 0.0388165,
+          "final_recall": 1.0,
+          "surp_decrease": 4,
+          "n_iters": 3,
+          "condition": "1D/prior_72",
+          "oracle": "1D"
+        },
+        {
+          "seed": 43,
+          "final_hv": 1.2244277290797911,
+          "late_ep_mae": 0.012506875,
+          "final_recall": 1.0,
+          "surp_decrease": 1,
+          "n_iters": 3,
+          "condition": "1D/prior_72",
+          "oracle": "1D"
+        },
+        {
+          "seed": 44,
+          "final_hv": 1.3477703104767786,
+          "late_ep_mae": 0.0069154,
+          "final_recall": 1.0,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "1D/prior_72",
+          "oracle": "1D"
+        }
+      ],
+      "1D/fresh_72": [
+        {
+          "seed": 42,
+          "final_hv": 1.1557633144709862,
+          "late_ep_mae": 0.014833333333333332,
+          "final_recall": 1.0,
+          "surp_decrease": 1,
+          "n_iters": 2,
+          "condition": "1D/fresh_72",
+          "oracle": "1D"
+        },
+        {
+          "seed": 43,
+          "final_hv": 1.1141654700931563,
+          "late_ep_mae": 0.0042978124999999995,
+          "final_recall": 0.8947368421052632,
+          "surp_decrease": 3,
+          "n_iters": 3,
+          "condition": "1D/fresh_72",
+          "oracle": "1D"
+        },
+        {
+          "seed": 44,
+          "final_hv": 1.2869896340466709,
+          "late_ep_mae": 0.0777822857142857,
+          "final_recall": 1.0,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "1D/fresh_72",
+          "oracle": "1D"
+        }
+      ],
+      "1E/prior_72": [
+        {
+          "seed": 42,
+          "final_hv": 0.27574682405430984,
+          "late_ep_mae": 0.0032865624999999996,
+          "final_recall": 1.0,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "1E/prior_72",
+          "oracle": "1E"
+        },
+        {
+          "seed": 43,
+          "final_hv": 0.26397313720082444,
+          "late_ep_mae": 0.0050133750000000005,
+          "final_recall": 1.0,
+          "surp_decrease": 4,
+          "n_iters": 6,
+          "condition": "1E/prior_72",
+          "oracle": "1E"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.2747316118898012,
+          "late_ep_mae": 0.01958471428571429,
+          "final_recall": 1.0,
+          "surp_decrease": 1,
+          "n_iters": 5,
+          "condition": "1E/prior_72",
+          "oracle": "1E"
+        }
+      ],
+      "1E/fresh_72": [
+        {
+          "seed": 42,
+          "final_hv": 0.2751534344938082,
+          "late_ep_mae": 0.0029505,
+          "final_recall": 1.0,
+          "surp_decrease": 1,
+          "n_iters": 3,
+          "condition": "1E/fresh_72",
+          "oracle": "1E"
+        },
+        {
+          "seed": 43,
+          "final_hv": 0.2545011234658445,
+          "late_ep_mae": 0.0374895909090909,
+          "final_recall": 1.0,
+          "surp_decrease": 1,
+          "n_iters": 2,
+          "condition": "1E/fresh_72",
+          "oracle": "1E"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.24906722128760805,
+          "late_ep_mae": 0.001861892857142857,
+          "final_recall": 1.0,
+          "surp_decrease": 1,
+          "n_iters": 3,
+          "condition": "1E/fresh_72",
+          "oracle": "1E"
+        }
+      ],
+      "HD/base_72": [
+        {
+          "seed": 42,
+          "final_hv": 0.2622770700027313,
+          "late_ep_mae": 0.029570875000000003,
+          "final_recall": 0.8888888888888888,
+          "surp_decrease": 1,
+          "n_iters": 2,
+          "condition": "HD/base_72",
+          "oracle": "HD"
+        },
+        {
+          "seed": 43,
+          "final_hv": 0.24147377981134988,
+          "late_ep_mae": 0.0031703125,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 1,
+          "n_iters": 3,
+          "condition": "HD/base_72",
+          "oracle": "HD"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.2668429777243713,
+          "late_ep_mae": 0.005055527777777778,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 2,
+          "n_iters": 3,
+          "condition": "HD/base_72",
+          "oracle": "HD"
+        }
+      ],
+      "HD/extended_144": [
+        {
+          "seed": 42,
+          "final_hv": 0.26621216379094775,
+          "late_ep_mae": 0.0018192500000000001,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 4,
+          "n_iters": 5,
+          "condition": "HD/extended_144",
+          "oracle": "HD"
+        },
+        {
+          "seed": 43,
+          "final_hv": 0.26984209862296854,
+          "late_ep_mae": 0.0021634117647058825,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 5,
+          "n_iters": 4,
+          "condition": "HD/extended_144",
+          "oracle": "HD"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.26833285419847674,
+          "late_ep_mae": 0.0061785,
+          "final_recall": 0.8888888888888888,
+          "surp_decrease": 3,
+          "n_iters": 8,
+          "condition": "HD/extended_144",
+          "oracle": "HD"
+        }
+      ],
+      "HD/sonnet_72": [
+        {
+          "seed": 42,
+          "final_hv": 0.23497310062498813,
+          "late_ep_mae": 0.14798224999999998,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 1,
+          "n_iters": 4,
+          "condition": "HD/sonnet_72",
+          "oracle": "HD"
+        },
+        {
+          "seed": 43,
+          "final_hv": 0.2636982780522064,
+          "late_ep_mae": 0.04208972058823529,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": -1,
+          "n_iters": 2,
+          "condition": "HD/sonnet_72",
+          "oracle": "HD"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.2636967491399529,
+          "late_ep_mae": 0.05595054411764706,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": -2,
+          "n_iters": 2,
+          "condition": "HD/sonnet_72",
+          "oracle": "HD"
+        }
+      ],
+      "HD/haiku_72": [
+        {
+          "seed": 42,
+          "final_hv": 0.08413576521843653,
+          "late_ep_mae": null,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 1,
+          "n_iters": 2,
+          "condition": "HD/haiku_72",
+          "oracle": "HD"
+        },
+        {
+          "seed": 43,
+          "final_hv": 0.16315575240996572,
+          "late_ep_mae": null,
+          "final_recall": 0.9444444444444444,
+          "surp_decrease": 0,
+          "n_iters": 1,
+          "condition": "HD/haiku_72",
+          "oracle": "HD"
+        },
+        {
+          "seed": 44,
+          "final_hv": 0.10087318400552986,
+          "late_ep_mae": null,
+          "final_recall": 0.7222222222222222,
+          "surp_decrease": 0,
+          "n_iters": 1,
+          "condition": "HD/haiku_72",
+          "oracle": "HD"
+        }
+      ]
+    },
+    "pooled_n": 40,
+    "verdicts": [
+      {
+        "claim": "Better prediction accuracy predicts higher HV",
+        "verdict": "INCONCLUSIVE",
+        "evidence": "Pooled Pearson r=-0.038, p=0.826, n=36. Weak or near-zero correlation \u2014 may be driven by within-condition noise or between-condition mixing."
+      },
+      {
+        "claim": "Discovery (final recall) predicts exploitation (final HV)",
+        "verdict": "PASS",
+        "evidence": "Pooled Pearson r=0.375, p=0.017, n=40."
+      }
+    ]
+  },
+  "section_c": {
+    "1D": {
+      "prior_seeds": [],
+      "fresh_seeds": [],
+      "gt_pairs": [
+        "X1->Y1",
+        "X1->Y2",
+        "X1->Y3",
+        "X1->Y4",
+        "X2->Y1",
+        "X2->Y2",
+        "X2->Y4",
+        "X3->Y1",
+        "X3->Y2",
+        "X3->Y3",
+        "X3->Y4",
+        "X4->Y1",
+        "X4->Y2",
+        "X4->Y4",
+        "X5->Y1",
+        "X5->Y2",
+        "X6->Y1",
+        "X6->Y2",
+        "X6->Y4"
+      ],
+      "gt_1a_pairs": [
+        "X1->Y1",
+        "X1->Y2",
+        "X1->Y3",
+        "X1->Y4",
+        "X2->Y1",
+        "X2->Y2",
+        "X2->Y4",
+        "X3->Y1",
+        "X3->Y2",
+        "X3->Y3",
+        "X4->Y1",
+        "X4->Y2",
+        "X4->Y4",
+        "X5->Y1",
+        "X5->Y2",
+        "X6->Y1",
+        "X6->Y2",
+        "X6->Y4"
+      ],
+      "tool_call_comparison": {
+        "correlation_matrix": {
+          "prior": [
+            2,
+            1,
+            1
+          ],
+          "fresh": [
+            2,
+            2,
+            2
+          ]
+        },
+        "current_pareto_front": {
+          "prior": [
+            4,
+            4,
+            5
+          ],
+          "fresh": [
+            3,
+            6,
+            5
+          ]
+        },
+        "evaluate_point": {
+          "prior": [
+            4,
+            13,
+            21
+          ],
+          "fresh": [
+            3,
+            8,
+            7
+          ]
+        },
+        "interaction_test": {
+          "prior": [
+            2,
+            1,
+            0
+          ],
+          "fresh": [
+            2,
+            2,
+            1
+          ]
+        },
+        "local_gradients": {
+          "prior": [
+            12,
+            3,
+            9
+          ],
+          "fresh": [
+            3,
+            4,
+            2
+          ]
+        },
+        "oat_sweep": {
+          "prior": [
+            6,
+            6,
+            7
+          ],
+          "fresh": [
+            8,
+            7,
+            7
+          ]
+        },
+        "regression_fit": {
+          "prior": [
+            4,
+            7,
+            0
+          ],
+          "fresh": [
+            3,
+            8,
+            8
+          ]
+        },
+        "sensitivity_report": {
+          "prior": [
+            2,
+            1,
+            3
+          ],
+          "fresh": [
+            2,
+            4,
+            3
+          ]
+        }
+      }
+    },
+    "1E": {
+      "prior_seeds": [],
+      "fresh_seeds": [],
+      "gt_pairs": [
+        "X1->Y1",
+        "X1->Y2",
+        "X1->Y3",
+        "X1->Y4",
+        "X2->Y1",
+        "X2->Y2",
+        "X2->Y4",
+        "X3->Y1",
+        "X3->Y2",
+        "X3->Y4",
+        "X4->Y1",
+        "X4->Y2",
+        "X4->Y3",
+        "X5->Y1",
+        "X5->Y2",
+        "X5->Y4",
+        "X6->Y1",
+        "X6->Y2",
+        "X6->Y4"
+      ],
+      "gt_1a_pairs": [
+        "X1->Y1",
+        "X1->Y2",
+        "X1->Y3",
+        "X1->Y4",
+        "X2->Y1",
+        "X2->Y2",
+        "X2->Y4",
+        "X3->Y1",
+        "X3->Y2",
+        "X3->Y3",
+        "X4->Y1",
+        "X4->Y2",
+        "X4->Y4",
+        "X5->Y1",
+        "X5->Y2",
+        "X6->Y1",
+        "X6->Y2",
+        "X6->Y4"
+      ],
+      "tool_call_comparison": {
+        "correlation_matrix": {
+          "prior": [
+            2,
+            3,
+            3
+          ],
+          "fresh": [
+            2,
+            3,
+            2
+          ]
+        },
+        "current_pareto_front": {
+          "prior": [
+            4,
+            7,
+            7
+          ],
+          "fresh": [
+            5,
+            2,
+            8
+          ]
+        },
+        "evaluate_point": {
+          "prior": [
+            19,
+            28,
+            19
+          ],
+          "fresh": [
+            19,
+            11,
+            14
+          ]
+        },
+        "interaction_test": {
+          "prior": [
+            1,
+            0,
+            1
+          ],
+          "fresh": [
+            1,
+            2,
+            1
+          ]
+        },
+        "local_gradients": {
+          "prior": [
+            6,
+            19,
+            10
+          ],
+          "fresh": [
+            5,
+            2,
+            4
+          ]
+        },
+        "oat_sweep": {
+          "prior": [
+            6,
+            6,
+            6
+          ],
+          "fresh": [
+            6,
+            6,
+            7
+          ]
+        },
+        "regression_fit": {
+          "prior": [
+            0,
+            2,
+            8
+          ],
+          "fresh": [
+            0,
+            6,
+            6
+          ]
+        },
+        "sensitivity_report": {
+          "prior": [
+            2,
+            5,
+            6
+          ],
+          "fresh": [
+            2,
+            3,
+            4
+          ]
+        }
+      }
+    }
+  },
+  "section_e": {
+    "real_final_hv": 0.2186726714541693,
+    "perm_final_hv": 0.13171160815250205,
+    "diverge_eval": 13,
+    "plateau_eval": 22,
+    "verdicts": [
+      {
+        "claim": "LLM agent uses feedback in continuous structured settings (counter to 'Are We There Yet?')",
+        "verdict": "PASS",
+        "evidence": "Real HV (0.2187) is 166% of permuted (0.1317). Divergence begins at eval 13 (immediately after LHS). When feedback is real, the agent exploits it; when permuted, it stalls. "
+      }
+    ]
+  },
+  "section_i": {
+    "claims": [
+      {
+        "claim": "VR's forced articulation (structured iteration summary) improves optimization",
+        "origin": "Original VR design hypothesis",
+        "verdict": "FALSIFIED",
+        "evidence": "Ablation n=5: removing summary improves HV by 35% (p=0.0003). The summary HURTS.",
+        "paper_action": "Central finding of the paper. VR protocol's design choice is counterproductive."
+      },
+      {
+        "claim": "The agent's predictions improve over iterations (feedback loop is real)",
+        "origin": "Section A",
+        "verdict": "PASS",
+        "evidence": "eval_point MAE drops in 88% of seeds (21/24). Extended budget: 8-20\u00d7 improvement.",
+        "paper_action": "The feedback loop works \u2014 but it works BETTER without forced summary."
+      },
+      {
+        "claim": "Exploration (OAT) is more surprising than exploitation (evaluate_point)",
+        "origin": "Section A, Test 5",
+        "verdict": "PASS",
+        "evidence": "OAT surprise 75% vs evaluate_point surprise 58%. Exploitation surprise drops in 80% of seeds.",
+        "paper_action": "The explore\u2192exploit transition is real and measurable."
+      },
+      {
+        "claim": "Exploitation targets are better than random (LHS)",
+        "origin": "Section A, Test 4",
+        "verdict": "PASS",
+        "evidence": "14/14 seeds, 2-6\u00d7 improvement on maximize objectives vs LHS baseline.",
+        "paper_action": "The agent IS directed, regardless of articulation."
+      },
+      {
+        "claim": "OAT-discovered input importance guides exploitation at per-input level",
+        "origin": "Section A, Test 3",
+        "verdict": "FALSIFIED",
+        "evidence": "1/14 seeds show positive Spearman \u03c1. 11/14 show inverse (agent FIXES important inputs at optimal, varies unimportant ones).",
+        "paper_action": "Agent exploits at region level, not per-input emphasis level. Inverse pattern consistent with fixing important inputs at optimal values."
+      },
+      {
+        "claim": "Within-condition prediction accuracy predicts HV",
+        "origin": "Section B",
+        "verdict": "INCONCLUSIVE",
+        "evidence": "1A multi_seed n=10: r=-0.27, p=0.48. No significant within-condition correlation. Likely because articulation penalty dominates.",
+        "paper_action": "Not a useful predictor. The binding constraint is the summary overhead, not prediction quality."
+      },
+      {
+        "claim": "Discovery (recall) predicts exploitation (HV) pooled across conditions",
+        "origin": "Section B",
+        "verdict": "QUALIFIED",
+        "evidence": "Pooled r=+0.375, p=0.017 \u2014 but driven by between-condition variation (different oracles), not within-condition. The correlation is an artifact of oracle difficulty driving both metrics.",
+        "paper_action": "Not a causal claim. Different oracles produce different HV and recall."
+      },
+      {
+        "claim": "Prior shifts tool allocation toward exploitation",
+        "origin": "Section C.1",
+        "verdict": "PASS (within VR regime)",
+        "evidence": "local_gradients: prior 8-12\u00d7 vs fresh 3-4\u00d7, consistent across 1D and 1E. BUT: this is within the VR protocol. The summary overhead dominates both conditions.",
+        "paper_action": "Evidence for belief anchoring mechanism \u2014 the summary creates overcommitment to exploitation."
+      },
+      {
+        "claim": "Screen-first protocol selectively leverages correct priors",
+        "origin": "Phase 2.5 / rubric Rule 9",
+        "verdict": "QUALIFIED",
+        "evidence": "Section C.4: prior correctly dismisses wrong edges on 1E (confidence 0.02). But raises ALL edges by ~5pp (general inflation, not selective). And prior+VR is hurt by the same summary penalty as fresh+VR.",
+        "paper_action": "The 'selective leverage' story is partially real (1E wrong-edge dismissal) but the dominant effect is the summary penalty, not the prior."
+      },
+      {
+        "claim": "LLM agent uses feedback in continuous structured settings",
+        "origin": "Phase 2.0 permuted-feedback ablation",
+        "verdict": "PASS (n=1 caveat)",
+        "evidence": "Real HV 0.219 vs permuted 0.132 (66% better). Divergence at eval 13 (immediately after LHS). Agent exploits real feedback.",
+        "paper_action": "Counter to 'Are We There Yet?' on discrete problems. LLMs DO use feedback here. But n=1, one oracle, earlier protocol."
+      },
+      {
+        "claim": "VR reaches 68% of BO at 72 budget on 1A (understanding tax)",
+        "origin": "Rubric Rule 1",
+        "verdict": "PASS but REINTERPRETED",
+        "evidence": "0.193/0.281 = 68.5% (n=10 vs BO@144). But ablation shows 0.259/0.281 = 92%. The 'tax' is mostly articulation overhead (~23pp), not exploration (~8pp).",
+        "paper_action": "The tax exists but its decomposition changes the story completely."
+      },
+      {
+        "claim": "VR approaches BO at extended budget (144 evals)",
+        "origin": "Rubric Rule 2",
+        "verdict": "PASS",
+        "evidence": "VR reaches 98.9% of BO@144 on 1A (n=4). HD: 98.1% (n=3). Never exceeds BO at matched budget.",
+        "paper_action": "The convergence is real but the ablation suggests it's the tools converging, not the articulation."
+      },
+      {
+        "claim": "HD dimensionality scaling: VR advantage grows when k/d shrinks",
+        "origin": "Rubric Rule 3",
+        "verdict": "PASS",
+        "evidence": "1A VR/BO=68.5%, HD VR/BO=94.0% at matched budgets. 25.6pp gap. Screening is effective (0% noise OAT on Opus).",
+        "paper_action": "The dimensionality result is real. Question: does it hold for the ablation agent too? (Not tested.)"
+      },
+      {
+        "claim": "R\u00b2(M\u2192Y) predicts VR/BO ratio",
+        "origin": "Rubric Rule 8 (original)",
+        "verdict": "FALSIFIED",
+        "evidence": "Low-R\u00b2 oracles (1B R\u00b2=0.80, 1D R\u00b2=0.75) have VR/BO\u22480.91 \u2014 HIGHER than 1A (R\u00b2=0.96) at 0.69. Direction reversed.",
+        "paper_action": "Retired. R\u00b2(M\u2192Y) characterizes oracle structure but doesn't predict VR/BO."
+      },
+      {
+        "claim": "Prior knowledge helps on structurally different oracles (+2% 1D, +5% 1E)",
+        "origin": "Rubric Rule 9 (revised)",
+        "verdict": "STATISTICALLY UNDERPOWERED",
+        "evidence": "Paired t-test: 1D p=0.38, 1E p=0.12. Combined p=0.15. Direction is consistent (5/6 positive) but not significant at \u03b1=0.05. Also: operates within VR regime that itself hurts by 35%.",
+        "paper_action": "Directional only. Would need n=6+ on 1E to reach significance, but the finding is secondary to the ablation."
+      },
+      {
+        "claim": "Capability floor at Sonnet tier (Haiku breaks zero-false-positive property)",
+        "origin": "Rubric Rule 10",
+        "verdict": "PASS",
+        "evidence": "Haiku HD: 43.7% of BO, 2 false positive noise edges (conf 0.55, 0.60). Opus/Sonnet: 95-97% of BO, zero false positives.",
+        "paper_action": "Real finding, independent of VR articulation. The TOOLS require Sonnet-tier capability."
+      },
+      {
+        "claim": "Discovery and optimization decouple at Haiku (info capture 0.96 but HV 44%)",
+        "origin": "Rubric Rule 11",
+        "verdict": "PASS (not tested against ablation)",
+        "evidence": "Haiku HD info capture 0.959 vs Opus 0.996, but HV 43.7% vs 96.6%. Discovery succeeds, exploitation fails.",
+        "paper_action": "Real finding. Would be interesting to test ablation on Haiku HD."
+      }
+    ]
+  }
+}

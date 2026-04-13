@@ -1,0 +1,93 @@
+============================================================
+  Ablation: VR without structured iteration summary
+  Oracle: 1A, Budget: 72, Model: Opus
+  Same tools, same LHS, same calibration — no forced articulation
+============================================================
+
+  Running ablation seed 42 (no summary)...
+    [tool call 1] tokens=2798in+159out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4205in+1736out budget=12/72 (24s call, 28s total)
+    [tool call 7] tokens=7752in+1917out budget=27/72 (27s call, 55s total)
+    [tool call 10] tokens=11454in+2196out budget=42/72 (32s call, 87s total)
+    [tool call 15] tokens=14393in+1292out budget=42/72 (24s call, 111s total)
+  [Iteration done] evals=42/72 HV=0.1049 tools_used=16 (111s total)
+  [CALIBRATION @ eval 43] MAE=0.1968 max|err|=0.4880
+    [tool call 1] tokens=3209in+203out budget=43/72 (5s call, 129s total)
+    [tool call 4] tokens=5032in+1300out budget=43/72 (21s call, 150s total)
+    [tool call 7] tokens=7313in+3694out budget=43/72 (58s call, 208s total)
+    [tool call 11] tokens=11418in+3508out budget=43/72 (56s call, 264s total)
+    [tool call 12] tokens=15652in+4902out budget=52/72 (74s call, 338s total)
+    [tool call 14] tokens=22196in+2420out budget=52/72 (35s call, 373s total)
+  [Iteration done] evals=58/72 HV=0.2276 tools_used=19 (373s total)
+  [CALIBRATION @ eval 59] MAE=0.0904 max|err|=0.2020
+    [tool call 1] tokens=4072in+835out budget=59/72 (16s call, 454s total)
+    [tool call 5] tokens=6475in+9738out budget=59/72 (151s call, 605s total)
+    [tool call 8] tokens=16577in+3475out budget=59/72 (55s call, 659s total)
+    [tool call 9] tokens=20920in+4375out budget=69/72 (62s call, 721s total)
+    [tool call 10] tokens=26556in+5113out budget=69/72 (74s call, 795s total)
+    [tool call 12] tokens=32326in+3223out budget=69/72 (43s call, 838s total)
+    [tool call 15] tokens=35916in+1536out budget=72/72 (23s call, 860s total)
+  [Iteration done] evals=72/72 HV=0.2511 tools_used=15 (860s total)
+  Seed 42: HV=0.2511, cost=$2.66, evals=72, iters=0, time=860s
+  Seed 43: already on disk (HV=0.2619)
+  Seed 44: already on disk (HV=0.2745)
+
+  Running ablation seed 45 (no summary)...
+    [tool call 1] tokens=2798in+159out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4107in+2170out budget=12/72 (28s call, 31s total)
+    [tool call 9] tokens=9150in+1670out budget=35/72 (24s call, 56s total)
+    [tool call 10] tokens=11417in+1125out budget=40/72 (18s call, 73s total)
+    [tool call 13] tokens=14102in+521out budget=40/72 (11s call, 84s total)
+  [Iteration done] evals=40/72 HV=0.1004 tools_used=15 (84s total)
+  [CALIBRATION @ eval 41] MAE=0.1611 max|err|=0.3977
+    [tool call 1] tokens=3234in+301out budget=41/72 (6s call, 104s total)
+    [tool call 5] tokens=5389in+2032out budget=41/72 (35s call, 139s total)
+    [tool call 9] tokens=8324in+1815out budget=41/72 (29s call, 168s total)
+    [tool call 12] tokens=10463in+4797out budget=41/72 (80s call, 248s total)
+    [tool call 14] tokens=16597in+4406out budget=55/72 (69s call, 318s total)
+  [Iteration done] evals=55/72 HV=0.1080 tools_used=16 (318s total)
+  [CALIBRATION @ eval 56] MAE=0.1159 max|err|=0.2744
+    [tool call 1] tokens=3729in+392out budget=56/72 (8s call, 347s total)
+    [tool call 4] tokens=5454in+1698out budget=56/72 (28s call, 375s total)
+    [tool call 10] tokens=8277in+7198out budget=56/72 (108s call, 483s total)
+    [tool call 11] tokens=15783in+2463out budget=56/72 (43s call, 525s total)
+    [tool call 12] tokens=18870in+3373out budget=61/72 (55s call, 580s total)
+    [tool call 13] tokens=22952in+8786out budget=61/72 (130s call, 710s total)
+  [Iteration done] evals=66/72 HV=0.2489 tools_used=17 (710s total)
+    [tool call 1] tokens=4099in+155out budget=66/72 (4s call, 715s total)
+    [tool call 3] tokens=5549in+1123out budget=66/72 (20s call, 734s total)
+    [tool call 6] tokens=7651in+13460out budget=66/72 (200s call, 935s total)
+    [tool call 9] tokens=22089in+9652out budget=66/72 (135s call, 1069s total)
+    [tool call 15] tokens=32462in+854out budget=72/72 (14s call, 1084s total)
+  [Iteration done] evals=72/72 HV=0.2700 tools_used=15 (1084s total)
+  Seed 45: HV=0.2700, cost=$2.92, evals=72, iters=0, time=1084s
+
+  Running ablation seed 46 (no summary)...
+    [tool call 1] tokens=2798in+163out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4411in+2006out budget=12/72 (27s call, 31s total)
+    [tool call 8] tokens=8820in+1674out budget=32/72 (26s call, 58s total)
+    [tool call 10] tokens=11739in+1704out budget=42/72 (31s call, 88s total)
+    [tool call 13] tokens=14362in+1114out budget=42/72 (20s call, 109s total)
+  [Iteration done] evals=42/72 HV=0.1556 tools_used=16 (109s total)
+  [CALIBRATION @ eval 43] MAE=0.1796 max|err|=0.4047
+    [tool call 1] tokens=3227in+619out budget=43/72 (10s call, 132s total)
+    [tool call 6] tokens=4789in+1450out budget=43/72 (24s call, 157s total)
+    [tool call 9] tokens=7023in+1712out budget=43/72 (31s call, 187s total)
+    [tool call 11] tokens=10214in+4499out budget=61/72 (73s call, 260s total)
+    [tool call 13] tokens=16039in+14394out budget=61/72 (212s call, 473s total)
+    [tool call 14] tokens=31148in+9463out budget=68/72 (139s call, 612s total)
+    [tool call 15] tokens=41408in+2089out budget=68/72 (29s call, 641s total)
+  [Iteration done] evals=72/72 HV=0.2357 tools_used=18 (641s total)
+  Seed 46: HV=0.2357, cost=$1.83, evals=72, iters=0, time=641s
+
+============================================================
+  Ablation aggregate (n=5)
+============================================================
+  HV: 0.2586 ± 0.0139
+  Range: [0.2357, 0.2745]
+
+  Comparison:
+  VR with summary (n=10): 0.1926
+  Ablation no summary (n=5): 0.2586
+  Difference: +0.0660 (+34.3%)
+  → Ablation BETTER — articulation may hurt!

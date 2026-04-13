@@ -885,6 +885,7 @@ def run_vr_tools(
     max_tokens: int = 16000,
     max_tool_calls_per_iteration: int = 15,
     checkpoint_dir: str | None = None,
+    skip_iteration_summary: bool = False,
     prior_knowledge: str | None = None,
     calibration_interval: int = 20,
 ) -> VRToolsResult:
@@ -1263,84 +1264,105 @@ immediately — do not average with the prior or give it partial credit."""
             conversation.append({"role": "user", "content": tool_results_content})
 
         # Structured iteration summary via messages.parse()
-        conversation.append({
-            "role": "user",
-            "content": (
-                "Provide your iteration summary. For the edges field, list EVERY "
-                "causal edge you have evidence for with confidence and evidence string."
-            ),
-        })
-        summary_kwargs: dict[str, object] = {
-            "model": model,
-            "max_tokens": max_tokens,
-            "system": system_prompt,
-            "messages": list(conversation),
-            "output_format": _IterationSummary,
-        }
-        if thinking is not None:
-            summary_kwargs["thinking"] = thinking
-            raw_budget = thinking.get("budget_tokens", 0)
-            budget_tokens = (
-                int(raw_budget) if raw_budget is not None else 0  # type: ignore[call-overload]
-            )
-            summary_kwargs["max_tokens"] = max(
-                max_tokens, budget_tokens + 4096,
-            )
-        try:
-            summary_msg = client.messages.parse(  # type: ignore[arg-type]
-                timeout=600.0, **summary_kwargs,
-            )
-            total_llm_calls += 1
-            total_input_tokens += summary_msg.usage.input_tokens
-            total_output_tokens += summary_msg.usage.output_tokens
-        except Exception as summary_err:
-            print(
-                f"  [SUMMARY parse failed] {type(summary_err).__name__}: "
-                f"{str(summary_err)[:100]}",
-                flush=True,
-            )
-            summary_msg = None
-
-        # Extract text for conversation continuity
+        # When skip_iteration_summary=True: skip the forced articulation.
+        # The agent still has all tool results in its conversation but isn't
+        # required to distill them into a structured causal model. This is the
+        # ablation test for whether forced articulation helps.
         summary_text = ""
-        if summary_msg is not None:
-            for block in summary_msg.content:
-                if hasattr(block, "text") and getattr(block, "type", "") == "text":
-                    summary_text = block.text
-                    break
-        conversation.append({"role": "assistant", "content": summary_text or "{}"})
 
-        # Store structured summary
-        summary = summary_msg.parsed_output if summary_msg is not None else None
-        if summary is not None:
-            # Convert edges list to confidence dict for downstream analysis
-            confidence_dict = {
-                e.edge: e.confidence for e in summary.edges
-            }
-            iteration_summaries.append({
-                "iteration": len(iteration_summaries),
-                "eval_count": eval_count,
-                "hypothesis": summary.hypothesis,
-                "new_findings": summary.new_findings,
-                "surprises": summary.surprises,
-                "next_plan": summary.next_plan,
-                "confidence": confidence_dict,
-                "edges": [
-                    {"edge": e.edge, "confidence": e.confidence,
-                     "evidence": e.evidence}
-                    for e in summary.edges
-                ],
+        if not skip_iteration_summary:
+            conversation.append({
+                "role": "user",
+                "content": (
+                    "Provide your iteration summary. For the edges field, list EVERY "
+                    "causal edge you have evidence for with confidence and evidence string."
+                ),
             })
-            mechanism_log.append(summary.hypothesis)
+            summary_kwargs: dict[str, object] = {
+                "model": model,
+                "max_tokens": max_tokens,
+                "system": system_prompt,
+                "messages": list(conversation),
+                "output_format": _IterationSummary,
+            }
+            if thinking is not None:
+                summary_kwargs["thinking"] = thinking
+                raw_budget = thinking.get("budget_tokens", 0)
+                budget_tokens = (
+                    int(raw_budget) if raw_budget is not None else 0  # type: ignore[call-overload]
+                )
+                summary_kwargs["max_tokens"] = max(
+                    max_tokens, budget_tokens + 4096,
+                )
+            try:
+                summary_msg = client.messages.parse(  # type: ignore[arg-type]
+                    timeout=600.0, **summary_kwargs,
+                )
+                total_llm_calls += 1
+                total_input_tokens += summary_msg.usage.input_tokens
+                total_output_tokens += summary_msg.usage.output_tokens
+            except Exception as summary_err:
+                print(
+                    f"  [SUMMARY parse failed] {type(summary_err).__name__}: "
+                    f"{str(summary_err)[:100]}",
+                    flush=True,
+                )
+                summary_msg = None
+
+            # Extract text for conversation continuity
+            if summary_msg is not None:
+                for block in summary_msg.content:
+                    if hasattr(block, "text") and getattr(block, "type", "") == "text":
+                        summary_text = block.text
+                        break
+            conversation.append({"role": "assistant", "content": summary_text or "{}"})
+
+            # Store structured summary
+            summary = summary_msg.parsed_output if summary_msg is not None else None
+            if summary is not None:
+                # Convert edges list to confidence dict for downstream analysis
+                confidence_dict = {
+                    e.edge: e.confidence for e in summary.edges
+                }
+                iteration_summaries.append({
+                    "iteration": len(iteration_summaries),
+                    "eval_count": eval_count,
+                    "hypothesis": summary.hypothesis,
+                    "new_findings": summary.new_findings,
+                    "surprises": summary.surprises,
+                    "next_plan": summary.next_plan,
+                    "confidence": confidence_dict,
+                    "edges": [
+                        {"edge": e.edge, "confidence": e.confidence,
+                         "evidence": e.evidence}
+                        for e in summary.edges
+                    ],
+                })
+                mechanism_log.append(summary.hypothesis)
+            else:
+                # Fallback: extract from tool-loop exit text
+                hypothesis = ""
+                if msg is not None:
+                    for block in msg.content:
+                        if getattr(block, "type", "") == "text":
+                            hypothesis = block.text
+                            break
+                mechanism_log.append(f"Iteration: {hypothesis}")
         else:
-            # Fallback: extract from tool-loop exit text
+            # Ablation: no structured summary. Just extract the tool-loop
+            # exit text and continue. The agent isn't asked to articulate
+            # a structured causal model between iterations.
             hypothesis = ""
             if msg is not None:
                 for block in msg.content:
                     if getattr(block, "type", "") == "text":
                         hypothesis = block.text
                         break
-            mechanism_log.append(f"Iteration: {hypothesis}")
+            mechanism_log.append(f"Iteration (no summary): {hypothesis}")
+            conversation.append({
+                "role": "assistant",
+                "content": hypothesis or "Continuing optimization.",
+            })
 
         # Condense conversation to prevent unbounded context growth.
         # Keep: system prompt (implicit), iteration summaries, and a

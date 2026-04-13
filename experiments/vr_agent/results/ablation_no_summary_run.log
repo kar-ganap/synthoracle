@@ -1,0 +1,123 @@
+============================================================
+  Ablation: VR without structured iteration summary
+  Oracle: 1A, Budget: 72, Model: Opus
+  Same tools, same LHS, same calibration — no forced articulation
+============================================================
+
+  Running ablation seed 42 (no summary)...
+    [tool call 1] tokens=2798in+160out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4206in+1595out budget=12/72 (22s call, 26s total)
+    [tool call 7] tokens=7569in+1544out budget=27/72 (21s call, 48s total)
+    [tool call 10] tokens=10903in+1629out budget=42/72 (24s call, 71s total)
+    [tool call 13] tokens=13452in+1952out budget=42/72 (34s call, 105s total)
+  [Iteration done] evals=42/72 HV=0.1049 tools_used=16 (105s total)
+  [CALIBRATION @ eval 43] MAE=0.1993 max|err|=0.5180
+    [tool call 1] tokens=3243in+655out budget=43/72 (9s call, 136s total)
+    [tool call 7] tokens=4961in+4328out budget=43/72 (67s call, 203s total)
+    [tool call 10] tokens=10971in+957out budget=43/72 (16s call, 219s total)
+    [tool call 13] tokens=12905in+4407out budget=43/72 (71s call, 291s total)
+    [tool call 14] tokens=17417in+953out budget=44/72 (19s call, 309s total)
+  [Iteration done] evals=47/72 HV=0.2258 tools_used=16 (309s total)
+    [tool call 1] tokens=3586in+513out budget=47/72 (8s call, 317s total)
+    [tool call 5] tokens=5639in+1818out budget=47/72 (30s call, 347s total)
+    [tool call 9] tokens=7938in+1573out budget=47/72 (26s call, 373s total)
+    [tool call 11] tokens=10168in+10277out budget=47/72 (165s call, 538s total)
+    [tool call 12] tokens=21177in+3100out budget=56/72 (46s call, 584s total)
+    [tool call 14] tokens=25607in+16000out budget=56/72 (236s call, 820s total)
+Traceback (most recent call last):
+  File "/Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/experiments/vr_agent/run_ablation_no_summary.py", line 64, in main
+    r = run_vr_tools(
+        ^^^^^^^^^^^^^
+  File "/Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/src/synthoracle/agents/vr_tools.py", line 1218, in run_vr_tools
+    result_dict, new_X, new_Y, cost = _execute_tool(
+                                      ^^^^^^^^^^^^^^
+  File "/Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/src/synthoracle/agents/vr_tools.py", line 391, in _execute_tool
+    base_point = np.clip(base_point, oracle.bounds[:, 0], oracle.bounds[:, 1])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/.venv/lib/python3.11/site-packages/numpy/core/fromnumeric.py", line 2169, in clip
+    return _wrapfunc(a, 'clip', a_min, a_max, out=out, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/.venv/lib/python3.11/site-packages/numpy/core/fromnumeric.py", line 59, in _wrapfunc
+    return bound(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kartikganapathi/Documents/Personal/random_projects/synthoracle/.venv/lib/python3.11/site-packages/numpy/core/_methods.py", line 99, in _clip
+    return um.clip(a, min, max, out=out, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: operands could not be broadcast together with shapes (0,) (6,) (6,) 
+  Seed 42 FAILED:
+
+  Running ablation seed 43 (no summary)...
+    [tool call 1] tokens=2798in+160out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4106in+2036out budget=12/72 (28s call, 33s total)
+    [tool call 8] tokens=8552in+1875out budget=32/72 (30s call, 62s total)
+    [tool call 10] tokens=11696in+1742out budget=42/72 (28s call, 91s total)
+    [tool call 14] tokens=14270in+638out budget=42/72 (11s call, 101s total)
+  [Iteration done] evals=42/72 HV=0.1050 tools_used=17 (101s total)
+  [CALIBRATION @ eval 43] MAE=0.1278 max|err|=0.1919
+    [tool call 1] tokens=3180in+252out budget=43/72 (7s call, 120s total)
+    [tool call 4] tokens=4651in+1131out budget=43/72 (19s call, 140s total)
+    [tool call 7] tokens=6763in+3058out budget=43/72 (48s call, 188s total)
+    [tool call 9] tokens=11307in+3251out budget=61/72 (51s call, 239s total)
+    [tool call 12] tokens=15454in+1284out budget=61/72 (22s call, 261s total)
+    [tool call 15] tokens=17717in+2936out budget=61/72 (47s call, 308s total)
+  [Iteration done] evals=70/72 HV=0.2610 tools_used=16 (308s total)
+  [CALIBRATION @ eval 71] MAE=0.1222 max|err|=0.2045
+    [tool call 1] tokens=3479in+143out budget=71/72 (4s call, 326s total)
+    [tool call 3] tokens=4829in+1294out budget=71/72 (22s call, 349s total)
+    [tool call 4] tokens=6430in+1386out budget=71/72 (21s call, 370s total)
+    [tool call 5] tokens=8124in+2336out budget=71/72 (36s call, 406s total)
+    [tool call 6] tokens=10768in+1339out budget=71/72 (18s call, 424s total)
+    [tool call 7] tokens=12212in+207out budget=72/72 (5s call, 429s total)
+    [tool call 8] tokens=13398in+809out budget=72/72 (16s call, 445s total)
+  [Iteration done] evals=72/72 HV=0.2619 tools_used=7 (445s total)
+  Seed 43: HV=0.2619, cost=$1.49, evals=72, iters=0, time=445s
+
+  Running ablation seed 44 (no summary)...
+    [tool call 1] tokens=2798in+156out budget=12/72 (4s call, 4s total)
+    [tool call 4] tokens=4305in+2429out budget=12/72 (31s call, 36s total)
+    [tool call 10] tokens=10330in+2661out budget=42/72 (40s call, 76s total)
+  [Iteration done] evals=42/72 HV=0.1351 tools_used=16 (76s total)
+  [CALIBRATION @ eval 43] MAE=0.1793 max|err|=0.4479
+    [tool call 1] tokens=3661in+806out budget=43/72 (16s call, 108s total)
+    [tool call 6] tokens=6536in+4044out budget=43/72 (67s call, 176s total)
+    [tool call 10] tokens=10991in+5274out budget=43/72 (79s call, 255s total)
+    [tool call 12] tokens=16924in+3360out budget=43/72 (56s call, 310s total)
+    [tool call 13] tokens=20914in+3495out budget=48/72 (51s call, 362s total)
+    [tool call 15] tokens=25269in+4005out budget=48/72 (71s call, 433s total)
+  [Iteration done] evals=53/72 HV=0.2627 tools_used=15 (433s total)
+  [CALIBRATION @ eval 54] MAE=0.2591 max|err|=0.4777
+    [tool call 1] tokens=3837in+751out budget=54/72 (15s call, 464s total)
+    [tool call 4] tokens=6175in+3415out budget=54/72 (59s call, 522s total)
+    [tool call 7] tokens=10571in+16000out budget=54/72 (246s call, 768s total)
+  [Iteration done] evals=54/72 HV=0.2627 tools_used=6 (768s total)
+    [tool call 1] tokens=3483in+375out budget=54/72 (8s call, 776s total)
+    [tool call 4] tokens=5445in+1126out budget=54/72 (20s call, 796s total)
+    [tool call 7] tokens=7555in+4633out budget=54/72 (79s call, 875s total)
+    [tool call 10] tokens=13173in+4966out budget=54/72 (75s call, 950s total)
+    [tool call 11] tokens=18806in+1374out budget=59/72 (18s call, 968s total)
+    [tool call 12] tokens=21629in+1823out budget=59/72 (32s call, 1000s total)
+  [Iteration done] evals=59/72 HV=0.2654 tools_used=16 (1000s total)
+    [tool call 1] tokens=3600in+406out budget=59/72 (9s call, 1009s total)
+    [tool call 4] tokens=6063in+1515out budget=59/72 (25s call, 1034s total)
+    [tool call 8] tokens=8882in+4525out budget=59/72 (75s call, 1109s total)
+    [tool call 11] tokens=13651in+12191out budget=59/72 (166s call, 1275s total)
+  [Iteration done] evals=67/72 HV=0.2733 tools_used=18 (1275s total)
+    [tool call 1] tokens=4212in+148out budget=67/72 (4s call, 1280s total)
+    [tool call 3] tokens=6877in+3922out budget=67/72 (62s call, 1342s total)
+    [tool call 6] tokens=11784in+15925out budget=67/72 (216s call, 1558s total)
+    [tool call 11] tokens=28312in+134out budget=72/72 (5s call, 1563s total)
+    [tool call 12] tokens=31117in+1683out budget=72/72 (30s call, 1593s total)
+  [Iteration done] evals=72/72 HV=0.2745 tools_used=11 (1593s total)
+  Seed 44: HV=0.2745, cost=$4.12, evals=72, iters=0, time=1593s
+
+============================================================
+  Ablation aggregate (n=2)
+============================================================
+  HV: 0.2682 ± 0.0063
+  Range: [0.2619, 0.2745]
+
+  Comparison:
+  VR with summary (n=10): 0.1926
+  Ablation no summary (n=2): 0.2682
+  Difference: +0.0756 (+39.2%)
+  → Ablation BETTER — articulation may hurt!
