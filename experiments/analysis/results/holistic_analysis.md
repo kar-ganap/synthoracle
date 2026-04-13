@@ -388,3 +388,100 @@ Edge classification for 1E:
 - **Screen-first selectively leverages correct priors (edge confidence initialization)**: **SEE TABLE C.{1D,1E}.4** — Inspect the edge confidence initialization tables above. If prior-run shared-edge confidence > fresh-run shared-edge confidence at iteration 0, the selective-leverage claim has support. If they're similar, the prior isn't being used for edge-specific initialization.
 - **1D prior-fresh bimodality is real (not just seed 42 outlier)**: **QUALIFIED** — Paired diffs (prior − fresh): ['-0.1014', '+0.1103', '+0.0608']. Signs: ['−', '+', '+']. Mixed signs confirm bimodality.
 
+## Section E — Permuted-feedback revisit
+
+**Question:** The 'Are We There Yet?' paper showed LLM agents are insensitive to permuted feedback on discrete problems. Does our agent use feedback in a continuous structured setting?
+
+**Data:** Phase 2.0 ablation runs on 1A (n=1 each, seed 42, 54 evals). Only HV + X + Y arrays available — no iteration_summaries, tool_calls, or hypothesis text. Earlier protocol version (pre-structured-summaries).
+
+### E.1 HV trajectory comparison
+
+
+| Eval | Real HV | Permuted HV | Δ |
+|---|---|---|---|
+| 1 | 0.0321 | 0.0321 | +0.0000 |
+| 6 | 0.0776 | 0.0776 | +0.0000 |
+| 12 | 0.1004 | 0.1004 | +0.0000 |
+| 18 | 0.1855 | 0.1213 | +0.0642 |
+| 24 | 0.2187 | 0.1227 | +0.0960 |
+| 36 | 0.2187 | 0.1305 | +0.0882 |
+| 48 | 0.2187 | 0.1317 | +0.0870 |
+| 54 | 0.2187 | 0.1317 | +0.0870 |
+
+**Divergence point:** eval 13 (first eval where |Δ| > 0.01). LHS phase (evals 1-12) is identical; divergence begins immediately when the agent starts using tools.
+
+**Final HV:** real = 0.2187, permuted = 0.1317. Real is 166% of permuted (+0.0870 absolute).
+
+**Real run plateaus at eval 22** (HV=0.2183, no further improvement in remaining 32 evals). This is 79% of BO@66 — notably higher than the current VR multi_seed average (0.193, 70% of BO). This was an earlier protocol version (Phase 2.0) that may not have had forced structured iteration summaries.
+
+### E.2 X-space targeting comparison
+
+Does the real agent target different regions than the permuted agent? Compare mean X values in the post-LHS phase (evals 13+).
+
+| Input | Real mean | Permuted mean | Real range | Permuted range |
+|---|---|---|---|---|
+| X1 | 0.971 | 0.772 | 0.250 | 0.600 |
+| X2 | 0.999 | 0.595 | 0.050 | 0.770 |
+| X3 | 0.993 | 0.666 | 0.150 | 0.700 |
+| X4 | 0.954 | 0.611 | 0.350 | 0.750 |
+| X5 | 0.993 | 0.509 | 0.150 | 0.730 |
+| X6 | 0.101 | 0.454 | 0.050 | 0.810 |
+
+### E.3 Output quality comparison (post-LHS)
+
+| Output | Direction | Real mean | Permuted mean | Real better? |
+|---|---|---|---|---|
+| Y1 | maximize | 0.9026 | 0.2681 | YES |
+| Y2 | minimize | 0.3511 | 0.2724 | no |
+| Y3 | threshold | 0.9923 | 0.7858 | — |
+| Y4 | maximize | 0.3153 | 0.1299 | YES |
+
+_HV trajectory plot saved to `E_permuted_feedback_hv.png`._
+
+### E.4 Falsification verdicts
+
+- **LLM agent uses feedback in continuous structured settings (counter to 'Are We There Yet?')**: **PASS** — Real HV (0.2187) is 166% of permuted (0.1317). Divergence begins at eval 13 (immediately after LHS). When feedback is real, the agent exploits it; when permuted, it stalls. CAVEAT: n=1, one oracle, earlier protocol version.
+
+## Section I — Claim ledger — what survives, what doesn't
+
+One-line verdict for every claim made in the rubric, postmortem, paper_framing, or conversation. Based on Sections A-E dynamics analysis plus the critical ablation finding (VR without forced summary outperforms VR with summary by 35%, p=0.0003, n=5).
+
+### I.1 THE HEADLINE: Forced articulation hurts
+
+The ablation (same LLM, same tools, same oracle, same budget, skip only the structured iteration summary) produces 35% higher HV than VR with summaries (0.259 vs 0.193, paired t-test p=0.0003, n=5, 5/5 seeds positive, 95% CI [+0.048, +0.086]). The 'understanding tax' decomposes as ~8pp from exploration overhead (OAT sweeps vs BO acquisition) and ~23pp from the forced articulation penalty.
+
+**Mechanism (from Sections A and C):** The forced iteration summary cements the agent's iter 0 model (including wrong dismissals like X5→Y2 at confidence 0.1) into the condensed conversation context. This anchors subsequent iterations to potentially wrong beliefs and imposes systematic rather than data-driven exploration. Seed 43 controls for iteration count and tool-call count, confirming the effect is from HOW tools are used, not how many.
+
+### I.2 Claim-by-claim verdicts
+
+
+| # | Claim | Verdict | Key evidence | Paper action |
+|---|---|---|---|---|
+| 1 | VR's forced articulation (structured iteration summary) improves optimization | **FALSIFIED** | Ablation n=5: removing summary improves HV by 35% (p=0.0003). The summary HURTS. | Central finding of the paper. VR protocol's design choice is counterproductive. |
+| 2 | The agent's predictions improve over iterations (feedback loop is real) | **PASS** | eval_point MAE drops in 88% of seeds (21/24). Extended budget: 8-20× improvement. | The feedback loop works — but it works BETTER without forced summary. |
+| 3 | Exploration (OAT) is more surprising than exploitation (evaluate_point) | **PASS** | OAT surprise 75% vs evaluate_point surprise 58%. Exploitation surprise drops in 80% of seeds. | The explore→exploit transition is real and measurable. |
+| 4 | Exploitation targets are better than random (LHS) | **PASS** | 14/14 seeds, 2-6× improvement on maximize objectives vs LHS baseline. | The agent IS directed, regardless of articulation. |
+| 5 | OAT-discovered input importance guides exploitation at per-input level | **FALSIFIED** | 1/14 seeds show positive Spearman ρ. 11/14 show inverse (agent FIXES important inputs at optimal, varies unimportant one... | Agent exploits at region level, not per-input emphasis level. Inverse pattern consistent with fixing... |
+| 6 | Within-condition prediction accuracy predicts HV | **INCONCLUSIVE** | 1A multi_seed n=10: r=-0.27, p=0.48. No significant within-condition correlation. Likely because articulation penalty do... | Not a useful predictor. The binding constraint is the summary overhead, not prediction quality. |
+| 7 | Discovery (recall) predicts exploitation (HV) pooled across conditions | **QUALIFIED** | Pooled r=+0.375, p=0.017 — but driven by between-condition variation (different oracles), not within-condition. The corr... | Not a causal claim. Different oracles produce different HV and recall. |
+| 8 | Prior shifts tool allocation toward exploitation | **PASS (within VR regime)** | local_gradients: prior 8-12× vs fresh 3-4×, consistent across 1D and 1E. BUT: this is within the VR protocol. The summar... | Evidence for belief anchoring mechanism — the summary creates overcommitment to exploitation. |
+| 9 | Screen-first protocol selectively leverages correct priors | **QUALIFIED** | Section C.4: prior correctly dismisses wrong edges on 1E (confidence 0.02). But raises ALL edges by ~5pp (general inflat... | The 'selective leverage' story is partially real (1E wrong-edge dismissal) but the dominant effect i... |
+| 10 | LLM agent uses feedback in continuous structured settings | **PASS (n=1 caveat)** | Real HV 0.219 vs permuted 0.132 (66% better). Divergence at eval 13 (immediately after LHS). Agent exploits real feedbac... | Counter to 'Are We There Yet?' on discrete problems. LLMs DO use feedback here. But n=1, one oracle,... |
+| 11 | VR reaches 68% of BO at 72 budget on 1A (understanding tax) | **PASS but REINTERPRETED** | 0.193/0.281 = 68.5% (n=10 vs BO@144). But ablation shows 0.259/0.281 = 92%. The 'tax' is mostly articulation overhead (~... | The tax exists but its decomposition changes the story completely. |
+| 12 | VR approaches BO at extended budget (144 evals) | **PASS** | VR reaches 98.9% of BO@144 on 1A (n=4). HD: 98.1% (n=3). Never exceeds BO at matched budget. | The convergence is real but the ablation suggests it's the tools converging, not the articulation. |
+| 13 | HD dimensionality scaling: VR advantage grows when k/d shrinks | **PASS** | 1A VR/BO=68.5%, HD VR/BO=94.0% at matched budgets. 25.6pp gap. Screening is effective (0% noise OAT on Opus). | The dimensionality result is real. Question: does it hold for the ablation agent too? (Not tested.) |
+| 14 | R²(M→Y) predicts VR/BO ratio | **FALSIFIED** | Low-R² oracles (1B R²=0.80, 1D R²=0.75) have VR/BO≈0.91 — HIGHER than 1A (R²=0.96) at 0.69. Direction reversed. | Retired. R²(M→Y) characterizes oracle structure but doesn't predict VR/BO. |
+| 15 | Prior knowledge helps on structurally different oracles (+2% 1D, +5% 1E) | **STATISTICALLY UNDERPOWERED** | Paired t-test: 1D p=0.38, 1E p=0.12. Combined p=0.15. Direction is consistent (5/6 positive) but not significant at α=0.... | Directional only. Would need n=6+ on 1E to reach significance, but the finding is secondary to the a... |
+| 16 | Capability floor at Sonnet tier (Haiku breaks zero-false-positive property) | **PASS** | Haiku HD: 43.7% of BO, 2 false positive noise edges (conf 0.55, 0.60). Opus/Sonnet: 95-97% of BO, zero false positives. | Real finding, independent of VR articulation. The TOOLS require Sonnet-tier capability. |
+| 17 | Discovery and optimization decouple at Haiku (info capture 0.96 but HV 44%) | **PASS (not tested against ablation)** | Haiku HD info capture 0.959 vs Opus 0.996, but HV 43.7% vs 96.6%. Discovery succeeds, exploitation fails. | Real finding. Would be interesting to test ablation on Haiku HD. |
+
+### I.3 What the paper should be about (grounded in the claim ledger)
+
+The benchmark (SynthOracle) + diagnostic suite is the primary contribution. It enabled the discovery that forced articulation hurts — a finding that could not have been made without ground-truth evaluation.
+
+VR is the example protocol: well-motivated a priori (CBMs, CoT, Reflexion, scientific method analogy), tested rigorously, found to be counterproductive in its central design choice. The tools (OAT sweeps, evaluate_point, local_gradients) provide value; the forced structured summary does not.
+
+The ablation result (35% improvement from removing summaries, p=0.0003) is the headline finding. The mechanism (belief anchoring via condensed context) is supported by per-seed dynamics analysis (Section C).
+
+Supporting findings that survive: agent uses feedback (Section E), dimensionality scaling works (Rule 3), capability floor at Sonnet (Rule 10), discovery-optimization decoupling at Haiku (Rule 11).
+

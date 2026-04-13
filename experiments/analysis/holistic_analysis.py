@@ -2220,6 +2220,420 @@ def _section_c_verdicts(
 
 
 # ---------------------------------------------------------------------------
+# Section E: permuted-feedback revisit
+# ---------------------------------------------------------------------------
+
+
+def section_e_permuted_feedback(
+    all_runs: dict[str, dict[str, list[RunMetrics]]],
+    doc: FindingsDoc,
+) -> None:
+    """Section E: does the agent use feedback? (permuted-feedback test)
+
+    Limited to HV + X + Y trajectories — no iteration_summaries or tool_calls
+    available for the ablation runs (Phase 2.0 format).
+    """
+    doc.section("E", "Permuted-feedback revisit")
+    doc.append(
+        "**Question:** The 'Are We There Yet?' paper showed LLM agents are "
+        "insensitive to permuted feedback on discrete problems. Does our agent "
+        "use feedback in a continuous structured setting?"
+    )
+    doc.append("")
+    doc.append(
+        "**Data:** Phase 2.0 ablation runs on 1A (n=1 each, seed 42, 54 evals). "
+        "Only HV + X + Y arrays available — no iteration_summaries, tool_calls, "
+        "or hypothesis text. Earlier protocol version (pre-structured-summaries)."
+    )
+    doc.append("")
+
+    real_path = ROOT / "experiments" / "vr_agent" / "results" / "ablation_real_seed42.npz"
+    perm_path = ROOT / "experiments" / "vr_agent" / "results" / "ablation_permuted_seed42.npz"
+
+    if not real_path.exists() or not perm_path.exists():
+        doc.append("_Ablation data files not found._")
+        doc.append("")
+        doc.save_json("section_e", {"status": "missing data"})
+        return
+
+    real = dict(np.load(real_path))
+    perm = dict(np.load(perm_path))
+
+    real_hvs = np.asarray(real["hypervolumes"])
+    perm_hvs = np.asarray(perm["hypervolumes"])
+    real_X = np.asarray(real["X"])
+    perm_X = np.asarray(perm["X"])
+    real_Y = np.asarray(real["Y"])
+    perm_Y = np.asarray(perm["Y"])
+
+    n_evals = len(real_hvs)
+    n_initial = 12  # 1A default
+
+    doc.heading(3, "E.1 HV trajectory comparison")
+    doc.append("")
+    doc.append(f"| Eval | Real HV | Permuted HV | Δ |")
+    doc.append(f"|---|---|---|---|")
+    for e in [1, 6, 12, 18, 24, 36, 48, n_evals]:
+        idx = min(e - 1, n_evals - 1)
+        r = real_hvs[idx]
+        p = perm_hvs[idx]
+        doc.append(f"| {e} | {r:.4f} | {p:.4f} | {r - p:+.4f} |")
+    doc.append("")
+
+    # Divergence point: first eval where |real - perm| > 0.01
+    diverge_eval = None
+    for i in range(n_evals):
+        if abs(real_hvs[i] - perm_hvs[i]) > 0.01:
+            diverge_eval = i + 1
+            break
+
+    doc.append(f"**Divergence point:** eval {diverge_eval} "
+               f"(first eval where |Δ| > 0.01). "
+               f"LHS phase (evals 1-{n_initial}) is identical; divergence "
+               f"begins immediately when the agent starts using tools.")
+    doc.append("")
+    doc.append(f"**Final HV:** real = {real_hvs[-1]:.4f}, "
+               f"permuted = {perm_hvs[-1]:.4f}. "
+               f"Real is {real_hvs[-1] / perm_hvs[-1]:.0%} of permuted "
+               f"({real_hvs[-1] - perm_hvs[-1]:+.4f} absolute).")
+    doc.append("")
+
+    # Note: real plateaus at eval 24
+    plateau_eval = None
+    for i in range(n_initial, n_evals - 1):
+        if abs(real_hvs[i] - real_hvs[-1]) < 0.001:
+            plateau_eval = i + 1
+            break
+    if plateau_eval:
+        doc.append(
+            f"**Real run plateaus at eval {plateau_eval}** (HV={real_hvs[plateau_eval-1]:.4f}, "
+            f"no further improvement in remaining {n_evals - plateau_eval} evals). "
+            f"This is {real_hvs[plateau_eval-1]/0.275:.0%} of BO@66 — notably higher "
+            f"than the current VR multi_seed average (0.193, 70% of BO). This was an "
+            f"earlier protocol version (Phase 2.0) that may not have had forced "
+            f"structured iteration summaries."
+        )
+        doc.append("")
+
+    # E.2: X-space comparison
+    doc.heading(3, "E.2 X-space targeting comparison")
+    doc.append(
+        "Does the real agent target different regions than the permuted agent? "
+        "Compare mean X values in the post-LHS phase (evals 13+)."
+    )
+    doc.append("")
+
+    real_X_post = real_X[n_initial:]
+    perm_X_post = perm_X[n_initial:]
+
+    oracle = get_oracle("1A")
+    input_names = list(oracle.input_names)
+
+    doc.append(f"| Input | Real mean | Permuted mean | Real range | Permuted range |")
+    doc.append(f"|---|---|---|---|---|")
+    for j, iname in enumerate(input_names):
+        r_mean = float(np.mean(real_X_post[:, j]))
+        p_mean = float(np.mean(perm_X_post[:, j]))
+        r_range = float(np.max(real_X_post[:, j]) - np.min(real_X_post[:, j]))
+        p_range = float(np.max(perm_X_post[:, j]) - np.min(perm_X_post[:, j]))
+        doc.append(
+            f"| {iname} | {r_mean:.3f} | {p_mean:.3f} | {r_range:.3f} | {p_range:.3f} |"
+        )
+    doc.append("")
+
+    # Y-space comparison: are real targets better on maximize objectives?
+    doc.heading(3, "E.3 Output quality comparison (post-LHS)")
+    real_Y_post = real_Y[n_initial:]
+    perm_Y_post = perm_Y[n_initial:]
+
+    doc.append(f"| Output | Direction | Real mean | Permuted mean | Real better? |")
+    doc.append(f"|---|---|---|---|---|")
+    for j, (oname, direction) in enumerate(zip(oracle.output_names, oracle.output_directions)):
+        r_mean = float(np.mean(real_Y_post[:, j]))
+        p_mean = float(np.mean(perm_Y_post[:, j]))
+        if direction == "maximize":
+            better = "YES" if r_mean > p_mean else "no"
+        elif direction == "minimize":
+            better = "YES" if r_mean < p_mean else "no"
+        else:
+            better = "—"
+        doc.append(f"| {oname} | {direction} | {r_mean:.4f} | {p_mean:.4f} | {better} |")
+    doc.append("")
+
+    # Plot: HV trajectory overlay
+    fig, ax = plt.subplots(1, 1, figsize=(8, 5))
+    evals = np.arange(1, n_evals + 1)
+    ax.plot(evals, real_hvs, "o-", color="#d62728", linewidth=2, markersize=4, label="Real feedback")
+    ax.plot(evals, perm_hvs, "o-", color="#7f7f7f", linewidth=2, markersize=4, label="Permuted feedback")
+    ax.axvline(x=n_initial, color="gray", linestyle="--", alpha=0.4, label=f"LHS ends (n={n_initial})")
+    if diverge_eval:
+        ax.axvline(x=diverge_eval, color="blue", linestyle=":", alpha=0.4, label=f"Divergence (eval {diverge_eval})")
+    ax.set_xlabel("Oracle Evaluations")
+    ax.set_ylabel("Hypervolume")
+    ax.set_title("Permuted-Feedback Test: Real vs Permuted (1A, seed 42, n=1)")
+    ax.legend(loc="lower right")
+    ax.grid(True, alpha=0.3)
+    plt.tight_layout()
+    out_path = PLOTS_DIR / "E_permuted_feedback_hv.png"
+    plt.savefig(out_path, dpi=100, bbox_inches="tight")
+    plt.close(fig)
+    doc.append(f"_HV trajectory plot saved to `{out_path.name}`._")
+    doc.append("")
+
+    # Verdicts
+    doc.heading(3, "E.4 Falsification verdicts")
+    verdicts = []
+
+    if real_hvs[-1] > perm_hvs[-1] * 1.2:
+        verdicts.append({
+            "claim": "LLM agent uses feedback in continuous structured settings (counter to 'Are We There Yet?')",
+            "verdict": "PASS",
+            "evidence": (
+                f"Real HV ({real_hvs[-1]:.4f}) is {real_hvs[-1]/perm_hvs[-1]:.0%} of "
+                f"permuted ({perm_hvs[-1]:.4f}). Divergence begins at eval {diverge_eval} "
+                f"(immediately after LHS). When feedback is real, the agent exploits it; "
+                f"when permuted, it stalls. CAVEAT: n=1, one oracle, earlier protocol version."
+            ),
+        })
+    else:
+        verdicts.append({
+            "claim": "LLM agent uses feedback",
+            "verdict": "INCONCLUSIVE",
+            "evidence": f"Real/permuted ratio = {real_hvs[-1]/perm_hvs[-1]:.2f}, not clearly different.",
+        })
+
+    for v in verdicts:
+        doc.append(f"- **{v['claim']}**: **{v['verdict']}** — {v['evidence']}")
+    doc.append("")
+
+    doc.save_json("section_e", {
+        "real_final_hv": float(real_hvs[-1]),
+        "perm_final_hv": float(perm_hvs[-1]),
+        "diverge_eval": diverge_eval,
+        "plateau_eval": plateau_eval,
+        "verdicts": verdicts,
+    })
+
+
+# ---------------------------------------------------------------------------
+# Section I: claim ledger
+# ---------------------------------------------------------------------------
+
+
+def section_i_claim_ledger(
+    all_runs: dict[str, dict[str, list[RunMetrics]]],
+    doc: FindingsDoc,
+) -> None:
+    """Section I: one-line verdict for every claim made in the project.
+
+    The definitive summary. Incorporates the ablation finding as the headline.
+    """
+    doc.section("I", "Claim ledger — what survives, what doesn't")
+    doc.append(
+        "One-line verdict for every claim made in the rubric, postmortem, "
+        "paper_framing, or conversation. Based on Sections A-E dynamics "
+        "analysis plus the critical ablation finding (VR without forced "
+        "summary outperforms VR with summary by 35%, p=0.0003, n=5)."
+    )
+    doc.append("")
+
+    doc.heading(3, "I.1 THE HEADLINE: Forced articulation hurts")
+    doc.append(
+        "The ablation (same LLM, same tools, same oracle, same budget, "
+        "skip only the structured iteration summary) produces 35% higher HV "
+        "than VR with summaries (0.259 vs 0.193, paired t-test p=0.0003, n=5, "
+        "5/5 seeds positive, 95% CI [+0.048, +0.086]). The 'understanding tax' "
+        "decomposes as ~8pp from exploration overhead (OAT sweeps vs BO acquisition) "
+        "and ~23pp from the forced articulation penalty."
+    )
+    doc.append("")
+    doc.append(
+        "**Mechanism (from Sections A and C):** The forced iteration summary "
+        "cements the agent's iter 0 model (including wrong dismissals like "
+        "X5→Y2 at confidence 0.1) into the condensed conversation context. "
+        "This anchors subsequent iterations to potentially wrong beliefs and "
+        "imposes systematic rather than data-driven exploration. Seed 43 "
+        "controls for iteration count and tool-call count, confirming the "
+        "effect is from HOW tools are used, not how many."
+    )
+    doc.append("")
+
+    doc.heading(3, "I.2 Claim-by-claim verdicts")
+    doc.append("")
+
+    claims = [
+        # HEADLINE
+        {
+            "claim": "VR's forced articulation (structured iteration summary) improves optimization",
+            "origin": "Original VR design hypothesis",
+            "verdict": "FALSIFIED",
+            "evidence": "Ablation n=5: removing summary improves HV by 35% (p=0.0003). The summary HURTS.",
+            "paper_action": "Central finding of the paper. VR protocol's design choice is counterproductive.",
+        },
+
+        # SECTION A CLAIMS
+        {
+            "claim": "The agent's predictions improve over iterations (feedback loop is real)",
+            "origin": "Section A",
+            "verdict": "PASS",
+            "evidence": "eval_point MAE drops in 88% of seeds (21/24). Extended budget: 8-20× improvement.",
+            "paper_action": "The feedback loop works — but it works BETTER without forced summary.",
+        },
+        {
+            "claim": "Exploration (OAT) is more surprising than exploitation (evaluate_point)",
+            "origin": "Section A, Test 5",
+            "verdict": "PASS",
+            "evidence": "OAT surprise 75% vs evaluate_point surprise 58%. Exploitation surprise drops in 80% of seeds.",
+            "paper_action": "The explore→exploit transition is real and measurable.",
+        },
+        {
+            "claim": "Exploitation targets are better than random (LHS)",
+            "origin": "Section A, Test 4",
+            "verdict": "PASS",
+            "evidence": "14/14 seeds, 2-6× improvement on maximize objectives vs LHS baseline.",
+            "paper_action": "The agent IS directed, regardless of articulation.",
+        },
+        {
+            "claim": "OAT-discovered input importance guides exploitation at per-input level",
+            "origin": "Section A, Test 3",
+            "verdict": "FALSIFIED",
+            "evidence": "1/14 seeds show positive Spearman ρ. 11/14 show inverse (agent FIXES important inputs at optimal, varies unimportant ones).",
+            "paper_action": "Agent exploits at region level, not per-input emphasis level. Inverse pattern consistent with fixing important inputs at optimal values.",
+        },
+
+        # SECTION B CLAIMS
+        {
+            "claim": "Within-condition prediction accuracy predicts HV",
+            "origin": "Section B",
+            "verdict": "INCONCLUSIVE",
+            "evidence": "1A multi_seed n=10: r=-0.27, p=0.48. No significant within-condition correlation. Likely because articulation penalty dominates.",
+            "paper_action": "Not a useful predictor. The binding constraint is the summary overhead, not prediction quality.",
+        },
+        {
+            "claim": "Discovery (recall) predicts exploitation (HV) pooled across conditions",
+            "origin": "Section B",
+            "verdict": "QUALIFIED",
+            "evidence": "Pooled r=+0.375, p=0.017 — but driven by between-condition variation (different oracles), not within-condition. The correlation is an artifact of oracle difficulty driving both metrics.",
+            "paper_action": "Not a causal claim. Different oracles produce different HV and recall.",
+        },
+
+        # SECTION C CLAIMS
+        {
+            "claim": "Prior shifts tool allocation toward exploitation",
+            "origin": "Section C.1",
+            "verdict": "PASS (within VR regime)",
+            "evidence": "local_gradients: prior 8-12× vs fresh 3-4×, consistent across 1D and 1E. BUT: this is within the VR protocol. The summary overhead dominates both conditions.",
+            "paper_action": "Evidence for belief anchoring mechanism — the summary creates overcommitment to exploitation.",
+        },
+        {
+            "claim": "Screen-first protocol selectively leverages correct priors",
+            "origin": "Phase 2.5 / rubric Rule 9",
+            "verdict": "QUALIFIED",
+            "evidence": "Section C.4: prior correctly dismisses wrong edges on 1E (confidence 0.02). But raises ALL edges by ~5pp (general inflation, not selective). And prior+VR is hurt by the same summary penalty as fresh+VR.",
+            "paper_action": "The 'selective leverage' story is partially real (1E wrong-edge dismissal) but the dominant effect is the summary penalty, not the prior.",
+        },
+
+        # SECTION E CLAIMS
+        {
+            "claim": "LLM agent uses feedback in continuous structured settings",
+            "origin": "Phase 2.0 permuted-feedback ablation",
+            "verdict": "PASS (n=1 caveat)",
+            "evidence": "Real HV 0.219 vs permuted 0.132 (66% better). Divergence at eval 13 (immediately after LHS). Agent exploits real feedback.",
+            "paper_action": "Counter to 'Are We There Yet?' on discrete problems. LLMs DO use feedback here. But n=1, one oracle, earlier protocol.",
+        },
+
+        # RUBRIC CLAIMS (from Phase 2.7)
+        {
+            "claim": "VR reaches 68% of BO at 72 budget on 1A (understanding tax)",
+            "origin": "Rubric Rule 1",
+            "verdict": "PASS but REINTERPRETED",
+            "evidence": "0.193/0.281 = 68.5% (n=10 vs BO@144). But ablation shows 0.259/0.281 = 92%. The 'tax' is mostly articulation overhead (~23pp), not exploration (~8pp).",
+            "paper_action": "The tax exists but its decomposition changes the story completely.",
+        },
+        {
+            "claim": "VR approaches BO at extended budget (144 evals)",
+            "origin": "Rubric Rule 2",
+            "verdict": "PASS",
+            "evidence": "VR reaches 98.9% of BO@144 on 1A (n=4). HD: 98.1% (n=3). Never exceeds BO at matched budget.",
+            "paper_action": "The convergence is real but the ablation suggests it's the tools converging, not the articulation.",
+        },
+        {
+            "claim": "HD dimensionality scaling: VR advantage grows when k/d shrinks",
+            "origin": "Rubric Rule 3",
+            "verdict": "PASS",
+            "evidence": "1A VR/BO=68.5%, HD VR/BO=94.0% at matched budgets. 25.6pp gap. Screening is effective (0% noise OAT on Opus).",
+            "paper_action": "The dimensionality result is real. Question: does it hold for the ablation agent too? (Not tested.)",
+        },
+        {
+            "claim": "R²(M→Y) predicts VR/BO ratio",
+            "origin": "Rubric Rule 8 (original)",
+            "verdict": "FALSIFIED",
+            "evidence": "Low-R² oracles (1B R²=0.80, 1D R²=0.75) have VR/BO≈0.91 — HIGHER than 1A (R²=0.96) at 0.69. Direction reversed.",
+            "paper_action": "Retired. R²(M→Y) characterizes oracle structure but doesn't predict VR/BO.",
+        },
+        {
+            "claim": "Prior knowledge helps on structurally different oracles (+2% 1D, +5% 1E)",
+            "origin": "Rubric Rule 9 (revised)",
+            "verdict": "STATISTICALLY UNDERPOWERED",
+            "evidence": "Paired t-test: 1D p=0.38, 1E p=0.12. Combined p=0.15. Direction is consistent (5/6 positive) but not significant at α=0.05. Also: operates within VR regime that itself hurts by 35%.",
+            "paper_action": "Directional only. Would need n=6+ on 1E to reach significance, but the finding is secondary to the ablation.",
+        },
+        {
+            "claim": "Capability floor at Sonnet tier (Haiku breaks zero-false-positive property)",
+            "origin": "Rubric Rule 10",
+            "verdict": "PASS",
+            "evidence": "Haiku HD: 43.7% of BO, 2 false positive noise edges (conf 0.55, 0.60). Opus/Sonnet: 95-97% of BO, zero false positives.",
+            "paper_action": "Real finding, independent of VR articulation. The TOOLS require Sonnet-tier capability.",
+        },
+        {
+            "claim": "Discovery and optimization decouple at Haiku (info capture 0.96 but HV 44%)",
+            "origin": "Rubric Rule 11",
+            "verdict": "PASS (not tested against ablation)",
+            "evidence": "Haiku HD info capture 0.959 vs Opus 0.996, but HV 43.7% vs 96.6%. Discovery succeeds, exploitation fails.",
+            "paper_action": "Real finding. Would be interesting to test ablation on Haiku HD.",
+        },
+    ]
+
+    doc.append("| # | Claim | Verdict | Key evidence | Paper action |")
+    doc.append("|---|---|---|---|---|")
+    for i, c in enumerate(claims, 1):
+        doc.append(
+            f"| {i} | {c['claim']} | **{c['verdict']}** | {c['evidence'][:120]}{'...' if len(c['evidence']) > 120 else ''} | {c['paper_action'][:100]}{'...' if len(c['paper_action']) > 100 else ''} |"
+        )
+    doc.append("")
+
+    # I.3: What the paper should be about
+    doc.heading(3, "I.3 What the paper should be about (grounded in the claim ledger)")
+    doc.append(
+        "The benchmark (SynthOracle) + diagnostic suite is the primary contribution. "
+        "It enabled the discovery that forced articulation hurts — a finding that "
+        "could not have been made without ground-truth evaluation."
+    )
+    doc.append("")
+    doc.append(
+        "VR is the example protocol: well-motivated a priori (CBMs, CoT, Reflexion, "
+        "scientific method analogy), tested rigorously, found to be counterproductive "
+        "in its central design choice. The tools (OAT sweeps, evaluate_point, "
+        "local_gradients) provide value; the forced structured summary does not."
+    )
+    doc.append("")
+    doc.append(
+        "The ablation result (35% improvement from removing summaries, p=0.0003) "
+        "is the headline finding. The mechanism (belief anchoring via condensed "
+        "context) is supported by per-seed dynamics analysis (Section C)."
+    )
+    doc.append("")
+    doc.append(
+        "Supporting findings that survive: agent uses feedback (Section E), "
+        "dimensionality scaling works (Rule 3), capability floor at Sonnet (Rule 10), "
+        "discovery-optimization decoupling at Haiku (Rule 11)."
+    )
+    doc.append("")
+
+    doc.save_json("section_i", {"claims": claims})
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -2228,7 +2642,9 @@ SECTIONS: dict[str, Callable[[dict, FindingsDoc], None]] = {
     "A": section_a_learning_trajectories,
     "B": section_b_cross_seed_correlations,
     "C": section_c_prior_vs_fresh,
-    # D-I to be added incrementally
+    "E": section_e_permuted_feedback,
+    "I": section_i_claim_ledger,
+    # D, F, G, H deferred (secondary after ablation finding)
 }
 
 
