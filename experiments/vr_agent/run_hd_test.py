@@ -311,7 +311,7 @@ def run_vr_hd(
 
 
 def main() -> None:
-    valid_modes = ("bo", "vr", "all", "vr-ext", "vr-sonnet", "vr-haiku", "vr-ablation")
+    valid_modes = ("bo", "vr", "all", "vr-ext", "vr-sonnet", "vr-haiku", "vr-ablation", "vr-sonnet-ablation")
     if len(sys.argv) < 2 or len(sys.argv) > 3 or sys.argv[1] not in valid_modes:
         print("Usage: python run_hd_test.py "
               "[bo|vr|all|vr-ext|vr-sonnet|vr-haiku|vr-ablation] [seed]")
@@ -400,6 +400,21 @@ def main() -> None:
             file_prefix="hd_ablation_no_summary",
             calibration_interval=20,
             tag="HD Ablation (no summary)",
+            skip_iteration_summary=True,
+        )
+
+    if mode == "vr-sonnet-ablation":
+        print("\n" + "=" * 60)
+        print(f"  ABLATION: HD Sonnet without forced summary ({len(VR_SEEDS)} seeds)")
+        print("  Compare to Sonnet HD with summary (0.254) — model generality test")
+        print("=" * 60)
+        run_vr_hd(
+            seeds=VR_SEEDS,
+            n_budget=N_BUDGET_VR,
+            file_prefix="hd_sonnet_ablation_no_summary",
+            calibration_interval=20,
+            tag="HD Sonnet Ablation (no summary)",
+            model="claude-sonnet-4-6",
             skip_iteration_summary=True,
         )
 
