@@ -53,7 +53,9 @@ paper/*.blg
 paper/*.fls
 paper/*.fdb_latexmk
 paper/*.synctex.gz
-paper/*.pdf
+
+# Track the final paper PDF
+# paper/*.pdf
 
 # Experiment checkpoints
 *_ckpt/
