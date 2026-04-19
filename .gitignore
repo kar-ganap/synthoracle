@@ -42,3 +42,30 @@ htmlcov/
 
 # uv
 uv.lock
+
+# LaTeX build artifacts
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*.bbl
+paper/*.blg
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+paper/*.pdf
+
+# Experiment checkpoints
+*_ckpt/
+
+# Run logs at root
+*.log
+
+# Tasks (internal project management)
+tasks/
+
+# Literature review PDFs (copyrighted)
+literature-review/*.pdf
+
+# Pytest
+.pytest_cache/
