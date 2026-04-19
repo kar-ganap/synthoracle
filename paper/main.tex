@@ -708,7 +708,10 @@ summary hurts in exactly one cell: Opus on \baseline{} ($-35\%$,
 \pval{0.095}), and Sonnet on \noisy{} ($+21\%$, \pval{0.169}). While
 individual $p$-values for the $n = 5$ cells vary, 18 of 20 paired seeds
 across all four cells follow the predicted direction (binomial
-\pval{0.0002}).
+\pval{0.0002}). The four cells are independent experimental conditions
+(distinct model--oracle combinations with separate LHS initializations
+per seed), so the binomial test is valid without correction for
+dependence.
 
 % ── Table 3: Ablation matrix ──
 \begin{table}[t]
@@ -949,8 +952,10 @@ seeds follow the scaffolding prediction (binomial \pval{0.0002}). This
 tests the \emph{pattern}---one cell hurts, three help---rather than
 individual cell significance. Additional seeds would tighten per-cell
 confidence intervals but the directional pattern is already robust.
-We pre-registered predictions for four experimental conditions before
-running them; three of four were qualitatively wrong
+We note that the scaffolding finding itself was not pre-registered---it
+emerged from the $2 \times 2$ ablation. We did pre-register predictions
+for four gap-closing experiments (VR-vs-BO scaling, transfer, model
+generality); three of four were qualitatively wrong
 (\cref{app:preregistration}), underscoring the value of controlled
 ablation over intuition.
 
